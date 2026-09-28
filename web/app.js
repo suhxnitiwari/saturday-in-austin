@@ -1,12 +1,12 @@
 // Saturday in Austin ✦ runs the Python planner in this repo
-// in the visitor's browser with Pyodide. Python only downloads once someone opens the slide.
+// in the visitor's browser with Pyodide. Python only downloads once the planner is on screen.
 (() => {
     const root = document.querySelector('.sat-planner');
     if (!root) return;
 
     const PYODIDE = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/';
     const BASE = 'saturday/';  // served straight from this repo by GitHub Pages
-    const FILES = ['__init__.py', '__main__.py', 'city.py', 'planner.py', 'spots.py', 'web.py', 'data/spots.csv'];
+    const FILES = ['__init__.py', '__main__.py', 'city.py', 'planner.py', 'spots.py', 'sass.py', 'web.py', 'data/spots.csv'];
 
     const form = root.querySelector('.sat-form');
     const out = root.querySelector('.sat-out');
@@ -61,6 +61,7 @@
 
     function draw(plan) {
         out.replaceChildren();
+        for (const note of plan.sass || []) out.appendChild(line('sat-sass', ['span', note]));
         if (!plan.stops.length) {
             out.appendChild(line('sat-status', ['span', 'Nothing fits between waking up and bedtime. Try more hours out, or a later bedtime.']));
             return;

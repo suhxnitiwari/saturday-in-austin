@@ -214,3 +214,17 @@ def test_web_entry_point_returns_a_plan():
     names = [s["name"] for s in data["stops"] if "name" in s]
     assert data["seed"] == 5 and names and data["hours_out"] <= 6
     assert json.loads(plan_json("8:00", "23:00", 6, "cozy", 5)) == data  # same seed, same plan
+
+
+# ---------------------------------------------------------------- the sass
+
+from saturday.sass import judge  # noqa: E402
+
+
+def test_sass():
+    assert judge(9 * 60, 23 * 60, 8) == []
+    assert "not a morning person" in judge(12 * 60, 23 * 60, 8)[0]
+    assert "homebody" in judge(9 * 60, 23 * 60, 2)[0]
+    assert "1 hour out" in judge(9 * 60, 23 * 60, 1)[0]
+    assert "escaping" in judge(9 * 60, 23 * 60, 14)[0]
+    assert len(judge(12 * 60 + 30, 2 * 60, 14)) == 2
