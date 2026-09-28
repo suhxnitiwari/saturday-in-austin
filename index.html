@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Saturday in Austin</title>
+    <meta name="description" content="Tell it when you wake up, when you go to bed and how long you want to be out. It plans the best day around Austin.">
+    <meta property="og:title" content="Saturday in Austin">
+    <meta property="og:description" content="A Python day planner for Austin, running right in your browser.">
+    <meta property="og:image" content="https://suhxnitiwari.github.io/saturday-in-austin/docs/example-saturday.png">
+    <style>
+        :root {
+            --mul: #8F4661; --choc: #2A1810; --muted: #7A665F; --cream: #FBF3EE; --blush: #F6DDE3;
+            --serif: Georgia, "Times New Roman", serif;
+            --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+            --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: var(--cream); color: var(--choc); font-family: var(--sans); }
+        main { max-width: 760px; margin: 0 auto; padding: 56px 16px 70px; }
+        .badge { display: inline-flex; gap: 6px; padding: 5px 12px; border-radius: 999px; background: var(--blush); color: var(--mul); font-size: 11.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+        h1 { margin: 14px 0 12px; font-family: var(--serif); font-weight: 400; font-size: clamp(40px, 8vw, 60px); line-height: 1.05; }
+        .sub { margin: 0 0 30px; font-size: 17.5px; line-height: 1.6; color: var(--muted); }
+
+        .sat-planner { display: flex; flex-direction: column; min-height: 30em; background: #2A1810; border-radius: 16px; overflow: hidden; box-shadow: 0 30px 60px -35px rgba(42, 24, 16, 0.5); }
+        .bar { display: flex; align-items: center; gap: 7px; padding: 12px 14px; background: #3B2A24; }
+        .bar span { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 248, 246, 0.28); }
+        .bar em { margin-left: 8px; font-style: normal; font-size: 12px; color: #D9B8B3; }
+        .sat-form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; padding: 18px 20px 16px; border-bottom: 1px solid rgba(245, 229, 225, 0.12); }
+        .sat-form label { display: flex; flex-direction: column; gap: 6px; font: 600 11px/1 var(--sans); letter-spacing: 0.1em; text-transform: uppercase; color: #D9B8B3; }
+        .sat-form input[type="time"], .sat-form select { font: 14px var(--mono); color: #F5E5E1; background: #3B2A24; border: 1px solid rgba(245, 229, 225, 0.18); border-radius: 8px; padding: 8px 10px; color-scheme: dark; }
+        .sat-hours span { display: flex; align-items: center; gap: 10px; }
+        .sat-hours input { flex: 1; accent-color: #E9A6BC; }
+        .sat-hours output { min-width: 2.2em; font: 14px var(--mono); color: #F5E5E1; letter-spacing: 0; }
+        .sat-form button { grid-column: 1 / -1; padding: 11px 16px; border: 0; border-radius: 999px; background: #E9A6BC; color: var(--choc); font: 700 14px var(--sans); cursor: pointer; }
+        .sat-form button:hover { background: #F2C1D1; }
+        .sat-form button:disabled { opacity: 0.6; cursor: progress; }
+        .sat-form :focus-visible, a:focus-visible { outline: 2px solid #E9A6BC; outline-offset: 2px; }
+        .sat-out { flex: 1; padding: 16px 20px 20px; font: 13.5px/1.75 var(--mono); color: #F5E5E1; }
+        .sat-out p { margin: 0; }
+        .sat-status { color: #D9B8B3; font-family: var(--sans); font-size: 14px; line-height: 1.6; }
+        .sat-head { color: #E9A6BC; font-weight: 700; margin-bottom: 6px !important; }
+        .sat-row { display: grid; grid-template-columns: 7.2em 1fr; }
+        .sat-row b { font-weight: 400; color: #D9B8B3; }
+        .sat-row i { font-style: normal; color: #A98F89; }
+        .sat-free span { color: #A98F89; }
+        .sat-foot { margin-top: 12px !important; color: #A98F89; font-size: 12px; }
+
+        .links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+        .links a { padding: 10px 18px; border-radius: 999px; font-size: 14px; text-decoration: none; border: 1px solid var(--mul); color: var(--mul); }
+        .links a.solid, .links a:hover { background: var(--mul); color: #fff; }
+        footer { margin-top: 44px; font-size: 13px; color: var(--muted); }
+        @media (max-width: 560px) {
+            .sat-form { grid-template-columns: 1fr; }
+            .sat-row { grid-template-columns: 6.4em 1fr; }
+        }
+    </style>
+</head>
+<body>
+<main>
+    <span class="badge">✦ Suhani Coded™</span>
+    <h1>Saturday in Austin</h1>
+    <p class="sub">Tell it when you wake up, when you go to bed and how long you want to be out. It plans the day from my favorite Austin spots: coffee first, brunch before noon, dinner somewhere wonderful. Every click is a different Saturday.</p>
+
+    <div class="sat-planner">
+        <div class="bar"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span><em>python -m saturday</em></div>
+        <form class="sat-form">
+            <label>Wake up <input type="time" name="wake" value="09:00" required></label>
+            <label>Bedtime <input type="time" name="sleep" value="23:00" required></label>
+            <label class="sat-hours">Hours out <span><input type="range" name="hours" min="1" max="14" step="0.5" value="8"><output>8</output></span></label>
+            <label>Mood
+                <select name="mood">
+                    <option value="everything">Surprise me</option>
+                    <option value="cozy">Cozy</option>
+                    <option value="creative">Creative</option>
+                    <option value="foodie">Foodie</option>
+                    <option value="productive">Productive</option>
+                </select>
+            </label>
+            <button type="submit">Plan my Saturday ✦</button>
+        </form>
+        <div class="sat-out" aria-live="polite">
+            <p class="sat-status">Pick your times and hit plan. The Python code in this repo runs right here in your browser, and every click is a different Saturday.</p>
+        </div>
+    </div>
+
+    <div class="links">
+        <a class="solid" href="https://github.com/suhxnitiwari/saturday-in-austin">View the code ↗</a>
+        <a href="https://suhanitiwari.com">suhanitiwari.com</a>
+    </div>
+    <footer>Built by Suhani Tiwari in Python. Runs in your browser with Pyodide.</footer>
+</main>
+<script src="web/app.js" defer></script>
+</body>
+</html>

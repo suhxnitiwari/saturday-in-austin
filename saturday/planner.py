@@ -18,7 +18,7 @@ from dataclasses import dataclass, field
 from .city import City
 
 INF = float("inf")
-from .spots import WINDOWS, Spot
+from .spots import WINDOWS, Spot, half_hour
 
 
 @dataclass
@@ -105,7 +105,7 @@ def plan_day(spots: list, city: City, home: str, leave: int, end: int,
     finish, prev = {}, {}
     layer = {}
     for i, s in enumerate(spots):
-        begin = max(leave + city.minutes(home, s.zone), opens[i][0])
+        begin = half_hour(max(leave + city.minutes(home, s.zone), opens[i][0]))
         if begin <= opens[i][1] and begin + stay[i] + back[i] <= end:
             layer[(1 << i, catbit[i]), i] = begin + stay[i]
     while layer:
@@ -115,7 +115,7 @@ def plan_day(spots: list, city: City, home: str, leave: int, end: int,
             for j in range(n):
                 if mask >> j & 1 or cats & catbit[j] or phase[j] < phase[last]:
                     continue
-                begin = max(t + drive[last][j], opens[j][0])
+                begin = half_hour(max(t + drive[last][j], opens[j][0]))
                 if begin > opens[j][1]:
                     continue
                 done = begin + stay[j]

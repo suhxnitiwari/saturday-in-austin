@@ -30,6 +30,11 @@ SLOTS = {"brunch": "midday meal", "lunch": "midday meal"}
 PHASE = {"dinner": 1, "late night": 2}
 
 
+def half_hour(minutes: float) -> int:
+    """Round up to the next :00 or :30. 1:37 PM -> 2:00 PM, 1:30 PM stays 1:30 PM."""
+    return -(-int(minutes) // 30) * 30
+
+
 class UnknownSpotError(KeyError):
     def __init__(self, name: str, suggestion) -> None:
         hint = f" Did you mean {suggestion}?" if suggestion else ""
@@ -55,9 +60,10 @@ class Spot:
         return PHASE.get(self.category, 0)
 
     def opens_by(self, arrival: float):
-        """When the visit can start: now, after waiting for its window, or None if it's too late."""
+        """When the visit can start, on the next hour or half hour (plans say 1:30, not 1:37),
+        after waiting for its window if needed. None if it's too late."""
         earliest, latest = WINDOWS[self.category]
-        start = max(arrival, earliest)
+        start = half_hour(max(arrival, earliest))
         return start if start <= latest else None
 
 

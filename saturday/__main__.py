@@ -14,7 +14,7 @@ from pathlib import Path
 
 from .city import City
 from .planner import plan_outing, shortlist
-from .spots import MOODS, Guide, UnknownSpotError, load
+from .spots import MOODS, Guide, UnknownSpotError, half_hour, load
 
 PINK, BOLD, DIM, RESET = "\033[38;5;211m", "\033[1m", "\033[2m", "\033[0m"
 
@@ -77,7 +77,7 @@ def main(argv=None) -> int:
             print(f"  {clock(stop.arrive - stop.drive):>8}  {DIM}free time ({length}): nap, journal, wander{RESET}")
         note = f"  {DIM}({stop.spot.note}){RESET}" if stop.spot.note else ""
         print(f"  {clock(stop.start):>8}  {stop.spot.name}{note}")
-    print(f"  {clock(plan.home_by):>8}  home, happy")
+    print(f"  {clock(half_hour(plan.home_by)):>8}  home, happy")
     out = f"{plan.outside / 60:.1f}".rstrip("0").rstrip(".")
     stops = f"{len(plan.stops)} stop{'s' * (len(plan.stops) != 1)}"
     print(f"\n  {DIM}{stops} · {out} hours out · {plan.driving} min of driving · seed {seed}{RESET}")

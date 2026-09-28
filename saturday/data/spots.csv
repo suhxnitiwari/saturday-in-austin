@@ -1,35 +1,35 @@
 spot,zone,category,stay_minutes,joy,moods,note
-Medici,West Campus,coffee,45,10,cozy|productive|creative|foodie,vanilla latte
+Medici,West Campus,coffee,60,10,cozy|productive|creative|foodie,vanilla latte
 Mozart's,Lake Austin,coffee,60,8,cozy|creative,lake view
-Black Fox,Downtown,coffee,45,7,productive|foodie,
-Two Hands,Campus,coffee,45,7,cozy|foodie,
+Black Fox,Downtown,coffee,30,7,productive|foodie,
+Two Hands,Campus,coffee,30,7,cozy|foodie,
 Life Science Library,Campus,study,90,8,cozy|productive,the prettiest study spot
 PCL,Campus,study,120,5,productive,lock-in mode
 Texas Union,Campus,study,60,5,productive,
-Hillside Farmacy,East Austin,brunch,75,8,cozy|foodie,
-Josephine House,Clarksville,brunch,75,8,cozy|foodie,
-Café No Sé,South Congress,brunch,75,7,foodie|creative,
-Snooze,North Loop,brunch,75,8,cozy|foodie,"pancake flight: pineapple upside-down, cinnamon, banana bliss"
+Hillside Farmacy,East Austin,brunch,90,8,cozy|foodie,
+Josephine House,Clarksville,brunch,90,8,cozy|foodie,
+Café No Sé,South Congress,brunch,90,7,foodie|creative,
+Snooze,North Loop,brunch,90,8,cozy|foodie,"pancake flight: pineapple upside-down, cinnamon, banana bliss"
 Sweetgreen,Campus,lunch,30,6,productive|foodie,custom guacamole greens bowl
-Veracruz,East Austin,lunch,40,7,foodie|creative,
+Veracruz,East Austin,lunch,30,7,foodie|creative,
 The Little Bisque,North Loop,creative,120,9,cozy|creative,pottery painting
 Rosa Pottery Studio,East Austin,creative,120,9,creative|cozy,
 Mosaic Workshop,East Austin,creative,120,9,creative,
-7th Street Candle,East Austin,creative,75,7,creative|cozy,make your own candle
+7th Street Candle,East Austin,creative,90,7,creative|cozy,make your own candle
 South Congress,South Congress,shopping,90,8,creative|foodie,Kendra Scott and Tecovas
 The Domain,Domain,shopping,120,7,creative,
 Barton Creek Mall,Barton Creek,shopping,90,6,creative,
 Prana Wellness Club,Clarksville,exercise,60,8,productive|cozy,Pilates: the best reset
 CorePower Yoga,West Campus,exercise,60,8,productive|cozy,yoga
-[solidcore],South Congress,exercise,50,7,productive|creative,Pilates
+[solidcore],South Congress,exercise,60,7,productive|creative,Pilates
 Numero 28,Downtown,dinner,90,10,cozy|foodie|creative,good memories
-Yamas,Downtown,dinner,75,9,foodie|creative,Mediterranean
+Yamas,Downtown,dinner,90,9,foodie|creative,Mediterranean
 Aba,South Congress,dinner,90,8,foodie|creative,Mediterranean
-Éma,Downtown,dinner,75,8,foodie,Mediterranean
-Clay Pit,Downtown,dinner,75,9,foodie|productive|cozy,North Indian
-Tarka,West Campus,dinner,45,7,productive|foodie,North Indian
-Saffron,Domain,dinner,75,8,foodie,North Indian
-El Alma,Zilker,dinner,75,8,foodie|creative,Mexican
-Arriba Abajo,East Austin,dinner,75,7,foodie,Mexican
+Éma,Downtown,dinner,90,8,foodie,Mediterranean
+Clay Pit,Downtown,dinner,90,9,foodie|productive|cozy,North Indian
+Tarka,West Campus,dinner,60,7,productive|foodie,North Indian
+Saffron,Domain,dinner,90,8,foodie,North Indian
+El Alma,Zilker,dinner,90,8,foodie|creative,Mexican
+Arriba Abajo,East Austin,dinner,90,7,foodie,Mexican
 Roya,Downtown,dinner,90,8,foodie|cozy,Persian
 Pizza Press,West Campus,late night,30,6,foodie|productive,the late-night guilty pleasure

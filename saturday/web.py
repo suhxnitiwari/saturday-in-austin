@@ -7,7 +7,7 @@ import random
 from .__main__ import clock
 from .city import City
 from .planner import plan_outing, shortlist
-from .spots import Guide, load
+from .spots import Guide, half_hour, load
 
 _GUIDE, _CITY = Guide(load()), City()
 
@@ -29,7 +29,7 @@ def plan_json(wake: str, sleep: str, hours: float, mood: str = "everything", see
         "seed": seed,
         "stops": stops,
         "leave": clock(plan.leave) if plan.stops else None,
-        "home": clock(plan.home_by) if plan.stops else None,
+        "home": clock(half_hour(plan.home_by)) if plan.stops else None,
         "hours_out": round(plan.outside / 60, 1),
         "driving": plan.driving,
     })

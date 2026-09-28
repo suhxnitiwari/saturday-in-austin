@@ -1,23 +1,24 @@
 # Saturday in Austin ✦
 
-**Tell it how long you have and what you're in the mood for. It plans the best day around Austin.**
+**Tell it when you wake up, when you go to bed and how long you want to be out. It plans the best day around Austin.**
+
+**[Try it live →](https://suhxnitiwari.github.io/saturday-in-austin/)** (the Python runs right in your browser)
 
 Every run is a different Saturday, drawn from my favorite coffee shops, brunches, Pilates and yoga, pottery studios, shopping and dinners.
 
 ```
 $ python -m saturday
 
-Your Saturday ✦  everything, 10 hours from West Campus
-  10:06 AM  Josephine House
-  11:31 AM  Two Hands
-  12:16 PM  Life Science Library  (the prettiest study spot)
-   1:54 PM  Mosaic Workshop
-   4:07 PM  [solidcore]  (Pilates)
-   4:57 PM  South Congress  (Kendra Scott and Tecovas)
-   6:34 PM  Clay Pit  (North Indian)
-   7:57 PM  home, happy
+Your Saturday ✦  everything, up at 9:00 AM, bed by 11:00 PM
+  10:00 AM  Josephine House
+  11:30 AM  Prana Wellness Club  (Pilates: the best reset)
+   1:00 PM  Life Science Library  (the prettiest study spot)
+   2:30 PM  Two Hands
+   3:30 PM  Mosaic Workshop
+   6:00 PM  Clay Pit  (North Indian)
+   8:00 PM  home, happy
 
-  7 stops · 44 min of driving · seed 5
+  6 stops · 9.7 hours out · 30 min of driving · seed 5
   run it again for a different Saturday ✦
 ```
 
@@ -35,9 +36,10 @@ python3 -m venv .venv && .venv/bin/pip install matplotlib pytest
 
 | Option | What it does |
 |---|---|
-| `--hours 10` | how long you have |
+| `--wake 9:00` | when you wake up |
+| `--sleep 23:00` | when you go to bed (after midnight works too) |
+| `--hours 10` | how many hours you want to be out |
 | `--mood` | `cozy`, `creative`, `foodie`, `productive` or `everything` |
-| `--start 10:00` | when you leave |
 | `--home "West Campus"` | where the day starts and ends |
 | `--include "Numero 28"` | a spot you have to go to (typos get a "did you mean?") |
 | `--skip PCL` | a spot to leave out |
@@ -47,10 +49,11 @@ python3 -m venv .venv && .venv/bin/pip install matplotlib pytest
 ## The rules every plan follows
 
 - Every stop starts when it makes sense: brunch in the morning, dinner in the evening, pottery before the studio closes.
+- Stops start on the hour or half hour, like a real plan.
+- You leave after getting ready and you're home before bed, and the planner picks the best stretch of the day for the hours you want out.
 - One stop per slot: one coffee, one midday meal (brunch *or* lunch), one dinner.
 - Nothing after dinner except a late-night snack.
 - There is always coffee.
-- You're home by the time you said.
 
 ## How it works
 
