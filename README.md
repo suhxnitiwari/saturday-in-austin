@@ -4,7 +4,7 @@
 
 **[Try it live →](https://suhxnitiwari.github.io/saturday-in-austin/)** (the Python runs right in your browser)
 
-Every run is a different Saturday, drawn from my favorite coffee shops, brunches, Pilates and yoga, pottery studios, shopping, dinners, Barton Springs and Rainey Street.
+Every run is a different Saturday, drawn from my favorite coffee shops, brunches, Pilates and yoga, pottery studios, shopping, dinners and lazy afternoons at Barton Springs.
 
 ```
 $ python -m saturday
@@ -39,7 +39,7 @@ python3 -m venv .venv && .venv/bin/pip install matplotlib pytest
 | `--wake 9:00` | when you wake up |
 | `--sleep 23:00` | when you go to bed (after midnight works too) |
 | `--hours 10` | how many hours you want to be out |
-| `--mood` | `cozy`, `creative`, `foodie`, `productive`, `lazy`, `party` or `everything` |
+| `--mood` | `cozy`, `creative`, `foodie`, `productive`, `lazy` or `everything` |
 | `--home "West Campus"` | where the day starts and ends |
 | `--include "Numero 28"` | a spot you have to go to (typos get a "did you mean?") |
 | `--skip PCL` | a spot to leave out |

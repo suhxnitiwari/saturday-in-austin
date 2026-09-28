@@ -229,12 +229,3 @@ def test_sass():
     assert "1 hour out" in judge(9 * 60, 23 * 60, 1)[0]
     assert "escaping" in judge(9 * 60, 23 * 60, 14)[0]
     assert len(judge(12 * 60 + 30, 2 * 60, 14)) == 2
-
-
-def test_party_night_goes_dinner_then_bars_then_pizza(city, guide):
-    spots = shortlist(guide.for_mood("party") + [guide.find("Medici")], [], random.Random(1))
-    plan = plan_outing(spots, city, "West Campus", 12 * 60, 2 * 60, 12)
-    cats = [s.spot.category for s in plan.stops]
-    assert "night out" in cats
-    order = [c for c in cats if c in ("dinner", "night out", "late night")]
-    assert order == sorted(order, key=["dinner", "night out", "late night"].index)

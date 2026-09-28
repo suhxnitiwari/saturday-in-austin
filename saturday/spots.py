@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 DATA = Path(__file__).parent / "data" / "spots.csv"
-MOODS = ("cozy", "creative", "foodie", "productive", "lazy", "party", "everything")
+MOODS = ("cozy", "creative", "foodie", "productive", "lazy", "everything")
 
 # when each kind of stop makes sense: (earliest start, latest start), minutes after midnight
 WINDOWS = {
@@ -20,7 +20,6 @@ WINDOWS = {
     "shopping": (10 * 60, 19 * 60),
     "outdoors": (9 * 60, 18 * 60),
     "dinner": (17 * 60 + 30, 21 * 60),
-    "night out": (20 * 60, 23 * 60),
     "late night": (21 * 60, 23 * 60 + 30),
 }
 
@@ -28,8 +27,8 @@ WINDOWS = {
 # categories that fill the same slot in a day: brunch OR lunch, never both
 SLOTS = {"brunch": "midday meal", "lunch": "midday meal"}
 
-# the evening only moves forward: dinner, then a night out, then a late-night snack
-PHASE = {"dinner": 1, "night out": 2, "late night": 3}
+# the evening only moves forward: after dinner, the only thing left is a late-night snack
+PHASE = {"dinner": 1, "late night": 2}
 
 
 def half_hour(minutes: float) -> int:
