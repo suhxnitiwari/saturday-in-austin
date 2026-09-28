@@ -1,84 +1,58 @@
-# Suhani OS ✦
+# Saturday in Austin ✦
 
-**My life, as data structures and algorithms.** *Suhani Coded™*
+**Tell it how long you have and what you're in the mood for. It plans the best day around Austin.**
 
-One Python project that covers everything from CS 303E, CS 313E and MIS 304 (Programming for Data Analytics), but instead of homework prompts, every algorithm runs on something from my actual life: my bookshelf, my Läderach order, my fabric rule, my Austin Saturdays, the eight places I've lived.
+```
+$ python -m saturday --mood cozy
 
-![A mosaic sparkle drawn with 2D lists and a recursive flood fill](out/mosaic.png)
+Your Saturday ✦  cozy, 10 hours from West Campus
+  10:00 AM  Medici  (vanilla latte)
+  10:57 AM  Hillside Farmacy
+  12:28 PM  The Little Bisque  (pottery painting)
+   2:36 PM  Life Science Library  (the prettiest study spot)
+   4:06 PM  free time (1h 17m): nap, journal, wander
+   5:30 PM  Numero 28  (good memories)
+   7:08 PM  home, happy
 
-## Run it
-
-```bash
-python3 -m venv .venv && .venv/bin/pip install pandas matplotlib pytest
-.venv/bin/python -m suhani_os demo     # every module, one after another
-.venv/bin/python -m suhani_os          # the interactive menu
-.venv/bin/python -m pytest -q          # 33 tests
+  5 stops · 43 min of driving
 ```
 
-## What's inside
+![The cozy Saturday as a timeline](docs/cozy-saturday.png)
 
-| Module | The Suhani part | The computer science part |
-|---|---|---|
-| `closet.py` | Cotton, linen, wool, silk. Polyester is not invited, even from LoveShackFancy. Food and flowers are extras, never the main gift. | Class hierarchy with inheritance and polymorphism, custom exceptions, set difference |
-| `bookshelf.py` | All 30 books from my shelves: rom-coms, the ones that changed how I live, and the ones behind the business | Self-balancing **AVL tree** with all four rotations, delete, range query; merge sort, quicksort, binary search |
-| `laderach.py` | The FrischSchoggi counter. Florentine, Salted Caramel, Hazelnut. | **Hash map** (separate chaining + resizing) and **max-heap** from scratch; greedy vs. **0/1 knapsack DP** |
-| `bakery.py` | Cake orders for Amaira and Mumma, my banana bread, and toast that always burns | **Linked list**, **stack** (undo), **queue** from scratch; exact recipe scaling with `Fraction` |
-| `austin.py` | A Perfect Saturday: Medici, the Life Science Library, Mosaic Workshop, dinner at Numero 28 | **Weighted graph**, Dijkstra, BFS; **bitmask DP** with time windows, checked against a **backtracking** brute force |
-| `mosaic.py` | Mosaic Workshop in my website palette | **2D lists**, nested loops, recursive **flood fill**, graphics |
-| `timeline.py` | 3 countries, 8 homes, 1 very adaptable girl | **pandas** (dates, computed columns, filtering, groupby) and **matplotlib** |
-| `sitara.py` | A mini, offline version of Sitara, the fairy guide on my website | Strings, dictionaries, sets, JSON file I/O |
+## Try it
 
-![Timeline of the places I've lived](out/timeline.png)
+```bash
+python3 -m venv .venv && .venv/bin/pip install matplotlib pytest
+.venv/bin/python -m saturday --mood cozy
+.venv/bin/python -m saturday --hours 6 --mood foodie --include "Clay Pit" --chart
+.venv/bin/python -m pytest -q
+```
 
-## Every topic, and where it lives
-
-**CS 303E: Elements of Computers and Programming**
-
-| Topic | Where |
+| Option | What it does |
 |---|---|
-| Variables, math, data types | `bakery.pretty_amount`, `timeline.load` |
-| Modules, formatting | package layout; f-strings with widths and `:,.2f` everywhere |
-| Booleans, conditionals | `closet.Gift.approve`, `austin.begin_at` |
-| For and while loops, nested loops | `mosaic.draw_outline`, `bookshelf.binary_search` |
-| Graphics | `mosaic.render` |
-| Functions, decomposition | each module is small functions with one job |
-| Lists, 2D lists | `mosaic.blank` (and why `[[x] * n] * m` is a bug) |
-| Tuples and sets | `closet.NATURAL_FIBERS`, `sitara.tokenize` |
-| Dictionaries, nested structures | `austin.Austin.graph` (dict of dicts), `bookshelf.shelves` |
-| Files and strings | `bookshelf.load_books` (CSV), `sitara.Sitara` (JSON) |
-| Modules and exceptions | `errors.py`, `closet.shop` (try / except / else) |
-| Object-oriented programming | every module |
-| Searching, sorting | `bookshelf.binary_search`, `merge_sort`, `quicksort` |
-| Recursion | `mosaic.flood_fill`, `bookshelf._in_order`, `merge_sort` |
+| `--hours 10` | how long you have |
+| `--mood` | `cozy`, `creative`, `foodie`, `productive` or `everything` |
+| `--start 10:00` | when you leave |
+| `--home "West Campus"` | where the day starts and ends |
+| `--include "Numero 28"` | a spot you have to go to (typos get a "did you mean?") |
+| `--skip PCL` | a spot to leave out |
+| `--chart` | save the day as a picture |
 
-**CS 313E: Elements of Software Design**
+## The rules every plan follows
 
-| Topic | Where |
-|---|---|
-| Testing, debugging, exceptions, assertions | `tests/`, 33 tests including brute-force checks of both DPs |
-| OOP and inheritance | `closet.py` class tree; `__str__`, `__repr__`, `__iter__`, `__contains__`, `__len__` |
-| Algorithm complexity | Big-O in every docstring; AVL height vs. plain BST in the demo |
-| Algorithm classes | greedy (`greedy_box`), divide and conquer (`merge_sort`), backtracking (`brute_force_saturday`), DP |
-| Hashing | `laderach.FlavorMap` |
-| Stacks, queues, linked lists | `bakery.Stack`, `bakery.Queue`, `bakery.StepList` |
-| Binary trees, balanced trees | `bookshelf.Bookshelf` (AVL) |
-| Heaps | `laderach.MaxHeap`, `heapq` in Dijkstra |
-| Graphs, weighted graphs | `austin.fewest_stops` (BFS), `austin.drive` (Dijkstra) |
-| Dynamic programming | `laderach.best_box` (knapsack), `austin.perfect_saturday` (bitmask DP) |
+- Every stop starts when it makes sense: brunch in the morning, dinner in the evening, pottery before the studio closes.
+- One stop per slot: one coffee, one midday meal (brunch *or* lunch), one dinner.
+- Nothing after dinner except a late-night snack.
+- There is always coffee.
+- You're home by the time you said.
 
-**MIS 304 / BAX 305: Programming for Data Analytics**
+## How it works
 
-| Topic | Where |
-|---|---|
-| Data types, objects and data structures | throughout |
-| if / for / while, `range()` | throughout |
-| Tuples, dictionaries, sets, string formatting | `closet`, `sitara`, `bakery.Recipe.card` |
-| Functions, reading and writing files | `load_books`, `load_spots`, `mosaic.render` |
-| List comprehensions, operators | `mosaic.blank`, `quicksort`, `timeline.summary` |
-| Intro to OOP | `closet.py` |
-| pandas, filtering, advanced pandas | `timeline.load`, `timeline.summary` |
-| Plotting, matplotlib | `timeline.chart`, `mosaic.render` |
+The hard part is that the obvious approach doesn't work. Taking the highest-rated spots first ignores driving and opening hours: a long 10/10 dinner can push out two great afternoon stops. Trying every possible order works but explodes: 15 spots have over a trillion orderings.
 
----
+1. **Map** (`city.py`): Austin's neighborhoods are a weighted graph, with roads measured in drive minutes. **Dijkstra's algorithm** with a min-heap finds the fastest drive between any two neighborhoods, and results are cached.
+2. **Shortlist** (`planner.shortlist`): filter by mood, then keep the best two spots per slot. Must-haves always stay.
+3. **Plan** (`planner.plan_day`): **dynamic programming over subsets** (bitmask DP). For every set of spots and every possible last stop, it keeps the earliest time you could finish. Finishing earlier is never worse, since you can always wait, so one number per state is enough. That turns *n!* orderings into 2ⁿ × n² steps, and a full day plans in a fraction of a second.
+4. **Check** (`tests/`): a **backtracking** search that really does try every order runs on 40 random small days. The DP has to match it every time.
 
-Numbers like drive times, piece weights and joy scores are my own estimates for the demo. The books, the places I've lived and the rules are all real. ✦
+The spots and their notes are my real favorites. Drive times, visit lengths and ratings are my own estimates. ✦
