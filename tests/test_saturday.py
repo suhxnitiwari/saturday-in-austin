@@ -183,3 +183,34 @@ def test_shortlist_always_fits_the_planner(guide):
         spots = shortlist(guide.spots, must)
         assert len(spots) <= 15 and all(m in spots for m in must)
         assert {s.slot for s in spots} == {s.slot for s in guide.spots}  # no slot left empty
+
+
+# ---------------------------------------------------------------- wake up, bedtime, hours out
+
+from saturday.planner import GET_READY, WIND_DOWN, plan_outing  # noqa: E402
+
+
+@pytest.mark.parametrize("wake,sleep,hours", [(8, 23, 6), (10, 24, 10), (7, 22, 3), (9, 1, 12), (11, 20, 2)])
+def test_outing_fits_between_waking_up_and_bed(city, guide, wake, sleep, hours):
+    wake, sleep = wake * 60, (sleep % 24) * 60
+    spots = shortlist(guide.spots, [], random.Random(wake + hours))
+    plan = plan_outing(spots, city, "West Campus", wake, sleep, hours)
+    bedtime = sleep if sleep > wake else sleep + 24 * 60
+    assert plan.stops, "there's always something to do"
+    assert plan.leave >= wake + GET_READY
+    assert plan.home_by <= bedtime - WIND_DOWN
+    assert plan.outside <= hours * 60
+
+
+def test_no_time_no_plan(city, guide):
+    spots = shortlist(guide.spots, [])
+    assert plan_outing(spots, city, "West Campus", 22 * 60, 23 * 60, 4).stops == []
+
+
+def test_web_entry_point_returns_a_plan():
+    import json
+    from saturday.web import plan_json
+    data = json.loads(plan_json("8:00", "23:00", 6, "cozy", 5))
+    names = [s["name"] for s in data["stops"] if "name" in s]
+    assert data["seed"] == 5 and names and data["hours_out"] <= 6
+    assert json.loads(plan_json("8:00", "23:00", 6, "cozy", 5)) == data  # same seed, same plan
