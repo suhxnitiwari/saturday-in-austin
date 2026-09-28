@@ -41,13 +41,22 @@ class Plan:
         return sum(s.drive for s in self.stops)
 
 
-def shortlist(spots: list, must: list, per_slot: int = 2, limit: int = 15) -> list:
-    """Keep the best couple of spots per slot (plus anything required), so the search stays small.
+def shortlist(spots: list, must: list, rng=None, per_slot: int = 2, limit: int = 15) -> list:
+    """Pick a couple of candidates per slot (plus anything required), so the search stays small.
 
-    If that's still more than `limit`, drop the weakest backup choices first. Must-haves stay.
+    With an rng, it's a weighted lottery: every spot can win, higher-rated ones win more often,
+    so each run is a different Saturday built from the favorites. Without one, it's simply
+    the top-rated spots (handy for tests).
+
+    The lottery is the Efraimidis-Spirakis method: give each spot the key random() ** (1 / weight)
+    and keep the biggest keys. That's weighted sampling without replacement in one sort.
     """
     must_names = {s.name for s in must}
-    ranked = sorted({s.name: s for s in spots}.values(), key=lambda s: (-s.joy, s.stay, s.name))
+    unique = {s.name: s for s in spots}.values()
+    if rng is None:
+        ranked = sorted(unique, key=lambda s: (-s.joy, s.stay, s.name))
+    else:
+        ranked = sorted(unique, key=lambda s: rng.random() ** (1 / s.joy ** 2), reverse=True)
     keep, counts = {s.name: s for s in must}, {}
     for s in ranked:
         counts[s.slot] = counts.get(s.slot, 0) + 1

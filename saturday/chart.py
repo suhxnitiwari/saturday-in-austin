@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 
 COLORS = {
     "coffee": "#C8A27A", "brunch": "#F6B8C8", "lunch": "#F6B8C8", "study": "#56634A",
-    "creative": "#8F4661", "shopping": "#E8B86B", "pilates": "#9DB08A",
+    "creative": "#8F4661", "shopping": "#E8B86B", "exercise": "#9DB08A",
     "dinner": "#8F4661", "late night": "#2A1810",
 }
 

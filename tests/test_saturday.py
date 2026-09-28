@@ -129,7 +129,44 @@ def test_clock_and_time_parsing():
 def test_cli_runs(capsys):
     assert main(["--mood", "cozy"]) == 0
     out = capsys.readouterr().out
-    assert "Your Saturday" in out and "Medici" in out and "home, happy" in out
+    assert "Your Saturday" in out and "home, happy" in out and "seed" in out
+
+
+def test_same_seed_same_saturday(capsys):
+    main(["--seed", "325"])
+    first = capsys.readouterr().out
+    main(["--seed", "325"])
+    assert capsys.readouterr().out == first
+
+
+# ---------------------------------------------------------------- the randomness
+
+def test_random_days_are_different_but_always_valid(city, guide):
+    days = set()
+    for seed in range(60):
+        spots = shortlist(guide.spots, [], random.Random(seed))
+        plan = plan_day(spots, city, "West Campus", TEN_AM, EIGHT_PM)
+        assert follows_the_rules(plan, city, "West Campus", TEN_AM, EIGHT_PM)
+        days.add(tuple(s.spot.name for s in plan.stops))
+    assert len(days) >= 30  # plenty of variety
+
+
+def test_every_favorite_gets_its_turn(city, guide):
+    """Over many runs, every dinner spot makes the shortlist at least once."""
+    seen = set()
+    for seed in range(300):
+        seen |= {s.name for s in shortlist(guide.spots, [], random.Random(seed))}
+    dinners = {s.name for s in guide.spots if s.category == "dinner"}
+    assert dinners <= seen
+
+
+def test_higher_rated_spots_win_more_often(guide):
+    wins = {"Numero 28": 0, "Arriba Abajo": 0}
+    for seed in range(400):
+        names = {s.name for s in shortlist(guide.spots, [], random.Random(seed))}
+        for name in wins:
+            wins[name] += name in names
+    assert wins["Numero 28"] > wins["Arriba Abajo"] > 0
 
 
 def test_cli_handles_mistakes(capsys):

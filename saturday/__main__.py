@@ -1,11 +1,14 @@
 """Saturday in Austin ✦  Tell it how long you have and what you're in the mood for.
 
+    python -m saturday                      a surprise Saturday from my favorites, different every time
     python -m saturday --mood cozy
     python -m saturday --hours 6 --mood foodie --include "Clay Pit" --chart
+    python -m saturday --seed 325           repeat a Saturday you liked
 """
 from __future__ import annotations
 
 import argparse
+import random
 import sys
 from pathlib import Path
 
@@ -39,6 +42,7 @@ def main(argv=None) -> int:
     p.add_argument("--include", action="append", default=[], metavar="SPOT", help="a spot you have to go to")
     p.add_argument("--skip", action="append", default=[], metavar="SPOT", help="a spot to leave out")
     p.add_argument("--chart", action="store_true", help="also save the day as plan.png")
+    p.add_argument("--seed", type=int, help="repeat a specific Saturday (each run prints its seed)")
     args = p.parse_args(argv)
 
     guide, city = Guide(load()), City()
@@ -54,7 +58,8 @@ def main(argv=None) -> int:
 
     pool = [s for s in guide.for_mood(args.mood) + must if s.name not in skip]
     pool.append(guide.find("Medici")) if not any(s.category == "coffee" for s in pool) else None
-    spots = shortlist(pool, must)
+    seed = args.seed if args.seed is not None else random.randrange(1000, 10000)
+    spots = shortlist(pool, must, random.Random(seed))
     end = args.start + int(args.hours * 60)
     plan = plan_day(spots, city, args.home, args.start, end, must)
 
@@ -74,7 +79,8 @@ def main(argv=None) -> int:
         print(f"  {clock(stop.start):>8}  {stop.spot.name}{note}")
     print(f"  {clock(plan.home_by):>8}  home, happy")
     stops = f"{len(plan.stops)} stop{'s' * (len(plan.stops) != 1)}"
-    print(f"\n  {DIM}{stops} · {plan.driving} min of driving{RESET}\n")
+    print(f"\n  {DIM}{stops} · {plan.driving} min of driving · seed {seed}{RESET}")
+    print(f"  {DIM}run it again for a different Saturday ✦{RESET}\n")
 
     if args.chart:
         from .chart import draw
