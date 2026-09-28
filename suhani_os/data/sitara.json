@@ -1,0 +1,38 @@
+{
+  "color": {
+    "keywords": ["color", "colour", "pink"],
+    "answer": "Baby pink. An answer that surprises absolutely no one. ✦"
+  },
+  "laderach": {
+    "keywords": ["chocolate", "laderach", "läderach", "frischschoggi", "sweet", "dessert"],
+    "answer": "Läderach FrischSchoggi. Her favorites are Florentine, Salted Caramel and Hazelnut."
+  },
+  "coffee": {
+    "keywords": ["coffee", "latte", "drink", "medici", "cafe"],
+    "answer": "A hot vanilla latte, usually from Medici, where she knows the baristas."
+  },
+  "books": {
+    "keywords": ["book", "books", "read", "reading", "romance"],
+    "answer": "Rom-coms with banter and yearning (Emily Henry is a favorite), plus Atomic Habits and The Design of Everyday Things."
+  },
+  "study": {
+    "keywords": ["study", "studies", "major", "minor", "school", "ut", "mccombs", "mis"],
+    "answer": "MIS and Psychology at UT Austin, with minors in Marketing and Educational Psychology."
+  },
+  "friends": {
+    "keywords": ["friend", "friends", "bestie", "bff", "best"],
+    "answer": "Her best friends are Hana, Reese and Avery ✦"
+  },
+  "fabric": {
+    "keywords": ["fabric", "clothes", "polyester", "cotton", "linen", "wear", "fashion"],
+    "answer": "Cotton, linen, wool and silk only. Polyester is firmly not invited."
+  },
+  "sports": {
+    "keywords": ["sport", "sports", "football", "basketball", "gym"],
+    "answer": "Not really her thing. She's the artsy type: pottery, baking, and Pilates at Prana."
+  },
+  "places": {
+    "keywords": ["lived", "live", "moved", "grew", "countries", "childhood"],
+    "answer": "3 countries, 2 continents, 10 schools: India, Singapore, then California and Texas."
+  }
+}
