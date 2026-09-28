@@ -48,6 +48,7 @@ def test_lookup_ignores_case_and_suggests_fixes(guide):
 def test_moods_filter(guide):
     assert all("productive" in s.moods for s in guide.for_mood("productive"))
     assert len(guide.for_mood("everything")) == len(guide.spots)
+    assert "Barton Springs Pool" in {s.name for s in guide.for_mood("lazy")}
     with pytest.raises(ValueError):
         guide.for_mood("grumpy")
 
@@ -74,7 +75,7 @@ def follows_the_rules(plan, city, home, leave, end, must=()):
     return True
 
 
-@pytest.mark.parametrize("mood", ["cozy", "creative", "foodie", "productive", "everything"])
+@pytest.mark.parametrize("mood", ["cozy", "creative", "foodie", "productive", "lazy", "everything"])
 def test_every_mood_makes_a_valid_day(city, guide, mood):
     spots = shortlist(guide.for_mood(mood) + [guide.find("Medici")], [])
     plan = plan_day(spots, city, "West Campus", TEN_AM, EIGHT_PM)
@@ -228,3 +229,12 @@ def test_sass():
     assert "1 hour out" in judge(9 * 60, 23 * 60, 1)[0]
     assert "escaping" in judge(9 * 60, 23 * 60, 14)[0]
     assert len(judge(12 * 60 + 30, 2 * 60, 14)) == 2
+
+
+def test_party_night_goes_dinner_then_bars_then_pizza(city, guide):
+    spots = shortlist(guide.for_mood("party") + [guide.find("Medici")], [], random.Random(1))
+    plan = plan_outing(spots, city, "West Campus", 12 * 60, 2 * 60, 12)
+    cats = [s.spot.category for s in plan.stops]
+    assert "night out" in cats
+    order = [c for c in cats if c in ("dinner", "night out", "late night")]
+    assert order == sorted(order, key=["dinner", "night out", "late night"].index)

@@ -3,7 +3,7 @@
 The rules:
   - every stop starts inside its window (brunch in the morning, dinner in the evening)
   - one stop per slot (one midday meal, one dinner, one coffee...)
-  - nothing after dinner except a late-night snack
+  - the evening only moves forward: dinner, then a night out, then a late-night snack
   - the day fits between leaving home and your end time
   - coffee is always included, plus any spots you insist on
 

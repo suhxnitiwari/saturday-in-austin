@@ -73,10 +73,10 @@ def main(argv=None) -> int:
     print(f"\n{PINK}{BOLD}Your Saturday ✦{RESET}  {DIM}{args.mood}, up at {clock(args.wake)}, "
           f"bed by {clock(args.sleep)}{RESET}")
     for stop in plan.stops:
-        free = stop.start - stop.arrive  # waiting for the next spot's window to open
-        if free >= 30:
+        free = stop.start - (stop.arrive - stop.drive)  # from the last stop ending to this one starting
+        if free >= 30 + stop.drive:
             h, m = divmod(int(free), 60)
-            length = f"{h}h {m}m" if h else f"{m} min"
+            length = (f"{h}h {m}m" if m else f"{h}h") if h else f"{m} min"
             print(f"  {clock(stop.arrive - stop.drive):>8}  {DIM}free time ({length}): nap, journal, wander{RESET}")
         note = f"  {DIM}({stop.spot.note}){RESET}" if stop.spot.note else ""
         print(f"  {clock(stop.start):>8}  {stop.spot.name}{note}")

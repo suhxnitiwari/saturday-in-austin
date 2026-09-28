@@ -70,7 +70,7 @@
         for (const s of plan.stops) {
             if (s.free) {
                 const h = Math.floor(s.free / 60), m = s.free % 60;
-                out.appendChild(line('sat-row sat-free', ['b', s.time], ['span', `free time (${h ? `${h}h ${m}m` : `${m} min`}): nap, journal, wander`]));
+                out.appendChild(line('sat-row sat-free', ['b', s.time], ['span', `free time (${h ? (m ? `${h}h ${m}m` : `${h}h`) : `${m} min`}): nap, journal, wander`]));
             } else {
                 const row = line('sat-row', ['b', s.time], ['span', s.name]);
                 if (s.note) row.lastChild.appendChild(Object.assign(document.createElement('i'), { textContent: ` (${s.note})` }));

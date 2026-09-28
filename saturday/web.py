@@ -21,8 +21,8 @@ def plan_json(wake: str, sleep: str, hours: float, mood: str = "everything", see
     plan = plan_outing(spots, _CITY, "West Campus", to_min(wake), to_min(sleep), float(hours))
     stops = []
     for s in plan.stops:
-        free = s.start - s.arrive
-        if free >= 30:
+        free = s.start - (s.arrive - s.drive)  # from the last stop ending to this one starting
+        if free >= 30 + s.drive:
             stops.append({"time": clock(s.arrive - s.drive), "free": int(free)})
         stops.append({"time": clock(s.start), "name": s.spot.name, "note": s.spot.note,
                       "category": s.spot.category, "minutes": s.spot.stay})
