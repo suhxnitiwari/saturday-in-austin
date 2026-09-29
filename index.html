@@ -183,8 +183,8 @@
         .nope span { grid-row: 1 / 3; grid-column: 2; align-self: center; color: var(--pink); font-size: 16px; }
         .nope .yes span { color: var(--ink); }
         .nope em { font-family: var(--typewriter); font-style: normal; font-size: 12px; line-height: 1.35; color: var(--pink-ink); }
-        .card .grown { margin-top: 10px; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pink-ink); }
-        .card .grown code { font-size: 10px; text-transform: none; letter-spacing: 0; background: var(--blush); padding: 0 3px; }
+        .card .grown { margin-top: 10px; font-family: var(--display); font-weight: 500; font-size: 18px; line-height: 1.2; color: var(--pink); }
+        .card .grown code { font-family: var(--typewriter); font-size: 12px; color: var(--pink-ink); background: var(--blush); padding: 0 3px; }
         .now { margin: 22px 0 0; padding: 14px 0 0; border-top: 1px solid var(--line); }
         .now-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 18px; margin-top: 6px; }
         .now-grid b { display: block; font-family: var(--display); font-weight: 500; font-size: 26px; line-height: 1.1; }
@@ -535,7 +535,7 @@
                 </svg>
                 <h3>Austin is dots and lines</h3>
                 <p>Every neighborhood is a dot, and every road is a line with minutes on it. To go somewhere, it adds up the minutes on each path and picks the smallest, like the fastest way through a maze. Here, 8 + 7 = 15 minutes.</p>
-                <p class="grown">Grown-up word: Dijkstra’s shortest-path algorithm</p>
+                <p class="grown">Dijkstra’s shortest-path algorithm</p>
             </article>
             <article class="card">
                 <svg viewBox="0 0 240 120" role="img" aria-label="Lottery tickets: a loved, nearby place gets five tickets; a far away place gets one">
@@ -550,7 +550,7 @@
                 </svg>
                 <h3>A lottery with extra tickets</h3>
                 <p>Every place gets lottery tickets. Places I love get more, and places far away get fewer. Then it draws about a dozen for today, so every Saturday is different but the favorites keep winning.</p>
-                <p class="grown">Grown-up word: weighted sampling without replacement</p>
+                <p class="grown">Weighted sampling without replacement</p>
             </article>
             <article class="card">
                 <ul class="nope">
@@ -559,7 +559,7 @@
                 </ul>
                 <h3>Rules about being a person</h3>
                 <p>The planner carries a tiny backpack of facts about you: did you just work out? Did you just eat? Every next stop has to pass the rules. Coffee in gym clothes is fine. Shopping in them is not.</p>
-                <p class="grown">Grown-up word: a state machine (<code>rules.step()</code>)</p>
+                <p class="grown">State machine (<code>rules.step()</code>)</p>
             </article>
             <article class="card">
                 <svg viewBox="0 0 240 120" role="img" aria-label="Days grow one stop at a time; when two versions end up the same, only the better one is kept">
@@ -572,7 +572,7 @@
                 </svg>
                 <h3>Building the day, one stop at a time</h3>
                 <p>It grows every possible day one stop at a time. When two days end up in the same place, at the same time, having done the same things, it only keeps the better one. That turns billions of orders into less than a second.</p>
-                <p class="grown">Grown-up word: bitmask dynamic programming</p>
+                <p class="grown">Bitmask dynamic programming</p>
             </article>
             <article class="card">
                 <svg viewBox="0 0 240 120" role="img" aria-label="The slow way tries every order; the fast way uses the planner; both must give the same answer">
@@ -584,7 +584,7 @@
                 </svg>
                 <h3>Checking its homework</h3>
                 <p>A slow, careful version tries every single order. The fast planner has to get the exact same answer on dozens of made-up Saturdays, or the tests fail. It also checks the people rules one by one.</p>
-                <p class="grown">Grown-up word: brute-force backtracking tests</p>
+                <p class="grown">Brute-force backtracking tests</p>
             </article>
             <article class="card">
                 <svg viewBox="0 0 240 120" role="img" aria-label="Saturday number 184 always gives the same day">
@@ -595,7 +595,7 @@
                 </svg>
                 <h3>Same number, same Saturday</h3>
                 <p>The lottery is random, but every Saturday gets a number. Type the number back in, or send the letter link, and you get the exact same day, stop for stop.</p>
-                <p class="grown">Grown-up word: a seeded random number generator</p>
+                <p class="grown">Seeded random number generator</p>
             </article>
         </div>
     </section>
