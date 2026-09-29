@@ -1,9 +1,9 @@
-"""Saturday in Austin ✦  Tell it how long you have and what you're in the mood for.
+"""Saturday in Austin ✦  Tell me when you're free. I'll figure out what we're doing.
 
-    python -m saturday                                a surprise Saturday, different every time
-    python -m saturday --wake 8 --sleep 23 --hours 6  up at 8, in bed by 11, six hours out
-    python -m saturday --mood treat-yourself --include "Éma" --chart
-    python -m saturday --seed 325                     repeat a Saturday you liked
+    python -m saturday                                  a surprise Saturday, different every time
+    python -m saturday --start 9 --back 23 --hours 6    out the door at 9, home by 11, six hours out
+    python -m saturday --mood treat-myself --include "Éma" --chart
+    python -m saturday --seed 325                       Saturday #325 again
 """
 from __future__ import annotations
 
@@ -12,10 +12,11 @@ import random
 import sys
 from pathlib import Path
 
+from . import rules
 from .city import City
-from .planner import plan_outing, reachable, shortlist, walking
+from .planner import BUFFER, plan_outing, reachable, shortlist, walking
 from .sass import judge, sign_off
-from .spots import AREAS, MOODS, RULES, Guide, UnknownSpotError, half_hour, load, shelf_note
+from .spots import AREAS, MOODS, NOT_THESE, RULES, Guide, UnknownSpotError, half_hour, load, shelf_note
 
 
 PINK, BOLD, DIM, RESET = "\033[38;5;211m", "\033[1m", "\033[2m", "\033[0m"
@@ -35,20 +36,26 @@ def parse_time(text: str) -> int:
     return minutes
 
 
+def hours_arg(text: str):
+    return None if text == "all" else float(text)
+
+
 def main(argv=None) -> int:
-    p = argparse.ArgumentParser(prog="saturday", description="Plan the best day in Austin.")
-    p.add_argument("--wake", type=parse_time, default=9 * 60, metavar="TIME", help="when you wake up (default 9:00)")
-    p.add_argument("--sleep", type=parse_time, default=23 * 60, metavar="TIME", help="when you go to bed (default 23:00)")
-    p.add_argument("--hours", type=float, default=10, help="hours you want to spend out (default 10)")
+    p = argparse.ArgumentParser(prog="saturday", description="Tell me when you're free. I'll figure out what we're doing.")
+    p.add_argument("--start", type=parse_time, default=9 * 60, metavar="TIME", help="when you're ready to go (default 9:00)")
+    p.add_argument("--back", type=parse_time, default=23 * 60, metavar="TIME", help="when you want to be home (default 23:00)")
+    p.add_argument("--hours", type=hours_arg, default=None, help="hours you actually want to be out, or 'all' (default)")
     p.add_argument("--mood", choices=MOODS, default="everything")
     p.add_argument("--home", default="West Campus", help="where you start and end (default West Campus)")
     p.add_argument("--include", action="append", default=[], metavar="SPOT", help="a spot you have to go to")
     p.add_argument("--skip", action="append", default=[], metavar="SPOT", help="a spot to leave out")
-    p.add_argument("--walk", action="store_true", help="no car: walk everywhere, so stay close to home")
+    p.add_argument("--not", dest="not_these", action="append", default=[], choices=NOT_THESE,
+                   help="a kind of thing to leave out")
+    p.add_argument("--walk", action="store_true", help="no car: no walk over a mile")
     p.add_argument("--rainy", action="store_true", help="a rainy day: indoor spots only")
     p.add_argument("--area", choices=AREAS, default="anywhere", help="stay in one neighborhood")
     p.add_argument("--chart", action="store_true", help="also save the day as plan.png")
-    p.add_argument("--seed", type=int, help="repeat a Saturday you liked by its number")
+    p.add_argument("--seed", type=int, help="get a Saturday back by its number")
     args = p.parse_args(argv)
 
     city = City()
@@ -58,7 +65,7 @@ def main(argv=None) -> int:
     guide = Guide(load(), args.home)
     mood = RULES[args.mood] if args.area == "anywhere" else RULES[args.mood].relaxed()
     area = AREAS[args.area][0] if args.area != "anywhere" else None
-    for note in judge(args.wake, args.sleep, args.hours, args.mood, args.walk, args.rainy, area):
+    for note in judge(args.start, args.back, args.hours, args.mood, args.walk, args.rainy, area):
         print(f"\n  {PINK}{note}{RESET}")
     try:
         must = [guide.find(name) for name in args.include]
@@ -69,39 +76,57 @@ def main(argv=None) -> int:
 
     seed = args.seed if args.seed is not None else random.randrange(1000, 10000)
     rng = random.Random(seed)
-    pool = guide.pool(args.mood, must, skip, args.rainy, area=args.area)
+    pool = guide.pool(args.mood, must, skip, args.rainy, area=args.area, not_these=args.not_these)
     if args.walk:
-        coffee = [s for s in guide.spots if s.category == "coffee"] if "coffee" in mood.need + mood.want else []
-        city, pool = walking(pool, args.home, coffee)
+        staples = {"midday meal", "dinner"} | ({"coffee"} if "coffee" in mood.need + mood.want else set())
+        zones = AREAS[args.area][1]
+        fill = [s for s in guide.spots if s.slot in staples and s.name not in guide.home_spots and s.name not in skip
+                and (zones is None or s.zone in zones)]
+        city, pool = walking(pool, args.home, fill)
         must = [s for s in pool if s.name in {m.name for m in must}]
-    pool = reachable(pool, getattr(city, "reach", city), args.home, args.hours * 60, must)
-    spots = shortlist(pool, must, rng, caps=mood.caps, need=mood.need)
-    plan = plan_outing(spots, city, args.home, args.wake, args.sleep, args.hours, must, mood)
+    window = ((args.back - args.start) % (24 * 60) or 24 * 60) if args.hours is None else args.hours * 60
+    pool = reachable(pool, getattr(city, "reach", city), args.home, window, must)
+    far = getattr(city, "reach", city)
+    back = args.back if args.back > args.start else args.back + 24 * 60
+    brunch_time = args.start <= rules.BRUNCH_HOURS[1] and back >= rules.BRUNCH_HOURS[0] + 90
+    spots = shortlist(pool, must, rng, caps=mood.caps, need=mood.need,
+                      distance=lambda s: far.minutes(args.home, s.zone) * (3 if args.walk else 1),
+                      favor=("brunch",) if brunch_time else ())
+    plan = plan_outing(spots, city, args.home, args.start, args.back, args.hours, must, mood, walking=args.walk)
     if args.walk and not plan.stops:  # on foot, a missing coffee shop shouldn't mean no day at all
-        plan = plan_outing(spots, city, args.home, args.wake, args.sleep, args.hours, must, mood.relaxed())
+        plan = plan_outing(spots, city, args.home, args.start, args.back, args.hours, must, mood.relaxed(),
+                           walking=args.walk)
 
     if not plan.stops:
-        print("Nothing fits between waking up and bedtime. Try waking up earlier, going to bed later, or fewer must-haves.")
+        print("Nothing fits. Try a longer day, a different mood, or fewer must-haves.")
         return 1
 
-    print(f"\n{PINK}{BOLD}Your Saturday ✦{RESET}  {DIM}{args.mood}, up at {clock(args.wake)}, "
-          f"bed by {clock(args.sleep)}{RESET}")
-    for stop in plan.stops:
-        free = stop.start - (stop.arrive - stop.drive)  # from the last stop ending to this one starting
-        if free >= 30 + stop.drive:
-            h, m = divmod(int(free), 60)
+    zone = {s.name: s.zone for s in guide.spots}
+    why = rules.explain(plan.stops, spots, lambda s: args.home if rules.kind(s).reset else zone.get(s.name, s.zone),
+                        City().minutes)
+    print(f"\n{PINK}{BOLD}Your Saturday ✦{RESET}  {DIM}{args.mood}, out from {clock(args.start)}, "
+          f"home by {clock(args.back)}{RESET}")
+    for i, stop in enumerate(plan.stops):
+        gap = stop.start - (stop.arrive - stop.drive) - stop.drive - BUFFER
+        if i and gap >= 30:
+            h, m = divmod(int(gap), 60)
             length = (f"{h}h {m}m" if m else f"{h}h") if h else f"{m} min"
             print(f"  {clock(stop.arrive - stop.drive):>8}  {DIM}free time ({length}): nap, journal, wander{RESET}")
-        picked = shelf_note(stop.spot, rng)
-        note = f"  {DIM}({picked}){RESET}" if picked else ""
-        print(f"  {clock(stop.start):>8}  {stop.spot.name}{note}")
+        if rules.kind(stop.spot).reset:
+            print(f"  {clock(stop.start):>8}  {DIM}Home: {stop.spot.note}{RESET}")
+        else:
+            picked = shelf_note(stop.spot, rng)
+            note = f"  {DIM}({picked}){RESET}" if picked else ""
+            print(f"  {clock(stop.start):>8}  {stop.spot.name}{note}")
+        if i in why:
+            print(f"  {'':>8}  {PINK}{why[i]}{RESET}")
     movie = any(s.spot.slot == "movie" for s in plan.stops)
     ending = sign_off(half_hour(plan.home_by), plan.outside / 60, seed, args.mood, movie)
     print(f"  {clock(half_hour(plan.home_by)):>8}  {ending}")
     out = f"{plan.outside / 60:.1f}".rstrip("0").rstrip(".")
-    stops = f"{len(plan.stops)} stop{'s' * (len(plan.stops) != 1)}"
+    n = len(plan.places)
     travel = "walking" if args.walk else "driving"
-    print(f"\n  {DIM}{stops} · {out} hours out · {plan.driving} min of {travel} · Saturday #{seed}{RESET}")
+    print(f"\n  {DIM}{n} stop{'s' * (n != 1)} · {out} hours out · {plan.driving} min of {travel} · Saturday #{seed}{RESET}")
     print(f"  {DIM}run it again for a different Saturday, or --seed {seed} to get this one back ✦{RESET}\n")
 
     if args.chart:

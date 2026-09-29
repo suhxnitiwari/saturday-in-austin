@@ -1,11 +1,15 @@
+import json
 import random
 
 import pytest
 
+from saturday import rules
 from saturday.__main__ import clock, main, parse_time
 from saturday.city import City
-from saturday.planner import best_joy_by_search, meals, plan_day, plan_outing, schedule, shortlist
-from saturday.spots import MOODS, RULES, WINDOWS, Guide, UnknownSpotError, load
+from saturday.planner import best_score_by_search, meals, plan_day, plan_outing, schedule, shortlist, walking
+from saturday.sass import judge, sign_off
+from saturday.spots import AREAS, MOODS, RULES, SHELF, WINDOWS, Guide, UnknownSpotError, load
+from saturday.web import plan_json
 
 TEN_AM, EIGHT_PM = 10 * 60, 20 * 60
 
@@ -20,14 +24,29 @@ def guide():
     return Guide(load())
 
 
-# ---------------------------------------------------------------- the city
+def day(*args, **kwargs):
+    return json.loads(plan_json(*args, **kwargs))
+
+
+def names(data):
+    return [s["name"] for s in data["stops"] if s.get("type") == "stop"]
+
+
+def minutes_of(label: str) -> int:
+    """'1:30 PM' -> minutes after midnight."""
+    t, ampm = label.split()
+    h, m = map(int, t.split(":"))
+    return (h % 12 + (12 if ampm == "PM" else 0)) * 60 + m
+
+
+# ---------------------------------------------------------------- the map
 
 def test_fastest_drive_takes_the_quicker_road(city):
     assert city.drive("West Campus", "South Congress") == (15, ["West Campus", "Downtown", "South Congress"])
     assert city.drive("Campus", "Campus") == (0, ["Campus"])
 
 
-def test_every_spot_is_reachable(city, guide):  # day-in spots are at home
+def test_every_spot_is_reachable(city, guide):
     for spot in guide.spots:
         assert city.minutes("West Campus", spot.zone) >= 0
 
@@ -45,9 +64,9 @@ def test_lookup_ignores_case_and_suggests_fixes(guide):
         guide.find("medicci")
 
 
-def test_moods_filter(guide):
+def test_moods(guide):
     assert all("productive" in s.moods for s in guide.for_mood("productive"))
-    assert "Barton Springs Pool" in {s.name for s in guide.for_mood("adventurous")}
+    assert "Barton Springs Pool" in {s.name for s in guide.for_mood("outside")}
     assert "Movie night" not in {s.name for s in guide.for_mood("everything")}  # a surprise day is a day out
     assert guide.find("Movie night").zone == "West Campus"  # day-in spots are wherever home is
     with pytest.raises(ValueError):
@@ -60,195 +79,333 @@ def test_there_are_plenty_of_spots(guide):
         assert len(guide.for_mood(mood)) >= 8, mood
 
 
-def test_windows(guide):
+def test_black_fox_is_coffee_not_brunch(guide):
+    assert guide.find("Black Fox").category == "coffee"
+    assert {"Josephine House", "Hillside Farmacy"} <= {s.name for s in guide.spots if s.category == "brunch"}
+
+
+# ---------------------------------------------------------------- being a person (rules.py)
+
+def sequence(guide, *spot_names):
+    home = rules.resets("West Campus")
+    lookup = {"shower": home[0], "change": home[1]}
+    return [lookup.get(n) or guide.find(n) for n in spot_names]
+
+
+def test_1_pilates_then_coffee_then_shower_is_fine(guide):
+    assert rules.valid(sequence(guide, "Prana Wellness Club", "Black Fox", "shower"))
+
+
+def test_2_pilates_then_smoothie_then_shower_is_fine(guide):
+    assert rules.valid(sequence(guide, "CorePower Yoga", "JuiceLand (Guadalupe)", "shower"))
+
+
+def test_3_pilates_then_shower_is_fine(guide):
+    assert rules.valid(sequence(guide, "Prana Wellness Club", "shower", "Josephine House"),
+                       starts=[9 * 60, 10 * 60, 11 * 60 + 30])
+
+
+def test_4_pilates_then_shopping_is_not(guide):
+    assert not rules.valid(sequence(guide, "Prana Wellness Club", "South Congress", "shower"))
+
+
+def test_5_pilates_coffee_shopping_is_not(guide):
+    assert not rules.valid(sequence(guide, "Prana Wellness Club", "Black Fox", "South Congress", "shower"))
+
+
+def test_6_brunch_then_lunch_is_not(guide):
+    assert not rules.valid(sequence(guide, "Josephine House", "Veracruz"))
+    assert not rules.valid(sequence(guide, "Josephine House", "Black Fox", "Veracruz"))  # a latte isn't a palate reset
+    assert rules.valid(sequence(guide, "Josephine House", "BookPeople", "Blanton Museum of Art", "Veracruz"))
+    assert not rules.valid(sequence(guide, "Veracruz", "Amy's Ice Creams"))  # not dessert straight after lunch
+    assert not rules.valid(sequence(guide, "Paperboy", "Austin Bouldering Project"))  # not climbing on a full stomach
+
+
+def test_7_no_car_never_walks_across_town(guide):
+    city, _ = walking(guide.spots, "West Campus")
+    assert city.minutes("South Congress", "Domain") == city.TOO_FAR
+    for seed in range(8):
+        data = day("9:00", "23:00", 8, "everything", seed, walk=True)
+        stops = ["West Campus"] + [s["name"] if s["type"] == "stop" else "West Campus"
+                                   for s in data["stops"] if s["type"] != "free"] + ["West Campus"]
+        assert len(stops) > 2 and all(city.reach.miles(a, b) <= 1.0001 for a, b in zip(stops, stops[1:]))
+
+
+def test_7_driving_zigzags_cost_more(guide, city):
+    soco, domain, soco2 = guide.find("South Congress"), guide.find("The Domain"), guide.find("Jo's Coffee")
+    zigzag = schedule([soco, domain, soco2], city, "West Campus", 10 * 60)
+    stay = schedule([soco, soco2], city, "West Campus", 10 * 60)
+    assert zigzag.cost - stay.cost > rules.JOY * domain.joy  # the Domain isn't worth the round trip
+
+
+def test_8_saturday_brunch_favorites_win(guide):
+    josephine, snooze = guide.find("Josephine House"), guide.find("Snooze")
+    assert josephine.joy == snooze.joy
+    assert rules.cost(None, josephine, 10 * 60 + 30, 0) < rules.cost(None, snooze, 10 * 60 + 30, 0)
+    assert rules.cost(None, snooze, 10 * 60 + 30, 0) < rules.cost(None, guide.find("Veracruz"), 12 * 60, 0)
+    picks = {"Josephine House": 0, "Snooze": 0}
+    brunches = [s for s in guide.spots if s.category == "brunch"]
+    for seed in range(300):
+        chosen = {s.name for s in shortlist(brunches, [], random.Random(seed))}
+        for name in picks:
+            picks[name] += name in chosen
+    assert picks["Josephine House"] > 1.5 * picks["Snooze"]
+    brunched = sum(any(s["category"] == "brunch" for s in day("9:00", "18:00", "all", "everything", seed)["stops"])
+                   for seed in range(20))
+    assert brunched >= 16  # a Saturday morning out is a brunch morning
+
+
+def test_9_workout_then_brunch_allows_coffee_not_breakfast(guide):
+    assert rules.valid(sequence(guide, "Prana Wellness Club", "Black Fox", "shower", "Josephine House"),
+                       starts=[8 * 60, 9 * 60, 9 * 60 + 30, 11 * 60])
+    assert not rules.valid(sequence(guide, "Prana Wellness Club", "shower", "Kerbey Lane Cafe", "Josephine House"),
+                           starts=[8 * 60, 9 * 60, 10 * 60, 11 * 60 + 30])
+
+
+def test_10_never_outside_opening_hours(guide):
     brunch = guide.find("Josephine House")
     assert brunch.opens_by(8 * 60) == 9 * 60  # early: wait for it
-    assert brunch.opens_by(10 * 60) == 10 * 60
-    assert brunch.opens_by(13 * 60) is None  # nobody brunches at 1
+    assert brunch.opens_by(13 * 60) is None   # nobody brunches at 1
+    assert plan_day([brunch], City(), "West Campus", 14 * 60, 20 * 60, need=()).stops == []
+    for seed in range(30):
+        for mood in ("everything", "foodie", "creative"):
+            for stop in day("8:00", "23:30", "all", mood, seed)["stops"]:
+                if stop["type"] == "free":
+                    continue
+                start = minutes_of(stop["time"])
+                earliest, latest = WINDOWS[stop["category"]]
+                assert earliest <= start <= latest, stop
+                assert start + stop["minutes"] <= rules.KINDS[stop["category"]].close, stop
+
+
+def test_the_person_state_moves_like_a_person(guide):
+    pilates, coffee, lunch = guide.find("Prana Wellness Club"), guide.find("Black Fox"), guide.find("Veracruz")
+    s = rules.step(rules.START, pilates, 9 * 60, 0)
+    assert s[0] == 2                                   # sweaty
+    s = rules.step(s, coffee, 10 * 60, 60)
+    assert s[0] == 1                                   # coffee after Pilates is allowed...
+    assert rules.step(s, lunch, 11 * 60 + 30, 150) is None  # ...but now you shower
+    change = rules.resets("West Campus")[1]
+    assert rules.step(rules.START, change, 18 * 60, 5 * 60) == (0, 0, 1)
+    assert not rules.can_end((0, 0, 1))                # changing for nothing
+    assert not rules.valid([change, guide.find("Pizza Press")])  # not dressing up for Pizza Press
+
+
+def test_planned_days_follow_the_person_rules():
+    for seed in range(25):
+        for mood in ("productive", "outside", "everything"):
+            data = day("8:00", "23:00", "all", mood, seed)
+            kinds = [s["category"] for s in data["stops"] if s["type"] != "free"]
+            for i, k in enumerate(kinds):
+                after = kinds[i + 1:i + 3]
+                if k == "exercise" and after:
+                    assert after[0] in ("coffee", "smoothie", "reset-shower")
+                    if after[0] != "reset-shower" and len(after) > 1:
+                        assert after[1] == "reset-shower"
+                if k == "reset-change":
+                    assert i + 1 < len(kinds)
+
+
+def test_why_notes_are_few_and_real():
+    seen = set()
+    for seed in range(30):
+        data = day("9:00", "22:00", "all", "everything", seed)
+        notes = [s["why"] for s in data["stops"] if s.get("why")]
+        assert len(notes) <= 3
+        seen |= set(notes)
+        for s in data["stops"]:
+            if s.get("why") == "It's Saturday. We're getting brunch.":
+                assert s["category"] == "brunch"
+    assert "It's Saturday. We're getting brunch." in seen
 
 
 # ---------------------------------------------------------------- the planner
 
-def follows_the_rules(plan, city, home, leave, end, must=()):
-    names = [s.spot.name for s in plan.stops]
-    slots = [s.spot.slot for s in plan.stops]
-    assert len(slots) == len(set(slots)), "one stop per slot"
-    assert any(s.spot.category == "coffee" for s in plan.stops), "always coffee"
-    assert all(m.name in names for m in must)
-    assert plan.stops[0].start >= leave and plan.home_by <= end
-    for stop in plan.stops:
-        earliest, latest = WINDOWS[stop.spot.category]
-        assert earliest <= stop.start <= latest
-    return True
-
-
 @pytest.mark.parametrize("mood", MOODS)
 def test_every_mood_makes_its_own_kind_of_day(city, guide, mood):
-    rules = RULES[mood]
-    for seed in range(8):
-        spots = shortlist(guide.pool(mood), [], random.Random(seed), caps=rules.caps, need=rules.need)
-        plan = plan_outing(spots, city, "West Campus", 8 * 60, 23 * 60 + 30, 10, mood=rules)
-        stops = [s.spot for s in plan.stops]
+    rules_ = RULES[mood]
+    for seed in range(6):
+        spots = shortlist(guide.pool(mood), [], random.Random(seed), caps=rules_.caps, need=rules_.need)
+        plan = plan_outing(spots, city, "West Campus", 8 * 60, 23 * 60 + 30, 10, mood=rules_)
+        stops = [s.spot for s in plan.places]
         assert stops, "there's always something to do"
         assert all(mood == "everything" or mood in s.moods or s.name == "Medici" for s in stops)
-        for need in rules.need + rules.want:  # a 10-hour day has room for everything
+        for need in rules_.need + rules_.want:  # a 10-hour day has room for everything
             assert any(need in (s.category, s.slot) for s in stops), f"{mood} always has {need}"
         for slot in {s.slot for s in stops}:
-            assert sum(s.slot == slot for s in stops) <= rules.caps.get(slot, 1)
-        assert all(a.slot != b.slot for a, b in zip(stops, stops[1:])), "never the same thing twice in a row"
+            assert sum(s.slot == slot for s in stops) <= rules_.caps.get(slot, 1)
+        every = [s.spot for s in plan.stops]
+        assert all(a.slot != b.slot for a, b in zip(every, every[1:])), "never the same thing twice in a row"
         for meal in meals(plan.leave, plan.home_by):
             assert any(s.slot == meal for s in stops), f"out through mealtime means a real {meal}"
-        for stop in plan.stops:
-            earliest, latest = WINDOWS[stop.spot.category]
-            assert earliest <= stop.start <= latest
 
 
-def test_treat_yourself_is_a_domain_day(city, guide):
-    rules = RULES["treat-yourself"]
-    for seed in range(8):
-        spots = shortlist(guide.pool("treat-yourself"), [], random.Random(seed), caps=rules.caps, need=rules.need)
-        plan = plan_outing(spots, city, "West Campus", 9 * 60, 23 * 60, 8, mood=rules)
-        zones = [s.spot.zone for s in plan.stops]
-        assert zones.count("Domain") >= len(zones) - 1  # everything at the Domain, except maybe Milano
+def matches_brute_force(plan, best):
+    return not plan.stops if best is None else plan.score == pytest.approx(best)
 
 
-def test_day_in_ends_with_pizza_and_a_movie(city, guide):
-    rules = RULES["day-in"]
-    spots = shortlist(guide.pool("day-in"), [], random.Random(3), caps=rules.caps, need=rules.need)
-    plan = plan_outing(spots, city, "West Campus", 9 * 60, 23 * 60 + 30, 12, mood=rules)
-    kinds = [s.spot.category for s in plan.stops]
-    assert "order in" in kinds and kinds.index("order in") < kinds.index("movie") if "movie" in kinds else True
-
-
-@pytest.mark.parametrize("wake,sleep,hours", [(7, 10, 1.5), (8, 11, 3), (7, 23, 3), (20, 23, 2)])
-def test_a_day_in_always_has_something_to_do(wake, sleep, hours):
-    import json
-    from saturday.web import plan_json
-    data = json.loads(plan_json(f"{wake}:00", f"{sleep}:00", hours, "day-in", 1))
-    assert data["stops"] and data["driving"] == 0 or wake >= 18
-
-
-def test_filters():
-    import json
-    from saturday.spots import OUTDOORS
-    from saturday.web import plan_json
-    for seed in range(6):
-        rainy = json.loads(plan_json("8:00", "23:00", 10, "adventurous", seed, rainy=True))
-        assert rainy["stops"] and not any(s.get("category") in OUTDOORS for s in rainy["stops"])
-        walk = json.loads(plan_json("8:00", "23:00", 8, "everything", seed, walk=True))
-        assert walk["stops"] and walk["walking"]
-    assert any("two-hour walk" in n for n in judge(9 * 60, 23 * 60, 6, "treat-yourself", walk=True))
-
-
-def test_no_car_walks_are_a_mile_or_less():
-    import json
-    from saturday.planner import walking
-    from saturday.web import plan_json
-    guide = Guide(load(), "West Campus")
-    city, _ = walking(guide.spots, "West Campus")
-    for seed in range(8):
-        data = json.loads(plan_json("9:00", "23:00", 8, "everything", seed, walk=True))
-        names = ["West Campus"] + [s["name"] for s in data["stops"] if "name" in s] + ["West Campus"]
-        assert len(names) > 2 and all(city.reach.miles(a, b) <= 1.0001 for a, b in zip(names, names[1:]))
-
-
-@pytest.mark.parametrize("area", ["ut", "downtown", "soco", "domain", "east", "mueller"])
-def test_neighborhood_days_stay_in_the_neighborhood(area):
-    import json
-    from saturday.spots import AREAS
-    from saturday.web import plan_json
-    guide, zones = Guide(load(), "West Campus"), AREAS[area][1]
-    for seed in range(4):
-        data = json.loads(plan_json("9:00", "23:00", 8, "everything", seed, area=area))
-        names = [s["name"] for s in data["stops"] if "name" in s]
-        assert names and all(guide.find(n).zone in zones for n in names)
-
-
-def test_movie_night_picks_from_the_shelf():
-    import json
-    from saturday.spots import SHELF
-    from saturday.web import plan_json
-    data = json.loads(plan_json("9:00", "23:00", 4, "day-in", 3))
-    movies = [s["note"] for s in data["stops"] if s.get("category") == "movie"]
-    assert movies and movies[0] in SHELF["movie"]
-
-
-def test_late_wake_ups_get_the_right_sass():
-    assert "12:30 PM" in judge(12 * 60 + 30, 23 * 60, 6)[0]
-    four = judge(16 * 60, 23 * 60 + 30, 5)[0]
-    assert "4:00 PM" in four and "noon" not in four
-    assert any("full Domain day" in n for n in judge(9 * 60, 21 * 60, 2, "treat-yourself"))
-
-
-@pytest.mark.parametrize("seed", range(10))
-def test_one_hour_still_gets_a_plan(seed):
-    import json
-    from saturday.web import plan_json
-    assert json.loads(plan_json("9:00", "23:00", 1, "everything", seed))["stops"]
-
-
-def test_daytime_bedtime_gets_asked_about():
-    assert any("Did you mean 10:00 PM" in n for n in judge(7 * 60, 10 * 60, 1.5))
-
-
-def test_adventurous_takes_breaks(city, guide):
-    rules = RULES["adventurous"]
-    for seed in range(12):
-        spots = shortlist(guide.pool("adventurous"), [], random.Random(seed), caps=rules.caps, need=rules.need)
-        plan = plan_outing(spots, city, "West Campus", 7 * 60, 23 * 60, 12, mood=rules)
-        slots = [s.spot.slot for s in plan.stops]
-        assert slots.count("outdoor") <= 2
-        assert ("outdoor", "outdoor") not in zip(slots, slots[1:])
+def test_planner_finds_the_best_day_every_time(city, guide):
+    """Compare against trying every possible order, with every rule, on 40 random small days."""
+    rng = random.Random(2026)
+    pool = [s for s in guide.spots if s.name not in guide.home_spots]
+    for _ in range(40):
+        spots = rng.sample(pool, 6) + [guide.find("Prana Wellness Club")] + rules.resets("Campus")[:1]
+        leave = rng.choice([8, 9, 10, 12]) * 60
+        end = leave + rng.choice([3, 5, 8, 11]) * 60
+        plan = plan_day(spots, city, "Campus", leave, end, need=())
+        assert matches_brute_force(plan, best_score_by_search(spots, city, "Campus", leave, end, need=()))
 
 
 def test_capped_slots_match_brute_force(city, guide):
-    """The café-hopping and two-adventure rules, checked against trying every order."""
     rng = random.Random(7)
-    for mood in ("productive", "adventurous", "cozy"):
-        rules = RULES[mood]
-        for _ in range(10):
+    for mood in ("productive", "outside", "creative"):
+        caps = RULES[mood].caps
+        for _ in range(8):
             spots = rng.sample(guide.pool(mood), 7)
             leave = rng.choice([8, 10, 12]) * 60
             end = leave + rng.choice([4, 7, 10]) * 60
-            plan = plan_day(spots, city, "Campus", leave, end, need=(), caps=rules.caps)
-            assert plan.joy == best_joy_by_search(spots, city, "Campus", leave, end, need=(), caps=rules.caps)
+            plan = plan_day(spots, city, "Campus", leave, end, need=(), caps=caps)
+            assert matches_brute_force(plan, best_score_by_search(spots, city, "Campus", leave, end, need=(), caps=caps))
 
 
-def test_must_haves_are_included(city, guide):
-    must = [guide.find("Clay Pit"), guide.find("7th Street Candle")]
-    spots = shortlist(guide.spots, must)
-    plan = plan_day(spots, city, "West Campus", TEN_AM, EIGHT_PM, must)
-    assert follows_the_rules(plan, city, "West Campus", TEN_AM, EIGHT_PM, must)
+def test_must_haves_are_included():
+    assert "Victory Lap" in names(day("9:00", "23:00", "all", "everything", 3, include="Victory Lap"))
 
 
-def test_brunch_and_lunch_never_both(city, guide):
-    spots = shortlist(guide.for_mood("social"), [])
-    plan = plan_day(spots, city, "West Campus", TEN_AM, EIGHT_PM)
-    meals = [s for s in plan.stops if s.spot.category in ("brunch", "lunch")]
-    assert len(meals) <= 1
+def test_absolutely_not():
+    for seed in range(8):
+        assert not any(s.get("category") == "exercise"
+                       for s in day("8:00", "22:00", "all", "productive", seed, exclude="workouts")["stops"])
+        assert "Medici" not in names(day("8:00", "22:00", "all", "productive", seed, exclude="Medici"))
 
 
 def test_impossible_day_returns_an_empty_plan(city, guide):
     spots = [s for s in guide.spots if s.category != "coffee"][:6]
-    assert plan_day(spots, city, "Campus", TEN_AM, EIGHT_PM).stops == []
+    assert plan_day(spots, city, "Campus", TEN_AM, EIGHT_PM, need=("coffee",)).stops == []
     assert plan_day(guide.spots[:3], city, "Campus", TEN_AM, TEN_AM + 10).stops == []
-
-
-def test_planner_finds_the_best_day_every_time(city, guide):
-    """Compare against trying every possible order, on 40 random small days."""
-    rng = random.Random(2026)
-    for _ in range(40):
-        spots = rng.sample(guide.spots, 7)
-        leave = rng.choice([8, 9, 10, 12]) * 60
-        end = leave + rng.choice([3, 5, 8, 11]) * 60
-        plan = plan_day(spots, city, "Campus", leave, end)
-        assert plan.joy == best_joy_by_search(spots, city, "Campus", leave, end)
 
 
 def test_schedule_waits_for_windows(city, guide):
     plan = schedule([guide.find("Medici"), guide.find("Numero 28")], city, "West Campus", TEN_AM)
     dinner = plan.stops[1]
     assert dinner.start == 17 * 60 + 30 and dinner.arrive < dinner.start
+
+
+@pytest.mark.parametrize("start,end,hours", [(8, 23, 6), (10, 24, 10), (7, 22, 3), (9, 1, None), (11, 20, 2)])
+def test_outing_fits_between_start_and_home(city, guide, start, end, hours):
+    start, end = start * 60, (end % 24) * 60
+    spots = shortlist(guide.for_mood("everything"), [], random.Random(start), need=("coffee",))
+    plan = plan_outing(spots, city, "West Campus", start, end, hours)
+    home_by = end if end > start else end + 24 * 60
+    assert plan.stops, "there's always something to do"
+    assert plan.leave >= start and plan.home_by <= home_by
+    assert hours is None or plan.outside <= hours * 60
+
+
+def test_all_day_isnt_a_marathon():
+    lengths = [day("8:00", "23:30", "all", "everything", seed)["stats"]["hours_out"] for seed in range(15)]
+    assert max(lengths) <= 12.5 and sum(lengths) / len(lengths) <= 11
+
+
+def test_no_time_no_plan(city, guide):
+    spots = shortlist(guide.spots, [])
+    assert plan_outing(spots, city, "West Campus", 22 * 60, 22 * 60 + 30, 4).stops == []
+
+
+# ---------------------------------------------------------------- moods, filters, neighborhoods
+
+def test_treat_myself_is_a_domain_day():
+    for seed in range(8):
+        stops = [s for s in day("9:00", "23:00", 8, "treat-myself", seed)["stops"] if s["type"] == "stop"]
+        wheres = [s["where"] for s in stops]
+        assert stops and wheres.count("the Domain") >= len(wheres) - 1  # all at the Domain, except maybe Milano
+
+
+def test_day_in_is_food_and_a_movie_at_home():
+    data = day("9:00", "23:00", 3, "day-in", 3)
+    kinds = [s["category"] for s in data["stops"] if s["type"] == "stop"]
+    assert "order in" in kinds and "movie" in kinds and kinds.index("order in") < kinds.index("movie")
+    assert data["driving"] == 0
+    movie = next(s for s in data["stops"] if s.get("category") == "movie")
+    assert movie["note"] in SHELF["movie"]
+
+
+@pytest.mark.parametrize("start,end,hours", [(7, 10, 1.5), (8, 11, 3), (7, 23, 3), (20, 23, 2)])
+def test_a_day_in_always_has_something_to_do(start, end, hours):
+    data = day(f"{start}:00", f"{end}:00", hours, "day-in", 1)
+    assert data["stops"] and data["driving"] == 0 or start >= 18
+
+
+def test_rainy_days_stay_inside():
+    from saturday.spots import OUTDOORS
+    for seed in range(6):
+        data = day("8:00", "23:00", 10, "outside", seed, rainy=True)
+        assert data["stops"] and not any(s.get("category") in OUTDOORS for s in data["stops"])
+
+
+@pytest.mark.parametrize("area", ["ut", "downtown", "soco", "domain", "east", "mueller"])
+def test_neighborhood_days_stay_in_the_neighborhood(guide, area):
+    zones = AREAS[area][1]
+    for seed in range(4):
+        found = names(day("9:00", "23:00", 8, "everything", seed, area=area))
+        assert found and all(guide.find(n).zone in zones for n in found)
+
+
+@pytest.mark.parametrize("seed", range(6))
+def test_one_hour_still_gets_a_plan(seed):
+    assert day("9:00", "23:00", 1, "everything", seed)["stops"]
+
+
+# ---------------------------------------------------------------- the website
+
+def test_web_day_has_everything_the_page_draws():
+    data = day("8:00", "23:00", 6, "slow", 5)
+    assert data["seed"] == 5 and data["stops"] and data["stats"]["stops"] >= 1
+    assert {"type", "time", "name", "where", "minutes", "travel", "why"} <= set(data["stops"][-1])
+    assert day("8:00", "23:00", 6, "slow", 5) == data  # same seed, same Saturday
+
+
+# ---------------------------------------------------------------- the lottery
+
+def test_random_days_are_different():
+    days = {tuple(names(day("9:00", "22:00", "all", "everything", seed))) for seed in range(30)}
+    assert len(days) >= 20
+
+
+def test_every_favorite_gets_its_turn(guide):
+    seen = set()
+    for seed in range(300):
+        seen |= {s.name for s in shortlist(guide.spots, [], random.Random(seed))}
+    assert {s.name for s in guide.spots if s.category == "dinner"} <= seen
+
+
+def test_higher_rated_spots_win_more_often(guide):
+    wins = {"Numero 28": 0, "Arriba Abajo": 0}
+    for seed in range(400):
+        chosen = {s.name for s in shortlist(guide.spots, [], random.Random(seed))}
+        for name in wins:
+            wins[name] += name in chosen
+    assert wins["Numero 28"] > wins["Arriba Abajo"] > 0
+
+
+def test_nearby_spots_win_more_often(guide, city):
+    near, far = guide.find("Veracruz"), guide.find("Tacodeli")
+    assert near.joy == far.joy
+    picks = {near.name: 0, far.name: 0}
+    for seed in range(400):
+        chosen = {s.name for s in shortlist([near, far, guide.find("Chi'Lantro")], [], random.Random(seed), per_slot=1,
+                                            distance=lambda s: city.minutes("East Austin", s.zone))}
+        for name in picks:
+            picks[name] += name in chosen
+    assert picks[near.name] > picks[far.name]
+
+
+def test_shortlist_always_fits_the_planner(guide):
+    for extra in ([], ["Clay Pit", "7th Street Candle"], ["PCL", "Texas Union", "The Domain"]):
+        must = [guide.find(n) for n in extra]
+        spots = shortlist(guide.for_mood("everything"), must, need=("coffee",))
+        assert len(spots) <= 12 and all(m in spots for m in must)
+        assert {"coffee", "midday meal", "dinner"} <= {s.slot for s in spots}
 
 
 # ---------------------------------------------------------------- the command line
@@ -259,9 +416,9 @@ def test_clock_and_time_parsing():
 
 
 def test_cli_runs(capsys):
-    assert main(["--mood", "treat-yourself"]) == 0
+    assert main(["--mood", "treat-myself"]) == 0
     out = capsys.readouterr().out
-    assert "Your Saturday" in out and "home" in out and "seed" in out
+    assert "Your Saturday" in out and "home" in out and "Saturday #" in out
 
 
 def test_same_seed_same_saturday(capsys):
@@ -269,36 +426,6 @@ def test_same_seed_same_saturday(capsys):
     first = capsys.readouterr().out
     main(["--seed", "325"])
     assert capsys.readouterr().out == first
-
-
-# ---------------------------------------------------------------- the randomness
-
-def test_random_days_are_different_but_always_valid(city, guide):
-    days = set()
-    for seed in range(60):
-        spots = shortlist(guide.spots, [], random.Random(seed), need=("coffee",))
-        plan = plan_day(spots, city, "West Campus", TEN_AM, EIGHT_PM)
-        assert follows_the_rules(plan, city, "West Campus", TEN_AM, EIGHT_PM)
-        days.add(tuple(s.spot.name for s in plan.stops))
-    assert len(days) >= 30  # plenty of variety
-
-
-def test_every_favorite_gets_its_turn(city, guide):
-    """Over many runs, every dinner spot makes the shortlist at least once."""
-    seen = set()
-    for seed in range(300):
-        seen |= {s.name for s in shortlist(guide.spots, [], random.Random(seed))}
-    dinners = {s.name for s in guide.spots if s.category == "dinner"}
-    assert dinners <= seen
-
-
-def test_higher_rated_spots_win_more_often(guide):
-    wins = {"Numero 28": 0, "Arriba Abajo": 0}
-    for seed in range(400):
-        names = {s.name for s in shortlist(guide.spots, [], random.Random(seed))}
-        for name in wins:
-            wins[name] += name in names
-    assert wins["Numero 28"] > wins["Arriba Abajo"] > 0
 
 
 def test_cli_handles_mistakes(capsys):
@@ -309,68 +436,25 @@ def test_cli_handles_mistakes(capsys):
     assert "Nothing fits" in capsys.readouterr().out
 
 
-def test_shortlist_always_fits_the_planner(guide):
-    for extra in ([], ["Clay Pit", "7th Street Candle"], ["PCL", "Texas Union", "The Domain"]):
-        must = [guide.find(n) for n in extra]
-        spots = shortlist(guide.for_mood("everything"), must, need=("coffee",))
-        assert len(spots) <= 15 and all(m in spots for m in must)
-        assert {"coffee", "midday meal", "dinner"} <= {s.slot for s in spots}  # never skip the essentials
-
-
-# ---------------------------------------------------------------- wake up, bedtime, hours out
-
-from saturday.planner import GET_READY, WIND_DOWN  # noqa: E402
-
-
-@pytest.mark.parametrize("wake,sleep,hours", [(8, 23, 6), (10, 24, 10), (7, 22, 3), (9, 1, 12), (11, 20, 2)])
-def test_outing_fits_between_waking_up_and_bed(city, guide, wake, sleep, hours):
-    wake, sleep = wake * 60, (sleep % 24) * 60
-    spots = shortlist(guide.spots, [], random.Random(wake + hours))
-    plan = plan_outing(spots, city, "West Campus", wake, sleep, hours)
-    bedtime = sleep if sleep > wake else sleep + 24 * 60
-    assert plan.stops, "there's always something to do"
-    assert plan.leave >= wake + GET_READY
-    assert plan.home_by <= bedtime - WIND_DOWN
-    assert plan.outside <= hours * 60
-
-
-def test_no_time_no_plan(city, guide):
-    spots = shortlist(guide.spots, [])
-    assert plan_outing(spots, city, "West Campus", 22 * 60, 23 * 60, 4).stops == []
-
-
-def test_web_entry_point_returns_a_plan():
-    import json
-    from saturday.web import plan_json
-    data = json.loads(plan_json("8:00", "23:00", 6, "cozy", 5))
-    names = [s["name"] for s in data["stops"] if "name" in s]
-    assert data["seed"] == 5 and names and data["hours_out"] <= 6
-    assert json.loads(plan_json("8:00", "23:00", 6, "cozy", 5)) == data  # same seed, same plan
-
-
 # ---------------------------------------------------------------- the sass
-
-from saturday.sass import judge, sign_off  # noqa: E402
-
 
 def test_sass():
     assert judge(9 * 60, 23 * 60, 8) == []
     assert "not a morning person" in judge(12 * 60, 23 * 60, 8)[0]
+    four = judge(16 * 60, 23 * 60 + 30, 5)[0]
+    assert "4:00 PM" in four and "noon" not in four
     assert "homebody" in judge(9 * 60, 23 * 60, 2)[0]
     assert "even sure about going out" in judge(9 * 60, 23 * 60, 1)[0]
     assert "escaping" in judge(7 * 60, 23 * 60 + 30, 14)[0]
-    assert len(judge(12 * 60 + 30, 2 * 60, 14)) == 2
-    notes = judge(9 * 60, 12 * 60, 14)  # up at 9, "bed" at noon, 14 hours out
-    assert any("Did you mean 12:00 AM" in n for n in notes)
-    assert any("not mathing" in n for n in notes) and not any("escaping" in n for n in notes)
-    assert not any("mathing" in n for n in judge(9 * 60, 12 * 60, 1.5))  # 1.5 hours fits
-    assert judge(23 * 60, 22 * 60, 14) == [  # up at 11 PM: the only note is the wake-up one
-        "Waking up at 11:00 PM?? That's nighttime, vampire. Everything's closed. Did you mean 11:00 AM?"]
+    assert judge(9 * 60, 23 * 60, None) == []  # "all day" isn't a cry for help
+    assert any("Did you mean 10:00 PM" in n for n in judge(7 * 60, 10 * 60, 1.5))
+    assert "vampire" in judge(23 * 60, 22 * 60, 14)[0]
+    assert any("two-hour walk" in n for n in judge(9 * 60, 23 * 60, 6, "treat-myself", walk=True))
 
 
 def test_sign_off():
     assert "errand" in sign_off(11 * 60, 1, 5)
     assert "couch" in sign_off(15 * 60, 2, 5)
     assert "feet" in sign_off(23 * 60, 14, 5)
-    assert sign_off(18 * 60, 6, 5) == sign_off(18 * 60, 6, 5)  # same seed, same ending
-    assert "happy" not in sign_off(18 * 60, 6, 5)
+    assert sign_off(18 * 60, 6, 5) == sign_off(18 * 60, 6, 5)
+    assert "credits" in sign_off(22 * 60, 3, 5, "day-in", movie=True)

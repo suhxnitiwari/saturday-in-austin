@@ -1,85 +1,72 @@
 # Saturday in Austin ✦
 
-**Tell it when you wake up, when you go to bed and how long you want to be out. It plans the best day around Austin.**
+**Tell me when you're free. I'll figure out what we're doing.**
 
 **[Try it live →](https://suhxnitiwari.github.io/saturday-in-austin/)** (the Python runs right in your browser)
 
-Every run is a different Saturday, drawn from 200+ Austin spots: coffee shops, brunches, pottery studios, nail spas at the Domain, hikes on the Greenbelt, kayaking on Lady Bird Lake, game days at Victory Lap and nights in with pizza and a movie from my own shelf. Can't decide? Hit **🎲 Just pick for me**.
+I gave Python my favorite Austin spots and, apparently, my opinions about how a Saturday should work. Coffee belongs in the morning. Saturday is for brunch. You probably want to shower after Pilates. And I'm not sending you from South Congress to the Domain and back for no reason.
 
 ```
-$ python -m saturday
+$ python -m saturday --start 8:00 --back 22:00 --seed 54
 
-Your Saturday ✦  everything, up at 9:00 AM, bed by 11:00 PM
-  10:00 AM  Josephine House
-  11:30 AM  Prana Wellness Club  (Pilates: the best reset)
-   1:00 PM  Life Science Library  (the prettiest study spot)
-   2:30 PM  Two Hands
-   3:30 PM  Mosaic Workshop
-   6:00 PM  Clay Pit  (North Indian)
-   8:00 PM  home, happy
+Your Saturday ✦  everything, out from 8:00 AM, home by 10:00 PM
+   8:00 AM  CorePower Yoga
+   9:00 AM  Home: shower + get ready
+            You need to shower before we continue.
+  10:30 AM  Hillside Farmacy
+            It's Saturday. We're getting brunch.
+  12:30 PM  Cosmic Coffee + Beer Garden  (the garden)
+   2:00 PM  Dolce Neve  (gelato)
+   3:00 PM  home, glowing ✦
 
-  6 stops · 9.7 hours out · 30 min of driving · seed 5
-  run it again for a different Saturday ✦
+  4 stops · 6.8 hours out · 40 min of driving · Saturday #54
 ```
-
-![A Saturday as a timeline](docs/example-saturday.png)
 
 ## Try it
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install matplotlib pytest
-.venv/bin/python -m saturday                  # a surprise Saturday
-.venv/bin/python -m saturday --mood treat-yourself
-.venv/bin/python -m saturday --hours 6 --mood social --include "Victory Lap" --chart
+.venv/bin/python -m saturday                                   # a surprise Saturday
+.venv/bin/python -m saturday --mood slow --hours 6
+.venv/bin/python -m saturday --mood social --include "Victory Lap" --area ut --chart
 .venv/bin/python -m pytest -q
 ```
 
 | Option | What it does |
 |---|---|
-| `--wake 9:00` | when you wake up |
-| `--sleep 23:00` | when you go to bed (after midnight works too) |
-| `--hours 10` | how many hours you want to be out |
-| `--mood` | `treat-yourself`, `adventurous`, `productive`, `social`, `day-in`, `cozy`, `foodie`, `music-art` or `everything` |
-| `--walk` | no car: every walk is a mile or less, using real locations from OpenStreetMap |
-| `--rainy` | a rainy day: indoor spots only |
-| `--area soco` | stay in one neighborhood: `ut`, `downtown`, `soco`, `east`, `domain`, `zilker`, `south-lamar`, `clarksville`, `north-loop`, `mueller` |
-| `--home "West Campus"` | where the day starts and ends |
-| `--include "Numero 28"` | a spot you have to go to (typos get a "did you mean?") |
-| `--skip PCL` | a spot to leave out |
+| `--start 9:00` / `--back 23:00` | when you're ready to go, and when you want to be home (after midnight works) |
+| `--hours 6` | how long you actually want to be out, or `all` |
+| `--mood` | `slow`, `social`, `creative`, `foodie`, `outside`, `shopping`, `productive`, `treat-myself`, `day-in` or `everything` |
+| `--area soco` | stay in one neighborhood: `ut`, `downtown`, `east`, `soco`, `clarksville`, `domain`, `zilker`, `south-lamar`, `north-loop`, `mueller` |
+| `--walk` | no car: no walk over a mile, using real locations from OpenStreetMap |
+| `--rainy` | nothing outdoors |
+| `--include "Numero 28"` | one place you really want to go |
+| `--skip PCL` / `--not workouts` | absolutely not (a place, or a kind of thing) |
+| `--seed 184` | get Saturday #184 back |
 | `--chart` | save the day as a picture |
-| `--seed 5` | get Saturday #5 back (every plan shows its number) |
 
-## Eight moods, eight different Saturdays
+## The rules about being a person
 
-| Mood | The day |
-|---|---|
-| ✨ Treat yourself | A Domain day: brunch at Toastique, nails at M Vince, a shopping run, dinner at Éma |
-| 🥾 Adventurous | Hikes, kayaking and cold swims, at most two per day and never back to back |
-| 📚 Productive | Café hopping: up to three coffee shops, with study spots in between |
-| 🏈 Social | Built around Victory Lap or Topgolf, with group brunch and dinner |
-| 🛋️ Day in | A fruit bowl, pizza delivered and a movie from my shelf. No driving |
-| 🕯️ Cozy & creative | Slow lattes, pottery and candle studios, bookstores and a warm dinner |
-| 🍽️ Foodie | Brunch *and* lunch, BBQ, gelato and a big dinner |
-| 🎸 Music & art | Murals and museums by day, a show at Antone's or the Broken Spoke by night |
+A schedule can fit every opening hour and still be a strange day. So the planner has rules, and they live as data in [`saturday/rules.py`](saturday/rules.py), not as if-statements scattered around:
 
-## The rules every plan follows
+- **After a workout:** coffee or a smoothie is fine in workout clothes. Then you shower. Pilates → Black Fox → shower is a Saturday. Pilates → shopping is not.
+- **It's Saturday:** between 9:30 and 1:30, brunch gets a bonus, and Josephine House and Hillside Farmacy get a little more. On a Saturday morning, brunch always gets a ticket in the lottery.
+- **Meals are anchors:** no second restaurant right after a real meal (it takes a couple of stops to be hungry again), no dessert straight after lunch, and no Pilates on a full stomach. Out through lunchtime or dinnertime means an actual meal.
+- **Geography:** every minute in the car costs points, so a detour to the Domain has to be worth it. Nearby places also get more lottery tickets. With no car, nothing is more than a mile's walk.
+- **Pacing:** every stop takes a little energy and days past eight hours cost extra, so "all day" is a full day, not a marathon. Parks and hikes are better in the morning or evening; coffee is better before 3.
+- **Home is a place too:** a shower after a workout, or a change before a dressy dinner, shows up as its own block.
+- **Hours:** nothing starts outside its window or runs past closing. Ever.
 
-- Every stop starts when it makes sense: brunch in the morning, dinner in the evening, pottery before the studio closes.
-- Stops start on the hour or half hour, like a real plan.
-- You leave after getting ready and you're home before bed, and the planner picks the best stretch of the day for the hours you want out.
-- One stop per slot: one midday meal (brunch *or* lunch), one dinner. Some moods allow more (three coffees on a productive day).
-- Never the same kind of stop twice in a row, so there's always a break between two hikes.
-- Out through lunchtime or dinnertime means a real meal, not just ice cream.
-- Nothing after dinner except a late-night snack.
-- There is always coffee (a treat-yourself day has nails instead, and a day in has pizza).
+When a rule shapes the day, the plan says so: *"It's Saturday. We're getting brunch."* *"You just ate. I'm not giving you another restaurant."* *"Absolutely not driving to the Domain and immediately coming back to South Congress."*
 
 ## How it works
 
-The hard part is that the obvious approach doesn't work. Taking the highest-rated spots first ignores driving and opening hours: a long 10/10 dinner can push out two great afternoon stops. Trying every possible order works but explodes: 15 spots have over a trillion orderings.
+1. **Map** (`city.py`): Austin's neighborhoods are a weighted graph, with roads in drive minutes. **Dijkstra's algorithm** with a min-heap finds the fastest drive between any two, and results are cached. With no car, each place gets its real coordinates (`data/places.json`, from OpenStreetMap), walks are measured with the haversine formula, and a **breadth-first search** keeps only places reachable in hops of a mile or less.
+2. **Lottery** (`planner.shortlist`): filter by mood, neighborhood, weather and your "absolutely not," then draw about a dozen candidates with **weighted sampling without replacement** (Efraimidis–Spirakis: each place gets the key `random() ** (1 / weight)` and the biggest keys win). Weight grows with how much I love a place and shrinks with how far away it is.
+3. **Rules** (`rules.py`): every kind of stop has a `Kind`: how filling it is, whether it's a workout, whether you can show up sweaty, when it closes, the hours it's best at. `step(state, spot)` says whether a person would make that move, where the state is three tiny numbers (just worked out? just ate? just changed?). `cost(...)` prices travel and timing. `explain(...)` writes the notes.
+4. **Plan** (`planner.plan_day`): **dynamic programming over subsets** (bitmask DP). A state is which places you've been, how many of each kind, the person state, the last stop and when you finish it; each keeps its cheapest cost. The winner scores `10 × joy − travel − timing − energy`. That turns n! orderings into a search that runs in a fraction of a second, in the browser.
+5. **Check** (`tests/`): 75 tests. A **backtracking** search that really tries every order, with every rule, runs on dozens of random days and the DP has to match its best score every time. The people rules are tested one by one: Pilates → coffee → shower is valid, Pilates → coffee → shopping is not, brunch → lunch 45 minutes later never happens, and nothing is scheduled outside its hours.
 
-1. **Map** (`city.py`): Austin's neighborhoods are a weighted graph, with roads measured in drive minutes. **Dijkstra's algorithm** with a min-heap finds the fastest drive between any two neighborhoods, and results are cached.
-2. **Surprise** (`planner.shortlist`): filter by mood, then run a weighted lottery that picks two candidates per slot. Every favorite can win, and higher-rated ones win more often. It's weighted sampling without replacement (the Efraimidis-Spirakis method: each spot gets the key `random() ** (1 / weight)` and the biggest keys win). Must-haves always stay.
-3. **Plan** (`planner.plan_day`): **dynamic programming over subsets** (bitmask DP). For every set of spots and every possible last stop, it keeps the earliest time you could finish. Finishing earlier is never worse, since you can always wait, so one number per state is enough. That turns *n!* orderings into 2ⁿ × n² steps, and a full day plans in a fraction of a second.
-4. **Check** (`tests/`): a **backtracking** search that really does try every order runs on 40 random small days, and the DP has to match it every time. Other tests check that 60 random Saturdays all follow the rules, that every dinner spot gets its turn, and that the same seed always gives the same day.
+Every Saturday has a number. The randomness is seeded, so Saturday #184 is always the same Saturday.
 
-The spots and their notes are my real favorites. Drive times, visit lengths and ratings are my own estimates. ✦
+The spots and notes are my favorites plus places I researched; drive times, visit lengths and ratings are my own estimates. ✦

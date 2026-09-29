@@ -4,129 +4,276 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Saturday in Austin</title>
-    <meta name="description" content="Tell it when you wake up, when you go to bed and how long you want to be out. It plans the best day around Austin.">
+    <meta name="description" content="Tell me when you're free. I'll figure out what we're doing. A Python planner with opinions about Austin Saturdays.">
     <meta property="og:title" content="Saturday in Austin">
-    <meta property="og:description" content="A Python day planner for Austin, running right in your browser.">
+    <meta property="og:description" content="Tell me when you're free. I'll figure out what we're doing.">
     <meta property="og:image" content="https://suhxnitiwari.github.io/saturday-in-austin/docs/example-saturday.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --mul: #8F4661; --choc: #2A1810; --muted: #7A665F; --cream: #FBF3EE; --blush: #F6DDE3;
+            --cream: #FAF1EC;
+            --ivory: #FFFAF6;
+            --blush: #F2DCD7;
+            --rose: #9E5A63;
+            --rose-deep: #7E434D;
+            --olive: #56634A;
+            --forest: #3E4A36;
+            --choc: #2A1810;
+            --muted: #7A6560;
+            --rule: #E6D2CB;
+            --display: "Bodoni Moda", Didot, Georgia, serif;
             --serif: Georgia, "Times New Roman", serif;
             --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-            --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
         }
         * { box-sizing: border-box; }
-        body { margin: 0; background: var(--cream); color: var(--choc); font-family: var(--sans); }
-        main { max-width: 760px; margin: 0 auto; padding: 56px 16px 70px; }
-        .badge { display: inline-flex; gap: 6px; padding: 5px 12px; border-radius: 999px; background: var(--blush); color: var(--mul); font-size: 11.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
-        h1 { margin: 14px 0 12px; font-family: var(--serif); font-weight: 400; font-size: clamp(40px, 8vw, 60px); line-height: 1.05; }
-        .sub { margin: 0 0 30px; font-size: 17.5px; line-height: 1.6; color: var(--muted); }
+        html { -webkit-text-size-adjust: 100%; }
+        body { margin: 0; background: var(--cream); color: var(--choc); font-family: var(--sans); line-height: 1.5; }
+        a { color: inherit; }
+        :focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; }
 
-        .sat-planner { display: flex; flex-direction: column; min-height: 30em; background: #2A1810; border-radius: 16px; overflow: hidden; box-shadow: 0 30px 60px -35px rgba(42, 24, 16, 0.5); }
-        .bar { display: flex; align-items: center; gap: 7px; padding: 12px 14px; background: #3B2A24; }
-        .bar span { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 248, 246, 0.28); }
-        .bar em { margin-left: 8px; font-style: normal; font-size: 12px; color: #D9B8B3; }
-        .sat-form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 14px; padding: 18px 20px 16px; border-bottom: 1px solid rgba(245, 229, 225, 0.12); }
-        .sat-form label { display: flex; flex-direction: column; gap: 6px; font: 600 11px/1 var(--sans); letter-spacing: 0.1em; text-transform: uppercase; color: #D9B8B3; }
-        .sat-form input[type="time"], .sat-form select { font: 14px var(--mono); color: #F5E5E1; background: #3B2A24; border: 1px solid rgba(245, 229, 225, 0.18); border-radius: 8px; padding: 8px 10px; color-scheme: dark; }
-        .sat-hours span { display: flex; align-items: center; gap: 10px; }
-        .sat-hours input { flex: 1; accent-color: #E9A6BC; }
-        .sat-hours output { min-width: 2.2em; font: 14px var(--mono); color: #F5E5E1; letter-spacing: 0; }
-        .sat-where { grid-column: 1 / -1; }
-        .sat-filters { grid-column: 1 / -1; display: flex; gap: 8px; flex-wrap: wrap; }
-        .sat-filters label { flex-direction: row; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; border: 1px solid rgba(245, 229, 225, 0.25); font-size: 12px; letter-spacing: 0.04em; text-transform: none; cursor: pointer; }
-        .sat-filters input { accent-color: #E9A6BC; margin: 0; }
-        .sat-filters label:has(input:checked) { background: rgba(233, 166, 188, 0.18); border-color: #E9A6BC; color: #F5E5E1; }
-        .sat-actions { grid-column: 1 / -1; display: flex; gap: 10px; }
-        .sat-actions button[type="submit"] { flex: 1; }
-        .sat-form .sat-random { background: transparent; color: #E9A6BC; box-shadow: inset 0 0 0 1.5px #E9A6BC; }
-        .sat-form .sat-random:hover { background: rgba(233, 166, 188, 0.14); }
-        .sat-form button { padding: 11px 16px; border: 0; border-radius: 999px; background: #E9A6BC; color: var(--choc); font: 700 14px var(--sans); cursor: pointer; }
-        .sat-form button:hover { background: #F2C1D1; }
-        .sat-form button:disabled { opacity: 0.6; cursor: progress; }
-        .sat-form :focus-visible, a:focus-visible { outline: 2px solid #E9A6BC; outline-offset: 2px; }
-        .sat-out { flex: 1; padding: 16px 20px 20px; font: 13.5px/1.75 var(--mono); color: #F5E5E1; }
-        .sat-out p { margin: 0; }
-        .sat-status { color: #D9B8B3; font-family: var(--sans); font-size: 14px; line-height: 1.6; }
-        .sat-sass { margin-bottom: 10px !important; color: #E9A6BC; font: italic 14px/1.5 var(--serif); }
-        .sat-head { color: #E9A6BC; font-weight: 700; margin-bottom: 6px !important; }
-        .sat-row { display: grid; grid-template-columns: 7.2em 1fr; }
-        .sat-row b { font-weight: 400; color: #D9B8B3; }
-        .sat-row i { font-style: normal; color: #A98F89; }
-        .sat-free span { color: #A98F89; }
-        .sat-foot { margin-top: 12px !important; color: #A98F89; font-size: 12px; }
+        .page { max-width: 1180px; margin: 0 auto; padding: 64px 32px 80px; }
 
-        .links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
-        .links a { padding: 10px 18px; border-radius: 999px; font-size: 14px; text-decoration: none; border: 1px solid var(--mul); color: var(--mul); }
-        .links a.solid, .links a:hover { background: var(--mul); color: #fff; }
-        footer { margin-top: 44px; font-size: 13px; color: var(--muted); }
-        @media (max-width: 560px) {
-            .sat-form { grid-template-columns: 1fr; }
-            .sat-actions { flex-direction: column; }
-            .sat-row { grid-template-columns: 6.4em 1fr; }
+        /* hero */
+        .kicker { margin: 0 0 18px; font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--rose); }
+        h1 { margin: 0; font-family: var(--display); font-weight: 500; font-size: clamp(46px, 7vw, 86px); line-height: 0.98; letter-spacing: -0.01em; }
+        .headline { margin: 18px 0 0; font-family: var(--serif); font-style: italic; font-size: clamp(21px, 2.4vw, 28px); line-height: 1.3; color: var(--rose-deep); max-width: 30em; }
+        .intro { margin: 22px 0 0; max-width: 40em; font-size: 16.5px; line-height: 1.7; color: var(--muted); }
+        .hero { padding-bottom: 44px; border-bottom: 1px solid var(--rule); }
+
+        /* the two columns */
+        .planner { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 56px; padding-top: 44px; align-items: start; }
+
+        /* controls */
+        .field { padding: 0 0 26px; margin: 0 0 26px; border-bottom: 1px solid var(--rule); }
+        .field:last-child { border-bottom: 0; }
+        .label { display: block; margin: 0 0 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--olive); }
+        .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+        .pair .field { border-bottom: 0; margin: 0; padding: 0; }
+        input[type="time"], select, input[type="text"] {
+            width: 100%; font: 17px var(--serif); color: var(--choc); background: transparent;
+            border: 0; border-bottom: 1px solid #CDB3AB; border-radius: 0; padding: 6px 0 8px; appearance: none; -webkit-appearance: none;
         }
+        select { background: linear-gradient(45deg, transparent 50%, var(--rose) 50%) right 6px center / 6px 6px no-repeat,
+                            linear-gradient(-45deg, transparent 50%, var(--rose) 50%) right 0 center / 6px 6px no-repeat; padding-right: 22px; }
+        input::placeholder { color: #B79E97; font-style: italic; }
+        input:focus, select:focus { outline: none; border-bottom-color: var(--rose); }
+
+        .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+        .chip { position: relative; }
+        .chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+        .chip span { display: inline-block; padding: 8px 15px; border: 1px solid #D9C1BA; border-radius: 999px; font-size: 14px; color: var(--choc); background: var(--ivory); transition: background .15s, color .15s, border-color .15s; }
+        .chip input:checked + span { background: var(--choc); border-color: var(--choc); color: var(--ivory); }
+        .chip input:focus-visible + span { outline: 2px solid var(--rose); outline-offset: 2px; }
+        .chip:hover span { border-color: var(--rose); }
+
+        .toggles { display: flex; gap: 24px; flex-wrap: wrap; }
+        .toggle { display: inline-flex; align-items: center; gap: 10px; font-size: 15px; cursor: pointer; }
+        .toggle input { appearance: none; -webkit-appearance: none; width: 36px; height: 20px; border-radius: 999px; background: #E3CCC5; position: relative; margin: 0; cursor: pointer; transition: background .15s; }
+        .toggle input::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--ivory); transition: transform .15s; box-shadow: 0 1px 2px rgba(42, 24, 16, .2); }
+        .toggle input:checked { background: var(--olive); }
+        .toggle input:checked::after { transform: translateX(16px); }
+        .hint { margin: 8px 0 0; font-size: 13px; font-style: italic; color: var(--muted); }
+
+        /* the day */
+        .day { position: sticky; top: 24px; background: var(--ivory); border: 1px solid var(--rule); padding: 30px 28px 26px; }
+        .day-head { margin: 0; font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--olive); }
+        .day-sub { margin: 2px 0 18px; font-family: var(--serif); font-style: italic; font-size: 24px; color: var(--rose-deep); }
+        .sass { margin: 0 0 16px; padding: 0 0 14px; border-bottom: 1px solid var(--rule); }
+        .sass p { margin: 0 0 6px; font-family: var(--serif); font-style: italic; font-size: 14.5px; color: var(--rose); }
+        .status { font-family: var(--serif); font-style: italic; color: var(--muted); font-size: 15px; }
+        .day.thinking .timeline { opacity: 0.45; transition: opacity .2s; }
+
+        .timeline { list-style: none; margin: 0; padding: 0 0 0 22px; position: relative; }
+        .timeline::before { content: ""; position: absolute; left: 4px; top: 8px; bottom: 8px; width: 1px; background: #D8BFB8; }
+        .timeline li { position: relative; }
+        .timeline li::before { content: ""; position: absolute; left: -22px; top: 7px; width: 9px; height: 9px; border-radius: 50%; background: var(--rose); }
+        .t { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: 0.12em; color: var(--olive); }
+        .stop { padding: 2px 0 14px; }
+        .stop .name { margin: 3px 0 2px; font-family: var(--serif); font-size: 19px; line-height: 1.2; letter-spacing: 0.02em; text-transform: uppercase; }
+        .stop .meta { margin: 0; font-size: 14px; color: var(--muted); }
+        .stop .tag { margin: 4px 0 0; font-size: 10.5px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #B08A86; }
+        .why { margin: 8px 0 0; font-family: var(--serif); font-style: italic; font-size: 13.5px; color: var(--rose); }
+        .why::before { content: "✦ "; font-style: normal; font-size: 11px; }
+        .timeline li.reset::before { background: var(--ivory); border: 1px solid var(--rose); }
+        .reset { padding: 2px 0 14px; }
+        .reset .name { margin: 3px 0 0; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; color: var(--choc); }
+        .reset .meta { margin: 0; font-family: var(--serif); font-style: italic; font-size: 14.5px; color: var(--muted); }
+        .timeline li.travel::before, .timeline li.free::before { display: none; }
+        .travel { padding: 0 0 12px; font-family: var(--serif); font-style: italic; font-size: 13px; color: #A58E88; }
+        .free { padding: 0 0 12px; font-family: var(--serif); font-style: italic; font-size: 13.5px; color: var(--olive); }
+        .timeline li.home::before { background: var(--choc); }
+        .home .meta { margin: 3px 0 0; font-family: var(--serif); font-style: italic; font-size: 15px; }
+
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin: 20px 0 0; padding: 16px 0 0; border-top: 1px solid var(--rule); }
+        .stats div { text-align: left; }
+        .stats b { display: block; font-family: var(--serif); font-weight: 400; font-size: 24px; line-height: 1.1; }
+        .stats span { font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+        .again { display: block; width: 100%; margin: 22px 0 0; padding: 14px 18px; border: 0; background: var(--choc); color: var(--ivory); font: 700 12px var(--sans); letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: background .15s; }
+        .again:hover { background: var(--rose-deep); }
+        .again:disabled { opacity: 0.6; cursor: progress; }
+        .number { margin: 10px 0 0; text-align: center; font-family: var(--serif); font-style: italic; font-size: 13.5px; color: var(--muted); }
+
+        /* how it works */
+        .how { margin: 64px 0 0; border-top: 1px solid var(--rule); padding-top: 28px; max-width: 760px; }
+        .how summary { cursor: pointer; list-style: none; font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--olive); }
+        .how summary::-webkit-details-marker { display: none; }
+        .how summary::after { content: " +"; color: var(--rose); }
+        .how[open] summary::after { content: " –"; }
+        .how .lede { margin: 18px 0 20px; font-family: var(--serif); font-size: 19px; line-height: 1.6; }
+        .how dl { margin: 0; }
+        .how dt { margin: 18px 0 4px; font-family: var(--serif); font-weight: 700; font-size: 16px; }
+        .how dd { margin: 0; font-size: 15px; line-height: 1.65; color: var(--muted); }
+        .how code { font-size: 13px; background: var(--blush); padding: 1px 5px; }
+
+        footer { margin: 56px 0 0; padding-top: 22px; border-top: 1px solid var(--rule); display: flex; gap: 22px; flex-wrap: wrap; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; }
+        footer a { text-decoration: none; color: var(--rose-deep); border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+        footer span { margin-left: auto; letter-spacing: 0; text-transform: none; font-style: italic; font-family: var(--serif); color: var(--muted); }
+
+        @media (max-width: 880px) {
+            .page { padding: 40px 18px 60px; }
+            .planner { grid-template-columns: 1fr; gap: 36px; }
+            .day { position: static; padding: 24px 20px; }
+            .pair { gap: 18px; }
+            footer span { margin-left: 0; width: 100%; }
+        }
+        @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
     </style>
 </head>
 <body>
-<main>
-    <span class="badge">✦ Suhani Coded™</span>
-    <h1>Saturday in Austin</h1>
-    <p class="sub">Tell it when you wake up, when you go to bed and how long you want to be out. It plans the day from my favorite Austin spots: coffee first, brunch before noon, dinner somewhere wonderful. Every click is a different Saturday.</p>
+<div class="page">
+    <header class="hero">
+        <p class="kicker">✦ Suhani Coded™</p>
+        <h1>Saturday in Austin</h1>
+        <p class="headline">Tell me when you’re free. I’ll figure out what we’re doing.</p>
+        <p class="intro">I gave Python my favorite Austin spots and, apparently, my opinions about how a Saturday should work. Coffee belongs in the morning. Saturday is for brunch. You probably want to shower after Pilates. And I’m not sending you from South Congress to the Domain and back for no reason. Tell me your timing, your mood, and how much energy you have. I’ll plan the rest.</p>
+    </header>
 
-    <div class="sat-planner">
-        <div class="bar"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span><em>python -m saturday</em></div>
-        <form class="sat-form">
-            <label>Wake up <input type="time" name="wake" value="09:00" required></label>
-            <label>Bedtime <input type="time" name="sleep" value="23:00" required></label>
-            <label class="sat-hours">Hours out <span><input type="range" name="hours" min="1" max="14" step="0.5" value="8"><output>8</output></span></label>
-            <label>Mood
-                <select name="mood">
-                    <option value="everything">Surprise me</option>
-                    <option value="treat-yourself">Treat yourself</option>
-                    <option value="adventurous">Adventurous</option>
-                    <option value="productive">Productive</option>
-                    <option value="social">Social</option>
-                    <option value="day-in">Day in</option>
-                    <option value="cozy">Cozy &amp; creative</option>
-                    <option value="foodie">Foodie</option>
-                    <option value="music-art">Music &amp; art</option>
-                </select>
-            </label>
-            <label class="sat-where">Where
-                <select name="area">
-                    <option value="anywhere">Anywhere in Austin</option>
-                    <option value="ut">UT Austin</option>
+    <main class="planner">
+        <form class="controls" id="prefs" autocomplete="off">
+            <div class="field pair">
+                <div class="field">
+                    <label class="label" for="start">When do you want to start?</label>
+                    <input type="time" id="start" name="start" value="09:00" required>
+                </div>
+                <div class="field">
+                    <label class="label" for="end">When do you want to be home?</label>
+                    <input type="time" id="end" name="end" value="22:00" required>
+                </div>
+            </div>
+
+            <fieldset class="field" style="border-left:0;border-right:0;border-top:0">
+                <legend class="label">How long do you actually want to be out?</legend>
+                <div class="chips">
+                    <label class="chip"><input type="radio" name="hours" value="4"><span>4 hours</span></label>
+                    <label class="chip"><input type="radio" name="hours" value="6"><span>6 hours</span></label>
+                    <label class="chip"><input type="radio" name="hours" value="8" checked><span>8 hours</span></label>
+                    <label class="chip"><input type="radio" name="hours" value="all"><span>All day</span></label>
+                </div>
+            </fieldset>
+
+            <fieldset class="field" style="border-left:0;border-right:0;border-top:0">
+                <legend class="label">What kind of Saturday?</legend>
+                <div class="chips">
+                    <label class="chip"><input type="radio" name="mood" value="everything" checked><span>Surprise me</span></label>
+                    <label class="chip"><input type="radio" name="mood" value="slow"><span>Slow</span></label>
+                    <label class="chip"><input type="radio" name="mood" value="social"><span>Social</span></label>
+                    <label class="chip"><input type="radio" name="mood" value="creative"><span>Creative</span></label>
+                    <label class="chip"><input type="radio" name="mood" value="foodie"><span>Foodie</span></label>
+                    <label class="chip"><input type="radio" name="mood" value="outside"><span>Outside</span></label>
+                    <label class="chip"><input type="radio" name="mood" value="shopping"><span>Shopping</span></label>
+                    <label class="chip"><input type="radio" name="mood" value="productive"><span>Productive</span></label>
+                    <label class="chip"><input type="radio" name="mood" value="treat-myself"><span>Treat myself</span></label>
+                    <label class="chip"><input type="radio" name="mood" value="day-in"><span>Day in</span></label>
+                </div>
+            </fieldset>
+
+            <div class="field">
+                <label class="label" for="area">Where do you want to spend time?</label>
+                <select id="area" name="area">
+                    <option value="anywhere">Anywhere</option>
+                    <option value="ut">UT / West Campus</option>
                     <option value="downtown">Downtown</option>
-                    <option value="soco">SoCo</option>
                     <option value="east">East Austin</option>
-                    <option value="domain">The Domain</option>
+                    <option value="soco">South Congress</option>
+                    <option value="clarksville">Clarksville / West Austin</option>
+                    <option value="domain">Domain / North Austin</option>
                     <option value="zilker">Zilker</option>
                     <option value="south-lamar">South Lamar</option>
-                    <option value="clarksville">Clarksville &amp; Lake Austin</option>
-                    <option value="north-loop">North Loop &amp; Hyde Park</option>
+                    <option value="north-loop">North Loop / Hyde Park</option>
                     <option value="mueller">Mueller</option>
                 </select>
-            </label>
-            <div class="sat-filters">
-                <label><input type="checkbox" name="walk"> 🚶 No car</label>
-                <label><input type="checkbox" name="rainy"> ☔ Rainy day</label>
             </div>
-            <div class="sat-actions">
-                <button type="submit">Plan my Saturday ✦</button>
-                <button type="button" class="sat-random">🎲 Just pick for me</button>
-            </div>
-        </form>
-        <div class="sat-out" aria-live="polite">
-            <p class="sat-status">Pick your times and hit plan. The Python code in this repo runs right here in your browser, and every click is a different Saturday.</p>
-        </div>
-    </div>
 
-    <div class="links">
-        <a class="solid" href="https://github.com/suhxnitiwari/saturday-in-austin">View the code ↗</a>
+            <div class="field">
+                <span class="label">Anything I should know?</span>
+                <div class="toggles">
+                    <label class="toggle"><input type="checkbox" name="rainy"> Rainy day</label>
+                    <label class="toggle"><input type="checkbox" name="walk"> No car</label>
+                </div>
+                <p class="hint">No car means no walk over a mile. Rain means nothing outdoors.</p>
+            </div>
+
+            <div class="field pair">
+                <div class="field">
+                    <label class="label" for="include">One place I really want to go</label>
+                    <input type="text" id="include" name="include" list="places" placeholder="Josephine House">
+                </div>
+                <div class="field">
+                    <label class="label" for="exclude">Absolutely not</label>
+                    <input type="text" id="exclude" name="exclude" list="nots" placeholder="a place, or “workouts”">
+                </div>
+            </div>
+            <datalist id="places"></datalist>
+            <datalist id="nots">
+                <option value="workouts"></option>
+                <option value="museums"></option>
+                <option value="shopping"></option>
+                <option value="outdoors"></option>
+                <option value="live-music"></option>
+                <option value="studying"></option>
+                <option value="sweets"></option>
+            </datalist>
+        </form>
+
+        <aside class="day" aria-live="polite">
+            <p class="day-head">Your Saturday</p>
+            <p class="day-sub">so far...</p>
+            <div class="sass"></div>
+            <ol class="timeline"></ol>
+            <p class="status">Waking up Python in your browser. The first plan takes a few seconds.</p>
+            <div class="stats" hidden></div>
+            <button type="button" class="again" disabled>Give me another Saturday</button>
+            <p class="number"></p>
+        </aside>
+    </main>
+
+    <details class="how">
+        <summary>Okay, but how does it know?</summary>
+        <p class="lede">I turned Austin into a graph, gave each place constraints, and taught the planner a few rules about being a person. It considers timing, neighborhoods, travel, meals, weather, energy, and what should reasonably come before or after what. Then it finds a day that actually fits.</p>
+        <dl>
+            <dt>Austin is a weighted graph</dt>
+            <dd>Neighborhoods are nodes and roads are edges weighted in drive minutes. <b>Dijkstra’s algorithm</b> with a min-heap finds the fastest drive between any two, and every answer is cached. With No car, each place gets its real coordinates from OpenStreetMap, walks are measured with the haversine formula, and a <b>breadth-first search</b> keeps only places you can reach in hops of a mile or less.</dd>
+            <dt>A weighted lottery picks the candidates</dt>
+            <dd>Each run draws a shortlist with <b>weighted sampling without replacement</b> (Efraimidis–Spirakis: every place gets the key random()<sup>1/weight</sup> and the biggest keys win). Higher-rated places and closer places get more tickets, and on a Saturday morning brunch always gets one.</dd>
+            <dt>Dynamic programming finds the best day</dt>
+            <dd><b>Bitmask dynamic programming over subsets</b>: a state is which places you’ve been to, the last one, when you finish it, and a tiny “person state” (just worked out, just ate, just changed). Each move has to be allowed by the rules, and the day that wins scores 10 points per point of joy minus travel, off-hours timing and a little energy per stop. That turns billions of possible orders into a search that runs in a fraction of a second, in your browser.</dd>
+            <dt>The rules are data, not if-statements</dt>
+            <dd>Every kind of stop carries metadata in <code>rules.py</code>: how filling it is, whether it’s a workout, whether you can show up in workout clothes, when it closes, the hours it’s best at. One function, <code>step()</code>, decides if a move is something a person would do. That’s also where the little “why?” notes come from.</dd>
+            <dt>Every Saturday has a number</dt>
+            <dd>The randomness is seeded, so Saturday #184 is always the same Saturday.</dd>
+            <dt>And it’s tested</dt>
+            <dd>A <b>backtracking search</b> that really tries every possible order runs on dozens of random days, and the dynamic programming has to match its best score every time. Other tests check the people rules one by one: Pilates, then coffee, then a shower is fine; Pilates, then shopping is not; brunch and then lunch 45 minutes later never happens; nothing is ever scheduled outside its hours.</dd>
+        </dl>
+    </details>
+
+    <footer>
+        <a href="https://github.com/suhxnitiwari/saturday-in-austin">View the code</a>
         <a href="https://suhanitiwari.com">suhanitiwari.com</a>
-    </div>
-    <footer>Built by Suhani Tiwari in Python. Runs in your browser with Pyodide.</footer>
-</main>
+        <span>Built by Suhani Tiwari in Python. It runs right here in your browser with Pyodide.</span>
+    </footer>
+</div>
 <script src="web/app.js" defer></script>
 </body>
 </html>

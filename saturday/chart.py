@@ -22,7 +22,7 @@ def draw(plan, path: Path) -> Path:
     ax.set_facecolor("#FBF3EE")
     for i, stop in enumerate(plan.stops):
         start_h, length_h = stop.start / 60, stop.spot.stay / 60
-        ax.barh(0, length_h, left=start_h, height=0.5, color=COLORS[stop.spot.category])
+        ax.barh(0, length_h, left=start_h, height=0.5, color=COLORS.get(stop.spot.category, "#C9969E"))
         y = 0.42 if i % 2 == 0 else -0.42  # alternate labels above and below so they never collide
         ax.text(start_h + length_h / 2, y, stop.spot.name, ha="center", va="center",
                 fontsize=8.5, color="#2A1810")

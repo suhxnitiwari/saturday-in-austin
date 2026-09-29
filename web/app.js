@@ -1,27 +1,31 @@
-// Saturday in Austin ✦ runs the Python planner in this repo
-// in the visitor's browser with Pyodide. Python only downloads once the planner is on screen.
+// Saturday in Austin ✦ runs the Python planner in this repo in the visitor's browser with Pyodide.
+// Every control replans right away with the same Saturday number; "another Saturday" draws a new one.
 (() => {
-    const root = document.querySelector('.sat-planner');
-    if (!root) return;
-
     const PYODIDE = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/';
     const BASE = 'saturday/';  // served straight from this repo by GitHub Pages
-    const FILES = ['__init__.py', '__main__.py', 'city.py', 'planner.py', 'spots.py', 'sass.py', 'web.py', 'data/spots.csv', 'data/shelf.json', 'data/places.json'];
+    const FILES = ['__init__.py', '__main__.py', 'city.py', 'planner.py', 'rules.py', 'spots.py', 'sass.py', 'web.py',
+                   'data/spots.csv', 'data/shelf.json', 'data/places.json'];
 
-    const form = root.querySelector('.sat-form');
-    const out = root.querySelector('.sat-out');
-    const button = form.querySelector('button[type="submit"]');
-    const random = form.querySelector('.sat-random');
-    const hours = form.elements.hours;
-    const hoursOut = form.querySelector('.sat-hours output');
+    const form = document.getElementById('prefs');
+    const day = document.querySelector('.day');
+    const sassBox = day.querySelector('.sass');
+    const list = day.querySelector('.timeline');
+    const status = day.querySelector('.status');
+    const stats = day.querySelector('.stats');
+    const again = day.querySelector('.again');
+    const number = day.querySelector('.number');
 
-    hours.addEventListener('input', () => { hoursOut.textContent = hours.value; });
+    let seed = 1000 + Math.floor(Math.random() * 9000);
 
+    const el = (tag, cls, text) => {
+        const e = document.createElement(tag);
+        if (cls) e.className = cls;
+        if (text != null) e.textContent = text;
+        return e;
+    };
     const loadScript = src => new Promise((resolve, reject) => {
         const s = document.createElement('script');
-        s.src = src;
-        s.onload = resolve;
-        s.onerror = reject;
+        s.src = src; s.onload = resolve; s.onerror = reject;
         document.head.appendChild(s);
     });
 
@@ -37,83 +41,106 @@
                 if (!r.ok) throw new Error(`couldn't load ${f}`);
                 py.FS.writeFile('/home/pyodide/saturday/' + f, await r.text());
             }));
-            py.runPython('import sys; sys.path.insert(0, "/home/pyodide")\nfrom saturday.web import plan_json');
+            py.runPython('import sys; sys.path.insert(0, "/home/pyodide")\nfrom saturday.web import plan_json, names');
+            const places = document.getElementById('places');
+            for (const name of JSON.parse(py.globals.get('names')())) {
+                places.appendChild(Object.assign(document.createElement('option'), { value: name }));
+            }
             return py.globals.get('plan_json');
         })();
-        python.catch(() => { python = null; });  // let the next click try again
+        python.catch(() => { python = null; });  // let the next change try again
         return python;
     }
 
-    // start downloading Python as soon as the slide is on screen, so the first click is quick
-    new IntersectionObserver((entries, obs) => {
-        if (entries.some(e => e.isIntersecting)) { boot().catch(() => {}); obs.disconnect(); }
-    }).observe(root);
-
-    const line = (cls, ...parts) => {
-        const p = document.createElement('p');
-        p.className = cls;
-        parts.forEach(([tag, text]) => {
-            const el = document.createElement(tag);
-            el.textContent = text;
-            p.appendChild(el);
-        });
-        return p;
+    const duration = m => {
+        const h = Math.floor(m / 60), r = m % 60;
+        return h ? (r ? `${h}h ${r}m` : `${h}h`) : `${r} min`;
     };
 
     function draw(plan) {
-        out.replaceChildren();
-        for (const note of plan.sass || []) out.appendChild(line('sat-sass', ['span', note]));
+        sassBox.replaceChildren(...plan.sass.map(n => el('p', null, n)));
+        sassBox.hidden = !plan.sass.length;
+        list.replaceChildren();
         if (!plan.stops.length) {
-            out.appendChild(line('sat-status', ['span', 'Nothing fits. Try more hours out, a later bedtime or a different mood.']));
+            status.textContent = 'Nothing fits. Try a longer day, a later “home by,” or a different mood.';
+            status.hidden = false;
+            stats.hidden = true;
+            number.textContent = '';
             return;
         }
-        out.appendChild(line('sat-head', ['span', 'Your Saturday ✦']));
-        for (const s of plan.stops) {
-            if (s.free) {
-                const h = Math.floor(s.free / 60), m = s.free % 60;
-                out.appendChild(line('sat-row sat-free', ['b', s.time], ['span', `free time (${h ? (m ? `${h}h ${m}m` : `${h}h`) : `${m} min`}): nap, journal, wander`]));
-            } else {
-                const row = line('sat-row', ['b', s.time], ['span', s.name]);
-                if (s.note) row.lastChild.appendChild(Object.assign(document.createElement('i'), { textContent: ` (${s.note})` }));
-                out.appendChild(row);
+        status.hidden = true;
+        const verb = plan.walking ? 'walk' : 'drive';
+        plan.stops.forEach((s, i) => {
+            if (s.type !== 'free' && s.travel && i) list.appendChild(el('li', 'travel', `${s.travel} min ${verb}`));
+            if (s.type === 'free') {
+                list.appendChild(el('li', 'free', `free time · ${duration(s.free)} to wander`));
+                return;
             }
-        }
-        out.appendChild(line('sat-row', ['b', plan.home], ['span', plan.sign_off]));
-        const count = plan.stops.filter(s => s.name).length;
-        out.appendChild(line('sat-foot', ['span',
-            `${count} stop${count === 1 ? '' : 's'} · ${plan.hours_out} hour${plan.hours_out === 1 ? '' : 's'} out · ${plan.driving} min of ${plan.walking ? 'walking' : 'driving'} · Saturday #${plan.seed}`]));
+            const li = el('li', s.type);
+            li.appendChild(el('span', 't', s.time));
+            if (s.type === 'reset') {
+                li.appendChild(el('p', 'name', 'HOME'));
+                li.appendChild(el('p', 'meta', `${s.note} · ${s.minutes} min`));
+            } else {
+                const where = s.where === 'home' ? 'at home' : s.where;
+                li.appendChild(el('p', 'name', s.name));
+                li.appendChild(el('p', 'meta', `${s.note || where} · ${duration(s.minutes)}`));
+                li.appendChild(el('p', 'tag', s.note ? `${s.label} · ${where}` : s.label));
+            }
+            if (s.why) li.appendChild(el('p', 'why', s.why));
+            list.appendChild(li);
+        });
+        if (plan.back) list.appendChild(el('li', 'travel', `${plan.back} min ${verb} home`));
+        const home = el('li', 'home');
+        home.appendChild(el('span', 't', plan.home));
+        home.appendChild(el('p', 'meta', plan.sign_off));
+        list.appendChild(home);
+
+        const st = plan.stats;
+        const figure = (value, label) => {
+            const d = el('div');
+            d.appendChild(el('b', null, value));
+            d.appendChild(el('span', null, label));
+            return d;
+        };
+        stats.replaceChildren(
+            figure(st.stops, st.stops === 1 ? 'stop' : 'stops'),
+            figure(st.hours_out, 'hours out'),
+            figure(st.travel, `min ${plan.walking ? 'walking' : 'driving'}`),
+            figure(st.neighborhoods, st.neighborhoods === 1 ? 'neighborhood' : 'neighborhoods'),
+        );
+        stats.hidden = false;
+        number.textContent = `Saturday #${plan.seed}`;
     }
 
-    // can't decide? pick everything at random, then plan it
-    random.addEventListener('click', () => {
-        const pick = list => list[Math.floor(Math.random() * list.length)];
-        const f = form.elements;
-        const wake = pick([7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12]);
-        const sleep = pick([21, 22, 22.5, 23, 23.5, 24, 25]);  // 24 and 25 are midnight and 1 AM
-        const free = sleep - wake - 1.25;  // minus getting ready and winding down
-        const time = h => `${String(Math.floor(h) % 24).padStart(2, '0')}:${h % 1 ? '30' : '00'}`;
-        f.wake.value = time(wake);
-        f.sleep.value = time(sleep);
-        f.hours.value = pick([3, 4, 5, 6, 7, 8, 9, 10, 11, 12].filter(h => h <= free));
-        hoursOut.textContent = f.hours.value;
-        f.mood.value = pick([...f.mood.options].map(o => o.value));
-        form.requestSubmit(button);
-    });
-
-    form.addEventListener('submit', async e => {
-        e.preventDefault();
-        button.disabled = random.disabled = true;
-        const first = !python;
-        out.replaceChildren(line('sat-status', ['span', first ? 'Waking up Python in your browser… (first time takes a few seconds)' : 'Planning…']));
+    let pending = 0;
+    async function run() {
+        const ticket = ++pending;
+        day.classList.add('thinking');
         try {
             const plan = await boot();
+            // let the "thinking" style paint before Python takes the main thread
+            await new Promise(r => requestAnimationFrame(() => setTimeout(r, 0)));
+            if (ticket !== pending) return;  // a newer change is already on its way
             const f = form.elements;
-            draw(JSON.parse(plan(f.wake.value, f.sleep.value, Number(f.hours.value), f.mood.value, '', f.walk.checked, f.rainy.checked, f.area.value)));
-            button.textContent = 'Plan another ✦';
+            const result = plan(f.start.value, f.end.value, f.hours.value, f.mood.value, String(seed),
+                                f.walk.checked, f.rainy.checked, f.area.value, f.include.value, f.exclude.value);
+            draw(JSON.parse(result));
+            again.disabled = false;
         } catch (err) {
-            out.replaceChildren(line('sat-status', ['span', 'Python took a nap. Check your connection and try again ✦']));
+            status.textContent = 'Python took a nap. Check your connection and refresh ✦';
+            status.hidden = false;
         } finally {
-            button.disabled = random.disabled = false;
+            if (ticket === pending) day.classList.remove('thinking');
         }
-    });
+    }
+
+    let timer;
+    const soon = () => { clearTimeout(timer); timer = setTimeout(run, 250); };
+    form.addEventListener('input', soon);
+    form.addEventListener('change', soon);
+    form.addEventListener('submit', e => { e.preventDefault(); run(); });
+    again.addEventListener('click', () => { seed = 1000 + Math.floor(Math.random() * 9000); run(); });
+
+    run();
 })();

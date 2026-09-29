@@ -8,11 +8,17 @@ from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 DATA = Path(__file__).parent / "data" / "spots.csv"
-MOODS = ("everything", "treat-yourself", "adventurous", "productive", "social", "day-in", "cozy", "foodie", "music-art")
+MOODS = ("everything", "slow", "social", "creative", "foodie", "outside", "shopping", "productive", "treat-myself", "day-in")
+MOOD_NAMES = {"everything": "Surprise me", "slow": "Slow", "social": "Social", "creative": "Creative", "foodie": "Foodie",
+              "outside": "Outside", "shopping": "Shopping", "productive": "Productive", "treat-myself": "Treat myself",
+              "day-in": "Day in"}
 
 # when each kind of stop makes sense: (earliest start, latest start), minutes after midnight
 WINDOWS = {
     "coffee": (7 * 60, 17 * 60),
+    "smoothie": (8 * 60, 18 * 60),
+    "reset-shower": (6 * 60, 22 * 60),
+    "reset-change": (16 * 60 + 30, 21 * 60),
     "brunch": (9 * 60, 12 * 60 + 30),
     "lunch": (11 * 60 + 30, 14 * 60 + 30),
     "study": (8 * 60, 21 * 60),
@@ -65,16 +71,27 @@ HOME = "Home"  # the zone for day-in stops; it becomes wherever the day starts
 # "just the Domain", "just SoCo": the neighborhoods a day can stay inside
 AREAS = {
     "anywhere": ("Anywhere", None),
-    "ut": ("UT Austin", {"Campus", "West Campus"}),
+    "ut": ("UT / West Campus", {"Campus", "West Campus"}),
     "downtown": ("Downtown", {"Downtown"}),
-    "soco": ("SoCo", {"South Congress"}),
     "east": ("East Austin", {"East Austin"}),
-    "domain": ("The Domain", {"Domain"}),
+    "soco": ("South Congress", {"South Congress"}),
+    "clarksville": ("Clarksville / West Austin", {"Clarksville", "Lake Austin"}),
+    "domain": ("Domain / North Austin", {"Domain", "Northwest"}),
     "zilker": ("Zilker", {"Zilker"}),
     "south-lamar": ("South Lamar", {"South Lamar"}),
-    "clarksville": ("Clarksville & Lake Austin", {"Clarksville", "Lake Austin"}),
-    "north-loop": ("North Loop & Hyde Park", {"North Loop"}),
+    "north-loop": ("North Loop / Hyde Park", {"North Loop"}),
     "mueller": ("Mueller", {"Mueller"}),
+}
+
+# what "absolutely not" can rule out besides one place
+NOT_THESE = {
+    "workouts": ("Workouts", {"exercise"}),
+    "museums": ("Museums", {"museum"}),
+    "shopping": ("Shopping", {"shopping", "market"}),
+    "outdoors": ("Anything outdoors", {"hike", "paddle", "swim", "park", "sunset", "murals", "market", "game"}),
+    "live-music": ("Live music", {"live music"}),
+    "studying": ("Studying", {"study"}),
+    "sweets": ("Sweets", {"treat", "late night", "snack"}),
 }
 
 
@@ -93,14 +110,15 @@ class Mood:
 
 RULES = {
     "everything": Mood(),
-    "treat-yourself": Mood(need=("nails",)),  # a Domain day: brunch, nails, shopping, dinner
-    "adventurous": Mood(caps={"outdoor": 2}),  # two adventures, never back to back
-    "productive": Mood(caps={"coffee": 3, "study": 2}),  # café hopping
+    "slow": Mood(late=True),  # a slow morning, lattes, bookstores, nowhere to be
     "social": Mood(need=(), want=("hangout",)),  # Victory Lap or Topgolf with everyone
-    "day-in": Mood(need=(), want=("order in", "movie"), late=True),  # food and a movie, always something to do
-    "cozy": Mood(want=("creative",), caps={"creative": 2}),  # something handmade
+    "creative": Mood(want=("creative",), caps={"creative": 2}),  # studios, murals, a show at night
     "foodie": Mood(need=(), caps={"midday meal": 2, "treat": 2}),  # brunch AND lunch, on purpose
-    "music-art": Mood(want=("live music",)),  # murals and museums by day, a show at night
+    "outside": Mood(caps={"outdoor": 2}),  # two adventures, never back to back
+    "shopping": Mood(want=("shopping",), caps={"shopping": 3}),  # SoCo, the Domain, a treat between
+    "productive": Mood(caps={"coffee": 3, "study": 2}),  # café hopping
+    "treat-myself": Mood(need=("nails",)),  # a Domain day: brunch, nails, shopping, dinner
+    "day-in": Mood(need=(), want=("order in", "movie"), late=True),  # food and a movie, always something to do
 }
 
 
@@ -124,6 +142,7 @@ class Spot:
     joy: int      # 1 to 10
     moods: frozenset
     note: str = ""
+    dressy: bool = False  # worth going home to change for
 
     @property
     def slot(self) -> str:
@@ -144,7 +163,7 @@ class Spot:
 def load(path: Path = DATA) -> list:
     with open(path, newline="", encoding="utf-8") as f:
         return [Spot(r["spot"], r["zone"], r["category"], int(r["stay_minutes"]), int(r["joy"]),
-                     frozenset(r["moods"].split("|")), r["note"])
+                     frozenset(r["moods"].split("|")), r["note"], r.get("dressy") == "yes")
                 for r in csv.DictReader(f)]
 
 
@@ -171,13 +190,17 @@ class Guide:
             return [s for s in self.spots if s.name not in self.home_spots]
         return [s for s in self.spots if mood in s.moods]
 
-    def pool(self, mood: str, must=(), skip=(), rainy: bool = False, near=None, area: str = "anywhere") -> list:
+    def pool(self, mood: str, must=(), skip=(), rainy: bool = False, near=None, area: str = "anywhere",
+             not_these=()) -> list:
         """The spots a mood can pick from, plus must-haves, minus skips, and coffee if it needs it.
         On a rainy day, only indoor spots; with `near`, only spots it says are close enough;
         with an area, only spots in those neighborhoods (on a day in, home counts too)."""
         zones = AREAS[area][1]
-        spots = [s for s in self.for_mood(mood) + list(must)
-                 if s.name not in skip and (s in must or not (rainy and s.category in OUTDOORS)
+        banned = set().union(*(NOT_THESE[n][1] for n in not_these)) if not_these else set()
+        candidates = {s.name: s for s in self.for_mood(mood) + list(must)}.values()  # no duplicates
+        spots = [s for s in candidates
+                 if s.name not in skip and (s in must or s.category not in banned
+                                            and not (rainy and s.category in OUTDOORS)
                                             and (near is None or near(s))
                                             and (zones is None or s.zone in zones
                                                  or mood == "day-in" and s.name in self.home_spots))]
