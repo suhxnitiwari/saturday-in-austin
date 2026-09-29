@@ -85,6 +85,18 @@
         .box:focus { outline: none; border-color: var(--pink); box-shadow: inset 0 0 0 1px var(--pink); }
         input::placeholder { color: #A5A5A5; }
         .hint:empty { display: none; }
+        /* our own dropdowns: square, black-bordered, pink when chosen */
+        .combo { position: relative; }
+        .combo .box { padding-right: 34px; background: linear-gradient(45deg, transparent 50%, var(--ink) 50%) right 18px center / 5px 5px no-repeat,
+                                                     linear-gradient(-45deg, transparent 50%, var(--ink) 50%) right 13px center / 5px 5px no-repeat; }
+        .combo ul { position: absolute; z-index: 30; left: 0; right: 0; top: calc(100% - 1px); max-height: 264px; overflow-y: auto; margin: 0; padding: 0; list-style: none; background: var(--paper); border: 1px solid var(--line); box-shadow: 0 12px 28px -18px rgba(17, 17, 17, 0.45); }
+        .combo ul[hidden] { display: none; }
+        .combo li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; font-size: 14px; cursor: pointer; border-left: 3px solid transparent; }
+        .combo li + li { border-top: 1px solid var(--hair); }
+        .combo li small { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); }
+        .combo li.on, .combo li:hover { background: var(--blush); border-left-color: var(--pink); }
+        .combo li.empty { cursor: default; font-family: var(--typewriter); font-size: 12.5px; color: var(--grey); }
+        .combo li.empty:hover { background: none; border-left-color: transparent; }
         .hint { margin: 8px 0 0; font-family: var(--typewriter); font-size: 12.5px; color: var(--pink-ink); }
 
         /* the day */
@@ -147,15 +159,14 @@
         .method-list dt { margin: 0 0 4px; padding-top: 14px; border-top: 1px solid var(--line); font-family: var(--display); font-weight: 600; font-size: 17px; }
         .method-list dd { margin: 0 0 18px; font-size: 13px; line-height: 1.6; color: #333; }
         .method-list code { font-size: 12px; background: var(--blush); padding: 1px 4px; }
-        .editor { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr) minmax(0, 0.8fr); gap: 40px; align-items: start; padding-top: 6px; }
-        .portrait { margin: 0; }
-        .portrait img { display: block; width: 100%; height: auto; max-height: calc(100vh - 250px); object-fit: cover; object-position: 50% 30%; border: 1px solid var(--line); outline: 1px solid var(--gold); outline-offset: 4px; }
+        .editor { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.8fr); gap: 40px; align-items: start; padding-top: 6px; }
+        .portrait { margin: 0 0 20px; }
+        .portrait img { display: block; width: 100%; height: auto; max-height: calc(100vh - 520px); min-height: 220px; object-fit: cover; object-position: 50% 28%; border: 1px solid var(--line); outline: 1px solid var(--gold); outline-offset: 4px; }
         .portrait figcaption { margin-top: 12px; font-family: var(--typewriter); font-size: 12px; color: var(--grey); }
-        .editor-main { display: grid; gap: 22px; }
         .editor .big { font-size: clamp(40px, 4.4vw, 68px); }
-        .cta { margin-top: 28px; height: 46px; padding: 0 22px; border: 0; background: var(--pink); color: var(--paper); font-size: 11.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
+        .cta { margin-top: 20px; height: 46px; padding: 0 22px; border: 0; background: var(--pink); color: var(--paper); font-size: 11.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
         .cta:hover { background: var(--ink); }
-        .letter { border-top: 1px solid var(--line); padding-top: 18px; }
+        .letter { border-left: 1px solid var(--line); padding-left: 32px; }
         .letter p { margin: 0 0 12px; font-size: 14px; line-height: 1.7; }
         .letter .dear { font-family: var(--display); font-style: italic; font-size: 22px; margin-bottom: 10px; }
         .letter .signoff { margin: 18px 0 0; font-family: var(--typewriter); }
@@ -177,6 +188,7 @@
             .sections { flex-wrap: wrap; }
             .method, .editor, .method-list { grid-template-columns: 1fr; gap: 28px; }
             .portrait img { max-height: 70vh; }
+            .letter { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: 18px; }
             main { grid-template-columns: 1fr; grid-template-rows: auto; gap: 24px; }
             .day { min-height: 0; }
             .scroll { overflow: visible; }
@@ -250,22 +262,9 @@
             <div class="pair-blocks">
                 <section class="block">
                     <h2 class="sec"><i>03</i> Where</h2>
-                    <input class="box" type="text" id="area-text" list="areas" placeholder="Anywhere, or type your neighborhood" autocomplete="off" aria-label="Neighborhood">
+                    <div class="combo"><input class="box" type="text" id="area-text" data-combo="areas" placeholder="Anywhere, or type your neighborhood" autocomplete="off" aria-label="Neighborhood"></div>
                     <input type="hidden" name="area" value="anywhere">
                     <p class="hint" data-area-hint></p>
-                    <datalist id="areas">
-                        <option value="Anywhere"></option>
-                        <option value="UT / West Campus"></option>
-                        <option value="Downtown"></option>
-                        <option value="East Austin"></option>
-                        <option value="South Congress"></option>
-                        <option value="Clarksville / West Austin"></option>
-                        <option value="Domain / North Austin"></option>
-                        <option value="Zilker"></option>
-                        <option value="South Lamar"></option>
-                        <option value="North Loop / Hyde Park"></option>
-                        <option value="Mueller"></option>
-                    </datalist>
                 </section>
                 <section class="block">
                     <h2 class="sec"><i>04</i> Anything I should know?</h2>
@@ -276,11 +275,12 @@
                 </section>
                 <div>
                     <label class="label" for="include">One place I really want to go</label>
-                    <input class="box" type="text" id="include" name="include" list="places" placeholder="Josephine House">
+                    <div class="combo"><input class="box" type="text" id="include" name="include" data-combo="places" placeholder="Josephine House" autocomplete="off"></div>
                 </div>
                 <div>
-                    <label class="label" for="exclude">Absolutely not</label>
-                    <input class="box" type="text" id="exclude" name="exclude" list="nots" placeholder="a place, or workouts, sweets…">
+                    <label class="label" for="exclude-text">Absolutely not</label>
+                    <div class="combo"><input class="box" type="text" id="exclude-text" data-combo="nots" placeholder="A place, or workouts, sweets…" autocomplete="off">
+                    <input type="hidden" name="exclude" value=""></div>
                 </div>
             </div>
 
@@ -290,16 +290,6 @@
                 <div class="glance" aria-hidden="true"></div>
                 <div class="glance-times"><span></span><span></span></div>
             </figure>
-            <datalist id="places"></datalist>
-            <datalist id="nots">
-                <option value="workouts"></option>
-                <option value="museums"></option>
-                <option value="shopping"></option>
-                <option value="outdoors"></option>
-                <option value="live-music"></option>
-                <option value="studying"></option>
-                <option value="sweets"></option>
-            </datalist>
         </form>
 
         <aside class="day" aria-live="polite">
@@ -345,13 +335,11 @@
     </section>
 
     <section class="screen editor" id="screen-editor" hidden>
-        <figure class="portrait">
-            <img src="docs/editor.webp" alt="Suhani in a pink and brown argyle cardigan, smiling down at a latte with a heart in the foam" width="1132" height="1390">
-            <figcaption>The editor, mid-latte. Research is research.</figcaption>
-        </figure>
-        <div class="editor-main">
         <div class="editor-head">
-            <p class="kicker">The Editor</p>
+            <figure class="portrait">
+                <img src="docs/editor.webp" alt="Suhani in a pink and brown argyle cardigan, smiling down at a latte with a heart in the foam" width="1132" height="1390">
+                <figcaption>The editor, mid-latte. Research is research.</figcaption>
+            </figure>
             <h2 class="big">The OG coffee connoisseur <em>&amp;</em> brunch queen.</h2>
             <p class="dek">Suhani Tiwari. MIS and Psychology at UT Austin. Opinions, mostly about Saturdays.</p>
             <button type="button" class="cta" data-go="plan">Plan my Saturday →</button>
@@ -364,14 +352,13 @@
             <p class="signoff">xoxo,</p>
             <p class="monogram" aria-label="Suhani Tiwari"><span>S</span><span>T</span></p>
         </article>
-        </div>
         <aside class="picks">
             <p class="label">Editor’s picks</p>
             <dl>
                 <dt>The latte</dt><dd>Medici. Vanilla, always.</dd>
                 <dt>The brunch</dt><dd>Josephine House.</dd>
                 <dt>The reset</dt><dd>Pilates at Prana.</dd>
-                <dt>The dinner</dt><dd>Numero 28. Good memories.</dd>
+                <dt>The dinner</dt><dd>Aba. My favorite.</dd>
                 <dt>The guilty pleasure</dt><dd>Pizza Press, after 9.</dd>
             </dl>
             <p class="label rules-label">The rules</p>
@@ -387,6 +374,6 @@
 </div>
 
 
-<script src="web/app.js?v=9" defer></script>
+<script src="web/app.js?v=11" defer></script>
 </body>
 </html>

@@ -16,6 +16,7 @@
     const number = day.querySelector('.number');
 
     let seed = 1000 + Math.floor(Math.random() * 9000);
+    const PLACES = [];  // every spot, filled in once Python has loaded
 
     const el = (tag, cls, text) => {
         const e = document.createElement(tag);
@@ -42,10 +43,7 @@
                 py.FS.writeFile('/home/pyodide/saturday/' + f, await r.text());
             }));
             py.runPython('import sys; sys.path.insert(0, "/home/pyodide")\nfrom saturday.web import plan_json, names');
-            const places = document.getElementById('places');
-            for (const name of JSON.parse(py.globals.get('names')())) {
-                places.appendChild(Object.assign(document.createElement('option'), { value: name }));
-            }
+            PLACES.push(...JSON.parse(py.globals.get('names')()));
             return py.globals.get('plan_json');
         })();
         python.catch(() => { python = null; });  // let the next change try again
@@ -184,6 +182,69 @@
     sections.forEach(b => b.addEventListener('click', () => show(b.dataset.screen)));
     document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => show(b.dataset.go)));
 
+    // our own dropdowns (the browser's datalist popups don't match the page)
+    const NOTS = { Workouts: 'workouts', Museums: 'museums', Shopping: 'shopping', 'Anything outdoors': 'outdoors',
+                   'Live music': 'live-music', Studying: 'studying', Sweets: 'sweets' };
+    const SOURCES = {
+        areas: () => ['Anywhere', 'UT / West Campus', 'Downtown', 'East Austin', 'South Congress', 'Clarksville / West Austin',
+                      'Domain / North Austin', 'Zilker', 'South Lamar', 'North Loop / Hyde Park', 'Mueller'].map(v => [v, '']),
+        places: () => PLACES.map(v => [v, '']),
+        nots: () => [...Object.keys(NOTS).map(v => [v, 'kind']), ...PLACES.map(v => [v, ''])],
+    };
+    form.querySelectorAll('[data-combo]').forEach((input, n) => {
+        const list = Object.assign(document.createElement('ul'), { id: `combo-${n}`, hidden: true });
+        list.setAttribute('role', 'listbox');
+        input.after(list);
+        input.setAttribute('role', 'combobox');
+        input.setAttribute('aria-expanded', 'false');
+        input.setAttribute('aria-controls', list.id);
+        let items = [], at = -1;
+        const close = () => { list.hidden = true; input.setAttribute('aria-expanded', 'false'); at = -1; };
+        const choose = value => { input.value = value; close(); input.dispatchEvent(new Event('input', { bubbles: true })); };
+        const mark = () => [...list.children].forEach((li, i) => {
+            li.classList.toggle('on', i === at);
+            if (i === at) { li.scrollIntoView({ block: 'nearest' }); input.setAttribute('aria-activedescendant', li.id); }
+        });
+        function open() {
+            const q = input.value.trim().toLowerCase();
+            const all = SOURCES[input.dataset.combo]();
+            const exact = all.some(([v]) => v.toLowerCase() === q);
+            items = all.filter(([v]) => !q || exact || v.toLowerCase().includes(q)).slice(0, 40);
+            list.replaceChildren(...(items.length ? items.map(([v, tag], i) => {
+                const li = Object.assign(document.createElement('li'), { id: `${list.id}-${i}` });
+                li.setAttribute('role', 'option');
+                li.append(v);
+                if (tag) li.appendChild(Object.assign(document.createElement('small'), { textContent: tag }));
+                li.addEventListener('mousedown', e => { e.preventDefault(); choose(v); });
+                return li;
+            }) : [Object.assign(document.createElement('li'), { className: 'empty', textContent: PLACES.length ? 'Nothing by that name. Yet.' : 'Still loading the places…' })]));
+            at = -1;
+            list.hidden = false;
+            input.setAttribute('aria-expanded', 'true');
+        }
+        input.addEventListener('focus', open);
+        input.addEventListener('click', open);
+        input.addEventListener('input', e => { if (e.isTrusted) open(); });
+        input.addEventListener('blur', close);
+        input.addEventListener('keydown', e => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                if (list.hidden) open();
+                at = Math.max(0, Math.min(items.length - 1, at + (e.key === 'ArrowDown' ? 1 : -1)));
+                mark(); e.preventDefault();
+            } else if (e.key === 'Enter') {
+                if (!list.hidden && at >= 0 && items[at]) choose(items[at][0]);
+                e.preventDefault();
+            } else if (e.key === 'Escape') close();
+        });
+    });
+
+    // "absolutely not": the friendly names become what the planner understands
+    const excludeText = document.getElementById('exclude-text');
+    excludeText.addEventListener('input', () => {
+        const v = excludeText.value.trim();
+        form.elements.exclude.value = NOTS[v] || v;
+    });
+
     // "where": type a neighborhood (or pick one); nicknames welcome
     const AREAS = {
         anywhere: ['anywhere', 'anywhere in austin', 'all of austin', 'austin', ''],
@@ -207,7 +268,6 @@
         areaHint.textContent = key || !typed ? '' : `I don’t know “${areaText.value.trim()}” yet, so anywhere it is.`;
     }
     areaText.addEventListener('input', readArea);
-    areaText.addEventListener('focus', () => areaText.select());
 
     run();
 })();
