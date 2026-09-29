@@ -49,12 +49,13 @@
 
         main { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); gap: 36px; min-height: 0; }
 
-        /* controls: four tabs, one panel at a time */
-        form { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-height: 0; }
+        /* controls: one calm column of numbered sections */
+        form { display: flex; flex-direction: column; gap: 22px; min-height: 0; height: 100%; }
+        .block { display: grid; gap: 10px; }
         /* bottom left: the day's one-line verdict and the day at a glance */
-        .verdict { margin: 0; padding: 22px 0 0; border-top: 1px solid var(--line); }
+        .verdict { margin: auto 0 0; padding: 18px 0 0; border-top: 1px solid var(--line); }
         .verdict[hidden] { display: none; }
-        .verdict blockquote { margin: 0 0 18px; font-family: var(--display); font-style: italic; font-size: clamp(26px, 2.6vw, 40px); line-height: 1.12; max-width: 22ch; }
+        .verdict blockquote { margin: 0 0 16px; font-family: var(--display); font-style: italic; font-size: clamp(24px, 2.4vw, 36px); line-height: 1.12; max-width: 24ch; }
         .verdict blockquote::before { content: "“"; color: var(--pink); }
         .verdict blockquote::after { content: "”"; color: var(--pink); }
         .glance { position: relative; height: 14px; border: 1px solid var(--line); }
@@ -63,35 +64,28 @@
         .glance i.food { background: var(--pink); }
         .glance i.home { background: repeating-linear-gradient(45deg, var(--paper) 0 3px, var(--ink) 3px 4px); }
         .glance-times { display: flex; justify-content: space-between; margin-top: 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; color: var(--grey); }
-        .tabs { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--line); }
-        .tabs button { position: relative; text-align: left; padding: 10px 14px 12px; border: 0; background: none; cursor: pointer; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); }
-        .tabs button i { font-style: normal; font-family: var(--display); font-size: 15px; letter-spacing: 0; margin-right: 6px; color: var(--gold); }
-        .tabs button small { display: block; margin-top: 4px; font-size: 11px; font-weight: 400; letter-spacing: 0; text-transform: none; font-family: var(--typewriter); color: var(--grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .tabs button[aria-selected="true"] { color: var(--ink); }
-        .tabs button[aria-selected="true"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: var(--pink); }
-        .tabs button:hover { color: var(--ink); }
-        .panel { padding: 30px 0 0; display: grid; gap: 26px; align-content: start; max-width: 620px; }
-        .panel[hidden] { display: none; }
+        .block.when { grid-template-columns: 1fr 1fr 2fr; gap: 10px 14px; align-items: end; }
+        .block.when .sec { grid-column: 1 / -1; }
+        .pair-blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 18px; align-items: start; }
+        .sec { margin: 0; padding-bottom: 6px; border-bottom: 1px solid var(--line); font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+        .sec i { font-style: normal; font-family: var(--display); font-size: 16px; letter-spacing: 0; margin-right: 8px; color: var(--gold); }
         fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
-        .row.two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
         .label { display: block; margin: 0 0 8px; padding: 0; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
         .seg { display: grid; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
         .seg.four { grid-template-columns: repeat(4, 1fr); }
         .seg.two { grid-template-columns: repeat(2, 1fr); }
-        .seg.grid { grid-template-columns: repeat(3, 1fr); }
+        .seg.five { grid-template-columns: repeat(5, 1fr); }
         .seg label { position: relative; display: block; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
         .seg input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
-        .seg span { display: flex; align-items: center; justify-content: center; height: 46px; padding: 0 8px; font-size: 13px; font-weight: 600; text-align: center; transition: background .12s, color .12s; }
+        .seg span { display: flex; align-items: center; justify-content: center; height: 42px; padding: 0 8px; font-size: 13px; font-weight: 600; text-align: center; transition: background .12s, color .12s; }
         .seg label:hover span { background: var(--blush); }
         .seg input:checked + span { background: var(--ink); color: var(--paper); }
         .seg input:focus-visible + span { outline: 2px solid var(--pink); outline-offset: -4px; }
-        .seg .filler span { background: repeating-linear-gradient(45deg, transparent 0 6px, #F2F2F2 6px 7px); }
-        .seg .filler:hover span { background: repeating-linear-gradient(45deg, transparent 0 6px, #F2F2F2 6px 7px); }
-        .box { width: 100%; height: 46px; border: 1px solid var(--line); border-radius: 0; background: var(--paper); padding: 0 12px; font-size: 14px; color: var(--ink); appearance: none; -webkit-appearance: none; }
+        .box { width: 100%; height: 42px; border: 1px solid var(--line); border-radius: 0; background: var(--paper); padding: 0 12px; font-size: 14px; color: var(--ink); appearance: none; -webkit-appearance: none; }
         .box:focus { outline: none; border-color: var(--pink); box-shadow: inset 0 0 0 1px var(--pink); }
         input::placeholder { color: #A5A5A5; }
-        .next { justify-self: start; height: 40px; padding: 0 18px; border: 1px solid var(--line); background: var(--paper); font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; }
-        .next:hover { background: var(--ink); color: var(--paper); }
+        .hint:empty { display: none; }
+        .hint { margin: 8px 0 0; font-family: var(--typewriter); font-size: 12.5px; color: var(--pink-ink); }
 
         /* the day */
         .day { display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; min-height: 0; border: 2px solid var(--line); background: var(--paper); outline: 1px solid var(--gold); outline-offset: 4px; margin: 5px; }
@@ -184,13 +178,13 @@
             .scroll { overflow: visible; }
         }
         @media (max-width: 560px) {
-            .seg.grid { grid-template-columns: repeat(2, 1fr); }
-            .seg .filler { display: none; }
-            .tabs button { padding: 10px 8px 12px; letter-spacing: 0.08em; }
-            .tabs button small { display: none; }
+            .seg.five { grid-template-columns: repeat(2, 1fr); }
+            .block.when, .pair-blocks { grid-template-columns: 1fr 1fr; }
+            .block.when .span2 { grid-column: 1 / -1; }
             .again-row { grid-template-columns: 1fr; }
             .number { border-left: 0; border-top: 1px solid var(--line); padding: 10px 14px; }
         }
+        @media (max-height: 800px) and (min-width: 1001px) { .verdict { display: none !important; } }
         @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
     </style>
 </head>
@@ -212,93 +206,80 @@
 
     <main class="screen" id="screen-plan">
         <form id="prefs" autocomplete="off">
-            <div class="tabs" role="tablist" aria-label="Plan your Saturday">
-                <button type="button" role="tab" id="tab-when" aria-controls="panel-when" aria-selected="true"><i>01</i> When<small data-show="when"></small></button>
-                <button type="button" role="tab" id="tab-mood" aria-controls="panel-mood" aria-selected="false" tabindex="-1"><i>02</i> Mood<small data-show="mood"></small></button>
-                <button type="button" role="tab" id="tab-where" aria-controls="panel-where" aria-selected="false" tabindex="-1"><i>03</i> Where<small data-show="where"></small></button>
-                <button type="button" role="tab" id="tab-extras" aria-controls="panel-extras" aria-selected="false" tabindex="-1"><i>04</i> Extras<small data-show="extras"></small></button>
-            </div>
-
-            <section class="panel" id="panel-when" role="tabpanel" aria-labelledby="tab-when">
-                <div class="row two">
-                    <div>
-                        <label class="label" for="start">Start</label>
-                        <input class="box" type="time" id="start" name="start" value="09:00" required>
-                    </div>
-                    <div>
-                        <label class="label" for="end">Home by</label>
-                        <input class="box" type="time" id="end" name="end" value="22:00" required>
-                    </div>
+            <section class="block when">
+                <h2 class="sec"><i>01</i> When</h2>
+                <div>
+                    <label class="label" for="start">Start</label>
+                    <input class="box" type="time" id="start" name="start" value="09:00" required>
                 </div>
-                <fieldset>
-                    <legend class="label">How long do you actually want to be out?</legend>
+                <div>
+                    <label class="label" for="end">Home by</label>
+                    <input class="box" type="time" id="end" name="end" value="22:00" required>
+                </div>
+                <fieldset class="span2">
+                    <legend class="label">How long, actually?</legend>
                     <div class="seg four">
-                        <label><input type="radio" name="hours" value="4"><span>4 hours</span></label>
-                        <label><input type="radio" name="hours" value="6"><span>6 hours</span></label>
-                        <label><input type="radio" name="hours" value="8" checked><span>8 hours</span></label>
+                        <label><input type="radio" name="hours" value="4"><span>4 hrs</span></label>
+                        <label><input type="radio" name="hours" value="6"><span>6 hrs</span></label>
+                        <label><input type="radio" name="hours" value="8" checked><span>8 hrs</span></label>
                         <label><input type="radio" name="hours" value="all"><span>All day</span></label>
                     </div>
                 </fieldset>
-                <button type="button" class="next" data-next="tab-mood">Next: mood →</button>
             </section>
 
-            <section class="panel" id="panel-mood" role="tabpanel" aria-labelledby="tab-mood" hidden>
-                <fieldset>
-                    <legend class="label">What kind of Saturday?</legend>
-                    <div class="seg grid">
-                        <label><input type="radio" name="mood" value="everything" checked><span>Surprise me</span></label>
-                        <label><input type="radio" name="mood" value="slow"><span>Slow</span></label>
-                        <label><input type="radio" name="mood" value="social"><span>Social</span></label>
-                        <label><input type="radio" name="mood" value="creative"><span>Creative</span></label>
-                        <label><input type="radio" name="mood" value="foodie"><span>Foodie</span></label>
-                        <label><input type="radio" name="mood" value="outside"><span>Outside</span></label>
-                        <label><input type="radio" name="mood" value="shopping"><span>Shopping</span></label>
-                        <label><input type="radio" name="mood" value="productive"><span>Productive</span></label>
-                        <label><input type="radio" name="mood" value="treat-myself"><span>Treat myself</span></label>
-                        <label><input type="radio" name="mood" value="day-in"><span>Day in</span></label>
-                    </div>
-                </fieldset>
-                <button type="button" class="next" data-next="tab-where">Next: where →</button>
+            <section class="block">
+                <h2 class="sec"><i>02</i> What kind of Saturday?</h2>
+                <div class="seg five">
+                    <label><input type="radio" name="mood" value="everything" checked><span>Surprise me</span></label>
+                    <label><input type="radio" name="mood" value="slow"><span>Slow</span></label>
+                    <label><input type="radio" name="mood" value="social"><span>Social</span></label>
+                    <label><input type="radio" name="mood" value="creative"><span>Creative</span></label>
+                    <label><input type="radio" name="mood" value="foodie"><span>Foodie</span></label>
+                    <label><input type="radio" name="mood" value="outside"><span>Outside</span></label>
+                    <label><input type="radio" name="mood" value="shopping"><span>Shopping</span></label>
+                    <label><input type="radio" name="mood" value="productive"><span>Productive</span></label>
+                    <label><input type="radio" name="mood" value="treat-myself"><span>Treat myself</span></label>
+                    <label><input type="radio" name="mood" value="day-in"><span>Day in</span></label>
+                </div>
             </section>
 
-            <section class="panel" id="panel-where" role="tabpanel" aria-labelledby="tab-where" hidden>
-                <fieldset>
-                    <legend class="label">Where do you want to spend time?</legend>
-                    <div class="seg grid">
-                        <label><input type="radio" name="area" value="anywhere" checked><span>Anywhere</span></label>
-                        <label><input type="radio" name="area" value="ut"><span>UT / West Campus</span></label>
-                        <label><input type="radio" name="area" value="downtown"><span>Downtown</span></label>
-                        <label><input type="radio" name="area" value="east"><span>East Austin</span></label>
-                        <label><input type="radio" name="area" value="soco"><span>South Congress</span></label>
-                        <label><input type="radio" name="area" value="clarksville"><span>Clarksville</span></label>
-                        <label><input type="radio" name="area" value="domain"><span>The Domain</span></label>
-                        <label><input type="radio" name="area" value="zilker"><span>Zilker</span></label>
-                        <label><input type="radio" name="area" value="south-lamar"><span>South Lamar</span></label>
-                        <label><input type="radio" name="area" value="north-loop"><span>North Loop</span></label>
-                        <label><input type="radio" name="area" value="mueller"><span>Mueller</span></label>
-                        <label class="filler" aria-hidden="true"><span></span></label>
-                    </div>
-                </fieldset>
-                <button type="button" class="next" data-next="tab-extras">Next: extras →</button>
-            </section>
-
-            <section class="panel" id="panel-extras" role="tabpanel" aria-labelledby="tab-extras" hidden>
-                <fieldset>
-                    <legend class="label">Anything I should know?</legend>
+            <div class="pair-blocks">
+                <section class="block">
+                    <h2 class="sec"><i>03</i> Where</h2>
+                    <input class="box" type="text" id="area-text" list="areas" placeholder="Anywhere, or type your neighborhood" autocomplete="off" aria-label="Neighborhood">
+                    <input type="hidden" name="area" value="anywhere">
+                    <p class="hint" data-area-hint></p>
+                    <datalist id="areas">
+                        <option value="Anywhere"></option>
+                        <option value="UT / West Campus"></option>
+                        <option value="Downtown"></option>
+                        <option value="East Austin"></option>
+                        <option value="South Congress"></option>
+                        <option value="Clarksville / West Austin"></option>
+                        <option value="Domain / North Austin"></option>
+                        <option value="Zilker"></option>
+                        <option value="South Lamar"></option>
+                        <option value="North Loop / Hyde Park"></option>
+                        <option value="Mueller"></option>
+                    </datalist>
+                </section>
+                <section class="block">
+                    <h2 class="sec"><i>04</i> Anything I should know?</h2>
                     <div class="seg two">
                         <label><input type="checkbox" name="rainy"><span>Rainy day</span></label>
                         <label><input type="checkbox" name="walk"><span>No car</span></label>
                     </div>
-                </fieldset>
+                </section>
                 <div>
                     <label class="label" for="include">One place I really want to go</label>
                     <input class="box" type="text" id="include" name="include" list="places" placeholder="Josephine House">
                 </div>
                 <div>
                     <label class="label" for="exclude">Absolutely not</label>
-                    <input class="box" type="text" id="exclude" name="exclude" list="nots" placeholder="a place, or workouts, museums, shopping, sweets…">
+                    <input class="box" type="text" id="exclude" name="exclude" list="nots" placeholder="a place, or workouts, sweets…">
                 </div>
-            </section>
+            </div>
+
             <figure class="verdict" hidden>
                 <figcaption class="label">Today’s verdict</figcaption>
                 <blockquote></blockquote>
@@ -340,8 +321,8 @@
     <section class="screen method" id="screen-method" hidden>
         <div class="method-intro">
             <p class="kicker">The Method</p>
-            <h2 class="big">Okay, but how does it <em>know?</em></h2>
-            <p class="dek">I turned Austin into a graph, gave each place constraints, and taught the planner a few rules about being a person. It considers timing, neighborhoods, travel, meals, weather, energy, and what should reasonably come before or after what. Then it finds a day that actually fits.</p>
+            <h2 class="big">Okay, but how is it <em>in the know?</em></h2>
+            <p class="dek">I turned Austin into a graph, gave every place its own rules, and taught the planner how a girl actually spends a Saturday. It keeps track of the time, the neighborhood, the drive, when you last ate, the weather and how much energy you have left. It knows what belongs before brunch and what never happens right after Pilates. Then it finds the one day that actually fits. On Saturdays, we brunch.</p>
         </div>
         <dl class="method-list">
             <dt>Austin is a weighted graph</dt>
@@ -396,6 +377,6 @@
 </div>
 
 
-<script src="web/app.js?v=7" defer></script>
+<script src="web/app.js?v=9" defer></script>
 </body>
 </html>

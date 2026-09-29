@@ -184,38 +184,30 @@
     sections.forEach(b => b.addEventListener('click', () => show(b.dataset.screen)));
     document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => show(b.dataset.go)));
 
-    // the planner's four tabs, one panel at a time
-    const tabs = [...form.querySelectorAll('[role="tab"]')];
-    const pick = tab => tabs.forEach(t => {
-        const on = t === tab;
-        t.setAttribute('aria-selected', on);
-        t.tabIndex = on ? 0 : -1;
-        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
-    });
-    tabs.forEach((t, i) => {
-        t.addEventListener('click', () => pick(t));
-        t.addEventListener('keydown', e => {
-            const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
-            if (step) { const next = tabs[(i + step + tabs.length) % tabs.length]; pick(next); next.focus(); }
-        });
-    });
-    form.querySelectorAll('.next').forEach(b => b.addEventListener('click', () => pick(document.getElementById(b.dataset.next))));
-
-    // under each tab, what's picked so far
-    const label = name => form.querySelector(`input[name="${name}"]:checked + span`)?.textContent || '';
-    const time = v => { const [h, m] = v.split(':').map(Number); return `${h % 12 || 12}${m ? ':' + String(m).padStart(2, '0') : ''} ${h < 12 ? 'AM' : 'PM'}`; };
-    function summarize() {
-        const f = form.elements, set = (k, v) => { form.querySelector(`[data-show="${k}"]`).textContent = v; };
-        set('when', f.start.value && f.end.value ? `${time(f.start.value)}–${time(f.end.value)}, ${label('hours').toLowerCase()}` : '');
-        set('mood', label('mood'));
-        set('where', label('area'));
-        const extras = [f.rainy.checked && 'rain', f.walk.checked && 'no car', f.include.value && '+ ' + f.include.value,
-                        f.exclude.value && 'no ' + f.exclude.value].filter(Boolean);
-        set('extras', extras.join(', ') || 'none');
+    // "where": type a neighborhood (or pick one); nicknames welcome
+    const AREAS = {
+        anywhere: ['anywhere', 'anywhere in austin', 'all of austin', 'austin', ''],
+        ut: ['ut / west campus', 'ut', 'ut austin', 'campus', 'west campus', 'the drag', 'drag', 'university'],
+        downtown: ['downtown', 'dt', 'rainey', 'rainey street', '2nd street', 'second street', 'warehouse district', 'congress ave'],
+        east: ['east austin', 'east', 'east side', 'eastside', 'east 6th', 'e 6th', 'holly', 'cherrywood'],
+        soco: ['south congress', 'soco', 'bouldin', 'bouldin creek', 'travis heights', 'south 1st', 's 1st'],
+        clarksville: ['clarksville / west austin', 'clarksville', 'west austin', 'tarrytown', 'lake austin', 'deep eddy', 'west 6th'],
+        domain: ['domain / north austin', 'domain', 'the domain', 'north austin', 'domain northside', 'arboretum'],
+        zilker: ['zilker', 'barton springs', 'zilker park'],
+        'south-lamar': ['south lamar', 'solamar', 's lamar', 'lamar'],
+        'north-loop': ['north loop / hyde park', 'north loop', 'hyde park', 'north campus', 'burnet'],
+        mueller: ['mueller'],
+    };
+    const areaText = document.getElementById('area-text');
+    const areaHint = form.querySelector('[data-area-hint]');
+    function readArea() {
+        const typed = areaText.value.trim().toLowerCase();
+        const key = Object.keys(AREAS).find(k => AREAS[k].includes(typed));
+        form.elements.area.value = key || 'anywhere';
+        areaHint.textContent = key || !typed ? '' : `I don’t know “${areaText.value.trim()}” yet, so anywhere it is.`;
     }
-    form.addEventListener('input', summarize);
-    form.addEventListener('change', summarize);
-    summarize();
+    areaText.addEventListener('input', readArea);
+    areaText.addEventListener('focus', () => areaText.select());
 
     run();
 })();
