@@ -10,7 +10,7 @@ def _clock(minutes: int) -> str:
 
 
 def judge(wake: int, sleep: int, hours: float, mood: str = "everything",
-          walk: bool = False, rainy: bool = False) -> list:
+          walk: bool = False, rainy: bool = False, area: str = None) -> list:
     """Comments on the choices someone made. Times are minutes after midnight."""
     notes = []
     if 12 * 60 <= wake < 14 * 60:
@@ -42,6 +42,8 @@ def judge(wake: int, sleep: int, hours: float, mood: str = "everything",
         notes.append("Walking to the Domain? That's a two-hour walk, babe. Treat yourself to a ride.")
     elif walk and mood != "day-in":
         notes.append("No car? Walking it is. Comfy shoes on. 👟")
+    if area and mood != "day-in":
+        notes.append(f"Just {area}? Keeping it local. Love that.")
     if rainy and mood != "day-in":
         notes.append("Rainy day? Everything's indoors, but bring an umbrella anyway ☔")
     return notes

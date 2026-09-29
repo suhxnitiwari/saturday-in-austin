@@ -140,6 +140,30 @@ def test_filters():
     assert any("two-hour walk" in n for n in judge(9 * 60, 23 * 60, 6, "treat-yourself", walk=True))
 
 
+def test_no_car_walks_are_a_mile_or_less():
+    import json
+    from saturday.planner import walking
+    from saturday.web import plan_json
+    guide = Guide(load(), "West Campus")
+    city, _ = walking(guide.spots, "West Campus")
+    for seed in range(8):
+        data = json.loads(plan_json("9:00", "23:00", 8, "everything", seed, walk=True))
+        names = ["West Campus"] + [s["name"] for s in data["stops"] if "name" in s] + ["West Campus"]
+        assert len(names) > 2 and all(city.reach.miles(a, b) <= 1.0001 for a, b in zip(names, names[1:]))
+
+
+@pytest.mark.parametrize("area", ["ut", "downtown", "soco", "domain", "east", "mueller"])
+def test_neighborhood_days_stay_in_the_neighborhood(area):
+    import json
+    from saturday.spots import AREAS
+    from saturday.web import plan_json
+    guide, zones = Guide(load(), "West Campus"), AREAS[area][1]
+    for seed in range(4):
+        data = json.loads(plan_json("9:00", "23:00", 8, "everything", seed, area=area))
+        names = [s["name"] for s in data["stops"] if "name" in s]
+        assert names and all(guide.find(n).zone in zones for n in names)
+
+
 def test_movie_night_picks_from_the_shelf():
     import json
     from saturday.spots import SHELF

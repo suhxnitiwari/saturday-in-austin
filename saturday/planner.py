@@ -200,6 +200,37 @@ WIND_DOWN = 30   # minutes home before bed
 MEALTIMES = {"midday meal": (11 * 60 + 30, 14 * 60 + 30), "dinner": (17 * 60 + 30, 21 * 60)}
 
 
+WALK_RADIUS = 2  # miles from home on a no-car day
+
+
+def walking(spots: list, home: str, coffee: list = ()) -> tuple:
+    """A no-car day: every spot becomes its own place on the map, and no walk is over a mile.
+    Only spots within WALK_RADIUS of home. If none of them is coffee, the closest of `coffee` joins.
+    Returns the walking city and the spots, renamed so each spot's "zone" is itself.
+    city.reach has no mile limit, for asking what could fit at all."""
+    from dataclasses import replace
+    from .city import WalkCity
+    fallback = {s.name: s.zone for s in spots}
+    city = WalkCity(fallback)
+    city.reach = WalkCity(fallback, max_miles=None)
+    # within two miles of home, and reachable from home in hops of a mile or less (breadth-first search)
+    close = [s for s in spots if city.reach.miles(home, s.name) <= WALK_RADIUS]
+    seen, frontier = set(), [home]
+    while frontier:
+        here = frontier.pop()
+        for s in close:
+            if s.name not in seen and city.minutes(here, s.name) < WalkCity.TOO_FAR:
+                seen.add(s.name)
+                frontier.append(s.name)
+    kept = [s for s in close if s.name in seen]
+    if coffee and not any(s.category == "coffee" for s in kept):
+        city.fallback.update({c.name: c.zone for c in coffee})
+        nearest = min(coffee, key=lambda c: city.reach.miles(home, c.name))
+        if city.minutes(home, nearest.name) < WalkCity.TOO_FAR:
+            kept.append(nearest)
+    return city, [replace(s, zone=s.name) for s in kept]
+
+
 def reachable(spots: list, city: City, home: str, minutes: float, keep=()) -> list:
     """Only spots you could get to, enjoy and get home from in the time you have
     (so a one-hour outing picks from quick coffees, not a two-hour pottery class)."""

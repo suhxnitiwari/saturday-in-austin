@@ -1,0 +1,638 @@
+{
+ "zones": {
+  "West Campus": [
+   30.288,
+   -97.746
+  ],
+  "Campus": [
+   30.2849,
+   -97.7341
+  ],
+  "North Loop": [
+   30.318,
+   -97.722
+  ],
+  "Downtown": [
+   30.2672,
+   -97.7431
+  ],
+  "East Austin": [
+   30.263,
+   -97.725
+  ],
+  "Clarksville": [
+   30.279,
+   -97.759
+  ],
+  "Lake Austin": [
+   30.294,
+   -97.78
+  ],
+  "South Congress": [
+   30.25,
+   -97.749
+  ],
+  "Zilker": [
+   30.266,
+   -97.77
+  ],
+  "Barton Creek": [
+   30.258,
+   -97.805
+  ],
+  "Domain": [
+   30.402,
+   -97.725
+  ],
+  "South Lamar": [
+   30.248,
+   -97.77
+  ],
+  "Hill Country": [
+   30.2,
+   -98.0
+  ],
+  "Southeast": [
+   30.183,
+   -97.722
+  ],
+  "Northwest": [
+   30.37,
+   -97.78
+  ],
+  "Southwest": [
+   30.186,
+   -97.873
+  ],
+  "Mueller": [
+   30.299,
+   -97.704
+  ]
+ },
+ "spots": {
+  "Medici": [
+   30.28544,
+   -97.74201
+  ],
+  "Mozart's": [
+   30.29543,
+   -97.78424
+  ],
+  "Black Fox": [
+   30.2687,
+   -97.74607
+  ],
+  "Jo's Coffee": [
+   30.25101,
+   -97.7494
+  ],
+  "Epoch Coffee": [
+   30.31853,
+   -97.7245
+  ],
+  "Bennu Coffee": [
+   30.2798,
+   -97.71963
+  ],
+  "Haraz Coffee House": [
+   30.28233,
+   -97.74346
+  ],
+  "Merit Coffee": [
+   30.25524,
+   -97.76169
+  ],
+  "Fleet Coffee": [
+   30.26285,
+   -97.71429
+  ],
+  "Life Science Library": [
+   30.28586,
+   -97.73965
+  ],
+  "PCL": [
+   30.28283,
+   -97.73819
+  ],
+  "Austin Central Library": [
+   30.26602,
+   -97.75171
+  ],
+  "Blanton Museum of Art": [
+   30.28096,
+   -97.73746
+  ],
+  "Harry Ransom Center": [
+   30.28441,
+   -97.74122
+  ],
+  "Bullock Museum": [
+   30.28029,
+   -97.73915
+  ],
+  "Josephine House": [
+   30.28057,
+   -97.75903
+  ],
+  "June's All Day": [
+   30.24631,
+   -97.75113
+  ],
+  "Juliet": [
+   30.25983,
+   -97.76486
+  ],
+  "Kerbey Lane Cafe": [
+   30.29121,
+   -97.74153
+  ],
+  "Magnolia Cafe": [
+   30.24448,
+   -97.75198
+  ],
+  "Bouldin Creek Cafe": [
+   30.24649,
+   -97.75679
+  ],
+  "Paperboy": [
+   30.26845,
+   -97.72757
+  ],
+  "Sweetgreen": [
+   30.28575,
+   -97.74211
+  ],
+  "Veracruz": [
+   30.26294,
+   -97.74447
+  ],
+  "Torchy's Tacos": [
+   30.24542,
+   -97.75152
+  ],
+  "Tacodeli": [
+   30.25842,
+   -97.78769
+  ],
+  "Taco Joint": [
+   30.29156,
+   -97.73492
+  ],
+  "Better Half": [
+   30.27128,
+   -97.75853
+  ],
+  "Franklin Barbecue": [
+   30.27015,
+   -97.73128
+  ],
+  "South Congress": [
+   30.23852,
+   -97.75046
+  ],
+  "The Domain": [
+   30.39698,
+   -97.72688
+  ],
+  "Barton Creek Mall": [
+   30.25641,
+   -97.80932
+  ],
+  "BookPeople": [
+   30.27178,
+   -97.75291
+  ],
+  "Waterloo Records": [
+   30.27609,
+   -97.75136
+  ],
+  "SFC Farmers' Market": [
+   30.26725,
+   -97.74711
+  ],
+  "Milano Nail Spa": [
+   30.25968,
+   -97.71045
+  ],
+  "[solidcore]": [
+   30.26513,
+   -97.74554
+  ],
+  "Barton Creek Greenbelt": [
+   30.25434,
+   -97.79447
+  ],
+  "Lady Bird Lake Trail": [
+   30.265,
+   -97.75173
+  ],
+  "Barton Springs Pool": [
+   30.26384,
+   -97.77014
+  ],
+  "Deep Eddy Pool": [
+   30.27652,
+   -97.7732
+  ],
+  "Hamilton Pool Preserve": [
+   30.34287,
+   -98.13252
+  ],
+  "Zilker Park": [
+   30.26769,
+   -97.76689
+  ],
+  "Zilker Botanical Garden": [
+   30.26955,
+   -97.773
+  ],
+  "Laguna Gloria": [
+   30.31222,
+   -97.77427
+  ],
+  "Mayfield Park": [
+   30.31268,
+   -97.77094
+  ],
+  "Victory Lap": [
+   30.28797,
+   -97.7427
+  ],
+  "Topgolf": [
+   30.39826,
+   -97.71752
+  ],
+  "Alamo Drafthouse": [
+   30.25581,
+   -97.76362
+  ],
+  "Amy's Ice Creams": [
+   30.27653,
+   -97.75127
+  ],
+  "Lick Honest Ice Creams": [
+   30.25554,
+   -97.76252
+  ],
+  "Aba": [
+   30.25308,
+   -97.7478
+  ],
+  "Clay Pit": [
+   30.27903,
+   -97.74239
+  ],
+  "El Alma": [
+   30.26004,
+   -97.75563
+  ],
+  "Uchi": [
+   30.25752,
+   -97.75981
+  ],
+  "Launderette": [
+   30.25187,
+   -97.72275
+  ],
+  "Suerte": [
+   30.26226,
+   -97.72325
+  ],
+  "Odd Duck": [
+   30.25466,
+   -97.76199
+  ],
+  "Matt's El Rancho": [
+   30.24515,
+   -97.7792
+  ],
+  "Perla's": [
+   30.24997,
+   -97.75004
+  ],
+  "Terry Black's": [
+   30.25976,
+   -97.75488
+  ],
+  "Guero's Taco Bar": [
+   30.24915,
+   -97.75029
+  ],
+  "Loro": [
+   30.24781,
+   -97.77129
+  ],
+  "Ramen Tatsu-Ya": [
+   30.25396,
+   -97.76329
+  ],
+  "Pizza Press": [
+   30.29068,
+   -97.74204
+  ],
+  "Counter Café": [
+   30.2617,
+   -97.72167
+  ],
+  "Elizabeth Street Café": [
+   30.24979,
+   -97.75466
+  ],
+  "Cenote": [
+   30.2605,
+   -97.73371
+  ],
+  "Phoebe's Diner": [
+   30.24153,
+   -97.75922
+  ],
+  "Micklethwait Craft Meats": [
+   30.26832,
+   -97.72522
+  ],
+  "La Barbecue": [
+   30.25448,
+   -97.71761
+  ],
+  "Home Slice Pizza": [
+   30.24923,
+   -97.74958
+  ],
+  "Chi'Lantro": [
+   30.27053,
+   -97.7415
+  ],
+  "The Picnic": [
+   30.26344,
+   -97.76289
+  ],
+  "True Food Kitchen": [
+   30.40218,
+   -97.72661
+  ],
+  "Jeffrey's": [
+   30.28044,
+   -97.75917
+  ],
+  "Clark's Oyster Bar": [
+   30.27297,
+   -97.75715
+  ],
+  "Uchiko": [
+   30.31077,
+   -97.73989
+  ],
+  "Kemuri Tatsu-ya": [
+   30.25383,
+   -97.71294
+  ],
+  "Nixta Taqueria": [
+   30.275,
+   -97.71325
+  ],
+  "Fonda San Miguel": [
+   30.32551,
+   -97.74337
+  ],
+  "Hopdoddy": [
+   30.24966,
+   -97.74996
+  ],
+  "Chuy's": [
+   30.26385,
+   -97.7633
+  ],
+  "Red Ash": [
+   30.26569,
+   -97.74468
+  ],
+  "Hestia": [
+   30.26687,
+   -97.75006
+  ],
+  "The Salt Lick": [
+   30.20184,
+   -97.66785
+  ],
+  "Dolce Neve": [
+   30.2476,
+   -97.7555
+  ],
+  "Tiny Pies": [
+   30.25525,
+   -97.7622
+  ],
+  "Toy Joy": [
+   30.26524,
+   -97.74806
+  ],
+  "Half Price Books": [
+   30.32377,
+   -97.72654
+  ],
+  "Buffalo Exchange": [
+   30.29586,
+   -97.74289
+  ],
+  "Feathers Boutique": [
+   30.24702,
+   -97.75096
+  ],
+  "McKinney Falls State Park": [
+   30.18381,
+   -97.72347
+  ],
+  "Bull Creek District Park": [
+   30.369,
+   -97.78373
+  ],
+  "Pease Park": [
+   30.28097,
+   -97.75149
+  ],
+  "Sculpture Falls": [
+   30.26175,
+   -97.82351
+  ],
+  "Pedernales Falls State Park": [
+   30.30738,
+   -98.24267
+  ],
+  "Jacob's Well": [
+   30.03556,
+   -98.12774
+  ],
+  "Krause Springs": [
+   30.47982,
+   -98.14463
+  ],
+  "Auditorium Shores": [
+   30.26024,
+   -97.7501
+  ],
+  "Cidercade": [
+   30.25248,
+   -97.74098
+  ],
+  "Continental Club": [
+   30.2505,
+   -97.74903
+  ],
+  "Antone's": [
+   30.26606,
+   -97.7404
+  ],
+  "Mohawk": [
+   30.27006,
+   -97.73609
+  ],
+  "Cactus Cafe": [
+   30.28613,
+   -97.74133
+  ],
+  "Saxon Pub": [
+   30.25354,
+   -97.76357
+  ],
+  "The White Horse": [
+   30.26257,
+   -97.72706
+  ],
+  "Broken Spoke": [
+   30.24089,
+   -97.78521
+  ],
+  "Stubb's": [
+   30.26849,
+   -97.73622
+  ],
+  "Greetings from Austin mural": [
+   30.24758,
+   -97.75594
+  ],
+  "Willie Nelson statue": [
+   30.26517,
+   -97.74675
+  ],
+  "Texas State Capitol": [
+   30.27293,
+   -97.74097
+  ],
+  "LBJ Presidential Library": [
+   30.28589,
+   -97.72929
+  ],
+  "Mexic-Arte Museum": [
+   30.26684,
+   -97.74281
+  ],
+  "Umlauf Sculpture Garden": [
+   30.26292,
+   -97.76618
+  ],
+  "Elisabet Ney Museum": [
+   30.30666,
+   -97.72627
+  ],
+  "Museum of the Weird": [
+   30.26705,
+   -97.73874
+  ],
+  "Austin Nature & Science Center": [
+   30.27181,
+   -97.77462
+  ],
+  "Viva Day Spa": [
+   30.40184,
+   -97.72229
+  ],
+  "Doug Sahm Hill": [
+   30.26254,
+   -97.75399
+  ],
+  "Figure 8 Coffee": [
+   30.26688,
+   -97.71995
+  ],
+  "Texas Union": [
+   30.28672,
+   -97.74121
+  ],
+  "Café No Sé": [
+   30.24739,
+   -97.75009
+  ],
+  "Toastique": [
+   30.40496,
+   -97.71971
+  ],
+  "Barton Creek Farmers Market": [
+   30.25698,
+   -97.8072
+  ],
+  "M Vince Nail Spa": [
+   30.40404,
+   -97.72446
+  ],
+  "Caesars Nail Salon & Spa": [
+   30.39698,
+   -97.72688
+  ],
+  "Lady Bird Lake Kayak": [
+   30.27488,
+   -97.77425
+  ],
+  "Congress Bridge Bats": [
+   30.26139,
+   -97.74529
+  ],
+  "Mattie's": [
+   30.24553,
+   -97.76186
+  ],
+  "Joann's Fine Foods": [
+   30.25157,
+   -97.74945
+  ],
+  "Walton's Fancy and Staple": [
+   30.26954,
+   -97.74903
+  ],
+  "P. Terry's": [
+   30.26162,
+   -97.75856
+  ],
+  "Whataburger": [
+   30.29346,
+   -97.74217
+  ],
+  "Second Street District": [
+   30.26421,
+   -97.74381
+  ],
+  "Longhorns at DKR": [
+   30.28384,
+   -97.73262
+  ],
+  "ACL Live at the Moody Theater": [
+   30.26548,
+   -97.74719
+  ],
+  "Texas Science & Natural History Museum": [
+   30.28697,
+   -97.73236
+  ],
+  "Mueller Lake Park": [
+   30.29621,
+   -97.70543
+  ],
+  "Colleen's Kitchen": [
+   30.29833,
+   -97.70471
+  ],
+  "Thinkery": [
+   30.29757,
+   -97.70483
+  ]
+ }
+}

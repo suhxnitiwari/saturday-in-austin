@@ -2,6 +2,11 @@
 from __future__ import annotations
 
 import heapq
+import json
+import math
+from pathlib import Path
+
+PLACES = Path(__file__).parent / "data" / "places.json"
 
 # approximate drive minutes between neighboring zones
 ROADS = [
@@ -13,14 +18,12 @@ ROADS = [
     ("South Lamar", "Zilker", 5), ("South Lamar", "South Congress", 7), ("Barton Creek", "Hill Country", 30),
     ("Downtown", "Southeast", 18), ("South Congress", "Southeast", 15), ("Lake Austin", "Northwest", 12),
     ("Domain", "Northwest", 15), ("Barton Creek", "Southwest", 12), ("South Lamar", "Southwest", 15),
+    ("Campus", "Mueller", 10), ("North Loop", "Mueller", 8), ("East Austin", "Mueller", 8),
 ]
-
-WALK_PACE = 5  # walking takes about five times as long as driving (a 6-minute drive is a 30-minute walk)
 
 
 class City:
-    def __init__(self, roads=ROADS, pace: float = 1) -> None:
-        self.pace = pace  # 1 for driving, WALK_PACE for walking
+    def __init__(self, roads=ROADS) -> None:
         self.roads = {}  # zone -> {neighbor: minutes}
         for a, b, minutes in roads:
             self.roads.setdefault(a, {})[b] = minutes
@@ -53,10 +56,42 @@ class City:
         return result
 
     def minutes(self, start: str, end: str) -> int:
-        """Travel minutes: the drive, or the walk when there's no car."""
-        return round(self.drive(start, end)[0] * self.pace)
+        return self.drive(start, end)[0]
 
 
 def _route(prev: dict, start: str, zone: str) -> list:
     """Rebuild the route recursively by walking back from the destination."""
     return [start] if zone == start else _route(prev, start, prev[zone]) + [zone]
+
+
+class WalkCity:
+    """No car: real walking distances between real spots, and no walk longer than a mile.
+
+    Spots come from OpenStreetMap (data/places.json). A spot it couldn't find, or a day-in
+    spot, uses the middle of its neighborhood. Places are looked up by spot name, so the
+    planner gives each spot its own name as its "zone" on a walking day.
+    """
+    PACE = 20       # minutes per mile
+    DETOUR = 1.2    # streets aren't straight lines
+    TOO_FAR = 10 ** 6
+
+    def __init__(self, fallback: dict, max_miles: float = 1.0, path: Path = PLACES) -> None:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        self.spots, self.zones = data["spots"], data["zones"]
+        self.fallback = fallback  # spot name -> its neighborhood
+        self.max_miles = max_miles
+
+    def where(self, place: str) -> tuple:
+        return tuple(self.spots.get(place) or self.zones[self.fallback.get(place, place)])
+
+    def miles(self, a: str, b: str) -> float:
+        (la1, lo1), (la2, lo2) = map(lambda p: map(math.radians, self.where(p)), (a, b))
+        h = math.sin((la2 - la1) / 2) ** 2 + math.cos(la1) * math.cos(la2) * math.sin((lo2 - lo1) / 2) ** 2
+        return 3958.8 * 2 * math.asin(math.sqrt(h)) * self.DETOUR
+
+    def minutes(self, a: str, b: str) -> int:
+        d = 0 if a == b else self.miles(a, b)
+        if self.max_miles is not None and d > self.max_miles:
+            return self.TOO_FAR
+        return round(d * self.PACE)
+

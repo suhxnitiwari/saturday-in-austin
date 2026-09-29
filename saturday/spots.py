@@ -62,6 +62,21 @@ SHELF = json.loads((Path(__file__).parent / "data" / "shelf.json").read_text(enc
 
 HOME = "Home"  # the zone for day-in stops; it becomes wherever the day starts
 
+# "just the Domain", "just SoCo": the neighborhoods a day can stay inside
+AREAS = {
+    "anywhere": ("Anywhere", None),
+    "ut": ("UT Austin", {"Campus", "West Campus"}),
+    "downtown": ("Downtown", {"Downtown"}),
+    "soco": ("SoCo", {"South Congress"}),
+    "east": ("East Austin", {"East Austin"}),
+    "domain": ("The Domain", {"Domain"}),
+    "zilker": ("Zilker", {"Zilker"}),
+    "south-lamar": ("South Lamar", {"South Lamar"}),
+    "clarksville": ("Clarksville & Lake Austin", {"Clarksville", "Lake Austin"}),
+    "north-loop": ("North Loop & Hyde Park", {"North Loop"}),
+    "mueller": ("Mueller", {"Mueller"}),
+}
+
 
 @dataclass(frozen=True)
 class Mood:
@@ -70,6 +85,10 @@ class Mood:
     want: tuple = ()  # what the day is built around, whenever it fits
     caps: dict = field(default_factory=dict)  # slots allowed more than once, and how many times
     late: bool = False  # prefer a later start (a slow morning)
+
+    def relaxed(self) -> "Mood":
+        """In one neighborhood, a mood's must-haves become nice-to-haves (not every block has nails)."""
+        return replace(self, need=(), want=self.need + self.want)
 
 
 RULES = {
@@ -152,13 +171,17 @@ class Guide:
             return [s for s in self.spots if s.name not in self.home_spots]
         return [s for s in self.spots if mood in s.moods]
 
-    def pool(self, mood: str, must=(), skip=(), rainy: bool = False, near=None) -> list:
+    def pool(self, mood: str, must=(), skip=(), rainy: bool = False, near=None, area: str = "anywhere") -> list:
         """The spots a mood can pick from, plus must-haves, minus skips, and coffee if it needs it.
-        On a rainy day, only indoor spots; with `near`, only spots it says are close enough."""
+        On a rainy day, only indoor spots; with `near`, only spots it says are close enough;
+        with an area, only spots in those neighborhoods (on a day in, home counts too)."""
+        zones = AREAS[area][1]
         spots = [s for s in self.for_mood(mood) + list(must)
                  if s.name not in skip and (s in must or not (rainy and s.category in OUTDOORS)
-                                            and (near is None or near(s)))]
-        if "coffee" in RULES[mood].need and not any(s.category == "coffee" for s in spots):
+                                            and (near is None or near(s))
+                                            and (zones is None or s.zone in zones
+                                                 or mood == "day-in" and s.name in self.home_spots))]
+        if zones is None and "coffee" in RULES[mood].need and not any(s.category == "coffee" for s in spots):
             spots.append(self.find("Medici"))
         return spots
 

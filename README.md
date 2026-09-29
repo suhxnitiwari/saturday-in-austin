@@ -4,7 +4,7 @@
 
 **[Try it live →](https://suhxnitiwari.github.io/saturday-in-austin/)** (the Python runs right in your browser)
 
-Every run is a different Saturday, drawn from 200 Austin spots: coffee shops, brunches, pottery studios, nail spas at the Domain, hikes on the Greenbelt, kayaking on Lady Bird Lake, game days at Victory Lap and nights in with pizza and a movie from my own shelf. Can't decide? Hit **🎲 Just pick for me**.
+Every run is a different Saturday, drawn from 200+ Austin spots: coffee shops, brunches, pottery studios, nail spas at the Domain, hikes on the Greenbelt, kayaking on Lady Bird Lake, game days at Victory Lap and nights in with pizza and a movie from my own shelf. Can't decide? Hit **🎲 Just pick for me**.
 
 ```
 $ python -m saturday
@@ -40,8 +40,9 @@ python3 -m venv .venv && .venv/bin/pip install matplotlib pytest
 | `--sleep 23:00` | when you go to bed (after midnight works too) |
 | `--hours 10` | how many hours you want to be out |
 | `--mood` | `treat-yourself`, `adventurous`, `productive`, `social`, `day-in`, `cozy`, `foodie`, `music-art` or `everything` |
-| `--walk` | no car: walk everywhere, so the day stays close to home |
+| `--walk` | no car: every walk is a mile or less, using real locations from OpenStreetMap |
 | `--rainy` | a rainy day: indoor spots only |
+| `--area soco` | stay in one neighborhood: `ut`, `downtown`, `soco`, `east`, `domain`, `zilker`, `south-lamar`, `clarksville`, `north-loop`, `mueller` |
 | `--home "West Campus"` | where the day starts and ends |
 | `--include "Numero 28"` | a spot you have to go to (typos get a "did you mean?") |
 | `--skip PCL` | a spot to leave out |

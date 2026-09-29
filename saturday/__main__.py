@@ -12,12 +12,11 @@ import random
 import sys
 from pathlib import Path
 
-from .city import WALK_PACE, City
-from .planner import plan_outing, reachable, shortlist
+from .city import City
+from .planner import plan_outing, reachable, shortlist, walking
 from .sass import judge, sign_off
-from .spots import MOODS, RULES, Guide, UnknownSpotError, half_hour, load, shelf_note
+from .spots import AREAS, MOODS, RULES, Guide, UnknownSpotError, half_hour, load, shelf_note
 
-MAX_WALK = 45  # minutes: with no car, only spots within a walk of home
 
 PINK, BOLD, DIM, RESET = "\033[38;5;211m", "\033[1m", "\033[2m", "\033[0m"
 
@@ -47,16 +46,19 @@ def main(argv=None) -> int:
     p.add_argument("--skip", action="append", default=[], metavar="SPOT", help="a spot to leave out")
     p.add_argument("--walk", action="store_true", help="no car: walk everywhere, so stay close to home")
     p.add_argument("--rainy", action="store_true", help="a rainy day: indoor spots only")
+    p.add_argument("--area", choices=AREAS, default="anywhere", help="stay in one neighborhood")
     p.add_argument("--chart", action="store_true", help="also save the day as plan.png")
     p.add_argument("--seed", type=int, help="repeat a Saturday you liked by its number")
     args = p.parse_args(argv)
 
-    city = City(pace=WALK_PACE if args.walk else 1)
+    city = City()
     if args.home not in city.roads:
         print(f"I don't know the neighborhood '{args.home}'. Try one of: {', '.join(sorted(city.roads))}")
         return 1
-    guide, mood = Guide(load(), args.home), RULES[args.mood]
-    for note in judge(args.wake, args.sleep, args.hours, args.mood, args.walk, args.rainy):
+    guide = Guide(load(), args.home)
+    mood = RULES[args.mood] if args.area == "anywhere" else RULES[args.mood].relaxed()
+    area = AREAS[args.area][0] if args.area != "anywhere" else None
+    for note in judge(args.wake, args.sleep, args.hours, args.mood, args.walk, args.rainy, area):
         print(f"\n  {PINK}{note}{RESET}")
     try:
         must = [guide.find(name) for name in args.include]
@@ -66,12 +68,17 @@ def main(argv=None) -> int:
         return 1
 
     seed = args.seed if args.seed is not None else random.randrange(1000, 10000)
-    near = (lambda s: city.minutes(args.home, s.zone) <= MAX_WALK) if args.walk else None
     rng = random.Random(seed)
-    pool = guide.pool(args.mood, must, skip, args.rainy, near)
-    pool = reachable(pool, city, args.home, args.hours * 60, must)
+    pool = guide.pool(args.mood, must, skip, args.rainy, area=args.area)
+    if args.walk:
+        coffee = [s for s in guide.spots if s.category == "coffee"] if "coffee" in mood.need + mood.want else []
+        city, pool = walking(pool, args.home, coffee)
+        must = [s for s in pool if s.name in {m.name for m in must}]
+    pool = reachable(pool, getattr(city, "reach", city), args.home, args.hours * 60, must)
     spots = shortlist(pool, must, rng, caps=mood.caps, need=mood.need)
     plan = plan_outing(spots, city, args.home, args.wake, args.sleep, args.hours, must, mood)
+    if args.walk and not plan.stops:  # on foot, a missing coffee shop shouldn't mean no day at all
+        plan = plan_outing(spots, city, args.home, args.wake, args.sleep, args.hours, must, mood.relaxed())
 
     if not plan.stops:
         print("Nothing fits between waking up and bedtime. Try waking up earlier, going to bed later, or fewer must-haves.")

@@ -32,6 +32,7 @@
         .sat-hours span { display: flex; align-items: center; gap: 10px; }
         .sat-hours input { flex: 1; accent-color: #E9A6BC; }
         .sat-hours output { min-width: 2.2em; font: 14px var(--mono); color: #F5E5E1; letter-spacing: 0; }
+        .sat-where { grid-column: 1 / -1; }
         .sat-filters { grid-column: 1 / -1; display: flex; gap: 8px; flex-wrap: wrap; }
         .sat-filters label { flex-direction: row; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; border: 1px solid rgba(245, 229, 225, 0.25); font-size: 12px; letter-spacing: 0.04em; text-transform: none; cursor: pointer; }
         .sat-filters input { accent-color: #E9A6BC; margin: 0; }
@@ -89,6 +90,21 @@
                     <option value="cozy">Cozy &amp; creative</option>
                     <option value="foodie">Foodie</option>
                     <option value="music-art">Music &amp; art</option>
+                </select>
+            </label>
+            <label class="sat-where">Where
+                <select name="area">
+                    <option value="anywhere">Anywhere in Austin</option>
+                    <option value="ut">UT Austin</option>
+                    <option value="downtown">Downtown</option>
+                    <option value="soco">SoCo</option>
+                    <option value="east">East Austin</option>
+                    <option value="domain">The Domain</option>
+                    <option value="zilker">Zilker</option>
+                    <option value="south-lamar">South Lamar</option>
+                    <option value="clarksville">Clarksville &amp; Lake Austin</option>
+                    <option value="north-loop">North Loop &amp; Hyde Park</option>
+                    <option value="mueller">Mueller</option>
                 </select>
             </label>
             <div class="sat-filters">
