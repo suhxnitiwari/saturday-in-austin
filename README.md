@@ -29,7 +29,7 @@ Your Saturday ✦  everything, up at 9:00 AM, bed by 11:00 PM
 ```bash
 python3 -m venv .venv && .venv/bin/pip install matplotlib pytest
 .venv/bin/python -m saturday                  # a surprise Saturday
-.venv/bin/python -m saturday --mood girly
+.venv/bin/python -m saturday --mood treat-yourself
 .venv/bin/python -m saturday --hours 6 --mood social --include "Victory Lap" --chart
 .venv/bin/python -m pytest -q
 ```
@@ -39,7 +39,7 @@ python3 -m venv .venv && .venv/bin/pip install matplotlib pytest
 | `--wake 9:00` | when you wake up |
 | `--sleep 23:00` | when you go to bed (after midnight works too) |
 | `--hours 10` | how many hours you want to be out |
-| `--mood` | `girly`, `adventurous`, `productive`, `social`, `day-in`, `cozy` or `everything` |
+| `--mood` | `treat-yourself`, `adventurous`, `productive`, `social`, `day-in`, `cozy` or `everything` |
 | `--home "West Campus"` | where the day starts and ends |
 | `--include "Numero 28"` | a spot you have to go to (typos get a "did you mean?") |
 | `--skip PCL` | a spot to leave out |
@@ -50,7 +50,7 @@ python3 -m venv .venv && .venv/bin/pip install matplotlib pytest
 
 | Mood | The day |
 |---|---|
-| 💅 Girly | A Domain day: brunch at Toastique, nails at M Vince, a shopping run, dinner at Éma |
+| ✨ Treat yourself | A Domain day: brunch at Toastique, nails at M Vince, a shopping run, dinner at Éma |
 | 🥾 Adventurous | Hikes, kayaking and cold swims, at most two per day and never back to back |
 | 📚 Productive | Café hopping: up to three coffee shops, with study spots in between |
 | 🏈 Social | Built around Victory Lap or Topgolf, with group brunch and dinner |
@@ -66,7 +66,7 @@ python3 -m venv .venv && .venv/bin/pip install matplotlib pytest
 - Never the same kind of stop twice in a row, so there's always a break between two hikes.
 - Out through lunchtime or dinnertime means a real meal, not just ice cream.
 - Nothing after dinner except a late-night snack.
-- There is always coffee (a girly day has nails instead, and a day in has pizza).
+- There is always coffee (a treat-yourself day has nails instead, and a day in has pizza).
 
 ## How it works
 

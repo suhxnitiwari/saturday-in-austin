@@ -7,7 +7,7 @@ from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 DATA = Path(__file__).parent / "data" / "spots.csv"
-MOODS = ("everything", "girly", "adventurous", "productive", "social", "day-in", "cozy")
+MOODS = ("everything", "treat-yourself", "adventurous", "productive", "social", "day-in", "cozy")
 
 # when each kind of stop makes sense: (earliest start, latest start), minutes after midnight
 WINDOWS = {
@@ -58,7 +58,7 @@ class Mood:
 
 RULES = {
     "everything": Mood(),
-    "girly": Mood(need=("nails",)),  # a Domain day: brunch, nails, shopping, dinner
+    "treat-yourself": Mood(need=("nails",)),  # a Domain day: brunch, nails, shopping, dinner
     "adventurous": Mood(caps={"outdoor": 2}),  # two adventures, never back to back
     "productive": Mood(caps={"coffee": 3, "study": 2}),  # café hopping
     "social": Mood(need=(), want=("hangout",)),  # Victory Lap or Topgolf with everyone

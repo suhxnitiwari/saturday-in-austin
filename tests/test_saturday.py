@@ -103,10 +103,10 @@ def test_every_mood_makes_its_own_kind_of_day(city, guide, mood):
             assert earliest <= stop.start <= latest
 
 
-def test_girly_is_a_domain_day(city, guide):
-    rules = RULES["girly"]
+def test_treat_yourself_is_a_domain_day(city, guide):
+    rules = RULES["treat-yourself"]
     for seed in range(8):
-        spots = shortlist(guide.pool("girly"), [], random.Random(seed), caps=rules.caps, need=rules.need)
+        spots = shortlist(guide.pool("treat-yourself"), [], random.Random(seed), caps=rules.caps, need=rules.need)
         plan = plan_outing(spots, city, "West Campus", 9 * 60, 23 * 60, 8, mood=rules)
         zones = [s.spot.zone for s in plan.stops]
         assert zones.count("Domain") >= len(zones) - 1  # everything at the Domain, except maybe Milano
@@ -188,7 +188,7 @@ def test_clock_and_time_parsing():
 
 
 def test_cli_runs(capsys):
-    assert main(["--mood", "girly"]) == 0
+    assert main(["--mood", "treat-yourself"]) == 0
     out = capsys.readouterr().out
     assert "Your Saturday" in out and "home" in out and "seed" in out
 

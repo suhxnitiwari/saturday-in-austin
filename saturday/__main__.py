@@ -2,7 +2,7 @@
 
     python -m saturday                                a surprise Saturday, different every time
     python -m saturday --wake 8 --sleep 23 --hours 6  up at 8, in bed by 11, six hours out
-    python -m saturday --mood girly --include "Éma" --chart
+    python -m saturday --mood treat-yourself --include "Éma" --chart
     python -m saturday --seed 325                     repeat a Saturday you liked
 """
 from __future__ import annotations

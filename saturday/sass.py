@@ -51,7 +51,7 @@ def sign_off(home_by: int, hours: float, seed: int, mood: str = "everything") ->
     """The last line of the plan. home_by is minutes after midnight."""
     if mood == "day-in":
         return "credits rolling, already in bed ✦"
-    if mood == "girly" and home_by > 12 * 60:
+    if mood == "treat-yourself" and home_by > 12 * 60:
         return "home, nails done, bags full ✦"
     if home_by <= 12 * 60:
         return "home before lunch. That was an errand, not a Saturday."

@@ -25,7 +25,7 @@ Josephine House,Clarksville,brunch,90,8,cozy|day-in,
 Café No Sé,South Congress,brunch,90,7,social,
 Snooze,North Loop,brunch,90,8,day-in|social,"pancake flight: pineapple upside-down, cinnamon, banana bliss"
 June's All Day,South Congress,brunch,90,8,social,pastries and mimosas
-Toastique,Domain,brunch,60,8,girly,smoothie bowls and fancy toast
+Toastique,Domain,brunch,60,8,treat-yourself,smoothie bowls and fancy toast
 Juliet,Zilker,brunch,90,8,social,the pink patio
 Kerbey Lane Cafe,Campus,brunch,60,7,day-in|social,queso and pancakes
 Magnolia Cafe,South Congress,brunch,60,7,day-in,gingerbread pancakes
@@ -44,16 +44,16 @@ Rosa Pottery Studio,East Austin,creative,120,9,cozy,
 Mosaic Workshop,East Austin,creative,120,9,cozy,
 7th Street Candle,East Austin,creative,90,7,cozy,make your own candle
 South Congress,South Congress,shopping,90,8,social,Kendra Scott and Tecovas
-The Domain,Domain,shopping,150,8,girly,"Reformation, Anine Bing, Nordstrom"
+The Domain,Domain,shopping,150,8,treat-yourself,"Reformation, Anine Bing, Nordstrom"
 Barton Creek Mall,Barton Creek,shopping,90,6,social,
 Allen's Boots,South Congress,shopping,60,8,social,rows and rows of boots
 BookPeople,Downtown,shopping,60,9,cozy|productive,the best bookstore in Texas
 Waterloo Records,Downtown,shopping,45,7,cozy|social,
 SFC Farmers' Market,Downtown,market,60,8,cozy|social,Saturday mornings at Republic Square
 Barton Creek Farmers Market,Barton Creek,market,60,7,adventurous|social,
-M Vince Nail Spa,Domain,nails,90,9,girly,chandelier and a glass of something
-Milano Nail Spa,East Austin,nails,90,9,girly,the big glam one
-Caesars Nail Salon & Spa,Domain,nails,90,7,girly,
+M Vince Nail Spa,Domain,nails,90,9,treat-yourself,chandelier and a glass of something
+Milano Nail Spa,East Austin,nails,90,9,treat-yourself,the big glam one
+Caesars Nail Salon & Spa,Domain,nails,90,7,treat-yourself,
 Prana Wellness Club,Clarksville,exercise,60,8,productive,Pilates: the best reset
 CorePower Yoga,West Campus,exercise,60,8,cozy|productive,yoga
 [solidcore],South Congress,exercise,60,7,productive,Pilates
@@ -78,14 +78,14 @@ Big Top Candy Shop,South Congress,treat,30,7,social,
 Numero 28,Downtown,dinner,90,10,cozy|social,good memories
 Yamas,Downtown,dinner,90,9,social,Mediterranean
 Aba,South Congress,dinner,90,8,social,Mediterranean
-Éma,Domain,dinner,90,9,girly,Mediterranean
+Éma,Domain,dinner,90,9,treat-yourself,Mediterranean
 Clay Pit,Downtown,dinner,90,9,cozy|productive,North Indian
 Tarka,West Campus,dinner,60,7,productive,North Indian
-Saffron,Domain,dinner,90,8,girly,North Indian
+Saffron,Domain,dinner,90,8,treat-yourself,North Indian
 El Alma,Zilker,dinner,90,8,adventurous|social,Mexican
 Arriba Abajo,East Austin,dinner,90,7,social,Mexican
 Roya,Downtown,dinner,90,8,cozy,Persian
-North Italia,Domain,dinner,90,7,girly,
+North Italia,Domain,dinner,90,7,treat-yourself,
 Uchi,South Lamar,dinner,120,9,social,the sushi splurge
 Launderette,East Austin,dinner,90,9,cozy,birthday cake ice cream sandwich
 Suerte,East Austin,dinner,90,8,social,suadero tacos
