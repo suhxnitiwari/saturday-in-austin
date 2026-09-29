@@ -245,9 +245,6 @@ def explain(stops: list, shortlist: list, zone_of, minutes) -> dict:
             notes.setdefault(i, "Going home to change first. You'll thank me.")
         elif (before is not None and kind(before).brunch and any(c.category == "coffee" and c not in spots for c in shortlist)):
             notes.setdefault(i, "You almost certainly just had coffee. Give it a minute.")
-        elif (before is not None and kind(before).drinks and not k.workout
-              and any(kind(c).workout and c not in spots for c in shortlist) and not any(kind(x).workout for x in spots)):
-            notes.setdefault(i, "Cocktails, then Pilates? Absolutely not.")
         elif (before is not None and kind(before).food == "full" and not k.food and before.category != "dinner"
               and any(kind(c).food == "full" and c not in spots for c in shortlist)):
             notes.setdefault(i, "You just ate. I'm not giving you another restaurant.")

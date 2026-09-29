@@ -54,7 +54,7 @@
         .sections button:hover, .sections a:hover { background: var(--blush); }
         .sections button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
 
-        main { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); gap: 36px; min-height: 0; }
+        main { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); gap: 36px; min-height: 0; padding-top: 6px; }
 
         /* controls: one calm column of numbered sections */
         form { display: flex; flex-direction: column; gap: 22px; min-height: 0; height: 100%; }
@@ -73,17 +73,23 @@
         .glance-times { display: flex; justify-content: space-between; margin-top: 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; color: var(--grey); }
         .block.when { grid-template-columns: 1fr 1fr 2fr; gap: 10px 14px; align-items: end; }
         .block.when .sec { grid-column: 1 / -1; }
-        .pair-blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 18px; align-items: start; }
+        .pair-blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 26px; align-items: start; }
         .sec { margin: 0; padding-bottom: 6px; border-bottom: 1px solid var(--line); font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
         .sec i { font-style: normal; font-family: var(--display); font-size: 16px; letter-spacing: 0; margin-right: 8px; color: var(--gold); }
         fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
-        .label { display: block; margin: 0 0 8px; padding: 0; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+        .label { display: block; margin: 0 0 8px; padding: 0; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+        .label small { margin-left: 6px; font-family: var(--display); font-style: italic; font-size: 13px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--grey); }
         .seg { display: grid; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
         .seg.four { grid-template-columns: repeat(4, 1fr); }
         .seg.two { grid-template-columns: repeat(2, 1fr); }
         .seg.three { grid-template-columns: repeat(3, 1fr); }
-        .sec .mini { float: right; display: inline-flex; align-items: center; gap: 6px; font-size: 10px; letter-spacing: 0.16em; cursor: pointer; }
-        .sec .mini input { accent-color: var(--pink); margin: 0; }
+        .sec .mini { float: right; display: inline-flex; align-items: center; gap: 7px; min-height: 30px; margin-top: -9px; padding: 0 10px; border: 1px solid var(--line); font-size: 10.5px; letter-spacing: 0.14em; cursor: pointer; }
+        .sec .mini:hover { background: var(--blush); }
+        .sec .mini input { accent-color: var(--pink); width: 15px; height: 15px; margin: 0; }
+        .sec .mini .onoff::before { content: "Off"; color: var(--grey); }
+        .sec .mini:has(input:checked) { background: var(--blush); border-color: var(--pink); color: var(--pink-ink); }
+        .sec .mini:has(input:checked) .onoff::before { content: "On"; color: var(--pink-ink); }
+        .sec .mini:has(input:focus-visible) { outline: 2px solid var(--pink); outline-offset: 2px; }
         .seg.five { grid-template-columns: repeat(5, 1fr); }
         .seg label { position: relative; display: block; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
         .seg input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
@@ -119,7 +125,7 @@
         .sass { padding: 10px 18px 0; }
         .sass:empty, .sass[hidden] { display: none; }
         .sass p { margin: 0 0 4px; font-family: var(--display); font-style: italic; font-size: 13.5px; color: var(--pink-ink); }
-        .scroll { overflow-y: auto; padding: 14px 18px 6px; min-height: 0; }
+        .scroll { overflow-y: auto; padding: 14px 18px 18px; min-height: 0; }
         .status { margin: 0; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--grey); }
         .day.thinking .timeline { opacity: 0.35; transition: opacity .15s; }
 
@@ -145,13 +151,16 @@
         .timeline li.home::before { background: radial-gradient(circle at 35% 30%, #FFD1E6 0 20%, var(--pink) 70%); box-shadow: 0 0 0 1px var(--pink-ink); }
         .home .meta { margin: 2px 0 0; font-family: var(--display); font-style: italic; font-size: 14px; }
 
-        .foot { border-top: 1px solid var(--line); }
+        .foot { position: relative; border-top: 1px solid var(--line); }
+        .more { position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); height: 26px; padding: 0 12px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; box-shadow: 0 -14px 20px 14px rgba(255, 255, 255, 0.9); }
+        .more:hover { background: var(--ink); color: var(--paper); }
+        .see-day { display: none; }
         .stats { display: grid; grid-template-columns: repeat(4, 1fr); }
         .stats[hidden] { display: none; }
         .stats div { padding: 9px 12px; }
         .stats div + div { border-left: 1px solid var(--line); }
         .stats b { display: block; font-family: var(--display); font-weight: 500; font-size: 22px; line-height: 1; }
-        .stats span { font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); }
+        .stats span { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--grey); }
         .again-row { display: grid; grid-template-columns: 1fr auto auto; border-top: 1px solid var(--line); }
         .seal-it { width: 52px; border: 0; border-left: 1px solid var(--line); background: var(--paper); font-size: 22px; cursor: pointer; }
         .seal-it:hover { background: var(--blush); }
@@ -352,13 +361,18 @@
             .figs div:nth-child(3) { padding-left: 0; border-left: 0; }
             .portrait img { max-height: none; }
             .letter { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: 18px; }
-            main { grid-template-columns: 1fr; grid-template-rows: auto; gap: 24px; }
+            main { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; gap: 24px; }
             .day { min-height: 0; }
             .scroll { overflow: visible; }
+            .see-day { display: block; width: 100%; margin-top: 4px; }
+            .more { display: none; }
         }
         @media (max-width: 560px) {
             .seg.five { grid-template-columns: repeat(2, 1fr); }
-            .block.when, .pair-blocks { grid-template-columns: 1fr 1fr; }
+            .block.when { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+            .pair-blocks { grid-template-columns: minmax(0, 1fr); }
+            .block { grid-template-columns: minmax(0, 1fr); }
+            .sec .mini { float: none; display: flex; width: max-content; margin: 10px 0 0; }
             .block.when .span2 { grid-column: 1 / -1; }
             .again-row { grid-template-columns: 1fr auto; }
             .again-row .number { grid-column: 1 / -1; }
@@ -465,7 +479,7 @@
                     </div>
                 </section>
                 <section class="block">
-                    <h2 class="sec"><i>06</i> Budget <label class="mini"><input type="checkbox" name="rainy"> Rainy day</label></h2>
+                    <h2 class="sec"><i>06</i> Budget <label class="mini"><input type="checkbox" name="rainy"> Rainy day <span class="onoff" aria-hidden="true"></span></label></h2>
                     <div class="seg three">
                         <label><input type="radio" name="budget" value="student"><span>Student</span></label>
                         <label><input type="radio" name="budget" value="normal" checked><span>Normal</span></label>
@@ -473,11 +487,11 @@
                     </div>
                 </section>
                 <div>
-                    <label class="label" for="include">One place I really want to go</label>
-                    <div class="combo"><input class="box" type="text" id="include" name="include" data-combo="places" placeholder="Josephine House" autocomplete="off"></div>
+                    <label class="label" for="include">One place I really want to go <small>optional</small></label>
+                    <div class="combo"><input class="box" type="text" id="include" name="include" data-combo="places" placeholder="e.g. Josephine House" autocomplete="off"></div>
                 </div>
                 <div>
-                    <label class="label" for="exclude-text">Absolutely not</label>
+                    <label class="label" for="exclude-text">Absolutely not <small>optional</small></label>
                     <div class="combo"><input class="box" type="text" id="exclude-text" data-combo="nots" placeholder="A place, or workouts, sweets…" autocomplete="off">
                     <input type="hidden" name="exclude" value=""></div>
                 </div>
@@ -489,6 +503,7 @@
                 <div class="glance" aria-hidden="true"></div>
                 <div class="glance-times"><span></span><span></span></div>
             </figure>
+            <button type="button" class="cta see-day">See my Saturday ↓</button>
         </form>
 
         <aside class="day" aria-live="polite">
@@ -502,6 +517,7 @@
                 <p class="status">Waking up Python in your browser. The first plan takes a few seconds.</p>
             </div>
             <div class="foot">
+                <button type="button" class="more" hidden>More below ↓</button>
                 <div class="stats" hidden></div>
                 <div class="again-row">
                     <button type="button" class="again" disabled>Give me another Saturday</button>
@@ -792,6 +808,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=22" defer></script>
+<script src="web/app.js?v=23" defer></script>
 </body>
 </html>

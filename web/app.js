@@ -353,6 +353,16 @@
     });
     [toInput, fromInput].forEach(i => i.addEventListener('input', refreshLetter));
     letterBox.querySelector('.close-letter').addEventListener('click', () => letterBox.close());
+    // a long day scrolls inside the card: say so, until you reach the end
+    const dayScroll = document.querySelector('.day .scroll'), more = document.querySelector('.day .more');
+    const moreCue = () => { more.hidden = dayScroll.scrollHeight - dayScroll.scrollTop - dayScroll.clientHeight < 8; };
+    dayScroll.addEventListener('scroll', moreCue, { passive: true });
+    window.addEventListener('resize', moreCue);
+    new MutationObserver(moreCue).observe(dayScroll, { childList: true, subtree: true });
+    more.addEventListener('click', () => dayScroll.scrollBy({ top: dayScroll.clientHeight * 0.8, behavior: 'smooth' }));
+    // on a phone the day is below the form
+    document.querySelector('.see-day').addEventListener('click', () => document.querySelector('.day').scrollIntoView({ behavior: 'smooth' }));
+
     // the editor's own ideal Saturday
     const ideal = document.getElementById('ideal');
     document.querySelector('.ideal-open').addEventListener('click', () => ideal.showModal());
