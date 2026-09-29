@@ -208,6 +208,16 @@
         .letter-actions button + button { border-left: 1px solid var(--line); }
         .letter-actions .copy { background: var(--pink); color: var(--paper); }
         .letter-actions button:hover { background: var(--ink); color: var(--paper); }
+        .ideal-open { margin-top: 18px; }
+        .ideal-title { margin: 0 80px 16px 0; font-family: var(--display); font-weight: 500; font-size: 34px; line-height: 1.05; }
+        .ideal-title em { color: var(--pink); font-weight: 400; }
+        .ideal { margin: 0; padding: 0; list-style: none; counter-reset: ideal; border-top: 1px solid var(--line); }
+        .ideal li { counter-increment: ideal; display: grid; grid-template-columns: 30px 70px 1fr; column-gap: 12px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--hair); }
+        .ideal li::before { content: counter(ideal, decimal-leading-zero); grid-row: 1 / 3; font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; color: var(--pink); }
+        .ideal b { grid-row: 1 / 3; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
+        .ideal span { font-family: var(--display); font-size: 21px; line-height: 1.2; }
+        .ideal em { grid-column: 3; font-family: var(--typewriter); font-style: normal; font-size: 13px; line-height: 1.4; color: var(--pink-ink); }
+        .ideal li.home span { font-style: italic; }
         .letter-note { min-height: 1em; margin: 10px 0 0; font-family: var(--typewriter); font-size: 12px; color: var(--pink-ink); }
         /* Austin: a big weather widget and the city by the numbers */
         .austin { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.8fr) minmax(0, 1fr); gap: 36px; align-content: start; padding-top: 6px; overflow-y: auto; min-height: 0; }
@@ -658,7 +668,7 @@
             <g class="atx-street-names"><text transform="translate(345.4 101.4) rotate(-68)">I-35</text><text transform="translate(210.9 181.2) rotate(-70)">MOPAC</text><text transform="translate(278.1 166.0) rotate(-55)">LAMAR</text><text transform="translate(206.0 418.7) rotate(-64)">CONGRESS</text><text transform="translate(248.6 44.4) rotate(40)">183</text><text transform="translate(117.4 369.3) rotate(-6)">71</text><text transform="translate(270.8 332.3) rotate(-12)" class="atx-lake">LADY BIRD LAKE</text></g>
             <g class="atx-drives"><line data-a="1" data-b="8" x1="261.6" y1="266.9" x2="242.0" y2="261.0"/><line data-a="1" data-b="10" x1="261.6" y1="266.9" x2="281.4" y2="204.0"/><line data-a="1" data-b="2" x1="261.6" y1="266.9" x2="246.8" y2="300.5"/><line data-a="1" data-b="5" x1="261.6" y1="266.9" x2="276.5" y2="308.5"/><line data-a="8" data-b="3" x1="242.0" y1="261.0" x2="220.7" y2="278.1"/><line data-a="8" data-b="2" x1="242.0" y1="261.0" x2="246.8" y2="300.5"/><line data-a="3" data-b="2" x1="220.7" y1="278.1" x2="246.8" y2="300.5"/><line data-a="3" data-b="11" x1="220.7" y1="278.1" x2="186.3" y2="249.6"/><line data-a="10" data-b="7" x1="281.4" y1="204.0" x2="276.5" y2="44.4"/><line data-a="2" data-b="5" x1="246.8" y1="300.5" x2="276.5" y2="308.5"/><line data-a="2" data-b="4" x1="246.8" y1="300.5" x2="237.1" y2="333.2"/><line data-a="2" data-b="9" x1="246.8" y1="300.5" x2="202.7" y2="302.8"/><line data-a="9" data-b="4" x1="202.7" y1="302.8" x2="237.1" y2="333.2"/><line data-a="11" data-b="9" x1="186.3" y1="249.6" x2="202.7" y2="302.8"/><line data-a="9" data-b="13" x1="202.7" y1="302.8" x2="145.2" y2="318.0"/><line data-a="6" data-b="9" x1="202.7" y1="337.0" x2="202.7" y2="302.8"/><line data-a="6" data-b="4" x1="202.7" y1="337.0" x2="237.1" y2="333.2"/><line data-a="13" data-b="17" x1="145.2" y1="318.0" x2="26" y2="428.2"/><line data-a="2" data-b="15" x1="246.8" y1="300.5" x2="281.4" y2="460.5"/><line data-a="4" data-b="15" x1="237.1" y1="333.2" x2="281.4" y2="460.5"/><line data-a="11" data-b="14" x1="186.3" y1="249.6" x2="186.3" y2="105.2"/><line data-a="7" data-b="14" x1="276.5" y1="44.4" x2="186.3" y2="105.2"/><line data-a="13" data-b="16" x1="145.2" y1="318.0" x2="33.7" y2="454.8"/><line data-a="6" data-b="16" x1="202.7" y1="337.0" x2="33.7" y2="454.8"/><line data-a="1" data-b="12" x1="261.6" y1="266.9" x2="311.0" y2="240.1"/><line data-a="10" data-b="12" x1="281.4" y1="204.0" x2="311.0" y2="240.1"/><line data-a="5" data-b="12" x1="276.5" y1="308.5" x2="311.0" y2="240.1"/></g>
             <text class="atx-edge" x="40" y="431.7">← far west</text>
-            <g class="atx-dots"><g data-n="1" tabindex="0" role="button" aria-label="01 Campus, 20 places"><circle cx="261.6" cy="266.9" r="9.5"/><text x="261.6" y="269.9">01</text></g><g data-n="2" tabindex="0" role="button" aria-label="02 Downtown, 29 places"><circle cx="246.8" cy="300.5" r="9.5"/><text x="246.8" y="303.5">02</text></g><g data-n="3" tabindex="0" role="button" aria-label="03 Clarksville, 7 places"><circle cx="220.7" cy="278.1" r="9.5"/><text x="220.7" y="281.1">03</text></g><g data-n="4" tabindex="0" role="button" aria-label="04 South Congress, 28 places"><circle cx="237.1" cy="333.2" r="9.5"/><text x="237.1" y="336.2">04</text></g><g data-n="5" tabindex="0" role="button" aria-label="05 East Austin, 30 places"><circle cx="276.5" cy="308.5" r="9.5"/><text x="276.5" y="311.5">05</text></g><g data-n="6" tabindex="0" role="button" aria-label="06 South Lamar, 14 places"><circle cx="202.7" cy="337.0" r="9.5"/><text x="202.7" y="340.0">06</text></g><g data-n="7" tabindex="0" role="button" aria-label="07 The Domain, 14 places"><circle cx="276.5" cy="44.4" r="9.5"/><text x="276.5" y="47.4">07</text></g><g data-n="8" tabindex="0" role="button" aria-label="08 West Campus, 6 places"><circle cx="242.0" cy="261.0" r="9.5"/><text x="242.0" y="264.0">08</text></g><g data-n="9" tabindex="0" role="button" aria-label="09 Zilker, 13 places"><circle cx="202.7" cy="302.8" r="9.5"/><text x="202.7" y="305.8">09</text></g><g data-n="10" tabindex="0" role="button" aria-label="10 North Loop, 12 places"><circle cx="281.4" cy="204.0" r="9.5"/><text x="281.4" y="207.0">10</text></g><g data-n="11" tabindex="0" role="button" aria-label="11 Lake Austin, 6 places"><circle cx="186.3" cy="249.6" r="9.5"/><text x="186.3" y="252.6">11</text></g><g data-n="12" tabindex="0" role="button" aria-label="12 Mueller, 3 places"><circle cx="311.0" cy="240.1" r="9.5"/><text x="311.0" y="243.1">12</text></g><g data-n="13" tabindex="0" role="button" aria-label="13 Barton Creek, 5 places"><circle cx="145.2" cy="318.0" r="9.5"/><text x="145.2" y="321.0">13</text></g><g data-n="14" tabindex="0" role="button" aria-label="14 Northwest, 2 places"><circle cx="186.3" cy="105.2" r="9.5"/><text x="186.3" y="108.2">14</text></g><g data-n="15" tabindex="0" role="button" aria-label="15 Southeast, 1 places"><circle cx="281.4" cy="460.5" r="9.5"/><text x="281.4" y="463.5">15</text></g><g data-n="16" tabindex="0" role="button" aria-label="16 Southwest, 1 places"><circle cx="33.7" cy="454.8" r="9.5"/><text x="33.7" y="457.8">16</text></g><g data-n="17" tabindex="0" role="button" aria-label="17 Hill Country, 5 places"><circle cx="26" cy="428.2" r="9.5"/><text x="26" y="431.2">17</text></g></g>
+            <g class="atx-dots"><g data-n="1" tabindex="0" role="button" aria-label="01 Campus, 19 places"><circle cx="261.6" cy="266.9" r="9.5"/><text x="261.6" y="269.9">01</text></g><g data-n="2" tabindex="0" role="button" aria-label="02 Downtown, 29 places"><circle cx="246.8" cy="300.5" r="9.5"/><text x="246.8" y="303.5">02</text></g><g data-n="3" tabindex="0" role="button" aria-label="03 Clarksville, 7 places"><circle cx="220.7" cy="278.1" r="9.5"/><text x="220.7" y="281.1">03</text></g><g data-n="4" tabindex="0" role="button" aria-label="04 South Congress, 28 places"><circle cx="237.1" cy="333.2" r="9.5"/><text x="237.1" y="336.2">04</text></g><g data-n="5" tabindex="0" role="button" aria-label="05 East Austin, 30 places"><circle cx="276.5" cy="308.5" r="9.5"/><text x="276.5" y="311.5">05</text></g><g data-n="6" tabindex="0" role="button" aria-label="06 South Lamar, 14 places"><circle cx="202.7" cy="337.0" r="9.5"/><text x="202.7" y="340.0">06</text></g><g data-n="7" tabindex="0" role="button" aria-label="07 The Domain, 14 places"><circle cx="276.5" cy="44.4" r="9.5"/><text x="276.5" y="47.4">07</text></g><g data-n="8" tabindex="0" role="button" aria-label="08 West Campus, 7 places"><circle cx="242.0" cy="261.0" r="9.5"/><text x="242.0" y="264.0">08</text></g><g data-n="9" tabindex="0" role="button" aria-label="09 Zilker, 13 places"><circle cx="202.7" cy="302.8" r="9.5"/><text x="202.7" y="305.8">09</text></g><g data-n="10" tabindex="0" role="button" aria-label="10 North Loop, 12 places"><circle cx="281.4" cy="204.0" r="9.5"/><text x="281.4" y="207.0">10</text></g><g data-n="11" tabindex="0" role="button" aria-label="11 Lake Austin, 6 places"><circle cx="186.3" cy="249.6" r="9.5"/><text x="186.3" y="252.6">11</text></g><g data-n="12" tabindex="0" role="button" aria-label="12 Mueller, 3 places"><circle cx="311.0" cy="240.1" r="9.5"/><text x="311.0" y="243.1">12</text></g><g data-n="13" tabindex="0" role="button" aria-label="13 Barton Creek, 5 places"><circle cx="145.2" cy="318.0" r="9.5"/><text x="145.2" y="321.0">13</text></g><g data-n="14" tabindex="0" role="button" aria-label="14 Northwest, 2 places"><circle cx="186.3" cy="105.2" r="9.5"/><text x="186.3" y="108.2">14</text></g><g data-n="15" tabindex="0" role="button" aria-label="15 Southeast, 1 places"><circle cx="281.4" cy="460.5" r="9.5"/><text x="281.4" y="463.5">15</text></g><g data-n="16" tabindex="0" role="button" aria-label="16 Southwest, 1 places"><circle cx="33.7" cy="454.8" r="9.5"/><text x="33.7" y="457.8">16</text></g><g data-n="17" tabindex="0" role="button" aria-label="17 Hill Country, 5 places"><circle cx="26" cy="428.2" r="9.5"/><text x="26" y="431.2">17</text></g></g>
             </svg>
             <figcaption class="map-note" data-map-note>Tap a number to see the drives from there.</figcaption>
             </figure>
@@ -668,14 +678,14 @@
             <h2 class="map-head">Austin is bigger than it <em>looks.</em></h2>
             <p class="map-dek">A good Saturday isn’t just finding places you like. It’s finding places you like that make sense together.</p>
             <ol class="map-key" aria-label="Neighborhoods, with how many places in each">
-                <li data-n="1"><b>01</b> Campus<span>20</span></li>
+                <li data-n="1"><b>01</b> Campus<span>19</span></li>
                 <li data-n="2"><b>02</b> Downtown<span>29</span></li>
                 <li data-n="3"><b>03</b> Clarksville<span>7</span></li>
                 <li data-n="4"><b>04</b> South Congress<span>28</span></li>
                 <li data-n="5"><b>05</b> East Austin<span>30</span></li>
                 <li data-n="6"><b>06</b> South Lamar<span>14</span></li>
                 <li data-n="7"><b>07</b> The Domain<span>14</span></li>
-                <li data-n="8"><b>08</b> West Campus<span>6</span></li>
+                <li data-n="8"><b>08</b> West Campus<span>7</span></li>
                 <li data-n="9"><b>09</b> Zilker<span>13</span></li>
                 <li data-n="10"><b>10</b> North Loop<span>12</span></li>
                 <li data-n="11"><b>11</b> Lake Austin<span>6</span></li>
@@ -724,6 +734,7 @@
             <p>Every Saturday this planner makes is one I would actually spend. The spots are the ones I keep going back to. The rules are the ones I live by. The algorithm is the part where I made Python agree with me.</p>
             <p class="signoff">xoxo,</p>
             <p class="monogram" aria-label="Suhani Tiwari"><span>S</span><span>T</span></p>
+            <button type="button" class="cta ideal-open">See my ideal Saturday →</button>
         </article>
         <aside class="picks">
             <p class="label">Editor’s picks</p>
@@ -747,6 +758,23 @@
 </div>
 
 
+<dialog class="letter-box" id="ideal" aria-labelledby="ideal-title">
+    <div class="paper">
+        <span class="seal" aria-hidden="true">ST</span>
+        <p class="letter-kicker">From the editor’s own calendar</p>
+        <h2 class="ideal-title" id="ideal-title">My ideal <em>Saturday.</em></h2>
+        <ol class="ideal">
+            <li><b>Brunch</b><span>Yamas</span><em>With Avery, Hana and Reese.</em></li>
+            <li><b>Shop</b><span>The Domain</span><em>Then head up to the Domain. Please, shop.</em></li>
+            <li><b>Lunch</b><span>Éma</span><em>Because we’re already there.</em></li>
+            <li><b>Art</b><span>Mosaic Workshop</span><em>Now let’s do some art.</em></li>
+            <li><b>Dinner</b><span>El Alma</span></li>
+            <li class="home"><b>Home</b><span>Alone, in bed</span><em>Rom-coms, while I online shop.</em></li>
+        </ol>
+        <div class="letter-actions"><button type="button" class="close-ideal">Close</button></div>
+    </div>
+</dialog>
+
 <dialog class="letter-box" id="letter">
     <div class="paper">
         <span class="seal" aria-hidden="true">ST</span>
@@ -764,6 +792,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=21" defer></script>
+<script src="web/app.js?v=22" defer></script>
 </body>
 </html>

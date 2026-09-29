@@ -102,6 +102,7 @@ Voodoo Doughnut,Downtown,late night,30,6,foodie|social,,6,
 Pizza Press (order in),Home,order in,30,9,day-in,,22,the guilty pleasure comes to you
 Home Slice (order in),Home,order in,30,8,day-in,,22,
 Via 313 (order in),Home,order in,30,8,day-in,,22,Detroit-style
+Cabo Bob's (order in),Home,order in,30,8,day-in,,16,burrito bowl night
 Tiff's Treats (delivered),Home,treat,30,8,day-in,,12,warm cookies at the door
 Movie night,Home,movie,120,9,day-in,,0,
 Face mask and a long shower,Home,self care,60,8,day-in,,0,everything shower
@@ -128,6 +129,7 @@ Mi Madre's,East Austin,lunch,60,8,foodie|outside,,14,breakfast tacos all day
 Chi'Lantro,Campus,lunch,30,7,creative|foodie|productive|shopping,,13,kimchi fries
 P. Terry's,South Lamar,lunch,30,7,foodie|outside|productive,,10,
 Uncle Nicky's,North Loop,lunch,60,7,foodie|slow,,15,
+Cabo Bob's,West Campus,lunch,30,8,foodie|productive|social,,12,burritos on hand-pressed tortillas
 The Picnic,Zilker,lunch,60,7,foodie|outside|social,,15,food trucks by the park
 True Food Kitchen,Domain,lunch,60,7,foodie|shopping|treat-myself,,25,
 Jeffrey's,Clarksville,dinner,120,9,foodie,yes,120,the fancy one
@@ -146,7 +148,6 @@ Hestia,Downtown,dinner,120,9,foodie,yes,150,the splurge
 The Salt Lick,Hill Country,dinner,90,9,foodie|outside,,30,BBQ under the oaks
 Dai Due,East Austin,dinner,90,8,foodie|slow,,40,
 Gourdough's,South Lamar,late night,30,7,foodie|social,,9,giant doughnuts
-Whataburger,Campus,late night,30,6,foodie|productive|social,,10,the honey butter chicken biscuit
 Dolce Neve,South Congress,treat,30,8,foodie|shopping|slow,,7,gelato
 Sweet Ritual,North Loop,treat,30,7,foodie|slow,,7,
 Hey Cupcake!,South Congress,treat,30,7,foodie|shopping|social,,7,the silver trailer

@@ -353,6 +353,11 @@
     });
     [toInput, fromInput].forEach(i => i.addEventListener('input', refreshLetter));
     letterBox.querySelector('.close-letter').addEventListener('click', () => letterBox.close());
+    // the editor's own ideal Saturday
+    const ideal = document.getElementById('ideal');
+    document.querySelector('.ideal-open').addEventListener('click', () => ideal.showModal());
+    ideal.querySelector('.close-ideal').addEventListener('click', () => ideal.close());
+    ideal.addEventListener('click', e => { if (e.target === ideal) ideal.close(); });
     letterBox.addEventListener('click', e => { if (e.target === letterBox) letterBox.close(); });
     letterBox.querySelector('.copy').addEventListener('click', async () => {
         try {
@@ -480,7 +485,7 @@
     }
 
     // The map: tap a neighborhood to see the drives the planner knows from there
-    const MAP = {"names": {"1": "Campus", "2": "Downtown", "3": "Clarksville", "4": "South Congress", "5": "East Austin", "6": "South Lamar", "7": "The Domain", "8": "West Campus", "9": "Zilker", "10": "North Loop", "11": "Lake Austin", "12": "Mueller", "13": "Barton Creek", "14": "Northwest", "15": "Southeast", "16": "Southwest", "17": "Hill Country"}, "count": {"1": 20, "2": 29, "3": 7, "4": 28, "5": 30, "6": 14, "7": 14, "8": 6, "9": 13, "10": 12, "11": 6, "12": 3, "13": 5, "14": 2, "15": 1, "16": 1, "17": 5}, "roads": [[1, 8, 4], [1, 10, 8], [1, 2, 7], [1, 5, 8], [8, 3, 6], [8, 2, 8], [3, 2, 6], [3, 11, 7], [10, 7, 14], [2, 5, 6], [2, 4, 7], [2, 9, 8], [9, 4, 6], [11, 9, 9], [9, 13, 10], [6, 9, 5], [6, 4, 7], [13, 17, 30], [2, 15, 18], [4, 15, 15], [11, 14, 12], [7, 14, 15], [13, 16, 12], [6, 16, 15], [1, 12, 10], [10, 12, 8], [5, 12, 8]]};
+    const MAP = {"names": {"1": "Campus", "2": "Downtown", "3": "Clarksville", "4": "South Congress", "5": "East Austin", "6": "South Lamar", "7": "The Domain", "8": "West Campus", "9": "Zilker", "10": "North Loop", "11": "Lake Austin", "12": "Mueller", "13": "Barton Creek", "14": "Northwest", "15": "Southeast", "16": "Southwest", "17": "Hill Country"}, "count": {"1": 19, "2": 29, "3": 7, "4": 28, "5": 30, "6": 14, "7": 14, "8": 7, "9": 13, "10": 12, "11": 6, "12": 3, "13": 5, "14": 2, "15": 1, "16": 1, "17": 5}, "roads": [[1, 8, 4], [1, 10, 8], [1, 2, 7], [1, 5, 8], [8, 3, 6], [8, 2, 8], [3, 2, 6], [3, 11, 7], [10, 7, 14], [2, 5, 6], [2, 4, 7], [2, 9, 8], [9, 4, 6], [11, 9, 9], [9, 13, 10], [6, 9, 5], [6, 4, 7], [13, 17, 30], [2, 15, 18], [4, 15, 15], [11, 14, 12], [7, 14, 15], [13, 16, 12], [6, 16, 15], [1, 12, 10], [10, 12, 8], [5, 12, 8]]};
     const atx = document.querySelector('.atx');
     if (atx) {
         const note = document.querySelector('[data-map-note]'), lines = atx.querySelector('.atx-drives');
