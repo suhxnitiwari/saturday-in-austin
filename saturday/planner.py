@@ -200,6 +200,12 @@ WIND_DOWN = 30   # minutes home before bed
 MEALTIMES = {"midday meal": (11 * 60 + 30, 14 * 60 + 30), "dinner": (17 * 60 + 30, 21 * 60)}
 
 
+def reachable(spots: list, city: City, home: str, minutes: float, keep=()) -> list:
+    """Only spots you could get to, enjoy and get home from in the time you have
+    (so a one-hour outing picks from quick coffees, not a two-hour pottery class)."""
+    return [s for s in spots if s in keep or s.stay + 2 * city.minutes(home, s.zone) <= minutes]
+
+
 def meals(leave: int, end: int) -> tuple:
     """Snacks don't count as meals: out for 90+ minutes of lunchtime means a real lunch,
     and the same for dinner."""

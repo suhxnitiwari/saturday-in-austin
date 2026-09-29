@@ -13,8 +13,10 @@ def judge(wake: int, sleep: int, hours: float, mood: str = "everything",
           walk: bool = False, rainy: bool = False) -> list:
     """Comments on the choices someone made. Times are minutes after midnight."""
     notes = []
-    if 12 * 60 <= wake < 18 * 60:
-        notes.append("Waking up at noon? Wow, someone is not a morning person. ✦")
+    if 12 * 60 <= wake < 14 * 60:
+        notes.append(f"Waking up at {_clock(wake)}? Wow, someone is not a morning person. ✦")
+    elif 14 * 60 <= wake < 18 * 60:
+        notes.append(f"Waking up at {_clock(wake)}?? The day is basically over, bestie. Dinner is breakfast now.")
     if wake >= 18 * 60:
         notes.append(f"Waking up at {_clock(wake)}?? That's nighttime, vampire. Everything's closed. "
                      f"Did you mean {_clock(wake - 12 * 60)}?")
@@ -34,6 +36,8 @@ def judge(wake: int, sleep: int, hours: float, mood: str = "everything",
         notes.append(f"Only {hours:g} hour{'s' * (hours != 1)} out? A homebody at heart. Honestly, respect.")
     elif hours >= 14:
         notes.append(f"{hours:g} hours outside?! OMG. What are you escaping right now?")
+    if mood == "treat-yourself" and not walk and hours < 3:
+        notes.append(f"{hours:g} hours? Just enough for nails. Give yourself 3 for the full Domain day.")
     if walk and mood == "treat-yourself":
         notes.append("Walking to the Domain? That's a two-hour walk, babe. Treat yourself to a ride.")
     elif walk and mood != "day-in":

@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 
 from .city import WALK_PACE, City
-from .planner import plan_outing, shortlist
+from .planner import plan_outing, reachable, shortlist
 from .sass import judge, sign_off
 from .spots import MOODS, RULES, Guide, UnknownSpotError, half_hour, load, shelf_note
 
@@ -69,6 +69,7 @@ def main(argv=None) -> int:
     near = (lambda s: city.minutes(args.home, s.zone) <= MAX_WALK) if args.walk else None
     rng = random.Random(seed)
     pool = guide.pool(args.mood, must, skip, args.rainy, near)
+    pool = reachable(pool, city, args.home, args.hours * 60, must)
     spots = shortlist(pool, must, rng, caps=mood.caps, need=mood.need)
     plan = plan_outing(spots, city, args.home, args.wake, args.sleep, args.hours, must, mood)
 

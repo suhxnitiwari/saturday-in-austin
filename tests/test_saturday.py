@@ -149,6 +149,20 @@ def test_movie_night_picks_from_the_shelf():
     assert movies and movies[0] in SHELF["movie"]
 
 
+def test_late_wake_ups_get_the_right_sass():
+    assert "12:30 PM" in judge(12 * 60 + 30, 23 * 60, 6)[0]
+    four = judge(16 * 60, 23 * 60 + 30, 5)[0]
+    assert "4:00 PM" in four and "noon" not in four
+    assert any("full Domain day" in n for n in judge(9 * 60, 21 * 60, 2, "treat-yourself"))
+
+
+@pytest.mark.parametrize("seed", range(10))
+def test_one_hour_still_gets_a_plan(seed):
+    import json
+    from saturday.web import plan_json
+    assert json.loads(plan_json("9:00", "23:00", 1, "everything", seed))["stops"]
+
+
 def test_daytime_bedtime_gets_asked_about():
     assert any("Did you mean 10:00 PM" in n for n in judge(7 * 60, 10 * 60, 1.5))
 

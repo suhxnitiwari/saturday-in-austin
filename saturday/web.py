@@ -6,7 +6,7 @@ import random
 
 from .__main__ import clock
 from .city import WALK_PACE, City
-from .planner import plan_outing, shortlist
+from .planner import plan_outing, reachable, shortlist
 from .sass import judge, sign_off
 from .spots import RULES, Guide, half_hour, load, shelf_note
 
@@ -23,7 +23,8 @@ def plan_json(wake: str, sleep: str, hours: float, mood: str = "everything", see
     rules, city = RULES[mood], _WALK if walk else _DRIVE
     near = (lambda s: city.minutes(HOME, s.zone) <= MAX_WALK) if walk else None
     rng = random.Random(seed)
-    spots = shortlist(_GUIDE.pool(mood, rainy=rainy, near=near), [], rng, caps=rules.caps, need=rules.need)
+    pool = reachable(_GUIDE.pool(mood, rainy=rainy, near=near), city, HOME, float(hours) * 60)
+    spots = shortlist(pool, [], rng, caps=rules.caps, need=rules.need)
     plan = plan_outing(spots, city, HOME, to_min(wake), to_min(sleep), float(hours), mood=rules)
     stops = []
     for s in plan.stops:
