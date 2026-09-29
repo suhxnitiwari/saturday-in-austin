@@ -211,7 +211,7 @@ def test_why_notes_are_few_and_real():
     for seed in range(30):
         data = day("9:00", "22:00", "all", "everything", seed)
         notes = [s["why"] for s in data["stops"] if s.get("why")]
-        assert len(notes) <= 3
+        assert len(notes) <= 3 and len(set(notes)) == len(notes)
         seen |= set(notes)
         for s in data["stops"]:
             if s.get("why") == "It's Saturday. We're getting brunch.":

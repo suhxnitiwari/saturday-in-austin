@@ -232,7 +232,12 @@ def explain(stops: list, shortlist: list, zone_of, minutes) -> dict:
         if far and 0 not in notes:
             notes[0] = f"Absolutely not driving to {_place(zone_of(far[0]))} and immediately coming back to {_place(home_base)}."
 
-    return dict(sorted(notes.items())[:3])
+    once, seen = {}, set()
+    for i, note in sorted(notes.items()):  # each note once: it's funny the first time
+        if note not in seen:
+            once[i] = note
+            seen.add(note)
+    return dict(list(once.items())[:3])
 
 
 PLACE_NAMES = {"Domain": "the Domain", "Campus": "UT campus", "Northwest": "North Austin",
