@@ -44,8 +44,13 @@
                 if (!r.ok) throw new Error(`couldn't load ${f}`);
                 py.FS.writeFile('/home/pyodide/saturday/' + f, await r.text());
             }));
-            py.runPython('import sys; sys.path.insert(0, "/home/pyodide")\nfrom saturday.web import plan_json, names');
+            py.runPython('import sys; sys.path.insert(0, "/home/pyodide")\nfrom saturday.web import plan_json, names, stats');
             PLACES.push(...JSON.parse(py.globals.get('names')()));
+            // this planner's numbers, counted from the data (so they grow with the list)
+            for (const [key, value] of Object.entries(JSON.parse(py.globals.get('stats')()))) {
+                const e = document.querySelector(`[data-app="${key}"]`);
+                if (e) e.textContent = value;
+            }
             return py.globals.get('plan_json');
         })();
         python.catch(() => { python = null; });  // let the next change try again
@@ -117,7 +122,7 @@
         lastPlan = plan;
         document.querySelector('.seal-it').disabled = false;
         if (autoRain && form.elements.rainy.checked) {
-            sassBox.prepend(el('p', null, 'It’s raining in Austin right now, so I turned on Rainy day.'));
+            sassBox.prepend(el('p', null, 'Rain in the Saturday forecast, so I turned on Rainy day.'));
             sassBox.hidden = false;
         }
     }
@@ -371,40 +376,58 @@
                       51: 'drizzle', 53: 'drizzle', 55: 'drizzle', 61: 'rain', 63: 'rain', 65: 'heavy rain',
                       80: 'showers', 81: 'showers', 82: 'heavy showers', 95: 'thunderstorms', 96: 'thunderstorms', 99: 'thunderstorms' };
     const RAINY = new Set([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99]);
-    const setNow = (key, text) => { const e = document.querySelector(`[data-now="${key}"]`); if (e) e.textContent = text; };
-    (function daysUntilSaturday() {
-        const d = (6 - new Date().getDay() + 7) % 7;
-        setNow('days', d === 0 ? 'Today' : String(d));
-        setNow('days-label', d === 0 ? 'is Saturday' : d === 1 ? 'day until Saturday' : 'days until Saturday');
-    })();
-    fetch('https://api.open-meteo.com/v1/forecast?latitude=30.2672&longitude=-97.7431&current=temperature_2m,weather_code' +
-          '&daily=sunset&temperature_unit=fahrenheit&timezone=America%2FChicago&forecast_days=1')
+    const wx = (key, text) => document.querySelectorAll(`[data-wx="${key}"]`).forEach(e => { e.textContent = text; });
+    const clockOf = iso => { const [h, m] = iso.split('T')[1].split(':').map(Number); return `${h % 12 || 12}:${String(m).padStart(2, '0')}`; };
+    const untilSaturday = (6 - new Date().getDay() + 7) % 7;
+    wx('days-n', untilSaturday === 0 ? 'Today' : String(untilSaturday));
+    wx('days-label', untilSaturday === 0 ? 'is Saturday' : untilSaturday === 1 ? 'day until Saturday' : 'days until Saturday');
+    function verdictFor(high, rain, code) {
+        if (rain >= 60 || RAINY.has(code)) return 'Rainy day plan, obviously. Museums, bookstores, a long lunch.';
+        if (high >= 98) return 'Barton Springs is calling. Everything else can wait until sunset.';
+        if (high >= 90) return 'Hot, but make it patio. Outside before noon, inside after.';
+        if (high <= 55) return 'Sweater weather. Latte first, then everything.';
+        return 'Perfect patio weather. You have no excuse.';
+    }
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=30.2672&longitude=-97.7431' +
+          '&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code' +
+          '&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code,sunset' +
+          '&temperature_unit=fahrenheit&timezone=America%2FChicago&forecast_days=8')
         .then(r => r.json())
         .then(w => {
-            const code = w.current.weather_code;
-            setNow('temp', `${Math.round(w.current.temperature_2m)}°`);
-            setNow('sky', WEATHER[code] || 'the weather');
-            const [h, m] = w.daily.sunset[0].split('T')[1].split(':').map(Number);
-            setNow('sunset', `${h % 12 || 12}:${String(m).padStart(2, '0')}`);
-            if (RAINY.has(code) && !form.dataset.shared && !form.elements.rainy.checked) {
+            const c = w.current, d = w.daily;
+            wx('temp', `${Math.round(c.temperature_2m)}°`);
+            wx('sky', WEATHER[c.weather_code] || 'the weather');
+            wx('feels', `feels like ${Math.round(c.apparent_temperature)}°`);
+            wx('hilo', `${Math.round(d.temperature_2m_max[0])}° / ${Math.round(d.temperature_2m_min[0])}°`);
+            wx('feels', `feels like ${Math.round(c.apparent_temperature)}°, ${c.relative_humidity_2m}% humidity`);
+            wx('sunset', clockOf(d.sunset[0]));
+            const i = untilSaturday;  // the forecast starts today, so Saturday is this many days in
+            const high = Math.round(d.temperature_2m_max[i]), rain = d.precipitation_probability_max[i] ?? 0;
+            wx('sat-title', i === 0 ? 'Today is Saturday' : `This Saturday, ${d.time[i].slice(5).replace('-', '/')}`);
+            wx('sat-temp', `${high}° / ${Math.round(d.temperature_2m_min[i])}°`);
+            wx('sat-rain', `${rain}% chance of rain · ${WEATHER[d.weather_code[i]] || ''}`);
+            wx('sat-verdict', verdictFor(high, rain, d.weather_code[i]));
+            // rain on Saturday (or right now, if it's Saturday) turns on Rainy day
+            const wet = i === 0 ? RAINY.has(c.weather_code) || rain >= 60 : rain >= 60;
+            if (wet && !form.dataset.shared && !form.elements.rainy.checked) {
                 autoRain = true;
                 form.elements.rainy.checked = true;
                 run();
             }
         })
-        .catch(() => setNow('sky', 'weather unavailable'));
+        .catch(() => wx('sky', 'weather unavailable'));
     fetch('https://www.wikidata.org/w/api.php?action=wbgetclaims&entity=Q16559&property=P1082&format=json&origin=*')
         .then(r => r.json())
         .then(d => {
-            // the newest population figure (each claim has a "point in time")
+            // the newest population figure (each one has a "point in time")
             const figures = d.claims.P1082.map(c => ({
                 n: Number(c.mainsnak.datavalue.value.amount),
                 year: ((c.qualifiers || {}).P585 || [{}])[0].datavalue?.value.time.slice(1, 5) || '',
             })).sort((a, b) => b.year.localeCompare(a.year));
-            setNow('pop', figures[0].n.toLocaleString('en-US'));
-            setNow('pop-year', figures[0].year ? `people, as of ${figures[0].year}` : 'people');
+            wx('pop', figures[0].n.toLocaleString('en-US'));
+            wx('pop-year', figures[0].year ? `people, as of ${figures[0].year}` : 'people');
         })
-        .catch(() => setNow('pop', '1M-ish'));
+        .catch(() => wx('pop', '1M-ish'));
 
     run();
 })();

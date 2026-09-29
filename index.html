@@ -167,9 +167,20 @@
         .big { margin: 0; font-family: var(--display); font-weight: 500; font-size: clamp(34px, 3.6vw, 54px); line-height: 1.02; letter-spacing: -0.015em; }
         .big em { color: var(--pink); font-weight: 400; }
         .dek { margin: 16px 0 0; font-family: var(--typewriter); font-size: 15px; line-height: 1.5; }
-        .method { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.6fr); gap: 48px; align-content: start; padding-top: 6px; }
+        .method { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px 48px; align-content: start; padding-top: 6px; }
+        .method .numbers { grid-column: 2; grid-row: 1; border-bottom: 0; padding-bottom: 0; }
+        .method-intro { grid-column: 1; grid-row: 1; }
+        .method-intro .dek { font-size: 13.5px; }
+        .cards { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 4px double var(--line); }
+        .card { padding: 18px 20px 18px 0; border-bottom: 1px solid var(--line); }
+        .card:not(:nth-child(3n + 1)) { padding-left: 20px; border-left: 1px solid var(--hair); }
+        .card svg { display: block; width: 100%; max-width: 280px; height: auto; margin-bottom: 10px; }
+        .card h3 { margin: 0 0 6px; font-family: var(--display); font-weight: 500; font-size: 21px; line-height: 1.15; }
+        .card p { margin: 0; font-size: 13px; line-height: 1.55; color: #333; }
+        .card .grown { margin-top: 10px; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pink-ink); }
+        .card .grown code { font-size: 10px; text-transform: none; letter-spacing: 0; background: var(--blush); padding: 0 3px; }
         .now { margin: 22px 0 0; padding: 14px 0 0; border-top: 1px solid var(--line); }
-        .now-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 18px; margin-top: 6px; }
+        .now-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 18px; margin-top: 6px; }
         .now-grid b { display: block; font-family: var(--display); font-weight: 500; font-size: 26px; line-height: 1.1; }
         .now-grid span { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); }
         .now-src { margin: 10px 0 0; font-family: var(--typewriter); font-size: 11px; color: var(--grey); }
@@ -191,10 +202,36 @@
         .letter-actions .copy { background: var(--pink); color: var(--paper); }
         .letter-actions button:hover { background: var(--ink); color: var(--paper); }
         .letter-note { min-height: 1em; margin: 10px 0 0; font-family: var(--typewriter); font-size: 12px; color: var(--pink-ink); }
-        .method-list { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
-        .method-list dt { margin: 0 0 4px; padding-top: 14px; border-top: 1px solid var(--line); font-family: var(--display); font-weight: 600; font-size: 17px; }
-        .method-list dd { margin: 0 0 18px; font-size: 13px; line-height: 1.6; color: #333; }
-        .method-list code { font-size: 12px; background: var(--blush); padding: 1px 4px; }
+        /* Austin: a big weather widget and the city by the numbers */
+        .austin { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 48px; align-content: start; padding-top: 6px; overflow-y: auto; min-height: 0; }
+        .wx-now { display: flex; align-items: flex-end; gap: 22px; margin: 4px 0 18px; }
+        .wx-temp { font-family: var(--display); font-weight: 500; font-size: clamp(88px, 11vw, 150px); line-height: 0.85; letter-spacing: -0.03em; }
+        .wx-sky { margin: 0; font-family: var(--display); font-style: italic; font-size: 28px; color: var(--pink); text-transform: lowercase; }
+        .wx-feels { margin: 6px 0 0; font-family: var(--typewriter); font-size: 13px; color: var(--grey); }
+        .wx-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+        .wx-grid div { padding: 12px 12px 12px 0; }
+        .wx-grid div + div { padding-left: 14px; border-left: 1px solid var(--hair); }
+        .wx-grid b { display: block; font-family: var(--display); font-weight: 500; font-size: 26px; }
+        .wx-grid span { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); }
+        .wx-saturday { margin-top: 20px; padding: 16px 18px 18px; border: 2px solid var(--line); outline: 1px solid var(--gold); outline-offset: 4px; }
+        .wx-sat-line { margin: 4px 0 0; font-family: var(--typewriter); font-size: 14px; }
+        .wx-sat-line b { font-family: var(--display); font-weight: 500; font-size: 30px; margin-right: 8px; }
+        .wx-verdict { margin: 8px 0 0; font-family: var(--display); font-style: italic; font-size: 20px; color: var(--pink-ink); }
+        .wx-saturday .cta { margin-top: 14px; }
+        .austin-numbers .figs { grid-template-columns: 1fr 1fr; }
+        .austin-numbers .figs div:nth-child(3) { padding-left: 0; border-left: 0; }
+        .austin-numbers .figs div:nth-child(n + 3) { border-top: 1px solid var(--hair); }
+        .austin-numbers .figs b { font-size: clamp(28px, 3vw, 44px); }
+        .austin-numbers .figs div { padding-bottom: 14px; }
+        .austin-quote { margin: 26px 0 0; padding-top: 16px; border-top: 4px double var(--line); font-family: var(--display); font-style: italic; font-size: 22px; line-height: 1.3; }
+
+        /* the numbers: two editorial strips across the top of The Method */
+        .numbers { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr; gap: 40px; padding-bottom: 22px; border-bottom: 4px double var(--line); }
+        .figs { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); }
+        .figs div { padding: 12px 12px 0 0; }
+        .figs div + div { padding-left: 12px; border-left: 1px solid var(--hair); }
+        .figs b { display: block; font-family: var(--display); font-weight: 500; font-size: clamp(22px, 2.2vw, 32px); line-height: 1.05; white-space: nowrap; }
+        .figs span { display: block; margin-top: 6px; font-family: var(--typewriter); font-size: 12px; line-height: 1.35; color: var(--grey); }
         .editor { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.8fr); gap: 40px; align-items: start; padding-top: 6px; }
         .portrait { margin: 0 0 20px; }
         /* the whole photo, never cropped (the coffee stays in) */
@@ -226,7 +263,12 @@
             header { grid-template-columns: 1fr; gap: 12px; align-items: start; }
             h1 { white-space: normal; }
             .sections { flex-wrap: wrap; }
-            .method, .editor, .method-list { grid-template-columns: 1fr; gap: 28px; }
+            .method, .editor, .numbers, .austin, .cards { grid-template-columns: 1fr; gap: 28px; }
+            .method .numbers, .method-intro { grid-column: 1; grid-row: auto; }
+            .card:not(:nth-child(3n + 1)) { padding-left: 0; border-left: 0; }
+            .wx-grid { grid-template-columns: 1fr 1fr; }
+            .figs { grid-template-columns: 1fr 1fr; }
+            .figs div:nth-child(3) { padding-left: 0; border-left: 0; }
             .portrait img { max-height: none; }
             .letter { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: 18px; }
             main { grid-template-columns: 1fr; grid-template-rows: auto; gap: 24px; }
@@ -255,6 +297,7 @@
         </div>
         <nav class="sections" role="tablist" aria-label="Sections">
             <button type="button" role="tab" data-screen="plan" aria-selected="true">Plan</button>
+            <button type="button" role="tab" data-screen="austin" aria-selected="false">Austin</button>
             <button type="button" role="tab" data-screen="editor" aria-selected="false">The Editor</button>
             <button type="button" role="tab" data-screen="method" aria-selected="false">The Method</button>
             <a href="https://github.com/suhxnitiwari/saturday-in-austin">Code ↗</a>
@@ -370,35 +413,146 @@
     </main>
 
     <section class="screen method" id="screen-method" hidden>
+        <div class="numbers">
+            <div class="strip">
+                <p class="label">This planner, by the numbers</p>
+                <div class="figs">
+                    <div><b data-app="places">192</b><span>places handpicked</span></div>
+                    <div><b data-app="neighborhoods">17</b><span>Austin neighborhoods</span></div>
+                    <div><b data-app="moods">10</b><span>Saturday moods</span></div>
+                    <div><b>1</b><span>girl who refuses to Uber from the Domain to Sunset Valley and back 😭</span></div>
+                </div>
+            </div>
+        </div>
         <div class="method-intro">
             <p class="kicker">The Method</p>
             <h2 class="big">Okay, but how is it <em>in the know?</em></h2>
-            <div class="now" aria-live="polite">
-                <p class="label">Austin, right now</p>
-                <div class="now-grid">
-                    <div><b data-now="temp">…</b><span data-now="sky">the weather</span></div>
-                    <div><b data-now="sunset">…</b><span>sunset tonight</span></div>
-                    <div><b data-now="pop">…</b><span data-now="pop-year">people</span></div>
-                    <div><b data-now="days">…</b><span data-now="days-label">until Saturday</span></div>
-                </div>
-                <p class="now-src">Live from Open-Meteo and Wikidata.</p>
-            </div>
             <p class="dek">I turned Austin into a graph, gave every place its own rules, and taught the planner how a girl actually spends a Saturday. It keeps track of the time, the neighborhood, the drive, when you last ate, the weather and how much energy you have left. It knows what belongs before brunch and what never happens right after Pilates. Then it finds the one day that actually fits. On Saturdays, we brunch.</p>
         </div>
-        <dl class="method-list">
-            <dt>Austin is a weighted graph</dt>
-            <dd>Neighborhoods are nodes and roads are edges weighted in drive minutes. <b>Dijkstra’s algorithm</b> with a min-heap finds the fastest drive between any two, and every answer is cached. With No car, each place gets its real coordinates from OpenStreetMap, walks are measured with the haversine formula, and a <b>breadth-first search</b> keeps only places you can reach in hops of a mile or less.</dd>
-            <dt>A weighted lottery picks the candidates</dt>
-            <dd>Each run draws a shortlist with <b>weighted sampling without replacement</b> (Efraimidis–Spirakis: every place gets the key random()<sup>1/weight</sup> and the biggest keys win). Higher-rated places and closer places get more tickets, and on a Saturday morning brunch always gets one.</dd>
-            <dt>Dynamic programming finds the best day</dt>
-            <dd><b>Bitmask dynamic programming over subsets</b>: a state is which places you’ve been to, the last one, when you finish it, and a tiny “person state” (just worked out, just ate, just changed). Each move has to be allowed by the rules, and the day that wins scores 10 points per point of joy minus travel, off-hours timing and a little energy per stop. That turns billions of possible orders into a search that runs in a fraction of a second, in your browser.</dd>
-            <dt>The rules are data, not if-statements</dt>
-            <dd>Every kind of stop carries metadata in <code>rules.py</code>: how filling it is, whether it’s a workout, whether you can show up in workout clothes, when it closes, the hours it’s best at. One function, <code>step()</code>, decides if a move is something a person would do. That’s also where the little “why?” notes come from.</dd>
-            <dt>Every Saturday has a number</dt>
-            <dd>The randomness is seeded, so Saturday #184 is always the same Saturday.</dd>
-            <dt>And it’s tested</dt>
-            <dd>A <b>backtracking search</b> that really tries every possible order runs on dozens of random days, and the dynamic programming has to match its best score every time. Other tests check the people rules one by one: Pilates, then coffee, then a shower is fine; Pilates, then shopping is not; brunch and then lunch 45 minutes later never happens; nothing is ever scheduled outside its hours.</dd>
-        </dl>
+        <div class="cards">
+            <article class="card">
+                <svg viewBox="0 0 240 120" role="img" aria-label="A small map of Austin neighborhoods as dots and lines; the fastest path from West Campus to South Congress is highlighted">
+                    <g stroke="#111" stroke-width="1" font-family="Helvetica Neue, Arial, sans-serif" font-size="9">
+                        <line x1="30" y1="36" x2="96" y2="22"/><line x1="96" y1="22" x2="112" y2="70"/><line x1="96" y1="22" x2="196" y2="46"/>
+                        <line x1="112" y1="70" x2="196" y2="46"/><line x1="112" y1="70" x2="44" y2="100"/><line x1="44" y1="100" x2="176" y2="104"/>
+                        <line x1="30" y1="36" x2="112" y2="70" stroke="#E8127C" stroke-width="3.5"/><line x1="112" y1="70" x2="176" y2="104" stroke="#E8127C" stroke-width="3.5"/>
+                    </g>
+                    <g font-family="Helvetica Neue, Arial, sans-serif" font-size="9" fill="#111">
+                        <text x="60" y="24">4</text><text x="108" y="44">7</text><text x="150" y="30">8</text><text x="158" y="54">6</text><text x="70" y="80">8</text><text x="104" y="98">6</text>
+                        <text x="62" y="60" fill="#B80D62" font-weight="700">8</text><text x="146" y="84" fill="#B80D62" font-weight="700">7</text>
+                    </g>
+                    <g fill="#fff" stroke="#111" stroke-width="1.5"><circle cx="30" cy="36" r="6" fill="#E8127C" stroke="#E8127C"/><circle cx="96" cy="22" r="5"/><circle cx="112" cy="70" r="6" fill="#111"/><circle cx="196" cy="46" r="5"/><circle cx="44" cy="100" r="5"/><circle cx="176" cy="104" r="6" fill="#E8127C" stroke="#E8127C"/></g>
+                    <g font-family="Helvetica Neue, Arial, sans-serif" font-size="8" font-weight="700" fill="#6E6E6E" letter-spacing=".5"><text x="4" y="20">WEST CAMPUS</text><text x="116" y="118">SOUTH CONGRESS</text><text x="120" y="66">DOWNTOWN</text></g>
+                </svg>
+                <h3>Austin is dots and lines</h3>
+                <p>Every neighborhood is a dot, and every road is a line with minutes on it. To go somewhere, it adds up the minutes on each path and picks the smallest, like the fastest way through a maze. Here, 8 + 7 = 15 minutes.</p>
+                <p class="grown">Grown-up word: Dijkstra’s shortest-path algorithm</p>
+            </article>
+            <article class="card">
+                <svg viewBox="0 0 240 120" role="img" aria-label="Lottery tickets: a loved, nearby place gets five tickets; a far away place gets one">
+                    <g font-family="Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#111"><text x="6" y="30">Medici</text><text x="6" y="82">Far away</text></g>
+                    <g font-family="Helvetica Neue, Arial, sans-serif" font-size="8" fill="#6E6E6E"><text x="6" y="44">loved + close</text><text x="6" y="96">just okay + far</text></g>
+                    <g fill="#E8127C">
+                        <rect x="86" y="18" width="26" height="18" rx="2"/><rect x="116" y="18" width="26" height="18" rx="2"/><rect x="146" y="18" width="26" height="18" rx="2"/><rect x="176" y="18" width="26" height="18" rx="2"/><rect x="206" y="18" width="26" height="18" rx="2"/>
+                    </g>
+                    <rect x="86" y="70" width="26" height="18" rx="2" fill="none" stroke="#111" stroke-width="1.5"/>
+                    <g stroke="#fff" stroke-width="1.5" stroke-dasharray="2 2"><line x1="104" y1="18" x2="104" y2="36"/><line x1="134" y1="18" x2="134" y2="36"/><line x1="164" y1="18" x2="164" y2="36"/><line x1="194" y1="18" x2="194" y2="36"/><line x1="224" y1="18" x2="224" y2="36"/></g>
+                    <line x1="104" y1="70" x2="104" y2="88" stroke="#111" stroke-width="1.5" stroke-dasharray="2 2"/>
+                </svg>
+                <h3>A lottery with extra tickets</h3>
+                <p>Every place gets lottery tickets. Places I love get more, and places far away get fewer. Then it draws about a dozen for today, so every Saturday is different but the favorites keep winning.</p>
+                <p class="grown">Grown-up word: weighted sampling without replacement</p>
+            </article>
+            <article class="card">
+                <svg viewBox="0 0 240 120" role="img" aria-label="Rules: Pilates then coffee then shower is allowed; Pilates then shopping is not; brunch then lunch is not">
+                    <g font-family="Helvetica Neue, Arial, sans-serif" font-size="9" font-weight="700">
+                        <g fill="none" stroke="#111"><rect x="4" y="8" width="54" height="22"/><rect x="72" y="8" width="54" height="22"/><rect x="140" y="8" width="54" height="22"/>
+                        <rect x="4" y="48" width="54" height="22"/><rect x="72" y="48" width="54" height="22"/><rect x="4" y="88" width="54" height="22"/><rect x="72" y="88" width="54" height="22"/></g>
+                        <g fill="#111"><text x="14" y="23">PILATES</text><text x="84" y="23">COFFEE</text><text x="150" y="23">SHOWER</text>
+                        <text x="14" y="63">PILATES</text><text x="76" y="63">SHOPPING</text><text x="16" y="103">BRUNCH</text><text x="86" y="103">LUNCH</text>
+                        <text x="61" y="23">→</text><text x="129" y="23">→</text><text x="61" y="63">→</text><text x="61" y="103">→</text></g>
+                        <text x="206" y="25" font-size="18" fill="#111">✓</text><text x="138" y="66" font-size="18" fill="#E8127C">✗</text><text x="138" y="106" font-size="18" fill="#E8127C">✗</text>
+                    </g>
+                </svg>
+                <h3>Rules about being a person</h3>
+                <p>The planner carries a tiny backpack of facts about you: did you just work out? Did you just eat? Every next stop has to pass the rules. Coffee in gym clothes is fine. Shopping in them is not.</p>
+                <p class="grown">Grown-up word: a state machine (<code>rules.step()</code>)</p>
+            </article>
+            <article class="card">
+                <svg viewBox="0 0 240 120" role="img" aria-label="Days grow one stop at a time; when two versions end up the same, only the better one is kept">
+                    <g stroke="#111" stroke-width="1"><line x1="20" y1="60" x2="80" y2="24"/><line x1="20" y1="60" x2="80" y2="60"/><line x1="20" y1="60" x2="80" y2="96"/>
+                    <line x1="80" y1="24" x2="150" y2="14"/><line x1="80" y1="24" x2="150" y2="44"/><line x1="80" y1="60" x2="150" y2="44" stroke-dasharray="3 3" stroke="#B5B5B5"/><line x1="80" y1="96" x2="150" y2="84"/><line x1="80" y1="96" x2="150" y2="108"/>
+                    <line x1="150" y1="44" x2="214" y2="44" stroke="#E8127C" stroke-width="3"/></g>
+                    <g fill="#fff" stroke="#111" stroke-width="1.5"><circle cx="20" cy="60" r="6" fill="#111"/><circle cx="80" cy="24" r="5"/><circle cx="80" cy="60" r="5"/><circle cx="80" cy="96" r="5"/><circle cx="150" cy="14" r="5"/><circle cx="150" cy="44" r="6" fill="#E8127C" stroke="#E8127C"/><circle cx="150" cy="84" r="5"/><circle cx="150" cy="108" r="5"/><circle cx="214" cy="44" r="5"/></g>
+                    <g font-family="Helvetica Neue, Arial, sans-serif" font-size="8" font-weight="700" fill="#6E6E6E"><text x="4" y="78">HOME</text><text x="62" y="118">1 STOP</text><text x="134" y="120">2 STOPS</text><text x="196" y="62">3…</text></g>
+                    <text x="92" y="56" font-family="Helvetica Neue, Arial, sans-serif" font-size="14" fill="#E8127C">✗</text>
+                </svg>
+                <h3>Building the day, one stop at a time</h3>
+                <p>It grows every possible day one stop at a time. When two days end up in the same place, at the same time, having done the same things, it only keeps the better one. That turns billions of orders into less than a second.</p>
+                <p class="grown">Grown-up word: bitmask dynamic programming</p>
+            </article>
+            <article class="card">
+                <svg viewBox="0 0 240 120" role="img" aria-label="The slow way tries every order; the fast way uses the planner; both must give the same answer">
+                    <g fill="none" stroke="#111" stroke-width="1.5"><rect x="6" y="14" width="92" height="36"/><rect x="6" y="70" width="92" height="36"/><rect x="146" y="40" width="88" height="40" stroke="#E8127C" stroke-width="2.5"/></g>
+                    <g font-family="Helvetica Neue, Arial, sans-serif" font-size="9" font-weight="700" fill="#111"><text x="16" y="30">THE SLOW WAY</text><text x="16" y="86">THE FAST WAY</text><text x="158" y="58">SAME ANSWER</text></g>
+                    <g font-family="Helvetica Neue, Arial, sans-serif" font-size="8" fill="#6E6E6E"><text x="16" y="42">tries every order</text><text x="16" y="98">the planner</text><text x="162" y="72">every single time</text></g>
+                    <g stroke="#111" stroke-width="1.5"><line x1="100" y1="32" x2="142" y2="54"/><line x1="100" y1="88" x2="142" y2="66"/></g>
+                    <text x="214" y="34" font-family="Helvetica Neue, Arial, sans-serif" font-size="20" fill="#111">✓</text>
+                </svg>
+                <h3>Checking its homework</h3>
+                <p>A slow, careful version tries every single order. The fast planner has to get the exact same answer on dozens of made-up Saturdays, or the tests fail. It also checks the people rules one by one.</p>
+                <p class="grown">Grown-up word: brute-force backtracking tests</p>
+            </article>
+            <article class="card">
+                <svg viewBox="0 0 240 120" role="img" aria-label="Saturday number 184 always gives the same day">
+                    <text x="6" y="70" font-family="Bodoni Moda, Didot, Georgia, serif" font-style="italic" font-size="44" fill="#E8127C">#184</text>
+                    <g fill="#111"><rect x="120" y="26" width="30" height="10"/><rect x="154" y="26" width="18" height="10" fill="#E8127C"/><rect x="176" y="26" width="26" height="10"/><rect x="206" y="26" width="26" height="10" fill="#E8127C"/>
+                    <rect x="120" y="76" width="30" height="10"/><rect x="154" y="76" width="18" height="10" fill="#E8127C"/><rect x="176" y="76" width="26" height="10"/><rect x="206" y="76" width="26" height="10" fill="#E8127C"/></g>
+                    <g font-family="Helvetica Neue, Arial, sans-serif" font-size="8" font-weight="700" fill="#6E6E6E"><text x="120" y="20">TODAY</text><text x="120" y="70">NEXT WEEK</text><text x="176" y="58" font-size="14" fill="#111">=</text></g>
+                </svg>
+                <h3>Same number, same Saturday</h3>
+                <p>The lottery is random, but every Saturday gets a number. Type the number back in, or send the letter link, and you get the exact same day, stop for stop.</p>
+                <p class="grown">Grown-up word: a seeded random number generator</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="screen austin" id="screen-austin" hidden>
+        <div class="weather" aria-live="polite">
+            <p class="kicker">Austin, right now</p>
+            <div class="wx-now">
+                <b class="wx-temp" data-wx="temp">…</b>
+                <div>
+                    <p class="wx-sky" data-wx="sky">Checking the sky…</p>
+                    <p class="wx-feels" data-wx="feels"></p>
+                </div>
+            </div>
+            <div class="wx-grid">
+                <div><b data-wx="hilo">…</b><span>today, high / low</span></div>
+                <div><b data-wx="sunset">…</b><span>sunset tonight</span></div>
+                <div><b data-wx="pop">…</b><span data-wx="pop-year">people</span></div>
+                <div><b data-wx="days-n">…</b><span data-wx="days-label">days until Saturday</span></div>
+            </div>
+            <div class="wx-saturday">
+                <p class="label" data-wx="sat-title">This Saturday</p>
+                <p class="wx-sat-line"><b data-wx="sat-temp">…</b> <span data-wx="sat-rain"></span></p>
+                <p class="wx-verdict" data-wx="sat-verdict"></p>
+                <button type="button" class="cta" data-go="plan" data-wx-plan>Plan this Saturday →</button>
+            </div>
+            <p class="now-src">Live from Open-Meteo and Wikidata.</p>
+        </div>
+        <div class="austin-side">
+            <div class="strip austin-numbers">
+                <p class="label">Austin, by the numbers</p>
+                <div class="figs">
+                    <div><b>1,002,632</b><span>Austinites</span></div>
+                    <div><b>319.9 mi²</b><span>to somehow get across</span></div>
+                    <div><b>#12</b><span>biggest U.S. city</span></div>
+                    <div><b>55,172</b><span>Longhorns making weekend plans</span></div>
+                </div>
+            </div>
+            <p class="austin-quote">A big small city, or a small big city. Either way, you are not driving from the Domain to Sunset Valley and back.</p>
+        </div>
     </section>
 
     <section class="screen editor" id="screen-editor" hidden>
@@ -458,6 +612,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=15" defer></script>
+<script src="web/app.js?v=17" defer></script>
 </body>
 </html>

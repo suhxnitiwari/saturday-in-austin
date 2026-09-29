@@ -35,6 +35,14 @@ def names() -> str:
     return json.dumps(sorted(s.name for s in guide.spots if s.name not in guide.home_spots))
 
 
+def stats() -> str:
+    """This planner, by the numbers: counted from the data, so they grow as the list does."""
+    from .spots import MOODS
+    guide = _guide("West Campus")
+    places = [s for s in guide.spots if s.name not in guide.home_spots]
+    return json.dumps({"places": len(places), "neighborhoods": len({s.zone for s in places}), "moods": len(MOODS)})
+
+
 def plan_json(start: str, end: str, hours="all", mood: str = "everything", seed=None,
               walk: bool = False, rainy: bool = False, area: str = "anywhere",
               include: str = "", exclude: str = "", travel: str = "", budget: str = "normal",
