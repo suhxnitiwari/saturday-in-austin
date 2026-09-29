@@ -199,7 +199,7 @@
         .now-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 18px; margin-top: 6px; }
         .now-grid b { display: block; font-family: var(--display); font-weight: 500; font-size: 26px; line-height: 1.1; }
         .now-grid span { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); }
-        .now-src { margin: 10px 0 0; font-family: var(--typewriter); font-size: 11px; color: var(--grey); }
+        .now-src { margin: 10px 0 0; font-family: var(--typewriter); font-size: 12px; color: #555; }
 
         /* the love letter: cream paper, a pink wax seal, very Bridgerton */
         .letter-box { width: min(620px, calc(100% - 32px)); max-height: calc(100vh - 40px); padding: 0; border: 0; background: transparent; overflow: visible; }
@@ -239,7 +239,8 @@
         .flip-head .label { margin: 0; }
         .flip-nav { display: flex; border: 1px solid var(--line); }
         .flip-nav button { width: 30px; height: 26px; border: 0; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1; cursor: pointer; }
-        .flip-nav button + button { border-left: 1px solid var(--line); }
+        .flip-count { display: flex; align-items: center; padding: 0 8px; border-left: 1px solid var(--line); border-right: 1px solid var(--line); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; }
+        .flip-nav button:focus-visible { outline: 2px solid var(--pink); outline-offset: -2px; }
         .flip-nav button:hover { background: var(--blush); color: var(--pink); }
         .flip .figs b { font-size: clamp(22px, 1.8vw, 26px); }
         .flip .figs.six { grid-template-columns: repeat(3, 1fr); }
@@ -260,10 +261,17 @@
         .atx-drives.focus line:not(.on) { opacity: 0.12; }
         .atx-edge { font: italic 8px var(--display); fill: var(--pink-ink); }
         .atx-dots g { cursor: pointer; outline: none; }
+        .atx-dots .hit { fill: transparent; stroke: none; }
+        .atx-dots g.on circle:not(.hit), .atx-dots g:focus-visible circle:not(.hit) { stroke: var(--pink); stroke-width: 3; }
+        .atx-dots g.on circle:not(.hit) { r: 12px; }
         .atx-dots circle { fill: var(--pink); stroke: #F7F1E5; stroke-width: 1.5; }
         .atx-dots text { font: 700 8px var(--sans); fill: #fff; text-anchor: middle; pointer-events: none; }
-        .atx-dots g.on circle, .atx-dots g:hover circle, .atx-dots g:focus-visible circle { fill: var(--ink); }
-        .map-note { min-height: 2.8em; margin-top: 14px; font-family: var(--typewriter); font-size: 12.5px; line-height: 1.4; color: var(--pink-ink); }
+        .atx-dots g.on circle:not(.hit), .atx-dots g:hover circle:not(.hit), .atx-dots g.hov circle:not(.hit), .atx-dots g:focus-visible circle:not(.hit) { fill: var(--ink); }
+        .map-card { display: grid; gap: 3px; margin-top: 14px; padding: 10px 12px; border: 1px solid var(--line); border-left: 4px solid var(--pink); }
+        .mc-kicker { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--pink-ink); }
+        .mc-name { font-family: var(--display); font-weight: 500; font-size: 21px; line-height: 1.1; }
+        .mc-body { font-family: var(--typewriter); font-size: 12px; line-height: 1.45; color: #333; }
+        .map-key-label { margin-bottom: 6px; }
         .map-head { margin: 4px 0 0; font-family: var(--display); font-weight: 500; font-size: clamp(26px, 2.3vw, 36px); line-height: 1.08; letter-spacing: -0.01em; }
         .map-head em { color: var(--pink); font-weight: 400; }
         .map-dek { margin: 10px 0 14px; font-family: var(--typewriter); font-size: 13px; line-height: 1.5; }
@@ -271,7 +279,8 @@
         .map-key li { display: flex; align-items: baseline; gap: 8px; padding: 4px 0; border-bottom: 1px solid var(--hair); break-inside: avoid; font-size: 12.5px; cursor: pointer; }
         .map-key li b { font-size: 10px; letter-spacing: 0.08em; color: var(--pink); }
         .map-key li span { margin-left: auto; font-family: var(--typewriter); font-size: 11px; color: var(--grey); }
-        .map-key li.on, .map-key li:hover { background: var(--blush); }
+        .map-key li.on, .map-key li:hover, .map-key li.hov { background: var(--blush); }
+        .map-key li.on b { color: var(--ink); }
         .map-src { margin: 8px 0 0; font-family: var(--typewriter); font-size: 11px; color: var(--grey); }
         .wx-now { display: flex; align-items: flex-end; gap: 22px; margin: 4px 0 12px; }
         .wx-temp { font-family: var(--display); font-weight: 500; font-size: clamp(80px, 8.5vw, 124px); line-height: 0.85; letter-spacing: -0.03em; }
@@ -298,6 +307,8 @@
         .vote-opts button:hover { background: var(--blush); }
         .vote-opts button em { color: var(--pink); }
         .vote-opts button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+        .vote-opts button[aria-pressed="true"] > span:first-child::after { content: " ✓"; color: var(--pink); }
+        .vote-opts button:focus-visible { outline: 2px solid var(--pink); outline-offset: -3px; }
         .vote-bar, .vote-pct { display: none; }
         .vote.voted .vote-bar { display: block; height: 6px; border: 1px solid currentColor; }
         .vote.voted .vote-bar i { display: block; height: 100%; width: 0; background: var(--pink); transition: width 0.6s ease; }
@@ -345,6 +356,22 @@
         .rules li::before { content: counter(rule, decimal-leading-zero); font-family: var(--display); font-style: italic; color: var(--pink); }
 
         /* smaller screens: stack and scroll like a normal page */
+        /* the fun contact footer, just past the fold: you only find it if you scroll */
+        .contact { padding: 56px 24px 40px; background: var(--ink); color: var(--paper); text-align: center; border-top: 4px double var(--pink); }
+        .contact-head { margin: 0; font-family: var(--display); font-weight: 500; font-size: clamp(30px, 3.4vw, 46px); line-height: 1.05; }
+        .contact-head em { color: var(--pink); font-weight: 400; }
+        .contact-sub { margin: 10px 0 30px; font-family: var(--display); font-style: italic; font-size: 19px; color: #D9D9D9; }
+        .contact-links { display: flex; flex-wrap: wrap; justify-content: center; margin: 0 auto; padding: 0; list-style: none; max-width: 880px; border: 1px solid #444; }
+        .contact-links li { flex: 1 1 180px; display: grid; gap: 6px; padding: 18px 12px; }
+        .contact-links li + li { border-left: 1px solid #444; }
+        .contact-links a { color: var(--paper); font-size: 13px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; }
+        .contact-links a span { color: var(--pink); }
+        .contact-links a:hover, .contact-links a:focus-visible { color: var(--pink); }
+        .contact-links em { font-family: var(--typewriter); font-style: normal; font-size: 12.5px; color: #BDBDBD; }
+        .contact-top { display: inline-block; margin-top: 30px; color: var(--paper); font-family: var(--typewriter); font-size: 13px; text-decoration: none; border-bottom: 1px solid var(--pink); }
+        .contact-top:hover { color: var(--pink); }
+        .contact-copy { margin: 14px 0 0; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #8C8C8C; }
+        @media (max-width: 560px) { .contact-links li + li { border-left: 0; border-top: 1px solid #444; } .contact-links li { flex-basis: 100%; } }
         @media (max-width: 1000px), (max-height: 640px) {
             .page { height: auto; padding: 22px 18px 30px; }
             header { grid-template-columns: 1fr; gap: 12px; align-items: start; }
@@ -387,7 +414,7 @@
             .wx-saturday { margin-top: 12px; padding: 12px 16px 12px; }
             .wx-sat-line b { font-size: 24px; }
             .wx-verdict { font-size: 16px; margin-top: 6px; }
-            .austin .now-src { display: none; }
+            .austin .now-src { margin-top: 6px; font-size: 11px; }
             .flip { margin-top: 12px; }
             .flip .figs b { font-size: 21px; }
             .flip .figs span { margin-top: 3px; }
@@ -650,12 +677,12 @@
                     <p class="wx-verdict" data-wx="sat-verdict"></p>
                     <button type="button" class="cta" data-go="plan" data-wx-plan>Plan this Saturday →</button>
                 </div>
-                <p class="now-src">Live from Open-Meteo and Wikidata.</p>
+                <p class="now-src" data-wx="src">Weather live from Open-Meteo. Population from Wikidata.</p>
             </div>
             <div class="strip flip" data-flip>
                 <div class="flip-head">
                     <p class="label" data-flip-title>Austin, by the numbers</p>
-                    <div class="flip-nav"><button type="button" data-flip-go="-1" aria-label="Previous numbers">‹</button><button type="button" data-flip-go="1" aria-label="Next numbers">›</button></div>
+                    <div class="flip-nav"><button type="button" data-flip-go="-1" aria-label="Previous numbers">‹</button><span class="flip-count" data-flip-count>1 / 2</span><button type="button" data-flip-go="1" aria-label="Next numbers">›</button></div>
                 </div>
                 <div class="figs" data-flip-page data-title="Austin, by the numbers">
                     <div><b>1,002,632</b><span>Austinites</span></div>
@@ -684,15 +711,16 @@
             <g class="atx-street-names"><text transform="translate(345.4 101.4) rotate(-68)">I-35</text><text transform="translate(210.9 181.2) rotate(-70)">MOPAC</text><text transform="translate(278.1 166.0) rotate(-55)">LAMAR</text><text transform="translate(206.0 418.7) rotate(-64)">CONGRESS</text><text transform="translate(248.6 44.4) rotate(40)">183</text><text transform="translate(117.4 369.3) rotate(-6)">71</text><text transform="translate(270.8 332.3) rotate(-12)" class="atx-lake">LADY BIRD LAKE</text></g>
             <g class="atx-drives"><line data-a="1" data-b="8" x1="261.6" y1="266.9" x2="242.0" y2="261.0"/><line data-a="1" data-b="10" x1="261.6" y1="266.9" x2="281.4" y2="204.0"/><line data-a="1" data-b="2" x1="261.6" y1="266.9" x2="246.8" y2="300.5"/><line data-a="1" data-b="5" x1="261.6" y1="266.9" x2="276.5" y2="308.5"/><line data-a="8" data-b="3" x1="242.0" y1="261.0" x2="220.7" y2="278.1"/><line data-a="8" data-b="2" x1="242.0" y1="261.0" x2="246.8" y2="300.5"/><line data-a="3" data-b="2" x1="220.7" y1="278.1" x2="246.8" y2="300.5"/><line data-a="3" data-b="11" x1="220.7" y1="278.1" x2="186.3" y2="249.6"/><line data-a="10" data-b="7" x1="281.4" y1="204.0" x2="276.5" y2="44.4"/><line data-a="2" data-b="5" x1="246.8" y1="300.5" x2="276.5" y2="308.5"/><line data-a="2" data-b="4" x1="246.8" y1="300.5" x2="237.1" y2="333.2"/><line data-a="2" data-b="9" x1="246.8" y1="300.5" x2="202.7" y2="302.8"/><line data-a="9" data-b="4" x1="202.7" y1="302.8" x2="237.1" y2="333.2"/><line data-a="11" data-b="9" x1="186.3" y1="249.6" x2="202.7" y2="302.8"/><line data-a="9" data-b="13" x1="202.7" y1="302.8" x2="145.2" y2="318.0"/><line data-a="6" data-b="9" x1="202.7" y1="337.0" x2="202.7" y2="302.8"/><line data-a="6" data-b="4" x1="202.7" y1="337.0" x2="237.1" y2="333.2"/><line data-a="13" data-b="17" x1="145.2" y1="318.0" x2="26" y2="428.2"/><line data-a="2" data-b="15" x1="246.8" y1="300.5" x2="281.4" y2="460.5"/><line data-a="4" data-b="15" x1="237.1" y1="333.2" x2="281.4" y2="460.5"/><line data-a="11" data-b="14" x1="186.3" y1="249.6" x2="186.3" y2="105.2"/><line data-a="7" data-b="14" x1="276.5" y1="44.4" x2="186.3" y2="105.2"/><line data-a="13" data-b="16" x1="145.2" y1="318.0" x2="33.7" y2="454.8"/><line data-a="6" data-b="16" x1="202.7" y1="337.0" x2="33.7" y2="454.8"/><line data-a="1" data-b="12" x1="261.6" y1="266.9" x2="311.0" y2="240.1"/><line data-a="10" data-b="12" x1="281.4" y1="204.0" x2="311.0" y2="240.1"/><line data-a="5" data-b="12" x1="276.5" y1="308.5" x2="311.0" y2="240.1"/></g>
             <text class="atx-edge" x="40" y="431.7">← far west</text>
-            <g class="atx-dots"><g data-n="1" tabindex="0" role="button" aria-label="01 Campus, 19 places"><circle cx="261.6" cy="266.9" r="9.5"/><text x="261.6" y="269.9">01</text></g><g data-n="2" tabindex="0" role="button" aria-label="02 Downtown, 29 places"><circle cx="246.8" cy="300.5" r="9.5"/><text x="246.8" y="303.5">02</text></g><g data-n="3" tabindex="0" role="button" aria-label="03 Clarksville, 7 places"><circle cx="220.7" cy="278.1" r="9.5"/><text x="220.7" y="281.1">03</text></g><g data-n="4" tabindex="0" role="button" aria-label="04 South Congress, 28 places"><circle cx="237.1" cy="333.2" r="9.5"/><text x="237.1" y="336.2">04</text></g><g data-n="5" tabindex="0" role="button" aria-label="05 East Austin, 30 places"><circle cx="276.5" cy="308.5" r="9.5"/><text x="276.5" y="311.5">05</text></g><g data-n="6" tabindex="0" role="button" aria-label="06 South Lamar, 14 places"><circle cx="202.7" cy="337.0" r="9.5"/><text x="202.7" y="340.0">06</text></g><g data-n="7" tabindex="0" role="button" aria-label="07 The Domain, 14 places"><circle cx="276.5" cy="44.4" r="9.5"/><text x="276.5" y="47.4">07</text></g><g data-n="8" tabindex="0" role="button" aria-label="08 West Campus, 7 places"><circle cx="242.0" cy="261.0" r="9.5"/><text x="242.0" y="264.0">08</text></g><g data-n="9" tabindex="0" role="button" aria-label="09 Zilker, 13 places"><circle cx="202.7" cy="302.8" r="9.5"/><text x="202.7" y="305.8">09</text></g><g data-n="10" tabindex="0" role="button" aria-label="10 North Loop, 12 places"><circle cx="281.4" cy="204.0" r="9.5"/><text x="281.4" y="207.0">10</text></g><g data-n="11" tabindex="0" role="button" aria-label="11 Lake Austin, 6 places"><circle cx="186.3" cy="249.6" r="9.5"/><text x="186.3" y="252.6">11</text></g><g data-n="12" tabindex="0" role="button" aria-label="12 Mueller, 3 places"><circle cx="311.0" cy="240.1" r="9.5"/><text x="311.0" y="243.1">12</text></g><g data-n="13" tabindex="0" role="button" aria-label="13 Barton Creek, 5 places"><circle cx="145.2" cy="318.0" r="9.5"/><text x="145.2" y="321.0">13</text></g><g data-n="14" tabindex="0" role="button" aria-label="14 Northwest, 2 places"><circle cx="186.3" cy="105.2" r="9.5"/><text x="186.3" y="108.2">14</text></g><g data-n="15" tabindex="0" role="button" aria-label="15 Southeast, 1 places"><circle cx="281.4" cy="460.5" r="9.5"/><text x="281.4" y="463.5">15</text></g><g data-n="16" tabindex="0" role="button" aria-label="16 Southwest, 1 places"><circle cx="33.7" cy="454.8" r="9.5"/><text x="33.7" y="457.8">16</text></g><g data-n="17" tabindex="0" role="button" aria-label="17 Hill Country, 5 places"><circle cx="26" cy="428.2" r="9.5"/><text x="26" y="431.2">17</text></g></g>
+            <g class="atx-dots"><g data-n="1" tabindex="0" role="button" aria-label="01 Campus, 19 places"><circle class="hit" cx="261.6" cy="266.9" r="17"/><circle cx="261.6" cy="266.9" r="9.5"/><text x="261.6" y="269.9">01</text></g><g data-n="2" tabindex="0" role="button" aria-label="02 Downtown, 29 places"><circle class="hit" cx="246.8" cy="300.5" r="17"/><circle cx="246.8" cy="300.5" r="9.5"/><text x="246.8" y="303.5">02</text></g><g data-n="3" tabindex="0" role="button" aria-label="03 Clarksville, 7 places"><circle class="hit" cx="220.7" cy="278.1" r="17"/><circle cx="220.7" cy="278.1" r="9.5"/><text x="220.7" y="281.1">03</text></g><g data-n="4" tabindex="0" role="button" aria-label="04 South Congress, 28 places"><circle class="hit" cx="237.1" cy="333.2" r="17"/><circle cx="237.1" cy="333.2" r="9.5"/><text x="237.1" y="336.2">04</text></g><g data-n="5" tabindex="0" role="button" aria-label="05 East Austin, 30 places"><circle class="hit" cx="276.5" cy="308.5" r="17"/><circle cx="276.5" cy="308.5" r="9.5"/><text x="276.5" y="311.5">05</text></g><g data-n="6" tabindex="0" role="button" aria-label="06 South Lamar, 14 places"><circle class="hit" cx="202.7" cy="337.0" r="17"/><circle cx="202.7" cy="337.0" r="9.5"/><text x="202.7" y="340.0">06</text></g><g data-n="7" tabindex="0" role="button" aria-label="07 The Domain, 14 places"><circle class="hit" cx="276.5" cy="44.4" r="17"/><circle cx="276.5" cy="44.4" r="9.5"/><text x="276.5" y="47.4">07</text></g><g data-n="8" tabindex="0" role="button" aria-label="08 West Campus, 7 places"><circle class="hit" cx="242.0" cy="261.0" r="17"/><circle cx="242.0" cy="261.0" r="9.5"/><text x="242.0" y="264.0">08</text></g><g data-n="9" tabindex="0" role="button" aria-label="09 Zilker, 13 places"><circle class="hit" cx="202.7" cy="302.8" r="17"/><circle cx="202.7" cy="302.8" r="9.5"/><text x="202.7" y="305.8">09</text></g><g data-n="10" tabindex="0" role="button" aria-label="10 North Loop, 12 places"><circle class="hit" cx="281.4" cy="204.0" r="17"/><circle cx="281.4" cy="204.0" r="9.5"/><text x="281.4" y="207.0">10</text></g><g data-n="11" tabindex="0" role="button" aria-label="11 Lake Austin, 6 places"><circle class="hit" cx="186.3" cy="249.6" r="17"/><circle cx="186.3" cy="249.6" r="9.5"/><text x="186.3" y="252.6">11</text></g><g data-n="12" tabindex="0" role="button" aria-label="12 Mueller, 3 places"><circle class="hit" cx="311.0" cy="240.1" r="17"/><circle cx="311.0" cy="240.1" r="9.5"/><text x="311.0" y="243.1">12</text></g><g data-n="13" tabindex="0" role="button" aria-label="13 Barton Creek, 5 places"><circle class="hit" cx="145.2" cy="318.0" r="17"/><circle cx="145.2" cy="318.0" r="9.5"/><text x="145.2" y="321.0">13</text></g><g data-n="14" tabindex="0" role="button" aria-label="14 Northwest, 2 places"><circle class="hit" cx="186.3" cy="105.2" r="17"/><circle cx="186.3" cy="105.2" r="9.5"/><text x="186.3" y="108.2">14</text></g><g data-n="15" tabindex="0" role="button" aria-label="15 Southeast, 1 place"><circle class="hit" cx="281.4" cy="460.5" r="17"/><circle cx="281.4" cy="460.5" r="9.5"/><text x="281.4" y="463.5">15</text></g><g data-n="16" tabindex="0" role="button" aria-label="16 Southwest, 1 place"><circle class="hit" cx="33.7" cy="454.8" r="17"/><circle cx="33.7" cy="454.8" r="9.5"/><text x="33.7" y="457.8">16</text></g><g data-n="17" tabindex="0" role="button" aria-label="17 Hill Country, 5 places"><circle class="hit" cx="26" cy="428.2" r="17"/><circle cx="26" cy="428.2" r="9.5"/><text x="26" y="431.2">17</text></g></g>
             </svg>
-            <figcaption class="map-note" data-map-note>Tap a number to see the drives from there.</figcaption>
+            <figcaption class="map-card" data-map-note aria-live="polite"><span class="mc-kicker">Tap a number</span><span class="mc-name">Pick a neighborhood.</span><span class="mc-body">See how many places it has, and every drive the planner knows from there.</span></figcaption>
             </figure>
         </div>
         <div class="austin-side">
             <p class="kicker">The map</p>
             <h2 class="map-head">Austin is bigger than it <em>looks.</em></h2>
             <p class="map-dek">A good Saturday isn’t just finding places you like. It’s finding places you like that make sense together.</p>
+            <p class="label map-key-label">Neighborhoods <small>· number of places in the planner</small></p>
             <ol class="map-key" aria-label="Neighborhoods, with how many places in each">
                 <li data-n="1"><b>01</b> Campus<span>19</span></li>
                 <li data-n="2"><b>02</b> Downtown<span>29</span></li>
@@ -773,6 +801,19 @@
     </section>
 </div>
 
+<footer class="contact" id="say-hi">
+    <h2 class="contact-head">Still here? You must <em>like me.</em></h2>
+    <p class="contact-sub">Or you’re nosy. Either way, say hi.</p>
+    <ul class="contact-links">
+        <li><a href="mailto:suhxnitiwari@gmail.com">Email <span aria-hidden="true">↗</span></a><em>boringly responsible</em></li>
+        <li><a href="https://www.instagram.com/suhxnitiwari/" target="_blank" rel="noopener">Instagram <span aria-hidden="true">↗</span></a><em>dangerously personal</em></li>
+        <li><a href="https://www.linkedin.com/in/suhxnitiwari/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a><em>suspiciously professional</em></li>
+        <li><a href="https://github.com/suhxnitiwari" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a><em>unapologetically nerdy</em></li>
+    </ul>
+    <a class="contact-top" href="#top">Scroll back up. I’ll wait. ↑</a>
+    <p class="contact-copy">© 2026 Suhani Tiwari</p>
+</footer>
+
 
 <dialog class="letter-box" id="ideal" aria-labelledby="ideal-title">
     <div class="paper">
@@ -808,6 +849,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=23" defer></script>
+<script src="web/app.js?v=24" defer></script>
 </body>
 </html>

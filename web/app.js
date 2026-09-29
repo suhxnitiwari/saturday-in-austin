@@ -415,6 +415,8 @@
             wx('hilo', `${Math.round(d.temperature_2m_max[0])}° / ${Math.round(d.temperature_2m_min[0])}°`);
             wx('feels', `feels like ${Math.round(c.apparent_temperature)}°, ${c.relative_humidity_2m}% humidity`);
             wx('sunset', clockOf(d.sunset[0]));
+            const now = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' });
+            wx('src', `Open-Meteo weather, updated ${now} CT · Wikidata population`);
             const i = untilSaturday;  // the forecast starts today, so Saturday is this many days in
             const high = Math.round(d.temperature_2m_max[i]), rain = d.precipitation_probability_max[i] ?? 0;
             wx('sat-title', i === 0 ? 'Today is Saturday' : `This Saturday, ${d.time[i].slice(5).replace('-', '/')}`);
@@ -439,7 +441,7 @@
                 year: ((c.qualifiers || {}).P585 || [{}])[0].datavalue?.value.time.slice(1, 5) || '',
             })).sort((a, b) => b.year.localeCompare(a.year));
             wx('pop', figures[0].n.toLocaleString('en-US'));
-            wx('pop-year', figures[0].year ? `people, as of ${figures[0].year}` : 'people');
+            wx('pop-year', figures[0].year ? `population, ${figures[0].year} census` : 'people');
         })
         .catch(() => wx('pop', '1M-ish'));
 
@@ -491,6 +493,7 @@
             on = (on + +b.dataset.flipGo + pages.length) % pages.length;
             pages.forEach((p, i) => { p.hidden = i !== on; });
             title.textContent = pages[on].dataset.title;
+            flip.querySelector('[data-flip-count]').textContent = `${on + 1} / ${pages.length}`;
         }));
     }
 
@@ -506,14 +509,23 @@
             document.querySelectorAll('.atx-dots g, .map-key li').forEach(e => e.classList.toggle('on', +e.dataset.n === picked));
             lines.classList.toggle('focus', picked !== null);
             lines.querySelectorAll('line').forEach(l => l.classList.toggle('on', picked !== null && (+l.dataset.a === picked || +l.dataset.b === picked)));
-            if (picked === null) { note.textContent = 'Tap a number to see the drives from there.'; return; }
+            const [kicker, name, body] = note.children;
+            if (picked === null) {
+                kicker.textContent = 'Tap a number'; name.textContent = 'Pick a neighborhood.';
+                body.textContent = 'See how many places it has, and every drive the planner knows from there.';
+                return;
+            }
             const near = MAP.roads.filter(r => r[0] === picked || r[1] === picked)
                 .map(([a, b, m]) => [a === picked ? b : a, m]).sort((x, y) => x[1] - y[1]);
             const count = MAP.count[picked];
-            note.textContent = `${two(picked)} ${MAP.names[picked]} · ${count} place${count === 1 ? '' : 's'}. ` +
-                near.map(([n, m]) => `${m} min to ${MAP.names[n]}`).join(', ') + '.';
+            kicker.textContent = `${two(picked)} · ${count} place${count === 1 ? '' : 's'} in the planner`;
+            name.textContent = MAP.names[picked];
+            body.textContent = 'Drives: ' + near.map(([n, m]) => `${m} min to ${MAP.names[n]}`).join(' · ') + '.';
         };
+        const hover = (n, on) => document.querySelectorAll(`.atx-dots g[data-n="${n}"], .map-key li[data-n="${n}"]`).forEach(x => x.classList.toggle('hov', on));
         document.querySelectorAll('.atx-dots g, .map-key li').forEach(e => {
+            e.addEventListener('mouseenter', () => hover(e.dataset.n, true));
+            e.addEventListener('mouseleave', () => hover(e.dataset.n, false));
             e.addEventListener('click', () => pick(+e.dataset.n));
             e.addEventListener('keydown', k => { if (k.key === 'Enter' || k.key === ' ') { k.preventDefault(); pick(+e.dataset.n); } });
         });
