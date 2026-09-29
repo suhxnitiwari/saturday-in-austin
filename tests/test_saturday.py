@@ -178,6 +178,43 @@ def test_10_never_outside_opening_hours(guide):
                 assert start + stop["minutes"] <= rules.KINDS[stop["category"]].close, stop
 
 
+def test_no_coffee_right_after_brunch(guide):
+    brunch, coffee = guide.find("Josephine House"), guide.find("Black Fox")
+    assert not rules.valid([brunch, coffee], [10 * 60, 12 * 60])  # it came with coffee. Give it a minute
+    assert rules.valid([brunch, guide.find("BookPeople"), coffee], [10 * 60, 12 * 60, 13 * 60 + 30])
+    assert rules.valid([coffee, brunch], [9 * 60, 10 * 60])
+
+
+def test_no_coffee_after_dinner(guide):
+    dinner, coffee = guide.find("Aba"), guide.find("Black Fox")
+    assert not rules.valid([dinner, coffee], [16 * 60 + 30, 18 * 60])  # a latte after dinner is tomorrow's problem
+    assert not rules.valid([dinner, guide.find("BookPeople"), coffee], [16 * 60, 17 * 60 + 30, 18 * 60 + 30])
+
+
+def test_after_a_workout_only_coffee_or_a_smoothie(guide):
+    pilates = guide.find("Prana Wellness Club")
+    for nice in ("Aba", "Josephine House", "BookPeople", "Blanton Museum of Art"):
+        assert not rules.valid([pilates, guide.find(nice)], [9 * 60, 10 * 60 + 30])  # a shower is missing from this story
+        assert not rules.valid([pilates, guide.find("Black Fox"), guide.find(nice)], [9 * 60, 10 * 60, 11 * 60])
+    assert rules.valid([pilates, guide.find("JuiceLand (Guadalupe)"), rules.resets("West Campus")[0], guide.find("Aba")],
+                       [8 * 60, 9 * 60, 10 * 60, 17 * 60])
+
+def test_no_workout_after_cocktails(guide):
+    pilates = guide.find("Prana Wellness Club")
+    for drinks in ("Josephine House", "Victory Lap"):
+        assert not rules.valid([guide.find(drinks), guide.find("BookPeople"), guide.find("Blanton Museum of Art"), pilates],
+                               [10 * 60, 13 * 60, 14 * 60, 17 * 60])  # absolutely not
+    assert rules.valid([pilates, rules.resets("West Campus")[0], guide.find("Josephine House")], [8 * 60, 9 * 60 + 30, 11 * 60])
+
+
+def test_planned_days_skip_coffee_after_brunch_and_pilates_after_drinks():
+    for seed in range(25):
+        for mood in ("everything", "slow", "social"):
+            kinds = [s["category"] for s in day("8:00", "23:00", "all", mood, seed)["stops"] if s["type"] != "free"]
+            for i, k in enumerate(kinds[1:], 1):
+                assert not (k == "coffee" and kinds[i - 1] == "brunch")
+                assert not (k == "exercise" and any(rules.KINDS[x].drinks for x in kinds[:i]))
+
 def test_the_person_state_moves_like_a_person(guide):
     pilates, coffee, lunch = guide.find("Prana Wellness Club"), guide.find("Black Fox"), guide.find("Veracruz")
     s = rules.step(rules.START, pilates, 9 * 60, 0)
@@ -186,8 +223,8 @@ def test_the_person_state_moves_like_a_person(guide):
     assert s[0] == 1                                   # coffee after Pilates is allowed...
     assert rules.step(s, lunch, 11 * 60 + 30, 150) is None  # ...but now you shower
     change = rules.resets("West Campus")[1]
-    assert rules.step(rules.START, change, 18 * 60, 5 * 60) == (0, 0, 1)
-    assert not rules.can_end((0, 0, 1))                # changing for nothing
+    assert rules.step(rules.START, change, 18 * 60, 5 * 60) == (0, 0, 1, 0, 0)
+    assert not rules.can_end((0, 0, 1, 0, 0))                # changing for nothing
     assert not rules.valid([change, guide.find("Pizza Press")])  # not dressing up for Pizza Press
 
 

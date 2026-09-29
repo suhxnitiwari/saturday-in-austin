@@ -7,11 +7,13 @@ the planner asks two questions about every move from one stop to the next:
     step(state, spot, start, out)  is this move allowed? returns the new state, or None
     cost(prev, spot, start, travel)  how much do I like it? lower is better
 
-The state is three small numbers about the person, not the place:
+The state is five small numbers about the person, not the place:
 
     sweat   2 = just worked out, 1 = grabbed a coffee after, 0 = showered and fine
     full    2 = just ate a real meal, counting down one per stop after
     change  1 = just went home to change, so the next stop had better be worth it
+    coffee  1 = just had brunch, which came with coffee; 2 = had dinner, so no more coffee today
+    drinks  1 = there have been cocktails today, so no more workouts
 
 explain() looks at a finished plan and says which of these rules shaped it.
 """
@@ -31,15 +33,16 @@ class Kind:
     close: int = DAY + 120    # the latest a visit can end
     prefer: tuple = ()        # the hours it's best at; starting outside them costs a little
     brunch: bool = False      # it's Saturday: brunch in the brunch window gets a bonus
+    drinks: bool = False      # mimosas, cocktails: no workout after, for the rest of the day
 
 
 H = 60
 KINDS = {
     "coffee": Kind(food="small", sweaty_ok=True, close=19 * H, prefer=((7 * H, 15 * H),)),
     "smoothie": Kind(food="small", sweaty_ok=True, close=19 * H),
-    "brunch": Kind(food="full", close=15 * H, brunch=True),
+    "brunch": Kind(food="full", close=15 * H, brunch=True, drinks=True),  # with coffee and mimosas
     "lunch": Kind(food="full", close=16 * H),
-    "dinner": Kind(food="full"),
+    "dinner": Kind(food="full", drinks=True),
     "order in": Kind(food="full"),
     "treat": Kind(food="small", close=22 * H),
     "snack": Kind(food="small"),
@@ -58,10 +61,10 @@ KINDS = {
     "park": Kind(close=20 * H + 30, prefer=((8 * H, 11 * H + 30), (16 * H, 19 * H + 30))),
     "sunset": Kind(close=21 * H + 30),
     "murals": Kind(close=20 * H),
-    "hangout": Kind(),
+    "hangout": Kind(drinks=True),
     "game": Kind(),
     "cinema": Kind(),
-    "live music": Kind(),
+    "live music": Kind(drinks=True),
     "self care": Kind(),
     "movie": Kind(),
     "show": Kind(),
@@ -117,7 +120,7 @@ def travel_cost(minutes: float, ways: "Ways" = None) -> float:
 EVENING = 16 * H + 30  # changing to go out only makes sense this late
 OUT_A_WHILE = 3 * H    # ...after being out at least this long
 
-START = (0, 0, 0)  # (sweat, full, change): fresh, hungry-ish, dressed
+START = (0, 0, 0, 0, 0)  # (sweat, full, change, coffee, drinks): fresh, hungry-ish, dressed, sober
 
 
 def kind(spot) -> Kind:
@@ -127,7 +130,7 @@ def kind(spot) -> Kind:
 def step(state: tuple, spot, start: int, out: int):
     """The person after this stop, or None if a person wouldn't do it.
     start is when the stop begins, out is how long they've been out by then."""
-    sweat, full, change = state
+    sweat, full, change, coffee, drinks = state
     k = kind(spot)
     if change and not spot.dressy:
         return None  # went home to change for... this?
@@ -145,9 +148,13 @@ def step(state: tuple, spot, start: int, out: int):
         return None  # not dessert straight after lunch either; walk it off first
     if k.workout and full == 2:
         return None  # and not Pilates on a full stomach
+    if k.workout and drinks:
+        return None  # cocktails, then Pilates? Absolutely not
+    if spot.category == "coffee" and coffee:
+        return None  # brunch came with coffee (give it a minute); after dinner, a latte is tomorrow's problem
     new_sweat = 2 if k.workout else 1 if sweat == 2 and k.sweaty_ok else 0 if k.reset == "shower" else sweat
     new_full = 2 if k.food == "full" else max(0, full - 1)
-    return new_sweat, new_full, 1 if k.reset == "change" else 0
+    return new_sweat, new_full, 1 if k.reset == "change" else 0, 2 if coffee == 2 or spot.category == "dinner" else 1 if k.brunch else 0, 1 if drinks or k.drinks else 0
 
 
 def can_end(state: tuple) -> bool:
@@ -236,6 +243,11 @@ def explain(stops: list, shortlist: list, zone_of, minutes) -> dict:
             notes.setdefault(i, "You need to shower before we continue.")
         elif k.reset == "change":
             notes.setdefault(i, "Going home to change first. You'll thank me.")
+        elif (before is not None and kind(before).brunch and any(c.category == "coffee" and c not in spots for c in shortlist)):
+            notes.setdefault(i, "You almost certainly just had coffee. Give it a minute.")
+        elif (before is not None and kind(before).drinks and not k.workout
+              and any(kind(c).workout and c not in spots for c in shortlist) and not any(kind(x).workout for x in spots)):
+            notes.setdefault(i, "Cocktails, then Pilates? Absolutely not.")
         elif (before is not None and kind(before).food == "full" and not k.food and before.category != "dinner"
               and any(kind(c).food == "full" and c not in spots for c in shortlist)):
             notes.setdefault(i, "You just ate. I'm not giving you another restaurant.")
