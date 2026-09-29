@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Saturday in Austin</title>
-    <meta name="description" content="Tell me when you're free. I'll figure out what we're doing. A Python planner with opinions about Austin Saturdays.">
+    <meta name="description" content="Tell me when you're free. I'll decide what we're doing. A Python planner with opinions about Austin Saturdays.">
     <meta property="og:title" content="Saturday in Austin">
-    <meta property="og:description" content="Tell me when you're free. I'll figure out what we're doing.">
+    <meta property="og:description" content="Tell me when you're free. I'll decide what we're doing.">
     <meta property="og:image" content="https://suhxnitiwari.github.io/saturday-in-austin/docs/example-saturday.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,9 +34,7 @@
         button, input, select { font-family: inherit; }
 
         /* one screen: header, then the planner fills the rest */
-        /* the headband: pink and white grosgrain stripes, trimmed in gold */
-        body::before { content: ""; display: block; height: 8px; background: repeating-linear-gradient(90deg, var(--pink) 0 16px, var(--paper) 16px 32px); border-bottom: 1px solid var(--gold); }
-        .page { height: calc(100vh - 9px); display: grid; grid-template-rows: auto minmax(0, 1fr); padding: 26px 36px 24px; gap: 20px; max-width: 1440px; margin: 0 auto; }
+        .page { height: 100vh; display: grid; grid-template-rows: auto minmax(0, 1fr); padding: 26px 36px 24px; gap: 20px; max-width: 1440px; margin: 0 auto; }
 
         header { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 36px; align-items: end; padding-bottom: 16px; border-bottom: 4px double var(--line); }
         .title { display: flex; align-items: flex-end; gap: 16px; }
@@ -172,8 +170,8 @@
             </div>
         </div>
         <div class="words">
-            <p class="headline">Tell me when you’re free. I’ll figure out what we’re doing.</p>
-            <p class="intro">I gave Python my favorite Austin spots and, apparently, my opinions about how a Saturday should work. Coffee belongs in the morning. Saturday is for brunch. You probably want to shower after Pilates. And I’m not sending you from South Congress to the Domain and back for no reason. Tell me your timing, your mood, and how much energy you have. I’ll plan the rest.</p>
+            <p class="headline">Tell me when you’re free. I’ll decide what we’re doing.</p>
+            <p class="intro">I gave Python my favorite Austin spots and, naturally, my opinions. Coffee is a morning affair. Saturday means brunch, obviously. One showers after Pilates; we’re not animals. And I refuse to send you from South Congress to the Domain and back for no reason. Tell me your hours, your mood and your energy. I’ll handle the rest.</p>
         </div>
         <nav class="links">
             <button type="button" id="how-open">How does it know?</button>
