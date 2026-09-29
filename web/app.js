@@ -16,6 +16,8 @@
     const number = day.querySelector('.number');
 
     let seed = 1000 + Math.floor(Math.random() * 9000);
+    let lastPlan = null;   // the day on screen, for the letter
+    let autoRain = false;  // true when live weather turned on Rainy day
     const PLACES = [];  // every spot, filled in once Python has loaded
 
     const el = (tag, cls, text) => {
@@ -112,6 +114,12 @@
         stats.hidden = false;
         number.textContent = `xoxo, Saturday #${plan.seed}`;
         verdict(plan);
+        lastPlan = plan;
+        document.querySelector('.seal-it').disabled = false;
+        if (autoRain && form.elements.rainy.checked) {
+            sassBox.prepend(el('p', null, 'It’s raining in Austin right now, so I turned on Rainy day.'));
+            sassBox.hidden = false;
+        }
     }
 
     // bottom left: the day's best line, and the day as one bar
@@ -152,7 +160,7 @@
         try {
             const plan = await boot();
             // let the "thinking" style paint before Python takes the main thread
-            await new Promise(r => requestAnimationFrame(() => setTimeout(r, 0)));
+            await new Promise(r => setTimeout(r, 30));  // (a timer, not an animation frame: those pause in background tabs)
             if (ticket !== pending) return;  // a newer change is already on its way
             const f = form.elements;
             const result = plan(f.start.value, f.end.value, f.hours.value, f.mood.value, String(seed),
@@ -280,6 +288,123 @@
         const key = Object.keys(AREAS).find(k => k !== 'anywhere' && AREAS[k].includes(typed));
         if (key) form.elements.start_from.value = key;
     });
+
+    // ------------------------------------------------------------ share links: the same Saturday, for a friend
+    const LABEL = { anywhere: 'Anywhere', ut: 'UT / West Campus', downtown: 'Downtown', east: 'East Austin',
+                    soco: 'South Congress', clarksville: 'Clarksville / West Austin', domain: 'Domain / North Austin',
+                    zilker: 'Zilker', 'south-lamar': 'South Lamar', 'north-loop': 'North Loop / Hyde Park', mueller: 'Mueller' };
+    function shareLink() {
+        const f = form.elements, q = new URLSearchParams({
+            s: seed, start: f.start.value, end: f.end.value, hours: f.hours.value, mood: f.mood.value,
+            from: f.start_from.value, area: f.area.value, travel: f.travel.value, budget: f.budget.value,
+        });
+        if (f.rainy.checked) q.set('rain', '1');
+        if (f.include.value) q.set('in', f.include.value);
+        if (f.exclude.value) q.set('not', f.exclude.value);
+        return `${location.origin}${location.pathname}?${q}`;
+    }
+    (function openShared() {
+        const q = new URLSearchParams(location.search);
+        if (!q.has('s')) return;
+        const f = form.elements, radio = (name, v) => { const r = form.querySelector(`input[name="${name}"][value="${v}"]`); if (r) r.checked = true; };
+        seed = Number(q.get('s')) || seed;
+        if (q.get('start')) f.start.value = q.get('start');
+        if (q.get('end')) f.end.value = q.get('end');
+        ['hours', 'mood', 'travel', 'budget'].forEach(n => q.get(n) && radio(n, q.get(n)));
+        if (LABEL[q.get('from')]) { f.start_from.value = q.get('from'); document.getElementById('from-text').value = LABEL[q.get('from')]; }
+        if (LABEL[q.get('area')]) { f.area.value = q.get('area'); document.getElementById('area-text').value = q.get('area') === 'anywhere' ? '' : LABEL[q.get('area')]; }
+        f.rainy.checked = q.get('rain') === '1';
+        if (q.get('in')) f.include.value = q.get('in');
+        if (q.get('not')) { f.exclude.value = q.get('not'); document.getElementById('exclude-text').value = q.get('not'); }
+        form.dataset.shared = '1';  // don't let live weather overrule a shared plan
+    })();
+
+    // ------------------------------------------------------------ the love letter
+    const letterBox = document.getElementById('letter');
+    const letterBody = document.getElementById('letter-body');
+    const toInput = document.getElementById('letter-to'), fromInput = document.getElementById('letter-from');
+    const letterNote = letterBox.querySelector('.letter-note');
+    const VERB = { coffee: 'coffee at ', smoothie: 'a smoothie at ', brunch: 'brunch at ', lunch: 'lunch at ',
+                   dinner: 'dinner at ', treat: 'something sweet at ', 'late night': 'one last stop at ',
+                   exercise: 'a class at ', shopping: 'shopping at ', nails: 'nails at ', 'live music': 'a show at ' };
+    function composeLetter(plan) {
+        const to = toInput.value.trim() || 'reader', from = fromInput.value.trim();
+        const lines = [`Dearest ${to},`, '', 'Your Saturday has been decided. Do not argue.', ''];
+        const stops = plan.stops.filter(s => s.type !== 'free');
+        stops.forEach((s, i) => {
+            const what = s.type === 'reset' ? `home, to ${s.note}`
+                : `${VERB[s.category] || ''}${s.name}${s.note ? ` (${s.note})` : ''}`;
+            lines.push(i === 0 ? `We begin at ${s.time} at ${what}.` : `At ${s.time}, ${what}.`);
+            if (s.why) lines.push(s.why);
+        });
+        lines.push(`Home by ${plan.home}.`, '', 'Yours, until brunch,', from || '', '',
+                   `P.S. It’s Saturday #${plan.seed}. See it here: ${shareLink()}`);
+        return lines.join('\n').replace(/\n{3,}/g, '\n\n');
+    }
+    const refreshLetter = () => { if (lastPlan) letterBody.textContent = composeLetter(lastPlan); };
+    document.querySelector('.seal-it').addEventListener('click', () => {
+        letterNote.textContent = '';
+        refreshLetter();
+        letterBox.showModal();
+    });
+    [toInput, fromInput].forEach(i => i.addEventListener('input', refreshLetter));
+    letterBox.querySelector('.close-letter').addEventListener('click', () => letterBox.close());
+    letterBox.addEventListener('click', e => { if (e.target === letterBox) letterBox.close(); });
+    letterBox.querySelector('.copy').addEventListener('click', async () => {
+        try {
+            await navigator.clipboard.writeText(letterBody.textContent);
+            letterNote.textContent = 'Copied. Now go send it.';
+        } catch {
+            letterNote.textContent = 'Your browser said no. Select the letter and copy it by hand.';
+        }
+    });
+    letterBox.querySelector('.share').addEventListener('click', async () => {
+        if (navigator.share) {
+            try { await navigator.share({ title: 'Saturday in Austin', text: letterBody.textContent }); } catch { /* they changed their mind */ }
+        } else {
+            letterNote.textContent = 'Sharing works on your phone; on a laptop, copy it instead.';
+        }
+    });
+
+    // ------------------------------------------------------------ Austin, right now (free, no key)
+    const WEATHER = { 0: 'clear', 1: 'mostly clear', 2: 'partly cloudy', 3: 'cloudy', 45: 'foggy', 48: 'foggy',
+                      51: 'drizzle', 53: 'drizzle', 55: 'drizzle', 61: 'rain', 63: 'rain', 65: 'heavy rain',
+                      80: 'showers', 81: 'showers', 82: 'heavy showers', 95: 'thunderstorms', 96: 'thunderstorms', 99: 'thunderstorms' };
+    const RAINY = new Set([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99]);
+    const setNow = (key, text) => { const e = document.querySelector(`[data-now="${key}"]`); if (e) e.textContent = text; };
+    (function daysUntilSaturday() {
+        const d = (6 - new Date().getDay() + 7) % 7;
+        setNow('days', d === 0 ? 'Today' : String(d));
+        setNow('days-label', d === 0 ? 'is Saturday' : d === 1 ? 'day until Saturday' : 'days until Saturday');
+    })();
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=30.2672&longitude=-97.7431&current=temperature_2m,weather_code' +
+          '&daily=sunset&temperature_unit=fahrenheit&timezone=America%2FChicago&forecast_days=1')
+        .then(r => r.json())
+        .then(w => {
+            const code = w.current.weather_code;
+            setNow('temp', `${Math.round(w.current.temperature_2m)}°`);
+            setNow('sky', WEATHER[code] || 'the weather');
+            const [h, m] = w.daily.sunset[0].split('T')[1].split(':').map(Number);
+            setNow('sunset', `${h % 12 || 12}:${String(m).padStart(2, '0')}`);
+            if (RAINY.has(code) && !form.dataset.shared && !form.elements.rainy.checked) {
+                autoRain = true;
+                form.elements.rainy.checked = true;
+                run();
+            }
+        })
+        .catch(() => setNow('sky', 'weather unavailable'));
+    fetch('https://www.wikidata.org/w/api.php?action=wbgetclaims&entity=Q16559&property=P1082&format=json&origin=*')
+        .then(r => r.json())
+        .then(d => {
+            // the newest population figure (each claim has a "point in time")
+            const figures = d.claims.P1082.map(c => ({
+                n: Number(c.mainsnak.datavalue.value.amount),
+                year: ((c.qualifiers || {}).P585 || [{}])[0].datavalue?.value.time.slice(1, 5) || '',
+            })).sort((a, b) => b.year.localeCompare(a.year));
+            setNow('pop', figures[0].n.toLocaleString('en-US'));
+            setNow('pop-year', figures[0].year ? `people, as of ${figures[0].year}` : 'people');
+        })
+        .catch(() => setNow('pop', '1M-ish'));
 
     run();
 })();

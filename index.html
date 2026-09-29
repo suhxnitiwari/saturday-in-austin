@@ -152,7 +152,10 @@
         .stats div + div { border-left: 1px solid var(--line); }
         .stats b { display: block; font-family: var(--display); font-weight: 500; font-size: 22px; line-height: 1; }
         .stats span { font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); }
-        .again-row { display: grid; grid-template-columns: 1fr auto; border-top: 1px solid var(--line); }
+        .again-row { display: grid; grid-template-columns: 1fr auto auto; border-top: 1px solid var(--line); }
+        .seal-it { width: 52px; border: 0; border-left: 1px solid var(--line); background: var(--paper); font-size: 22px; cursor: pointer; }
+        .seal-it:hover { background: var(--blush); }
+        .seal-it:disabled { opacity: 0.4; cursor: progress; }
         .again { height: 46px; border: 0; background: var(--pink); color: var(--paper); font-size: 11.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: background .12s; }
         .again:hover { background: var(--ink); color: var(--paper); }
         .again:disabled { opacity: 0.5; cursor: progress; }
@@ -165,6 +168,29 @@
         .big em { color: var(--pink); font-weight: 400; }
         .dek { margin: 16px 0 0; font-family: var(--typewriter); font-size: 15px; line-height: 1.5; }
         .method { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.6fr); gap: 48px; align-content: start; padding-top: 6px; }
+        .now { margin: 22px 0 0; padding: 14px 0 0; border-top: 1px solid var(--line); }
+        .now-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 18px; margin-top: 6px; }
+        .now-grid b { display: block; font-family: var(--display); font-weight: 500; font-size: 26px; line-height: 1.1; }
+        .now-grid span { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); }
+        .now-src { margin: 10px 0 0; font-family: var(--typewriter); font-size: 11px; color: var(--grey); }
+
+        /* the love letter: cream paper, a pink wax seal, very Bridgerton */
+        .letter-box { width: min(620px, calc(100% - 32px)); max-height: calc(100vh - 40px); padding: 0; border: 0; background: transparent; overflow: visible; }
+        .letter-box::backdrop { background: rgba(17, 17, 17, 0.45); }
+        .paper { position: relative; padding: 38px 42px 26px; background: #FFFBF5; border: 1px solid #E8DCCB; box-shadow: 0 30px 60px -30px rgba(17, 17, 17, 0.6), inset 0 0 0 6px #FFFBF5, inset 0 0 0 7px var(--gold); max-height: calc(100vh - 40px); overflow-y: auto; }
+        .seal { position: absolute; top: 18px; right: 24px; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #F77BB4, var(--pink) 55%, #A50A55); color: #FFE3F0; font-family: var(--display); font-style: italic; font-size: 22px; box-shadow: 0 4px 10px rgba(165, 10, 85, 0.35), inset 0 0 0 4px rgba(255, 255, 255, 0.18); transform: rotate(-8deg); }
+        .letter-kicker { margin: 0 80px 14px 0; font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
+        .letter-to { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+        .letter-to label { display: flex; flex-direction: column; gap: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+        .letter-to input { height: 36px; border: 0; border-bottom: 1px solid var(--line); background: transparent; font-family: var(--display); font-style: italic; font-size: 18px; color: var(--ink); }
+        .letter-to input:focus { outline: none; border-bottom-color: var(--pink); }
+        .letter-body { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--display); font-size: 17px; line-height: 1.6; color: var(--ink); }
+        .letter-actions { display: flex; gap: 0; margin-top: 20px; border: 1px solid var(--line); }
+        .letter-actions button { flex: 1; height: 42px; border: 0; background: var(--paper); font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; }
+        .letter-actions button + button { border-left: 1px solid var(--line); }
+        .letter-actions .copy { background: var(--pink); color: var(--paper); }
+        .letter-actions button:hover { background: var(--ink); color: var(--paper); }
+        .letter-note { min-height: 1em; margin: 10px 0 0; font-family: var(--typewriter); font-size: 12px; color: var(--pink-ink); }
         .method-list { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
         .method-list dt { margin: 0 0 4px; padding-top: 14px; border-top: 1px solid var(--line); font-family: var(--display); font-weight: 600; font-size: 17px; }
         .method-list dd { margin: 0 0 18px; font-size: 13px; line-height: 1.6; color: #333; }
@@ -211,7 +237,8 @@
             .seg.five { grid-template-columns: repeat(2, 1fr); }
             .block.when, .pair-blocks { grid-template-columns: 1fr 1fr; }
             .block.when .span2 { grid-column: 1 / -1; }
-            .again-row { grid-template-columns: 1fr; }
+            .again-row { grid-template-columns: 1fr auto; }
+            .again-row .number { grid-column: 1 / -1; }
             .number { border-left: 0; border-top: 1px solid var(--line); padding: 10px 14px; }
         }
         @media (max-height: 800px) and (min-width: 1001px) { .verdict { display: none !important; } }
@@ -335,6 +362,7 @@
                 <div class="stats" hidden></div>
                 <div class="again-row">
                     <button type="button" class="again" disabled>Give me another Saturday</button>
+                    <button type="button" class="seal-it" disabled aria-label="Send this Saturday as a letter" title="Send as a letter">💌</button>
                     <p class="number"></p>
                 </div>
             </div>
@@ -345,6 +373,16 @@
         <div class="method-intro">
             <p class="kicker">The Method</p>
             <h2 class="big">Okay, but how is it <em>in the know?</em></h2>
+            <div class="now" aria-live="polite">
+                <p class="label">Austin, right now</p>
+                <div class="now-grid">
+                    <div><b data-now="temp">…</b><span data-now="sky">the weather</span></div>
+                    <div><b data-now="sunset">…</b><span>sunset tonight</span></div>
+                    <div><b data-now="pop">…</b><span data-now="pop-year">people</span></div>
+                    <div><b data-now="days">…</b><span data-now="days-label">until Saturday</span></div>
+                </div>
+                <p class="now-src">Live from Open-Meteo and Wikidata.</p>
+            </div>
             <p class="dek">I turned Austin into a graph, gave every place its own rules, and taught the planner how a girl actually spends a Saturday. It keeps track of the time, the neighborhood, the drive, when you last ate, the weather and how much energy you have left. It knows what belongs before brunch and what never happens right after Pilates. Then it finds the one day that actually fits. On Saturdays, we brunch.</p>
         </div>
         <dl class="method-list">
@@ -403,6 +441,23 @@
 </div>
 
 
-<script src="web/app.js?v=12" defer></script>
+<dialog class="letter-box" id="letter">
+    <div class="paper">
+        <span class="seal" aria-hidden="true">ST</span>
+        <p class="letter-kicker">By hand, from Saturday in Austin</p>
+        <div class="letter-to">
+            <label>To <input type="text" id="letter-to" value="Hana" autocomplete="off"></label>
+            <label>From <input type="text" id="letter-from" placeholder="you" autocomplete="off"></label>
+        </div>
+        <pre class="letter-body" id="letter-body"></pre>
+        <div class="letter-actions">
+            <button type="button" class="copy">Copy the letter</button>
+            <button type="button" class="share">Share</button>
+            <button type="button" class="close-letter">Close</button>
+        </div>
+        <p class="letter-note" aria-live="polite"></p>
+    </div>
+</dialog>
+<script src="web/app.js?v=15" defer></script>
 </body>
 </html>

@@ -38,7 +38,8 @@ python3 -m venv .venv && .venv/bin/pip install matplotlib pytest
 | `--hours 6` | how long you actually want to be out, or `all` |
 | `--mood` | `slow`, `social`, `creative`, `foodie`, `outside`, `shopping`, `productive`, `treat-myself`, `day-in` or `everything` |
 | `--area soco` | stay in one neighborhood: `ut`, `downtown`, `east`, `soco`, `clarksville`, `domain`, `zilker`, `south-lamar`, `north-loop`, `mueller` |
-| `--walk` | no car: no walk over a mile, using real locations from OpenStreetMap |
+| `--travel` | `car`, `uber` (cost-efficient: every ride has a fare, so the day stays in one area), `transit` (bus + walk, CapMetro is free with a UT ID) or `walk` (no walk over a mile) |
+| `--budget` | `student`, `normal` or `splurge`: every spot has a rough price, and a student budget makes free things win |
 | `--rainy` | nothing outdoors |
 | `--include "Numero 28"` | one place you really want to go |
 | `--skip PCL` / `--not workouts` | absolutely not (a place, or a kind of thing) |
@@ -58,6 +59,13 @@ A schedule can fit every opening hour and still be a strange day. So the planner
 - **Hours:** nothing starts outside its window or runs past closing. Ever.
 
 When a rule shapes the day, the plan says so: *"It's Saturday. We're getting brunch."* *"You just ate. I'm not giving you another restaurant."* *"Absolutely not driving to the Domain and immediately coming back to South Congress."*
+
+## On the website
+
+- **Getting around:** Car, Uber, Bus + walk or Walk, from wherever you're starting. Uber days show the fares; bus days take at most one bus somewhere and walk the rest (the CapMetro map is an approximation of MetroRapid 801/803 and a few local routes, so check the CapMetro app for live times).
+- **Budget:** Student, Normal or Splurge, with a rough total for the day (food, tickets and Ubers).
+- **💌 Send it as a letter:** the day becomes a Bridgerton-style letter to a friend, with a link that opens the exact same Saturday.
+- **Austin, right now:** live weather and sunset from Open-Meteo and population from Wikidata, on The Method page. If it's raining in Austin, Rainy day turns itself on.
 
 ## How it works
 
