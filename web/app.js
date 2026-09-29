@@ -110,7 +110,7 @@
             figure(st.neighborhoods, st.neighborhoods === 1 ? 'neighborhood' : 'neighborhoods'),
         );
         stats.hidden = false;
-        number.textContent = `Saturday #${plan.seed}`;
+        number.textContent = `xoxo, Saturday #${plan.seed}`;
     }
 
     let pending = 0;
@@ -141,6 +141,12 @@
     form.addEventListener('change', soon);
     form.addEventListener('submit', e => { e.preventDefault(); run(); });
     again.addEventListener('click', () => { seed = 1000 + Math.floor(Math.random() * 9000); run(); });
+
+    // "how does it know?" opens over the page, so everything else still fits on one screen
+    const how = document.getElementById('how');
+    document.getElementById('how-open').addEventListener('click', () => how.showModal());
+    how.querySelector('.close').addEventListener('click', () => how.close());
+    how.addEventListener('click', e => { if (e.target === how) how.close(); });
 
     run();
 })();
