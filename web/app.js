@@ -142,11 +142,47 @@
     form.addEventListener('submit', e => { e.preventDefault(); run(); });
     again.addEventListener('click', () => { seed = 1000 + Math.floor(Math.random() * 9000); run(); });
 
-    // "how does it know?" opens over the page, so everything else still fits on one screen
-    const how = document.getElementById('how');
-    document.getElementById('how-open').addEventListener('click', () => how.showModal());
-    how.querySelector('.close').addEventListener('click', () => how.close());
-    how.addEventListener('click', e => { if (e.target === how) how.close(); });
+    // magazine sections: Plan, The Editor, The Method (one screen each)
+    const sections = [...document.querySelectorAll('.sections button')];
+    const show = name => {
+        sections.forEach(b => b.setAttribute('aria-selected', b.dataset.screen === name));
+        document.querySelectorAll('.screen').forEach(sc => { sc.hidden = sc.id !== 'screen-' + name; });
+    };
+    sections.forEach(b => b.addEventListener('click', () => show(b.dataset.screen)));
+    document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => show(b.dataset.go)));
+
+    // the planner's four tabs, one panel at a time
+    const tabs = [...form.querySelectorAll('[role="tab"]')];
+    const pick = tab => tabs.forEach(t => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', on);
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+    tabs.forEach((t, i) => {
+        t.addEventListener('click', () => pick(t));
+        t.addEventListener('keydown', e => {
+            const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+            if (step) { const next = tabs[(i + step + tabs.length) % tabs.length]; pick(next); next.focus(); }
+        });
+    });
+    form.querySelectorAll('.next').forEach(b => b.addEventListener('click', () => pick(document.getElementById(b.dataset.next))));
+
+    // under each tab, what's picked so far
+    const label = name => form.querySelector(`input[name="${name}"]:checked + span`)?.textContent || '';
+    const time = v => { const [h, m] = v.split(':').map(Number); return `${h % 12 || 12}${m ? ':' + String(m).padStart(2, '0') : ''} ${h < 12 ? 'AM' : 'PM'}`; };
+    function summarize() {
+        const f = form.elements, set = (k, v) => { form.querySelector(`[data-show="${k}"]`).textContent = v; };
+        set('when', f.start.value && f.end.value ? `${time(f.start.value)}–${time(f.end.value)}, ${label('hours').toLowerCase()}` : '');
+        set('mood', label('mood'));
+        set('where', label('area'));
+        const extras = [f.rainy.checked && 'rain', f.walk.checked && 'no car', f.include.value && '+ ' + f.include.value,
+                        f.exclude.value && 'no ' + f.exclude.value].filter(Boolean);
+        set('extras', extras.join(', ') || 'none');
+    }
+    form.addEventListener('input', summarize);
+    form.addEventListener('change', summarize);
+    summarize();
 
     run();
 })();

@@ -36,45 +36,50 @@
         /* one screen: header, then the planner fills the rest */
         .page { height: 100vh; display: grid; grid-template-rows: auto minmax(0, 1fr); padding: 26px 36px 24px; gap: 20px; max-width: 1440px; margin: 0 auto; }
 
-        header { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 36px; align-items: end; padding-bottom: 16px; border-bottom: 4px double var(--line); }
-        .title { display: flex; align-items: flex-end; gap: 16px; }
-        .crest { flex: none; display: grid; place-items: center; width: 54px; height: 54px; margin-bottom: 4px; border: 1px solid var(--gold); border-radius: 50%; box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 4px var(--gold); font-family: var(--display); font-style: italic; font-size: 26px; color: var(--ink); }
+        header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 40px; align-items: end; padding-bottom: 16px; border-bottom: 4px double var(--line); }
         .kicker { margin: 0 0 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); }
-        h1 { margin: 0; font-family: var(--display); font-weight: 500; font-size: clamp(40px, 4.6vw, 68px); line-height: 0.92; letter-spacing: -0.02em; white-space: nowrap; }
+        h1 { margin: 0; font-family: var(--display); font-weight: 500; font-size: clamp(40px, 4.6vw, 64px); line-height: 0.92; letter-spacing: -0.02em; white-space: nowrap; }
         h1 em { color: var(--pink); font-weight: 400; }
-        .words { max-width: 58ch; }
-        .headline { margin: 0 0 6px; font-family: var(--typewriter); font-size: 16px; line-height: 1.3; }
-        .intro { margin: 0; font-size: 12.5px; line-height: 1.55; color: var(--grey); }
-        .links { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
-        .links button, .links a { font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; background: none; border: 0; padding: 0 0 2px; border-bottom: 1px solid var(--ink); cursor: pointer; color: var(--ink); }
-        .links button:hover, .links a:hover { color: var(--pink-ink); border-color: var(--pink-ink); }
+        .headline { margin: 10px 0 0; font-family: var(--typewriter); font-size: 15px; line-height: 1.3; }
+        .sections { display: flex; gap: 0; align-items: stretch; border: 1px solid var(--line); }
+        .sections button, .sections a { display: flex; align-items: center; height: 38px; padding: 0 16px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; background: var(--paper); border: 0; cursor: pointer; color: var(--ink); white-space: nowrap; }
+        .sections > * + * { border-left: 1px solid var(--line) !important; }
+        .sections button:hover, .sections a:hover { background: var(--blush); }
+        .sections button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
 
         main { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); gap: 36px; min-height: 0; }
 
-        /* controls: a grid of square buttons */
-        form { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px 14px; align-content: start; }
-        .f { grid-column: span 6; min-width: 0; border: 0; padding: 0; margin: 0; }
-        .f.half { grid-column: span 3; }
-        .f.third { grid-column: span 2; }
-        .label { display: block; margin: 0 0 7px; padding: 0; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
-        .seg { display: grid; border: 1px solid var(--line); }
+        /* controls: four tabs, one panel at a time */
+        form { display: grid; grid-template-rows: auto minmax(0, 1fr); min-height: 0; }
+        .tabs { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--line); }
+        .tabs button { position: relative; text-align: left; padding: 10px 14px 12px; border: 0; background: none; cursor: pointer; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); }
+        .tabs button i { font-style: normal; font-family: var(--display); font-size: 15px; letter-spacing: 0; margin-right: 6px; color: var(--gold); }
+        .tabs button small { display: block; margin-top: 4px; font-size: 11px; font-weight: 400; letter-spacing: 0; text-transform: none; font-family: var(--typewriter); color: var(--grey); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .tabs button[aria-selected="true"] { color: var(--ink); }
+        .tabs button[aria-selected="true"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: var(--pink); }
+        .tabs button:hover { color: var(--ink); }
+        .panel { padding: 30px 0 0; display: grid; gap: 26px; align-content: start; max-width: 620px; }
+        .panel[hidden] { display: none; }
+        fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+        .row.two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .label { display: block; margin: 0 0 8px; padding: 0; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+        .seg { display: grid; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
         .seg.four { grid-template-columns: repeat(4, 1fr); }
-        .seg.five { grid-template-columns: repeat(5, 1fr); }
         .seg.two { grid-template-columns: repeat(2, 1fr); }
-        .seg label { position: relative; display: block; }
-        .seg label + label { border-left: 1px solid var(--line); }
-        .seg.five label:nth-child(n + 6) { border-top: 1px solid var(--line); }
-        .seg.five label:nth-child(6) { border-left: 0; }
+        .seg.grid { grid-template-columns: repeat(3, 1fr); }
+        .seg label { position: relative; display: block; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
         .seg input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
-        .seg span { display: flex; align-items: center; justify-content: center; height: 40px; padding: 0 6px; font-size: 12.5px; font-weight: 600; letter-spacing: 0.02em; text-align: center; transition: background .12s, color .12s; }
+        .seg span { display: flex; align-items: center; justify-content: center; height: 46px; padding: 0 8px; font-size: 13px; font-weight: 600; text-align: center; transition: background .12s, color .12s; }
         .seg label:hover span { background: var(--blush); }
         .seg input:checked + span { background: var(--ink); color: var(--paper); }
         .seg input:focus-visible + span { outline: 2px solid var(--pink); outline-offset: -4px; }
-        .box { width: 100%; height: 40px; border: 1px solid var(--line); border-radius: 0; background: var(--paper); padding: 0 12px; font-size: 14px; color: var(--ink); appearance: none; -webkit-appearance: none; }
-        select.box { background: linear-gradient(45deg, transparent 50%, var(--ink) 50%) right 16px center / 6px 6px no-repeat,
-                                linear-gradient(-45deg, transparent 50%, var(--ink) 50%) right 10px center / 6px 6px no-repeat; padding-right: 30px; }
+        .seg .filler span { background: repeating-linear-gradient(45deg, transparent 0 6px, #F2F2F2 6px 7px); }
+        .seg .filler:hover span { background: repeating-linear-gradient(45deg, transparent 0 6px, #F2F2F2 6px 7px); }
+        .box { width: 100%; height: 46px; border: 1px solid var(--line); border-radius: 0; background: var(--paper); padding: 0 12px; font-size: 14px; color: var(--ink); appearance: none; -webkit-appearance: none; }
         .box:focus { outline: none; border-color: var(--pink); box-shadow: inset 0 0 0 1px var(--pink); }
         input::placeholder { color: #A5A5A5; }
+        .next { justify-self: start; height: 40px; padding: 0 18px; border: 1px solid var(--line); background: var(--paper); font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; }
+        .next:hover { background: var(--ink); color: var(--paper); }
 
         /* the day */
         .day { display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; min-height: 0; border: 2px solid var(--line); background: var(--paper); outline: 1px solid var(--gold); outline-offset: 4px; margin: 5px; }
@@ -125,34 +130,52 @@
         .again:disabled { opacity: 0.5; cursor: progress; }
         .number { margin: 0; display: flex; align-items: center; padding: 0 14px; border-left: 1px solid var(--line); font-family: var(--display); font-style: italic; font-size: 14px; white-space: nowrap; }
 
-        /* how it works */
-        dialog { max-width: 680px; width: calc(100% - 32px); border: 2px solid var(--line); padding: 30px 34px; background: var(--paper); color: var(--ink); }
-        dialog::backdrop { background: rgba(17, 17, 17, 0.35); }
-        dialog h2 { margin: 0 0 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; }
-        dialog .lede { margin: 0 0 14px; font-family: var(--display); font-size: 18px; line-height: 1.5; }
-        dialog dt { margin: 14px 0 3px; font-family: var(--display); font-weight: 600; font-size: 16px; }
-        dialog dd { margin: 0; font-size: 13.5px; line-height: 1.6; color: #333; }
-        dialog code { font-size: 12px; background: #FDE3EE; padding: 1px 4px; }
-        dialog .close { position: absolute; top: 14px; right: 16px; width: 34px; height: 34px; border: 1px solid var(--line); background: var(--paper); font-size: 16px; cursor: pointer; }
-        dialog .close:hover { background: var(--pink); }
-        .credit { margin: 22px 0 0; padding-top: 12px; border-top: 1px solid var(--hair); font-size: 12px; color: var(--grey); }
+        /* the other screens: a magazine spread each */
+        .screen[hidden] { display: none !important; }
+        .screen.method, .screen.editor { min-height: 0; overflow-y: auto; }
+        .big { margin: 0; font-family: var(--display); font-weight: 500; font-size: clamp(34px, 3.6vw, 54px); line-height: 1.02; letter-spacing: -0.015em; }
+        .big em { color: var(--pink); font-weight: 400; }
+        .dek { margin: 16px 0 0; font-family: var(--typewriter); font-size: 15px; line-height: 1.5; }
+        .method { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.6fr); gap: 48px; align-content: start; padding-top: 6px; }
+        .method-list { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
+        .method-list dt { margin: 0 0 4px; padding-top: 14px; border-top: 1px solid var(--line); font-family: var(--display); font-weight: 600; font-size: 17px; }
+        .method-list dd { margin: 0 0 18px; font-size: 13px; line-height: 1.6; color: #333; }
+        .method-list code { font-size: 12px; background: var(--blush); padding: 1px 4px; }
+        .editor { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 0.85fr); gap: 44px; align-content: start; padding-top: 6px; }
+        .editor .big { font-size: clamp(40px, 4.4vw, 68px); }
+        .cta { margin-top: 28px; height: 46px; padding: 0 22px; border: 0; background: var(--pink); color: var(--paper); font-size: 11.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
+        .cta:hover { background: var(--ink); }
+        .letter { border-left: 1px solid var(--line); padding-left: 32px; }
+        .letter p { margin: 0 0 12px; font-size: 14px; line-height: 1.7; }
+        .letter .dear { font-family: var(--display); font-style: italic; font-size: 22px; margin-bottom: 10px; }
+        .letter .signoff { margin: 18px 0 0; font-family: var(--typewriter); }
+        .monogram { margin: 2px 0 0 !important; font-family: var(--display); font-style: italic; font-size: 54px !important; line-height: 1 !important; color: var(--pink-ink); }
+        .monogram span + span { margin-left: -14px; }
+        .picks dl { margin: 0; }
+        .picks dt { padding-top: 10px; border-top: 1px solid var(--line); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+        .picks dd { margin: 3px 0 12px; font-family: var(--display); font-size: 19px; }
+        .rules-label { margin-top: 22px !important; }
+        .rules { margin: 0; padding: 0; list-style: none; counter-reset: rule; }
+        .rules li { counter-increment: rule; display: grid; grid-template-columns: 28px 1fr; padding: 7px 0; border-top: 1px solid var(--hair); font-family: var(--typewriter); font-size: 13px; line-height: 1.45; }
+        .rules li::before { content: counter(rule, decimal-leading-zero); font-family: var(--display); font-style: italic; color: var(--pink); }
 
         /* smaller screens: stack and scroll like a normal page */
         @media (max-width: 1000px), (max-height: 640px) {
             .page { height: auto; padding: 22px 18px 30px; }
             header { grid-template-columns: 1fr; gap: 12px; align-items: start; }
             h1 { white-space: normal; }
-            .links { flex-direction: row; align-items: flex-start; gap: 18px; }
+            .sections { flex-wrap: wrap; }
+            .method, .editor, .method-list { grid-template-columns: 1fr; gap: 28px; }
+            .letter { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: 18px; }
             main { grid-template-columns: 1fr; grid-template-rows: auto; gap: 24px; }
             .day { min-height: 0; }
             .scroll { overflow: visible; }
         }
         @media (max-width: 560px) {
-            .f.half, .f.third { grid-column: span 6; }
-            .seg.five { grid-template-columns: repeat(2, 1fr); }
-            .seg.five label + label { border-left: 1px solid var(--line); }
-            .seg.five label:nth-child(odd) { border-left: 0; }
-            .seg.five label:nth-child(n + 3) { border-top: 1px solid var(--line); }
+            .seg.grid { grid-template-columns: repeat(2, 1fr); }
+            .seg .filler { display: none; }
+            .tabs button { padding: 10px 8px 12px; letter-spacing: 0.08em; }
+            .tabs button small { display: none; }
             .again-row { grid-template-columns: 1fr; }
             .number { border-left: 0; border-top: 1px solid var(--line); padding: 10px 14px; }
         }
@@ -162,91 +185,108 @@
 <body>
 <div class="page">
     <header>
-        <div class="title">
-            <div>
-                <p class="kicker">Suhani Coded™ · Austin, Texas</p>
-                <h1>Saturday <em>in</em> Austin</h1>
-            </div>
-        </div>
-        <div class="words">
+        <div>
+            <p class="kicker">Suhani Coded™ · Austin, Texas</p>
+            <h1>Saturday <em>in</em> Austin</h1>
             <p class="headline">Tell me when you’re free. I’ll decide what we’re doing.</p>
-            <p class="intro">I gave Python my favorite Austin spots and, naturally, my opinions. Lattes are for mornings. Saturday brunch comes with mimosas, obviously. After Pilates, one showers before being seen in public. And I refuse to send you from South Congress to the Domain and back; a girl has standards. Tell me your hours, your mood and your energy. I’ll handle the rest.</p>
         </div>
-        <nav class="links">
-            <button type="button" id="how-open">How does it know?</button>
-            <a href="https://github.com/suhxnitiwari/saturday-in-austin">The code</a>
-            <a href="https://suhanitiwari.com">suhanitiwari.com</a>
+        <nav class="sections" role="tablist" aria-label="Sections">
+            <button type="button" role="tab" data-screen="plan" aria-selected="true">Plan</button>
+            <button type="button" role="tab" data-screen="editor" aria-selected="false">The Editor</button>
+            <button type="button" role="tab" data-screen="method" aria-selected="false">The Method</button>
+            <a href="https://github.com/suhxnitiwari/saturday-in-austin">Code ↗</a>
         </nav>
     </header>
 
-    <main>
+    <main class="screen" id="screen-plan">
         <form id="prefs" autocomplete="off">
-            <div class="f third">
-                <label class="label" for="start">Start</label>
-                <input class="box" type="time" id="start" name="start" value="09:00" required>
-            </div>
-            <div class="f third">
-                <label class="label" for="end">Home by</label>
-                <input class="box" type="time" id="end" name="end" value="22:00" required>
-            </div>
-            <div class="f third">
-                <label class="label" for="area">Where</label>
-                <select class="box" id="area" name="area">
-                    <option value="anywhere">Anywhere</option>
-                    <option value="ut">UT / West Campus</option>
-                    <option value="downtown">Downtown</option>
-                    <option value="east">East Austin</option>
-                    <option value="soco">South Congress</option>
-                    <option value="clarksville">Clarksville / West Austin</option>
-                    <option value="domain">Domain / North Austin</option>
-                    <option value="zilker">Zilker</option>
-                    <option value="south-lamar">South Lamar</option>
-                    <option value="north-loop">North Loop / Hyde Park</option>
-                    <option value="mueller">Mueller</option>
-                </select>
+            <div class="tabs" role="tablist" aria-label="Plan your Saturday">
+                <button type="button" role="tab" id="tab-when" aria-controls="panel-when" aria-selected="true"><i>01</i> When<small data-show="when"></small></button>
+                <button type="button" role="tab" id="tab-mood" aria-controls="panel-mood" aria-selected="false" tabindex="-1"><i>02</i> Mood<small data-show="mood"></small></button>
+                <button type="button" role="tab" id="tab-where" aria-controls="panel-where" aria-selected="false" tabindex="-1"><i>03</i> Where<small data-show="where"></small></button>
+                <button type="button" role="tab" id="tab-extras" aria-controls="panel-extras" aria-selected="false" tabindex="-1"><i>04</i> Extras<small data-show="extras"></small></button>
             </div>
 
-            <fieldset class="f">
-                <legend class="label">How long do you actually want to be out?</legend>
-                <div class="seg four">
-                    <label><input type="radio" name="hours" value="4"><span>4 hours</span></label>
-                    <label><input type="radio" name="hours" value="6"><span>6 hours</span></label>
-                    <label><input type="radio" name="hours" value="8" checked><span>8 hours</span></label>
-                    <label><input type="radio" name="hours" value="all"><span>All day</span></label>
+            <section class="panel" id="panel-when" role="tabpanel" aria-labelledby="tab-when">
+                <div class="row two">
+                    <div>
+                        <label class="label" for="start">Start</label>
+                        <input class="box" type="time" id="start" name="start" value="09:00" required>
+                    </div>
+                    <div>
+                        <label class="label" for="end">Home by</label>
+                        <input class="box" type="time" id="end" name="end" value="22:00" required>
+                    </div>
                 </div>
-            </fieldset>
+                <fieldset>
+                    <legend class="label">How long do you actually want to be out?</legend>
+                    <div class="seg four">
+                        <label><input type="radio" name="hours" value="4"><span>4 hours</span></label>
+                        <label><input type="radio" name="hours" value="6"><span>6 hours</span></label>
+                        <label><input type="radio" name="hours" value="8" checked><span>8 hours</span></label>
+                        <label><input type="radio" name="hours" value="all"><span>All day</span></label>
+                    </div>
+                </fieldset>
+                <button type="button" class="next" data-next="tab-mood">Next: mood →</button>
+            </section>
 
-            <fieldset class="f">
-                <legend class="label">What kind of Saturday?</legend>
-                <div class="seg five">
-                    <label><input type="radio" name="mood" value="everything" checked><span>Surprise me</span></label>
-                    <label><input type="radio" name="mood" value="slow"><span>Slow</span></label>
-                    <label><input type="radio" name="mood" value="social"><span>Social</span></label>
-                    <label><input type="radio" name="mood" value="creative"><span>Creative</span></label>
-                    <label><input type="radio" name="mood" value="foodie"><span>Foodie</span></label>
-                    <label><input type="radio" name="mood" value="outside"><span>Outside</span></label>
-                    <label><input type="radio" name="mood" value="shopping"><span>Shopping</span></label>
-                    <label><input type="radio" name="mood" value="productive"><span>Productive</span></label>
-                    <label><input type="radio" name="mood" value="treat-myself"><span>Treat myself</span></label>
-                    <label><input type="radio" name="mood" value="day-in"><span>Day in</span></label>
-                </div>
-            </fieldset>
+            <section class="panel" id="panel-mood" role="tabpanel" aria-labelledby="tab-mood" hidden>
+                <fieldset>
+                    <legend class="label">What kind of Saturday?</legend>
+                    <div class="seg grid">
+                        <label><input type="radio" name="mood" value="everything" checked><span>Surprise me</span></label>
+                        <label><input type="radio" name="mood" value="slow"><span>Slow</span></label>
+                        <label><input type="radio" name="mood" value="social"><span>Social</span></label>
+                        <label><input type="radio" name="mood" value="creative"><span>Creative</span></label>
+                        <label><input type="radio" name="mood" value="foodie"><span>Foodie</span></label>
+                        <label><input type="radio" name="mood" value="outside"><span>Outside</span></label>
+                        <label><input type="radio" name="mood" value="shopping"><span>Shopping</span></label>
+                        <label><input type="radio" name="mood" value="productive"><span>Productive</span></label>
+                        <label><input type="radio" name="mood" value="treat-myself"><span>Treat myself</span></label>
+                        <label><input type="radio" name="mood" value="day-in"><span>Day in</span></label>
+                    </div>
+                </fieldset>
+                <button type="button" class="next" data-next="tab-where">Next: where →</button>
+            </section>
 
-            <fieldset class="f half">
-                <legend class="label">Anything I should know?</legend>
-                <div class="seg two">
-                    <label><input type="checkbox" name="rainy"><span>Rainy day</span></label>
-                    <label><input type="checkbox" name="walk"><span>No car</span></label>
+            <section class="panel" id="panel-where" role="tabpanel" aria-labelledby="tab-where" hidden>
+                <fieldset>
+                    <legend class="label">Where do you want to spend time?</legend>
+                    <div class="seg grid">
+                        <label><input type="radio" name="area" value="anywhere" checked><span>Anywhere</span></label>
+                        <label><input type="radio" name="area" value="ut"><span>UT / West Campus</span></label>
+                        <label><input type="radio" name="area" value="downtown"><span>Downtown</span></label>
+                        <label><input type="radio" name="area" value="east"><span>East Austin</span></label>
+                        <label><input type="radio" name="area" value="soco"><span>South Congress</span></label>
+                        <label><input type="radio" name="area" value="clarksville"><span>Clarksville</span></label>
+                        <label><input type="radio" name="area" value="domain"><span>The Domain</span></label>
+                        <label><input type="radio" name="area" value="zilker"><span>Zilker</span></label>
+                        <label><input type="radio" name="area" value="south-lamar"><span>South Lamar</span></label>
+                        <label><input type="radio" name="area" value="north-loop"><span>North Loop</span></label>
+                        <label><input type="radio" name="area" value="mueller"><span>Mueller</span></label>
+                        <label class="filler" aria-hidden="true"><span></span></label>
+                    </div>
+                </fieldset>
+                <button type="button" class="next" data-next="tab-extras">Next: extras →</button>
+            </section>
+
+            <section class="panel" id="panel-extras" role="tabpanel" aria-labelledby="tab-extras" hidden>
+                <fieldset>
+                    <legend class="label">Anything I should know?</legend>
+                    <div class="seg two">
+                        <label><input type="checkbox" name="rainy"><span>Rainy day</span></label>
+                        <label><input type="checkbox" name="walk"><span>No car</span></label>
+                    </div>
+                </fieldset>
+                <div>
+                    <label class="label" for="include">One place I really want to go</label>
+                    <input class="box" type="text" id="include" name="include" list="places" placeholder="Josephine House">
                 </div>
-            </fieldset>
-            <div class="f third" style="grid-column: span 3">
-                <label class="label" for="include">One place I really want to go</label>
-                <input class="box" type="text" id="include" name="include" list="places" placeholder="Josephine House">
-            </div>
-            <div class="f">
-                <label class="label" for="exclude">Absolutely not</label>
-                <input class="box" type="text" id="exclude" name="exclude" list="nots" placeholder="a place, or: workouts, museums, shopping, outdoors, live-music, studying, sweets">
-            </div>
+                <div>
+                    <label class="label" for="exclude">Absolutely not</label>
+                    <input class="box" type="text" id="exclude" name="exclude" list="nots" placeholder="a place, or workouts, museums, shopping, sweets…">
+                </div>
+            </section>
             <datalist id="places"></datalist>
             <datalist id="nots">
                 <option value="workouts"></option>
@@ -278,13 +318,14 @@
             </div>
         </aside>
     </main>
-</div>
 
-<dialog id="how">
-    <button type="button" class="close" aria-label="Close">✕</button>
-    <h2>Okay, but how does it know?</h2>
-    <p class="lede">I turned Austin into a graph, gave each place constraints, and taught the planner a few rules about being a person. It considers timing, neighborhoods, travel, meals, weather, energy, and what should reasonably come before or after what. Then it finds a day that actually fits.</p>
-        <dl>
+    <section class="screen method" id="screen-method" hidden>
+        <div class="method-intro">
+            <p class="kicker">The Method</p>
+            <h2 class="big">Okay, but how does it <em>know?</em></h2>
+            <p class="dek">I turned Austin into a graph, gave each place constraints, and taught the planner a few rules about being a person. It considers timing, neighborhoods, travel, meals, weather, energy, and what should reasonably come before or after what. Then it finds a day that actually fits.</p>
+        </div>
+        <dl class="method-list">
             <dt>Austin is a weighted graph</dt>
             <dd>Neighborhoods are nodes and roads are edges weighted in drive minutes. <b>Dijkstra’s algorithm</b> with a min-heap finds the fastest drive between any two, and every answer is cached. With No car, each place gets its real coordinates from OpenStreetMap, walks are measured with the haversine formula, and a <b>breadth-first search</b> keeps only places you can reach in hops of a mile or less.</dd>
             <dt>A weighted lottery picks the candidates</dt>
@@ -298,8 +339,45 @@
             <dt>And it’s tested</dt>
             <dd>A <b>backtracking search</b> that really tries every possible order runs on dozens of random days, and the dynamic programming has to match its best score every time. Other tests check the people rules one by one: Pilates, then coffee, then a shower is fine; Pilates, then shopping is not; brunch and then lunch 45 minutes later never happens; nothing is ever scheduled outside its hours.</dd>
         </dl>
-    <p class="credit">Built by Suhani Tiwari in Python. It runs right here in your browser with Pyodide.</p>
-</dialog>
-<script src="web/app.js?v=4" defer></script>
+    </section>
+
+    <section class="screen editor" id="screen-editor" hidden>
+        <div class="editor-head">
+            <p class="kicker">The Editor</p>
+            <h2 class="big">The OG coffee connoisseur <em>&amp;</em> brunch queen.</h2>
+            <p class="dek">Suhani Tiwari. MIS and Psychology at UT Austin. Opinions, mostly about Saturdays.</p>
+            <button type="button" class="cta" data-go="plan">Plan my Saturday →</button>
+        </div>
+        <article class="letter">
+            <p class="label">Editor’s letter</p>
+            <p class="dear">Dear reader,</p>
+            <p>I gave Python my favorite Austin spots and, naturally, my opinions. Lattes are for mornings. Saturday brunch comes with mimosas, obviously. After Pilates, one showers before being seen in public. And I refuse to send you from South Congress to the Domain and back; a girl has standards. Tell me your hours, your mood and your energy. I’ll handle the rest.</p>
+            <p>Every Saturday this planner makes is one I would actually spend. The spots are the ones I keep going back to. The rules are the ones I live by. The algorithm is the part where I made Python agree with me.</p>
+            <p class="signoff">xoxo,</p>
+            <p class="monogram" aria-label="Suhani Tiwari"><span>S</span><span>T</span></p>
+        </article>
+        <aside class="picks">
+            <p class="label">Editor’s picks</p>
+            <dl>
+                <dt>The latte</dt><dd>Medici. Vanilla, always.</dd>
+                <dt>The brunch</dt><dd>Josephine House.</dd>
+                <dt>The reset</dt><dd>Pilates at Prana.</dd>
+                <dt>The dinner</dt><dd>Numero 28. Good memories.</dd>
+                <dt>The guilty pleasure</dt><dd>Pizza Press, after 9.</dd>
+            </dl>
+            <p class="label rules-label">The rules</p>
+            <ol class="rules">
+                <li>Lattes are for mornings.</li>
+                <li>Saturday brunch comes with mimosas.</li>
+                <li>After Pilates, one showers before being seen in public.</li>
+                <li>You just ate. No second restaurant.</li>
+                <li>No South Congress to the Domain and back. A girl has standards.</li>
+            </ol>
+        </aside>
+    </section>
+</div>
+
+
+<script src="web/app.js?v=6" defer></script>
 </body>
 </html>
