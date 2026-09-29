@@ -66,7 +66,8 @@ When a rule shapes the day, the plan says so: *"It's Saturday. We're getting bru
 - **Getting around:** Car, Uber, Bus + walk or Walk, from wherever you're starting. Uber days show the fares; bus days take at most one bus somewhere and walk the rest (the CapMetro map is an approximation of MetroRapid 801/803 and a few local routes, so check the CapMetro app for live times).
 - **Budget:** Student, Normal or Splurge, with a rough total for the day (food, tickets and Ubers).
 - **💌 Send it as a letter:** the day becomes a Bridgerton-style letter to a friend, with a link that opens the exact same Saturday.
-- **Austin, right now:** live weather and sunset from Open-Meteo and population from Wikidata, on The Method page. If it's raining in Austin, Rainy day turns itself on.
+- **The map:** every neighborhood in the planner, numbered on a simplified street map, with the drives the planner knows between them. Tap one to see them.
+- **Austin, right now:** live weather and sunset from Open-Meteo and population from Wikidata on the Austin page, with a flip to the planner's own numbers. If it's raining in Austin, Rainy day turns itself on.
 
 ## How it works
 

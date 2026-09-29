@@ -208,9 +208,52 @@
         .letter-actions button:hover { background: var(--ink); color: var(--paper); }
         .letter-note { min-height: 1em; margin: 10px 0 0; font-family: var(--typewriter); font-size: 12px; color: var(--pink-ink); }
         /* Austin: a big weather widget and the city by the numbers */
-        .austin { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 48px; align-content: start; padding-top: 6px; overflow-y: auto; min-height: 0; }
-        .wx-now { display: flex; align-items: flex-end; gap: 22px; margin: 4px 0 18px; }
-        .wx-temp { font-family: var(--display); font-weight: 500; font-size: clamp(88px, 11vw, 150px); line-height: 0.85; letter-spacing: -0.03em; }
+        .austin { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.8fr) minmax(0, 1fr); gap: 36px; align-content: start; padding-top: 6px; overflow-y: auto; min-height: 0; }
+        .flip { margin-top: 16px; }
+        .flip [hidden] { display: none; }
+        .flip .figs:not(.six) { grid-template-columns: 1fr 1fr; }
+        .flip .figs:not(.six) div:nth-child(3) { padding-left: 0; border-left: 0; }
+        .flip .figs:not(.six) div:nth-child(n + 3) { border-top: 1px solid var(--hair); margin-top: 10px; }
+        .flip-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 8px; }
+        .flip-head .label { margin: 0; }
+        .flip-nav { display: flex; border: 1px solid var(--line); }
+        .flip-nav button { width: 30px; height: 26px; border: 0; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1; cursor: pointer; }
+        .flip-nav button + button { border-left: 1px solid var(--line); }
+        .flip-nav button:hover { background: var(--blush); color: var(--pink); }
+        .flip .figs b { font-size: clamp(22px, 1.8vw, 26px); }
+        .flip .figs.six { grid-template-columns: repeat(3, 1fr); }
+        .flip .figs.six div:nth-child(4) { padding-left: 0; border-left: 0; }
+        .flip .figs.six div:nth-child(n + 4) { border-top: 1px solid var(--hair); margin-top: 10px; }
+        .flip .figs.six div { padding-bottom: 4px; }
+        /* the map: cream paper, thin black streets, pink neighborhoods */
+        .map-fig { margin: 0; }
+        .atx { display: block; width: 100%; height: auto; max-height: calc(100vh - 300px); border: 1px solid var(--line); outline: 1px solid var(--gold); outline-offset: 4px; }
+        .atx-paper { fill: #F7F1E5; }
+        .atx-streets path { fill: none; stroke: var(--ink); stroke-width: 0.8; stroke-linejoin: round; }
+        .atx-river { fill: none; stroke: var(--ink); stroke-width: 4.5; stroke-linejoin: round; stroke-linecap: round; }
+        .atx-river-in { fill: none; stroke: #F7F1E5; stroke-width: 2.8; stroke-linejoin: round; stroke-linecap: round; }
+        .atx-street-names text { font: 700 6.5px var(--sans); letter-spacing: 0.14em; fill: #6E6E6E; paint-order: stroke; stroke: #F7F1E5; stroke-width: 3px; }
+        .atx-street-names .atx-lake { font-style: italic; font-weight: 400; font-family: var(--display); font-size: 8px; letter-spacing: 0.08em; }
+        .atx-drives line { stroke: var(--pink); stroke-width: 0.9; stroke-dasharray: 2 2.5; opacity: 0.55; transition: opacity 0.2s; }
+        .atx-drives line.on { stroke-width: 1.8; stroke-dasharray: none; opacity: 1; }
+        .atx-drives.focus line:not(.on) { opacity: 0.12; }
+        .atx-edge { font: italic 8px var(--display); fill: var(--pink-ink); }
+        .atx-dots g { cursor: pointer; outline: none; }
+        .atx-dots circle { fill: var(--pink); stroke: #F7F1E5; stroke-width: 1.5; }
+        .atx-dots text { font: 700 8px var(--sans); fill: #fff; text-anchor: middle; pointer-events: none; }
+        .atx-dots g.on circle, .atx-dots g:hover circle, .atx-dots g:focus-visible circle { fill: var(--ink); }
+        .map-note { min-height: 2.8em; margin-top: 14px; font-family: var(--typewriter); font-size: 12.5px; line-height: 1.4; color: var(--pink-ink); }
+        .map-head { margin: 4px 0 0; font-family: var(--display); font-weight: 500; font-size: clamp(26px, 2.3vw, 36px); line-height: 1.08; letter-spacing: -0.01em; }
+        .map-head em { color: var(--pink); font-weight: 400; }
+        .map-dek { margin: 10px 0 14px; font-family: var(--typewriter); font-size: 13px; line-height: 1.5; }
+        .map-key { columns: 2; column-gap: 18px; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+        .map-key li { display: flex; align-items: baseline; gap: 8px; padding: 4px 0; border-bottom: 1px solid var(--hair); break-inside: avoid; font-size: 12.5px; cursor: pointer; }
+        .map-key li b { font-size: 10px; letter-spacing: 0.08em; color: var(--pink); }
+        .map-key li span { margin-left: auto; font-family: var(--typewriter); font-size: 11px; color: var(--grey); }
+        .map-key li.on, .map-key li:hover { background: var(--blush); }
+        .map-src { margin: 8px 0 0; font-family: var(--typewriter); font-size: 11px; color: var(--grey); }
+        .wx-now { display: flex; align-items: flex-end; gap: 22px; margin: 4px 0 12px; }
+        .wx-temp { font-family: var(--display); font-weight: 500; font-size: clamp(80px, 8.5vw, 124px); line-height: 0.85; letter-spacing: -0.03em; }
         .wx-sky { margin: 0; font-family: var(--display); font-style: italic; font-size: 28px; color: var(--pink); text-transform: lowercase; }
         .wx-feels { margin: 6px 0 0; font-family: var(--typewriter); font-size: 13px; color: var(--grey); }
         .wx-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -218,17 +261,15 @@
         .wx-grid div + div { padding-left: 14px; border-left: 1px solid var(--hair); }
         .wx-grid b { display: block; font-family: var(--display); font-weight: 500; font-size: 26px; }
         .wx-grid span { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); }
-        .wx-saturday { margin-top: 20px; padding: 16px 18px 18px; border: 2px solid var(--line); outline: 1px solid var(--gold); outline-offset: 4px; }
+        .wx-saturday { margin-top: 16px; padding: 14px 18px 16px; border: 2px solid var(--line); outline: 1px solid var(--gold); outline-offset: 4px; }
         .wx-sat-line { margin: 4px 0 0; font-family: var(--typewriter); font-size: 14px; }
         .wx-sat-line b { font-family: var(--display); font-weight: 500; font-size: 30px; margin-right: 8px; }
         .wx-verdict { margin: 8px 0 0; font-family: var(--display); font-style: italic; font-size: 20px; color: var(--pink-ink); }
-        .wx-saturday .cta { margin-top: 14px; }
-        .austin-numbers .figs { grid-template-columns: 1fr 1fr; }
-        .austin-numbers .figs div:nth-child(3) { padding-left: 0; border-left: 0; }
-        .austin-numbers .figs div:nth-child(n + 3) { border-top: 1px solid var(--hair); }
-        .austin-numbers .figs b { font-size: clamp(28px, 3vw, 44px); }
-        .austin-numbers .figs div { padding-bottom: 14px; }
-        .vote { margin-top: 28px; }
+        .wx-saturday { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 16px; }
+        .wx-saturday .label, .wx-sat-line { grid-column: 1; }
+        .wx-saturday .cta { grid-column: 2; grid-row: 1 / 3; align-self: center; margin: 0; }
+        .wx-verdict { grid-column: 1 / -1; }
+        .vote { margin-top: 20px; }
         .vote-q { margin: 0; padding: 12px 0 14px; border-top: 1px solid var(--line); font-family: var(--display); font-style: italic; font-size: clamp(20px, 1.8vw, 26px); line-height: 1.2; }
         .vote-opts { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); }
         .vote-opts button { position: relative; display: grid; gap: 8px; align-content: start; padding: 14px; border: 0; background: var(--paper); color: var(--ink); font-family: var(--display); font-size: 18px; text-align: left; cursor: pointer; }
@@ -289,6 +330,9 @@
             h1 { white-space: normal; }
             .sections { flex-wrap: wrap; }
             .method, .editor, .numbers, .austin, .cards { grid-template-columns: 1fr; gap: 28px; }
+            .atx { max-height: none; }
+            .wx-saturday { display: block; }
+            .wx-saturday .cta { margin-top: 14px; }
             .method .numbers, .method-intro { grid-column: 1; grid-row: auto; }
             .card:not(:nth-child(3n + 1)) { padding-left: 0; border-left: 0; }
             .wx-grid { grid-template-columns: 1fr 1fr; }
@@ -309,6 +353,25 @@
             .number { border-left: 0; border-top: 1px solid var(--line); padding: 10px 14px; }
         }
         @media (max-height: 800px) and (min-width: 1001px) { .verdict { display: none !important; } }
+        @media (max-height: 880px) and (min-width: 1001px) {  /* laptop screens: the Austin page stays on one screen */
+            .wx-temp { font-size: clamp(72px, 7vw, 100px); }
+            .wx-now { margin-bottom: 8px; }
+            .wx-grid div { padding-top: 8px; padding-bottom: 8px; }
+            .wx-grid b { font-size: 21px; white-space: nowrap; }
+            .wx-saturday { margin-top: 12px; padding: 12px 16px 12px; }
+            .wx-sat-line b { font-size: 24px; }
+            .wx-verdict { font-size: 16px; margin-top: 6px; }
+            .austin .now-src { display: none; }
+            .flip { margin-top: 12px; }
+            .flip .figs b { font-size: 21px; }
+            .flip .figs span { margin-top: 3px; }
+            .map-head { font-size: 26px; }
+            .map-dek { font-size: 12.5px; margin: 8px 0 10px; }
+            .map-key li { padding: 3px 0; }
+            .austin .vote { margin-top: 14px; }
+            .austin .vote-q { font-size: 19px; padding: 8px 0 10px; }
+            .austin .vote-opts button { padding: 10px 14px; }
+        }
         @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
     </style>
 </head>
@@ -539,39 +602,91 @@
     </section>
 
     <section class="screen austin" id="screen-austin" hidden>
-        <div class="weather" aria-live="polite">
-            <p class="kicker">Austin, right now</p>
-            <div class="wx-now">
-                <b class="wx-temp" data-wx="temp">…</b>
-                <div>
-                    <p class="wx-sky" data-wx="sky">Checking the sky…</p>
-                    <p class="wx-feels" data-wx="feels"></p>
+        <div class="austin-left">
+            <div class="weather" aria-live="polite">
+                <p class="kicker">Austin, right now</p>
+                <div class="wx-now">
+                    <b class="wx-temp" data-wx="temp">…</b>
+                    <div>
+                        <p class="wx-sky" data-wx="sky">Checking the sky…</p>
+                        <p class="wx-feels" data-wx="feels"></p>
+                    </div>
                 </div>
+                <div class="wx-grid">
+                    <div><b data-wx="hilo">…</b><span>today, high / low</span></div>
+                    <div><b data-wx="sunset">…</b><span>sunset tonight</span></div>
+                    <div><b data-wx="pop">…</b><span data-wx="pop-year">people</span></div>
+                    <div><b data-wx="days-n">…</b><span data-wx="days-label">days until Saturday</span></div>
+                </div>
+                <div class="wx-saturday">
+                    <p class="label" data-wx="sat-title">This Saturday</p>
+                    <p class="wx-sat-line"><b data-wx="sat-temp">…</b> <span data-wx="sat-rain"></span></p>
+                    <p class="wx-verdict" data-wx="sat-verdict"></p>
+                    <button type="button" class="cta" data-go="plan" data-wx-plan>Plan this Saturday →</button>
+                </div>
+                <p class="now-src">Live from Open-Meteo and Wikidata.</p>
             </div>
-            <div class="wx-grid">
-                <div><b data-wx="hilo">…</b><span>today, high / low</span></div>
-                <div><b data-wx="sunset">…</b><span>sunset tonight</span></div>
-                <div><b data-wx="pop">…</b><span data-wx="pop-year">people</span></div>
-                <div><b data-wx="days-n">…</b><span data-wx="days-label">days until Saturday</span></div>
-            </div>
-            <div class="wx-saturday">
-                <p class="label" data-wx="sat-title">This Saturday</p>
-                <p class="wx-sat-line"><b data-wx="sat-temp">…</b> <span data-wx="sat-rain"></span></p>
-                <p class="wx-verdict" data-wx="sat-verdict"></p>
-                <button type="button" class="cta" data-go="plan" data-wx-plan>Plan this Saturday →</button>
-            </div>
-            <p class="now-src">Live from Open-Meteo and Wikidata.</p>
-        </div>
-        <div class="austin-side">
-            <div class="strip austin-numbers">
-                <p class="label">Austin, by the numbers</p>
-                <div class="figs">
+            <div class="strip flip" data-flip>
+                <div class="flip-head">
+                    <p class="label" data-flip-title>Austin, by the numbers</p>
+                    <div class="flip-nav"><button type="button" data-flip-go="-1" aria-label="Previous numbers">‹</button><button type="button" data-flip-go="1" aria-label="Next numbers">›</button></div>
+                </div>
+                <div class="figs" data-flip-page data-title="Austin, by the numbers">
                     <div><b>1,002,632</b><span>Austinites</span></div>
                     <div><b>319.9 mi²</b><span>to somehow get across</span></div>
                     <div><b>#12</b><span>biggest U.S. city</span></div>
                     <div><b>55,172</b><span>Longhorns making weekend plans</span></div>
                 </div>
+                <div class="figs six" data-flip-page data-title="Saturday in Austin, by the numbers" hidden>
+                    <div><b data-app="places">192</b><span>places in my little black book</span></div>
+                    <div><b data-app="neighborhoods">17</b><span>neighborhoods</span></div>
+                    <div><b data-app="moods">10</b><span>moods</span></div>
+                    <div><b>86</b><span>tests keeping Saturday civilized</span></div>
+                    <div><b>1 mi</b><span>maximum walking hop in Walk mode</span></div>
+                    <div><b>∞</b><span>opinions</span></div>
+                </div>
             </div>
+        </div>
+        <div class="map-col">
+            <figure class="map-fig">
+            <svg class="atx" viewBox="0 0 384 503" role="img" aria-labelledby="map-title map-desc">
+            <title id="map-title">Map of the Austin neighborhoods in the planner</title>
+            <desc id="map-desc">17 numbered neighborhoods on a simplified street map: I-35, MoPac, Lamar, Congress, 183, 71 and Lady Bird Lake. Lines between them are the drives the planner knows.</desc>
+            <rect width="384" height="503" class="atx-paper"/>
+            <path class="atx-river" d="M158.4 152.7 L168.2 200.2 L173.1 238.2 L176.4 249.6 L186.3 276.2 L194.5 291.4 L206.0 299.0 L224.0 304.7 L238.8 310.4 L255.2 316.1 L276.5 325.6 L297.8 335.1 L317.5 342.7 L370.0 352.2"/><path class="atx-river-in" d="M158.4 152.7 L168.2 200.2 L173.1 238.2 L176.4 249.6 L186.3 276.2 L194.5 291.4 L206.0 299.0 L224.0 304.7 L238.8 310.4 L255.2 316.1 L276.5 325.6 L297.8 335.1 L317.5 342.7 L370.0 352.2"/>
+            <g class="atx-streets"><path d="M365.1 14.0 L352.0 76.7 L333.9 143.2 L312.6 190.7 L291.3 228.7 L269.9 266.7 L260.1 299.0 L258.5 333.2 L247.0 361.7 L227.3 394.0 L206.0 437.7 L181.3 489.0"/><path d="M269.9 14.0 L255.2 67.2 L232.2 124.2 L219.1 171.7 L206.0 219.2 L196.1 257.2 L192.8 285.7 L194.5 310.4 L186.3 333.2 L169.9 361.7 L153.5 390.2 L128.8 428.2 L94.4 489.0"/><path d="M314.2 101.4 L289.6 152.7 L268.3 190.7 L243.7 228.7 L237.1 270.5 L228.9 295.2 L222.4 310.4 L209.2 333.2 L192.8 352.2 L166.6 375.0"/><path d="M251.2 286.3 L243.7 310.4 L236.3 337.0 L224.0 367.4 L210.9 394.0 L191.2 447.2"/><path d="M232.2 14.0 L260.1 57.7 L296.2 105.2 L317.5 143.2 L333.9 171.7 L345.4 204.0"/><path d="M71.4 359.8 L137.0 367.4 L169.9 375.0 L202.7 386.4 L227.3 395.9 L268.3 399.7 L317.5 409.2 L370.0 418.7"/></g>
+            <g class="atx-street-names"><text transform="translate(345.4 101.4) rotate(-68)">I-35</text><text transform="translate(210.9 181.2) rotate(-70)">MOPAC</text><text transform="translate(278.1 166.0) rotate(-55)">LAMAR</text><text transform="translate(206.0 418.7) rotate(-64)">CONGRESS</text><text transform="translate(248.6 44.4) rotate(40)">183</text><text transform="translate(117.4 369.3) rotate(-6)">71</text><text transform="translate(270.8 332.3) rotate(-12)" class="atx-lake">LADY BIRD LAKE</text></g>
+            <g class="atx-drives"><line data-a="1" data-b="8" x1="261.6" y1="266.9" x2="242.0" y2="261.0"/><line data-a="1" data-b="10" x1="261.6" y1="266.9" x2="281.4" y2="204.0"/><line data-a="1" data-b="2" x1="261.6" y1="266.9" x2="246.8" y2="300.5"/><line data-a="1" data-b="5" x1="261.6" y1="266.9" x2="276.5" y2="308.5"/><line data-a="8" data-b="3" x1="242.0" y1="261.0" x2="220.7" y2="278.1"/><line data-a="8" data-b="2" x1="242.0" y1="261.0" x2="246.8" y2="300.5"/><line data-a="3" data-b="2" x1="220.7" y1="278.1" x2="246.8" y2="300.5"/><line data-a="3" data-b="11" x1="220.7" y1="278.1" x2="186.3" y2="249.6"/><line data-a="10" data-b="7" x1="281.4" y1="204.0" x2="276.5" y2="44.4"/><line data-a="2" data-b="5" x1="246.8" y1="300.5" x2="276.5" y2="308.5"/><line data-a="2" data-b="4" x1="246.8" y1="300.5" x2="237.1" y2="333.2"/><line data-a="2" data-b="9" x1="246.8" y1="300.5" x2="202.7" y2="302.8"/><line data-a="9" data-b="4" x1="202.7" y1="302.8" x2="237.1" y2="333.2"/><line data-a="11" data-b="9" x1="186.3" y1="249.6" x2="202.7" y2="302.8"/><line data-a="9" data-b="13" x1="202.7" y1="302.8" x2="145.2" y2="318.0"/><line data-a="6" data-b="9" x1="202.7" y1="337.0" x2="202.7" y2="302.8"/><line data-a="6" data-b="4" x1="202.7" y1="337.0" x2="237.1" y2="333.2"/><line data-a="13" data-b="17" x1="145.2" y1="318.0" x2="26" y2="428.2"/><line data-a="2" data-b="15" x1="246.8" y1="300.5" x2="281.4" y2="460.5"/><line data-a="4" data-b="15" x1="237.1" y1="333.2" x2="281.4" y2="460.5"/><line data-a="11" data-b="14" x1="186.3" y1="249.6" x2="186.3" y2="105.2"/><line data-a="7" data-b="14" x1="276.5" y1="44.4" x2="186.3" y2="105.2"/><line data-a="13" data-b="16" x1="145.2" y1="318.0" x2="33.7" y2="454.8"/><line data-a="6" data-b="16" x1="202.7" y1="337.0" x2="33.7" y2="454.8"/><line data-a="1" data-b="12" x1="261.6" y1="266.9" x2="311.0" y2="240.1"/><line data-a="10" data-b="12" x1="281.4" y1="204.0" x2="311.0" y2="240.1"/><line data-a="5" data-b="12" x1="276.5" y1="308.5" x2="311.0" y2="240.1"/></g>
+            <text class="atx-edge" x="40" y="431.7">← far west</text>
+            <g class="atx-dots"><g data-n="1" tabindex="0" role="button" aria-label="01 Campus, 20 places"><circle cx="261.6" cy="266.9" r="9.5"/><text x="261.6" y="269.9">01</text></g><g data-n="2" tabindex="0" role="button" aria-label="02 Downtown, 29 places"><circle cx="246.8" cy="300.5" r="9.5"/><text x="246.8" y="303.5">02</text></g><g data-n="3" tabindex="0" role="button" aria-label="03 Clarksville, 7 places"><circle cx="220.7" cy="278.1" r="9.5"/><text x="220.7" y="281.1">03</text></g><g data-n="4" tabindex="0" role="button" aria-label="04 South Congress, 28 places"><circle cx="237.1" cy="333.2" r="9.5"/><text x="237.1" y="336.2">04</text></g><g data-n="5" tabindex="0" role="button" aria-label="05 East Austin, 29 places"><circle cx="276.5" cy="308.5" r="9.5"/><text x="276.5" y="311.5">05</text></g><g data-n="6" tabindex="0" role="button" aria-label="06 South Lamar, 14 places"><circle cx="202.7" cy="337.0" r="9.5"/><text x="202.7" y="340.0">06</text></g><g data-n="7" tabindex="0" role="button" aria-label="07 The Domain, 12 places"><circle cx="276.5" cy="44.4" r="9.5"/><text x="276.5" y="47.4">07</text></g><g data-n="8" tabindex="0" role="button" aria-label="08 West Campus, 6 places"><circle cx="242.0" cy="261.0" r="9.5"/><text x="242.0" y="264.0">08</text></g><g data-n="9" tabindex="0" role="button" aria-label="09 Zilker, 13 places"><circle cx="202.7" cy="302.8" r="9.5"/><text x="202.7" y="305.8">09</text></g><g data-n="10" tabindex="0" role="button" aria-label="10 North Loop, 11 places"><circle cx="281.4" cy="204.0" r="9.5"/><text x="281.4" y="207.0">10</text></g><g data-n="11" tabindex="0" role="button" aria-label="11 Lake Austin, 6 places"><circle cx="186.3" cy="249.6" r="9.5"/><text x="186.3" y="252.6">11</text></g><g data-n="12" tabindex="0" role="button" aria-label="12 Mueller, 3 places"><circle cx="311.0" cy="240.1" r="9.5"/><text x="311.0" y="243.1">12</text></g><g data-n="13" tabindex="0" role="button" aria-label="13 Barton Creek, 5 places"><circle cx="145.2" cy="318.0" r="9.5"/><text x="145.2" y="321.0">13</text></g><g data-n="14" tabindex="0" role="button" aria-label="14 Northwest, 2 places"><circle cx="186.3" cy="105.2" r="9.5"/><text x="186.3" y="108.2">14</text></g><g data-n="15" tabindex="0" role="button" aria-label="15 Southeast, 1 places"><circle cx="281.4" cy="460.5" r="9.5"/><text x="281.4" y="463.5">15</text></g><g data-n="16" tabindex="0" role="button" aria-label="16 Southwest, 1 places"><circle cx="33.7" cy="454.8" r="9.5"/><text x="33.7" y="457.8">16</text></g><g data-n="17" tabindex="0" role="button" aria-label="17 Hill Country, 5 places"><circle cx="26" cy="428.2" r="9.5"/><text x="26" y="431.2">17</text></g></g>
+            </svg>
+            <figcaption class="map-note" data-map-note>Tap a number to see the drives from there.</figcaption>
+            </figure>
+        </div>
+        <div class="austin-side">
+            <p class="kicker">The map</p>
+            <h2 class="map-head">Austin is bigger than it <em>looks.</em></h2>
+            <p class="map-dek">A good Saturday isn’t just finding places you like. It’s finding places you like that make sense together.</p>
+            <ol class="map-key" aria-label="Neighborhoods, with how many places in each">
+                <li data-n="1"><b>01</b> Campus<span>20</span></li>
+                <li data-n="2"><b>02</b> Downtown<span>29</span></li>
+                <li data-n="3"><b>03</b> Clarksville<span>7</span></li>
+                <li data-n="4"><b>04</b> South Congress<span>28</span></li>
+                <li data-n="5"><b>05</b> East Austin<span>29</span></li>
+                <li data-n="6"><b>06</b> South Lamar<span>14</span></li>
+                <li data-n="7"><b>07</b> The Domain<span>12</span></li>
+                <li data-n="8"><b>08</b> West Campus<span>6</span></li>
+                <li data-n="9"><b>09</b> Zilker<span>13</span></li>
+                <li data-n="10"><b>10</b> North Loop<span>11</span></li>
+                <li data-n="11"><b>11</b> Lake Austin<span>6</span></li>
+                <li data-n="12"><b>12</b> Mueller<span>3</span></li>
+                <li data-n="13"><b>13</b> Barton Creek<span>5</span></li>
+                <li data-n="14"><b>14</b> Northwest<span>2</span></li>
+                <li data-n="15"><b>15</b> Southeast<span>1</span></li>
+                <li data-n="16"><b>16</b> Southwest<span>1</span></li>
+                <li data-n="17"><b>17</b> Hill Country<span>5</span></li>
+            </ol>
+            <p class="map-src">Streets simplified. Pink lines are the drives the planner knows.</p>
             <div class="vote" data-vote>
                 <p class="label">The great debate</p>
                 <p class="vote-q">Austin is a big small city. Or a small big city.</p>
@@ -649,6 +764,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=19" defer></script>
+<script src="web/app.js?v=20" defer></script>
 </body>
 </html>

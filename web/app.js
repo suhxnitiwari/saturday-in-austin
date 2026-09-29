@@ -48,8 +48,7 @@
             PLACES.push(...JSON.parse(py.globals.get('names')()));
             // this planner's numbers, counted from the data (so they grow with the list)
             for (const [key, value] of Object.entries(JSON.parse(py.globals.get('stats')()))) {
-                const e = document.querySelector(`[data-app="${key}"]`);
-                if (e) e.textContent = value;
+                document.querySelectorAll(`[data-app="${key}"]`).forEach(e => { e.textContent = value; });
             }
             return py.globals.get('plan_json');
         })();
@@ -466,6 +465,43 @@
             vote.classList.add('voted');
             show(pick, await Promise.all(PICKS.map(p => count(p, p === pick))));
         }));
+    }
+
+    // Austin by the numbers ‹ › Saturday in Austin by the numbers
+    const flip = document.querySelector('[data-flip]');
+    if (flip) {
+        const pages = [...flip.querySelectorAll('[data-flip-page]')], title = flip.querySelector('[data-flip-title]');
+        let on = 0;
+        flip.querySelectorAll('[data-flip-go]').forEach(b => b.addEventListener('click', () => {
+            on = (on + +b.dataset.flipGo + pages.length) % pages.length;
+            pages.forEach((p, i) => { p.hidden = i !== on; });
+            title.textContent = pages[on].dataset.title;
+        }));
+    }
+
+    // The map: tap a neighborhood to see the drives the planner knows from there
+    const MAP = {"names": {"1": "Campus", "2": "Downtown", "3": "Clarksville", "4": "South Congress", "5": "East Austin", "6": "South Lamar", "7": "The Domain", "8": "West Campus", "9": "Zilker", "10": "North Loop", "11": "Lake Austin", "12": "Mueller", "13": "Barton Creek", "14": "Northwest", "15": "Southeast", "16": "Southwest", "17": "Hill Country"}, "count": {"1": 20, "2": 29, "3": 7, "4": 28, "5": 29, "6": 14, "7": 12, "8": 6, "9": 13, "10": 11, "11": 6, "12": 3, "13": 5, "14": 2, "15": 1, "16": 1, "17": 5}, "roads": [[1, 8, 4], [1, 10, 8], [1, 2, 7], [1, 5, 8], [8, 3, 6], [8, 2, 8], [3, 2, 6], [3, 11, 7], [10, 7, 14], [2, 5, 6], [2, 4, 7], [2, 9, 8], [9, 4, 6], [11, 9, 9], [9, 13, 10], [6, 9, 5], [6, 4, 7], [13, 17, 30], [2, 15, 18], [4, 15, 15], [11, 14, 12], [7, 14, 15], [13, 16, 12], [6, 16, 15], [1, 12, 10], [10, 12, 8], [5, 12, 8]]};
+    const atx = document.querySelector('.atx');
+    if (atx) {
+        const note = document.querySelector('[data-map-note]'), lines = atx.querySelector('.atx-drives');
+        const two = n => String(n).padStart(2, '0');
+        let picked = null;
+        const pick = n => {
+            picked = picked === n ? null : n;
+            document.querySelectorAll('.atx-dots g, .map-key li').forEach(e => e.classList.toggle('on', +e.dataset.n === picked));
+            lines.classList.toggle('focus', picked !== null);
+            lines.querySelectorAll('line').forEach(l => l.classList.toggle('on', picked !== null && (+l.dataset.a === picked || +l.dataset.b === picked)));
+            if (picked === null) { note.textContent = 'Tap a number to see the drives from there.'; return; }
+            const near = MAP.roads.filter(r => r[0] === picked || r[1] === picked)
+                .map(([a, b, m]) => [a === picked ? b : a, m]).sort((x, y) => x[1] - y[1]);
+            const count = MAP.count[picked];
+            note.textContent = `${two(picked)} ${MAP.names[picked]} · ${count} place${count === 1 ? '' : 's'}. ` +
+                near.map(([n, m]) => `${m} min to ${MAP.names[n]}`).join(', ') + '.';
+        };
+        document.querySelectorAll('.atx-dots g, .map-key li').forEach(e => {
+            e.addEventListener('click', () => pick(+e.dataset.n));
+            e.addEventListener('keydown', k => { if (k.key === 'Enter' || k.key === ' ') { k.preventDefault(); pick(+e.dataset.n); } });
+        });
     }
 
     // The editor's photos: arrows, arrow keys, or a swipe
