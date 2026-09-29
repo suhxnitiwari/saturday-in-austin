@@ -223,6 +223,19 @@
         .austin-numbers .figs div:nth-child(n + 3) { border-top: 1px solid var(--hair); }
         .austin-numbers .figs b { font-size: clamp(28px, 3vw, 44px); }
         .austin-numbers .figs div { padding-bottom: 14px; }
+        .vote { margin-top: 28px; }
+        .vote-q { margin: 0; padding: 12px 0 14px; border-top: 1px solid var(--line); font-family: var(--display); font-style: italic; font-size: clamp(20px, 1.8vw, 26px); line-height: 1.2; }
+        .vote-opts { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); }
+        .vote-opts button { position: relative; display: grid; gap: 8px; align-content: start; padding: 14px; border: 0; background: var(--paper); color: var(--ink); font-family: var(--display); font-size: 18px; text-align: left; cursor: pointer; }
+        .vote-opts button + button { border-left: 1px solid var(--line); }
+        .vote-opts button:hover { background: var(--blush); }
+        .vote-opts button em { color: var(--pink); }
+        .vote-opts button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+        .vote-bar, .vote-pct { display: none; }
+        .vote.voted .vote-bar { display: block; height: 6px; border: 1px solid currentColor; }
+        .vote.voted .vote-bar i { display: block; height: 100%; width: 0; background: var(--pink); transition: width 0.6s ease; }
+        .vote.voted .vote-pct { display: block; font-family: var(--sans); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
+        .vote-note { margin: 10px 0 0; font-family: var(--typewriter); font-size: 12.5px; color: var(--pink-ink); }
 
         /* the numbers: two editorial strips across the top of The Method */
         .numbers { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr; gap: 40px; padding-bottom: 22px; border-bottom: 4px double var(--line); }
@@ -550,6 +563,15 @@
                     <div><b>55,172</b><span>Longhorns making weekend plans</span></div>
                 </div>
             </div>
+            <div class="vote" data-vote>
+                <p class="label">The great debate</p>
+                <p class="vote-q">Austin is a big small city. Or a small big city.</p>
+                <div class="vote-opts">
+                    <button type="button" data-pick="big-small"><span><em>A big</em> small city</span><span class="vote-bar"><i></i></span><b class="vote-pct"></b></button>
+                    <button type="button" data-pick="small-big"><span><em>A small</em> big city</span><span class="vote-bar"><i></i></span><b class="vote-pct"></b></button>
+                </div>
+                <p class="vote-note" data-vote-note>Cast your vote. One per person, we're not animals.</p>
+            </div>
         </div>
     </section>
 
@@ -610,6 +632,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=17" defer></script>
+<script src="web/app.js?v=18" defer></script>
 </body>
 </html>

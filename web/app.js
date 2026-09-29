@@ -429,5 +429,44 @@
         })
         .catch(() => wx('pop', '1M-ish'));
 
+    // The great debate: big small city or small big city. Tallies live in a free public counter
+    // (no names, no data, just two numbers); your own vote is remembered in this browser.
+    const vote = document.querySelector('[data-vote]');
+    if (vote) {
+        const COUNTER = 'https://abacus.jasoncameron.dev';
+        const PICKS = ['big-small', 'small-big'];
+        const LINES = {
+            'big-small': 'Big small city. Everyone knows everyone, and still no parking.',
+            'small-big': 'Small big city. The skyline got tall, the vibe stayed barefoot.',
+        };
+        const note = vote.querySelector('[data-vote-note]');
+        const mine = (() => { try { return localStorage.getItem('austin-vote'); } catch { return null; } })();
+        const count = (pick, hit) => fetch(`${COUNTER}/${hit ? 'hit' : 'get'}/saturday-in-austin/${pick}`)
+            .then(r => r.ok ? r.json() : { value: 0 }).then(d => d.value || 0).catch(() => null);
+
+        const show = (pick, tallies) => {
+            vote.classList.add('voted');
+            vote.querySelectorAll('[data-pick]').forEach(b => b.setAttribute('aria-pressed', b.dataset.pick === pick));
+            if (tallies.some(n => n === null)) { note.textContent = `${LINES[pick]} (The tally is shy right now.)`; return; }
+            const total = tallies[0] + tallies[1] || 1;
+            PICKS.forEach((p, i) => {
+                const b = vote.querySelector(`[data-pick="${p}"]`), pct = Math.round(100 * tallies[i] / total);
+                b.querySelector('.vote-bar i').style.width = pct + '%';
+                b.querySelector('.vote-pct').textContent = `${pct}% · ${tallies[i].toLocaleString()} vote${tallies[i] === 1 ? '' : 's'}`;
+            });
+            const lead = tallies[0] === tallies[1] ? null : PICKS[tallies[0] > tallies[1] ? 0 : 1];
+            note.textContent = LINES[pick] + (lead === null ? ' And Austin is split, obviously.' : lead === pick ? ' Austin agrees.' : ' Bold. Austin disagrees.');
+        };
+
+        if (PICKS.includes(mine)) Promise.all(PICKS.map(p => count(p))).then(t => show(mine, t));
+        vote.querySelectorAll('[data-pick]').forEach(b => b.addEventListener('click', async () => {
+            if (vote.classList.contains('voted')) return;  // one vote each
+            const pick = b.dataset.pick;
+            try { localStorage.setItem('austin-vote', pick); } catch {}
+            vote.classList.add('voted');
+            show(pick, await Promise.all(PICKS.map(p => count(p, p === pick))));
+        }));
+    }
+
     run();
 })();
