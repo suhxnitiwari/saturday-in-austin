@@ -32,7 +32,11 @@
         .sat-hours span { display: flex; align-items: center; gap: 10px; }
         .sat-hours input { flex: 1; accent-color: #E9A6BC; }
         .sat-hours output { min-width: 2.2em; font: 14px var(--mono); color: #F5E5E1; letter-spacing: 0; }
-        .sat-form button { grid-column: 1 / -1; padding: 11px 16px; border: 0; border-radius: 999px; background: #E9A6BC; color: var(--choc); font: 700 14px var(--sans); cursor: pointer; }
+        .sat-actions { grid-column: 1 / -1; display: flex; gap: 10px; }
+        .sat-actions button[type="submit"] { flex: 1; }
+        .sat-form .sat-random { background: transparent; color: #E9A6BC; box-shadow: inset 0 0 0 1.5px #E9A6BC; }
+        .sat-form .sat-random:hover { background: rgba(233, 166, 188, 0.14); }
+        .sat-form button { padding: 11px 16px; border: 0; border-radius: 999px; background: #E9A6BC; color: var(--choc); font: 700 14px var(--sans); cursor: pointer; }
         .sat-form button:hover { background: #F2C1D1; }
         .sat-form button:disabled { opacity: 0.6; cursor: progress; }
         .sat-form :focus-visible, a:focus-visible { outline: 2px solid #E9A6BC; outline-offset: 2px; }
@@ -53,6 +57,7 @@
         footer { margin-top: 44px; font-size: 13px; color: var(--muted); }
         @media (max-width: 560px) {
             .sat-form { grid-template-columns: 1fr; }
+            .sat-actions { flex-direction: column; }
             .sat-row { grid-template-columns: 6.4em 1fr; }
         }
     </style>
@@ -72,14 +77,18 @@
             <label>Mood
                 <select name="mood">
                     <option value="everything">Surprise me</option>
-                    <option value="cozy">Cozy</option>
-                    <option value="creative">Creative</option>
-                    <option value="foodie">Foodie</option>
+                    <option value="girly">Girly</option>
+                    <option value="adventurous">Adventurous</option>
                     <option value="productive">Productive</option>
-                    <option value="lazy">Lazy</option>
+                    <option value="social">Social</option>
+                    <option value="day-in">Day in</option>
+                    <option value="cozy">Cozy &amp; creative</option>
                 </select>
             </label>
-            <button type="submit">Plan my Saturday ✦</button>
+            <div class="sat-actions">
+                <button type="submit">Plan my Saturday ✦</button>
+                <button type="button" class="sat-random">🎲 Just pick for me</button>
+            </div>
         </form>
         <div class="sat-out" aria-live="polite">
             <p class="sat-status">Pick your times and hit plan. The Python code in this repo runs right here in your browser, and every click is a different Saturday.</p>

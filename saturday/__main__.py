@@ -2,7 +2,7 @@
 
     python -m saturday                                a surprise Saturday, different every time
     python -m saturday --wake 8 --sleep 23 --hours 6  up at 8, in bed by 11, six hours out
-    python -m saturday --mood cozy --include "Clay Pit" --chart
+    python -m saturday --mood girly --include "Éma" --chart
     python -m saturday --seed 325                     repeat a Saturday you liked
 """
 from __future__ import annotations
@@ -14,8 +14,8 @@ from pathlib import Path
 
 from .city import City
 from .planner import plan_outing, shortlist
-from .sass import judge
-from .spots import MOODS, Guide, UnknownSpotError, half_hour, load
+from .sass import judge, sign_off
+from .spots import MOODS, RULES, Guide, UnknownSpotError, half_hour, load
 
 PINK, BOLD, DIM, RESET = "\033[38;5;211m", "\033[1m", "\033[2m", "\033[0m"
 
@@ -47,8 +47,12 @@ def main(argv=None) -> int:
     p.add_argument("--seed", type=int, help="repeat a specific Saturday (each run prints its seed)")
     args = p.parse_args(argv)
 
-    guide, city = Guide(load()), City()
-    for note in judge(args.wake, args.sleep, args.hours):
+    city = City()
+    if args.home not in city.roads:
+        print(f"I don't know the neighborhood '{args.home}'. Try one of: {', '.join(sorted(city.roads))}")
+        return 1
+    guide, mood = Guide(load(), args.home), RULES[args.mood]
+    for note in judge(args.wake, args.sleep, args.hours, args.mood):
         print(f"\n  {PINK}{note}{RESET}")
     try:
         must = [guide.find(name) for name in args.include]
@@ -56,18 +60,13 @@ def main(argv=None) -> int:
     except UnknownSpotError as err:
         print(err.args[0])
         return 1
-    if args.home not in city.roads:
-        print(f"I don't know the neighborhood '{args.home}'. Try one of: {', '.join(sorted(city.roads))}")
-        return 1
 
-    pool = [s for s in guide.for_mood(args.mood) + must if s.name not in skip]
-    pool.append(guide.find("Medici")) if not any(s.category == "coffee" for s in pool) else None
     seed = args.seed if args.seed is not None else random.randrange(1000, 10000)
-    spots = shortlist(pool, must, random.Random(seed))
-    plan = plan_outing(spots, city, args.home, args.wake, args.sleep, args.hours, must)
+    spots = shortlist(guide.pool(args.mood, must, skip), must, random.Random(seed), caps=mood.caps, need=mood.need)
+    plan = plan_outing(spots, city, args.home, args.wake, args.sleep, args.hours, must, mood)
 
     if not plan.stops:
-        print("Nothing fits between waking up and bedtime. Try more hours, a different mood, or fewer must-haves.")
+        print("Nothing fits between waking up and bedtime. Try waking up earlier, going to bed later, or fewer must-haves.")
         return 1
 
     print(f"\n{PINK}{BOLD}Your Saturday ✦{RESET}  {DIM}{args.mood}, up at {clock(args.wake)}, "
@@ -80,7 +79,7 @@ def main(argv=None) -> int:
             print(f"  {clock(stop.arrive - stop.drive):>8}  {DIM}free time ({length}): nap, journal, wander{RESET}")
         note = f"  {DIM}({stop.spot.note}){RESET}" if stop.spot.note else ""
         print(f"  {clock(stop.start):>8}  {stop.spot.name}{note}")
-    print(f"  {clock(half_hour(plan.home_by)):>8}  home, happy")
+    print(f"  {clock(half_hour(plan.home_by)):>8}  {sign_off(half_hour(plan.home_by), plan.outside / 60, seed, args.mood)}")
     out = f"{plan.outside / 60:.1f}".rstrip("0").rstrip(".")
     stops = f"{len(plan.stops)} stop{'s' * (len(plan.stops) != 1)}"
     print(f"\n  {DIM}{stops} · {out} hours out · {plan.driving} min of driving · seed {seed}{RESET}")

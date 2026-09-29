@@ -10,6 +10,7 @@ ROADS = [
     ("Clarksville", "Downtown", 6), ("Clarksville", "Lake Austin", 7), ("North Loop", "Domain", 14),
     ("Downtown", "East Austin", 6), ("Downtown", "South Congress", 7), ("Downtown", "Zilker", 8),
     ("Zilker", "South Congress", 6), ("Lake Austin", "Zilker", 9), ("Zilker", "Barton Creek", 10),
+    ("South Lamar", "Zilker", 5), ("South Lamar", "South Congress", 7), ("Barton Creek", "Hill Country", 30),
 ]
 
 

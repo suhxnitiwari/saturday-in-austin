@@ -3,11 +3,11 @@ from __future__ import annotations
 
 import csv
 import difflib
-from dataclasses import dataclass
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 DATA = Path(__file__).parent / "data" / "spots.csv"
-MOODS = ("cozy", "creative", "foodie", "productive", "lazy", "everything")
+MOODS = ("everything", "girly", "adventurous", "productive", "social", "day-in", "cozy")
 
 # when each kind of stop makes sense: (earliest start, latest start), minutes after midnight
 WINDOWS = {
@@ -15,20 +15,56 @@ WINDOWS = {
     "brunch": (9 * 60, 12 * 60 + 30),
     "lunch": (11 * 60 + 30, 14 * 60 + 30),
     "study": (8 * 60, 21 * 60),
+    "museum": (10 * 60, 16 * 60 + 30),
     "exercise": (7 * 60, 19 * 60),
     "creative": (10 * 60, 17 * 60),
     "shopping": (10 * 60, 19 * 60),
-    "outdoors": (9 * 60, 18 * 60),
+    "market": (8 * 60, 12 * 60 + 30),
+    "nails": (10 * 60, 17 * 60 + 30),
+    "hike": (7 * 60, 16 * 60),        # before it gets too hot
+    "paddle": (8 * 60, 18 * 60),
+    "swim": (9 * 60, 18 * 60),
+    "park": (8 * 60, 19 * 60),
+    "sunset": (18 * 60 + 30, 20 * 60 + 30),
+    "hangout": (11 * 60, 21 * 60),
+    "cinema": (12 * 60, 21 * 60),
+    "treat": (14 * 60, 21 * 60 + 30),  # after lunch, not instead of it
+    "self care": (11 * 60, 20 * 60),
+    "movie": (12 * 60, 22 * 60 + 30),
     "dinner": (17 * 60 + 30, 21 * 60),
+    "order in": (17 * 60, 21 * 60 + 30),
     "late night": (21 * 60, 23 * 60 + 30),
 }
 
 
-# categories that fill the same slot in a day: brunch OR lunch, never both
-SLOTS = {"brunch": "midday meal", "lunch": "midday meal"}
+# categories that fill the same slot in a day: brunch OR lunch, a hike OR a swim...
+SLOTS = {"brunch": "midday meal", "lunch": "midday meal", "order in": "dinner",
+         "hike": "outdoor", "paddle": "outdoor", "swim": "outdoor", "park": "outdoor"}
 
 # the evening only moves forward: after dinner, the only thing left is a late-night snack
-PHASE = {"dinner": 1, "late night": 2}
+PHASE = {"dinner": 1, "order in": 1, "movie": 2, "late night": 2}
+
+HOME = "Home"  # the zone for day-in stops; it becomes wherever the day starts
+
+
+@dataclass(frozen=True)
+class Mood:
+    """What makes each mood its own kind of day."""
+    need: tuple = ("coffee",)  # categories every plan must have
+    want: tuple = ()  # what the day is built around, whenever it fits
+    caps: dict = field(default_factory=dict)  # slots allowed more than once, and how many times
+    late: bool = False  # prefer a later start (a slow morning)
+
+
+RULES = {
+    "everything": Mood(),
+    "girly": Mood(need=("nails",)),  # a Domain day: brunch, nails, shopping, dinner
+    "adventurous": Mood(caps={"outdoor": 2}),  # two adventures, never back to back
+    "productive": Mood(caps={"coffee": 3, "study": 2}),  # café hopping
+    "social": Mood(need=(), want=("hangout",)),  # Victory Lap or Topgolf with everyone
+    "day-in": Mood(need=("order in",), late=True),
+    "cozy": Mood(want=("creative",), caps={"creative": 2}),  # something handmade
+}
 
 
 def half_hour(minutes: float) -> int:
@@ -76,11 +112,13 @@ def load(path: Path = DATA) -> list:
 
 
 class Guide:
-    """All the spots, with case-insensitive lookup by name (a dict, so O(1))."""
+    """All the spots, with case-insensitive lookup by name (a dict, so O(1)).
+    Day-in spots move to `home`, so the map knows where they are."""
 
-    def __init__(self, spots: list) -> None:
-        self.spots = spots
-        self._by_name = {s.name.lower(): s for s in spots}
+    def __init__(self, spots: list, home: str = "West Campus") -> None:
+        self.home_spots = {s.name for s in spots if s.zone == HOME}
+        self.spots = [replace(s, zone=home) if s.zone == HOME else s for s in spots]
+        self._by_name = {s.name.lower(): s for s in self.spots}
 
     def find(self, name: str) -> Spot:
         key = name.strip().lower()
@@ -92,4 +130,13 @@ class Guide:
     def for_mood(self, mood: str) -> list:
         if mood not in MOODS:
             raise ValueError(f"mood must be one of: {', '.join(MOODS)}")
-        return [s for s in self.spots if mood == "everything" or mood in s.moods]
+        if mood == "everything":  # a surprise day is a day out
+            return [s for s in self.spots if s.name not in self.home_spots]
+        return [s for s in self.spots if mood in s.moods]
+
+    def pool(self, mood: str, must=(), skip=()) -> list:
+        """The spots a mood can pick from, plus must-haves, minus skips, and coffee if it needs it."""
+        spots = [s for s in self.for_mood(mood) + list(must) if s.name not in skip]
+        if "coffee" in RULES[mood].need and not any(s.category == "coffee" for s in spots):
+            spots.append(self.find("Medici"))
+        return spots

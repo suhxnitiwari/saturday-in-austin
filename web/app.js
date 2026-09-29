@@ -10,7 +10,8 @@
 
     const form = root.querySelector('.sat-form');
     const out = root.querySelector('.sat-out');
-    const button = form.querySelector('button');
+    const button = form.querySelector('button[type="submit"]');
+    const random = form.querySelector('.sat-random');
     const hours = form.elements.hours;
     const hoursOut = form.querySelector('.sat-hours output');
 
@@ -32,7 +33,7 @@
             const py = await loadPyodide({ indexURL: PYODIDE });
             py.FS.mkdirTree('/home/pyodide/saturday/data');
             await Promise.all(FILES.map(async f => {
-                const r = await fetch(BASE + f);
+                const r = await fetch(BASE + f, { cache: 'no-cache' });  // never mix old and new files after an update
                 if (!r.ok) throw new Error(`couldn't load ${f}`);
                 py.FS.writeFile('/home/pyodide/saturday/' + f, await r.text());
             }));
@@ -63,7 +64,7 @@
         out.replaceChildren();
         for (const note of plan.sass || []) out.appendChild(line('sat-sass', ['span', note]));
         if (!plan.stops.length) {
-            out.appendChild(line('sat-status', ['span', 'Nothing fits between waking up and bedtime. Try more hours out, or a later bedtime.']));
+            out.appendChild(line('sat-status', ['span', 'Nothing fits. Try more hours out, a later bedtime or a different mood.']));
             return;
         }
         out.appendChild(line('sat-head', ['span', 'Your Saturday ✦']));
@@ -77,15 +78,31 @@
                 out.appendChild(row);
             }
         }
-        out.appendChild(line('sat-row', ['b', plan.home], ['span', 'home, happy']));
+        out.appendChild(line('sat-row', ['b', plan.home], ['span', plan.sign_off]));
         const count = plan.stops.filter(s => s.name).length;
         out.appendChild(line('sat-foot', ['span',
-            `${count} stops · ${plan.hours_out} hours out · ${plan.driving} min of driving · seed ${plan.seed}`]));
+            `${count} stop${count === 1 ? '' : 's'} · ${plan.hours_out} hour${plan.hours_out === 1 ? '' : 's'} out · ${plan.driving} min of driving · seed ${plan.seed}`]));
     }
+
+    // can't decide? pick everything at random, then plan it
+    random.addEventListener('click', () => {
+        const pick = list => list[Math.floor(Math.random() * list.length)];
+        const f = form.elements;
+        const wake = pick([7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12]);
+        const sleep = pick([21, 22, 22.5, 23, 23.5, 24, 25]);  // 24 and 25 are midnight and 1 AM
+        const free = sleep - wake - 1.25;  // minus getting ready and winding down
+        const time = h => `${String(Math.floor(h) % 24).padStart(2, '0')}:${h % 1 ? '30' : '00'}`;
+        f.wake.value = time(wake);
+        f.sleep.value = time(sleep);
+        f.hours.value = pick([3, 4, 5, 6, 7, 8, 9, 10, 11, 12].filter(h => h <= free));
+        hoursOut.textContent = f.hours.value;
+        f.mood.value = pick([...f.mood.options].map(o => o.value));
+        form.requestSubmit(button);
+    });
 
     form.addEventListener('submit', async e => {
         e.preventDefault();
-        button.disabled = true;
+        button.disabled = random.disabled = true;
         const first = !python;
         out.replaceChildren(line('sat-status', ['span', first ? 'Waking up Python in your browser… (first time takes a few seconds)' : 'Planning…']));
         try {
@@ -96,7 +113,7 @@
         } catch (err) {
             out.replaceChildren(line('sat-status', ['span', 'Python took a nap. Check your connection and try again ✦']));
         } finally {
-            button.disabled = false;
+            button.disabled = random.disabled = false;
         }
     });
 })();
