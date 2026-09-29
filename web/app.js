@@ -468,5 +468,27 @@
         }));
     }
 
+    // The editor's photos: arrows, arrow keys, or a swipe
+    const slides = document.querySelector('[data-slides]');
+    if (slides) {
+        const pics = [...slides.querySelectorAll('img')], count = document.querySelector('[data-slide-count]');
+        const pad = n => String(n).padStart(2, '0');
+        let at = 0;
+        const go = d => {
+            at = (at + d + pics.length) % pics.length;
+            pics.forEach((p, i) => { p.hidden = i !== at; });
+            count.textContent = `${pad(at + 1)} / ${pad(pics.length)}`;
+        };
+        document.querySelectorAll('[data-slide]').forEach(b => b.addEventListener('click', () => go(+b.dataset.slide)));
+        slides.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') go(-1); if (e.key === 'ArrowRight') go(1); });
+        let x0 = null;
+        slides.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+        slides.addEventListener('touchend', e => {
+            const dx = e.changedTouches[0].clientX - (x0 ?? e.changedTouches[0].clientX);
+            if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+            x0 = null;
+        });
+    }
+
     run();
 })();

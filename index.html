@@ -252,7 +252,15 @@
         .editor { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.8fr); gap: 40px; align-items: start; padding-top: 6px; }
         .portrait { margin: 0 0 20px; }
         /* the whole photo, never cropped (the coffee stays in) */
-        .portrait img { display: block; width: auto; height: auto; max-width: 100%; max-height: calc(100vh - 360px); border: 1px solid var(--line); outline: 1px solid var(--gold); outline-offset: 4px; }
+        .portrait img { display: block; width: auto; height: auto; max-width: 100%; max-height: calc(100vh - 404px); border: 1px solid var(--line); outline: 1px solid var(--gold); outline-offset: 4px; }
+        .slides { display: grid; justify-items: start; }
+        .slides img { grid-area: 1 / 1; }
+        .slides img[hidden] { display: block; visibility: hidden; }  /* keeps its space so nothing jumps */
+        .slides:focus-visible { outline: none; }
+        .slide-nav { display: flex; align-items: stretch; margin-top: 14px; border: 1px solid var(--line); width: max-content; }
+        .slide-nav button { width: 34px; height: 30px; border: 0; background: var(--paper); color: var(--ink); font-size: 14px; cursor: pointer; }
+        .slide-nav button:hover { background: var(--blush); color: var(--pink); }
+        .slide-nav span { display: flex; align-items: center; padding: 0 12px; border-left: 1px solid var(--line); border-right: 1px solid var(--line); font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; }
         .portrait figcaption { margin-top: 16px; }
         .photo-title { display: block; white-space: nowrap; font-family: var(--display); font-weight: 500; font-size: clamp(24px, 2.3vw, 34px); line-height: 1.08; letter-spacing: -0.01em; }
         .photo-title em { color: var(--pink); font-weight: 400; }
@@ -579,7 +587,15 @@
     <section class="screen editor" id="screen-editor" hidden>
         <div class="editor-head">
             <figure class="portrait">
-                <img src="docs/editor.webp" alt="Suhani in a pink and brown argyle cardigan, smiling down at a latte with a heart in the foam" width="1132" height="1390">
+                <div class="slides" data-slides tabindex="0" aria-roledescription="carousel" aria-label="Photos of the editor">
+                    <img src="docs/editor.webp" alt="Suhani in a pink and brown argyle cardigan, smiling down at a latte with a heart in the foam" width="1132" height="1390">
+                    <img src="docs/editor-2.webp" alt="Suhani in a brown cable-knit sweater, sipping from a navy cup at a café table, a latte in front of her" width="885" height="1180" hidden>
+                </div>
+                <div class="slide-nav">
+                    <button type="button" data-slide="-1" aria-label="Previous photo">←</button>
+                    <span data-slide-count>01 / 02</span>
+                    <button type="button" data-slide="1" aria-label="Next photo">→</button>
+                </div>
                 <figcaption>
                     <span class="photo-title">The woman behind<br><em>the weekend.</em></span>
                     <span class="photo-sub">The editor, mid-latte. Research is research.</span>
@@ -633,6 +649,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=18" defer></script>
+<script src="web/app.js?v=19" defer></script>
 </body>
 </html>
