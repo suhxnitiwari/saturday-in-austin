@@ -458,3 +458,51 @@ def test_sign_off():
     assert "feet" in sign_off(23 * 60, 14, 5)
     assert sign_off(18 * 60, 6, 5) == sign_off(18 * 60, 6, 5)
     assert "credits" in sign_off(22 * 60, 3, 5, "day-in", movie=True)
+
+
+# ---------------------------------------------------------------- getting around, and money
+
+def test_uber_fares_have_a_minimum():
+    assert rules.uber_fare(0) == 0
+    assert rules.uber_fare(3) == 10  # the minimum fare
+    assert rules.uber_fare(30) > rules.uber_fare(10) > 10
+
+
+def test_uber_days_stay_put():
+    car = [day("9:00", "22:00", 8, "everything", s, travel="car")["stats"]["neighborhoods"] for s in range(10)]
+    uber = [day("9:00", "22:00", 8, "everything", s, travel="uber") for s in range(10)]
+    assert sum(u["stats"]["neighborhoods"] for u in uber) < sum(car)
+    for u in uber:
+        legs = [s["fare"] for s in u["stops"] if s["type"] != "free"] + [u["back_fare"]]
+        assert u["stats"]["fares"] == pytest.approx(sum(legs), abs=len(legs))  # rounding, one dollar a leg
+
+
+def test_bus_days_walk_or_take_one_bus_somewhere(guide):
+    from saturday.city import TransitCity
+    city = TransitCity({s.name: s.zone for s in guide.spots})
+    for seed in range(8):
+        data = day("9:00", "22:00", 8, "everything", seed, travel="transit")
+        assert data["stops"] and data["stats"]["fares"] == 0
+        stops = [s for s in data["stops"] if s["type"] == "stop"]
+        far_zones = {guide.find(s["name"]).zone for s in stops if city.walk.miles("West Campus", s["name"]) > 1}
+        assert len(far_zones) <= 1  # one bus destination at most
+        for s in data["stops"]:
+            if s.get("via") == "walk" and s["type"] == "stop":
+                assert s["travel"] <= 20 * 1.0 + 1  # a walk is a mile or less
+
+
+def test_student_budget_spends_less():
+    student = sum(day("9:00", "22:00", 8, "everything", s, budget="student")["stats"]["spend"] for s in range(10))
+    splurge = sum(day("9:00", "22:00", 8, "everything", s, budget="splurge")["stats"]["spend"] for s in range(10))
+    assert student < splurge
+
+
+def test_every_spot_has_a_price(guide):
+    assert all(s.price >= 0 for s in guide.spots)
+    assert guide.find("Texas State Capitol").price == 0 and guide.find("Uchi").price > guide.find("Taco Joint").price
+
+
+def test_starting_somewhere_else_moves_the_day():
+    campus = day("9:00", "22:00", 6, "everything", 5, travel="walk", start_from="ut")
+    soco = day("9:00", "22:00", 6, "everything", 5, travel="walk", start_from="soco")
+    assert {s["where"] for s in soco["stops"] if s["type"] == "stop"} != {s["where"] for s in campus["stops"] if s["type"] == "stop"}

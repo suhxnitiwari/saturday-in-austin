@@ -68,9 +68,10 @@
             return;
         }
         status.hidden = true;
-        const verb = plan.walking ? 'walk' : 'drive';
+        const hop = (via, minutes, fare) => via === 'uber' ? `Uber · ${minutes} min · ≈ $${fare}`
+            : `${minutes} min ${via === 'bus' ? 'bus' : via === 'walk' ? 'walk' : 'drive'}`;
         plan.stops.forEach((s, i) => {
-            if (s.type !== 'free' && s.travel && i) list.appendChild(el('li', 'travel', `${s.travel} min ${verb}`));
+            if (s.type !== 'free' && s.travel && i) list.appendChild(el('li', 'travel', hop(s.via, s.travel, s.fare)));
             if (s.type === 'free') {
                 list.appendChild(el('li', 'free', `free time · ${duration(s.free)} to wander`));
                 return;
@@ -89,7 +90,7 @@
             if (s.why) li.appendChild(el('p', 'why', s.why));
             list.appendChild(li);
         });
-        if (plan.back) list.appendChild(el('li', 'travel', `${plan.back} min ${verb} home`));
+        if (plan.back) list.appendChild(el('li', 'travel', `${hop(plan.back_via, plan.back, plan.back_fare)} home`));
         const home = el('li', 'home');
         home.appendChild(el('span', 't', plan.home));
         home.appendChild(el('p', 'meta', plan.sign_off));
@@ -105,8 +106,8 @@
         stats.replaceChildren(
             figure(st.stops, st.stops === 1 ? 'stop' : 'stops'),
             figure(st.hours_out, 'hours out'),
-            figure(st.travel, `min ${plan.walking ? 'walking' : 'driving'}`),
-            figure(st.neighborhoods, st.neighborhoods === 1 ? 'neighborhood' : 'neighborhoods'),
+            figure(st.travel, { walk: 'min walking', transit: 'min bus + walk', uber: 'min in Ubers' }[plan.mode] || 'min driving'),
+            figure(`$${st.spend}`, st.fares ? `about, $${st.fares} Uber` : 'about, all in'),
         );
         stats.hidden = false;
         number.textContent = `xoxo, Saturday #${plan.seed}`;
@@ -155,7 +156,8 @@
             if (ticket !== pending) return;  // a newer change is already on its way
             const f = form.elements;
             const result = plan(f.start.value, f.end.value, f.hours.value, f.mood.value, String(seed),
-                                f.walk.checked, f.rainy.checked, f.area.value, f.include.value, f.exclude.value);
+                                false, f.rainy.checked, f.area.value, f.include.value, f.exclude.value,
+                                f.travel.value, f.budget.value, f.start_from.value);
             draw(JSON.parse(result));
             again.disabled = false;
         } catch (err) {
@@ -186,6 +188,8 @@
     const NOTS = { Workouts: 'workouts', Museums: 'museums', Shopping: 'shopping', 'Anything outdoors': 'outdoors',
                    'Live music': 'live-music', Studying: 'studying', Sweets: 'sweets' };
     const SOURCES = {
+        starts: () => ['UT / West Campus', 'Downtown', 'East Austin', 'South Congress', 'Clarksville / West Austin',
+                       'Domain / North Austin', 'Zilker', 'South Lamar', 'North Loop / Hyde Park', 'Mueller'].map(v => [v, '']),
         areas: () => ['Anywhere', 'UT / West Campus', 'Downtown', 'East Austin', 'South Congress', 'Clarksville / West Austin',
                       'Domain / North Austin', 'Zilker', 'South Lamar', 'North Loop / Hyde Park', 'Mueller'].map(v => [v, '']),
         places: () => PLACES.map(v => [v, '']),
@@ -268,6 +272,14 @@
         areaHint.textContent = key || !typed ? '' : `I don’t know “${areaText.value.trim()}” yet, so anywhere it is.`;
     }
     areaText.addEventListener('input', readArea);
+
+    // "starting from": same neighborhood names, no "anywhere" (you have to start somewhere)
+    const fromText = document.getElementById('from-text');
+    fromText.addEventListener('input', () => {
+        const typed = fromText.value.trim().toLowerCase();
+        const key = Object.keys(AREAS).find(k => k !== 'anywhere' && AREAS[k].includes(typed));
+        if (key) form.elements.start_from.value = key;
+    });
 
     run();
 })();

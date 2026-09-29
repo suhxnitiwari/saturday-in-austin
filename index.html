@@ -81,6 +81,9 @@
         .seg { display: grid; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
         .seg.four { grid-template-columns: repeat(4, 1fr); }
         .seg.two { grid-template-columns: repeat(2, 1fr); }
+        .seg.three { grid-template-columns: repeat(3, 1fr); }
+        .sec .mini { float: right; display: inline-flex; align-items: center; gap: 6px; font-size: 10px; letter-spacing: 0.16em; cursor: pointer; }
+        .sec .mini input { accent-color: var(--pink); margin: 0; }
         .seg.five { grid-template-columns: repeat(5, 1fr); }
         .seg label { position: relative; display: block; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
         .seg input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
@@ -272,16 +275,31 @@
 
             <div class="pair-blocks">
                 <section class="block">
-                    <h2 class="sec"><i>03</i> Where</h2>
-                    <div class="combo"><input class="box" type="text" id="area-text" data-combo="areas" placeholder="Anywhere, or type your neighborhood" autocomplete="off" aria-label="Neighborhood"></div>
+                    <h2 class="sec"><i>03</i> Starting from</h2>
+                    <div class="combo"><input class="box" type="text" id="from-text" data-combo="starts" value="UT / West Campus" autocomplete="off" aria-label="Where you're starting from"></div>
+                    <input type="hidden" name="start_from" value="ut">
+                </section>
+                <section class="block">
+                    <h2 class="sec"><i>04</i> Where to</h2>
+                    <div class="combo"><input class="box" type="text" id="area-text" data-combo="areas" placeholder="Anywhere, or type a neighborhood" autocomplete="off" aria-label="Neighborhood"></div>
                     <input type="hidden" name="area" value="anywhere">
                     <p class="hint" data-area-hint></p>
                 </section>
                 <section class="block">
-                    <h2 class="sec"><i>04</i> Anything I should know?</h2>
-                    <div class="seg two">
-                        <label><input type="checkbox" name="rainy"><span>Rainy day</span></label>
-                        <label><input type="checkbox" name="walk"><span>No car</span></label>
+                    <h2 class="sec"><i>05</i> Getting around</h2>
+                    <div class="seg four">
+                        <label><input type="radio" name="travel" value="car" checked><span>Car</span></label>
+                        <label><input type="radio" name="travel" value="uber"><span>Uber</span></label>
+                        <label><input type="radio" name="travel" value="transit"><span>Bus + walk</span></label>
+                        <label><input type="radio" name="travel" value="walk"><span>Walk</span></label>
+                    </div>
+                </section>
+                <section class="block">
+                    <h2 class="sec"><i>06</i> Budget <label class="mini"><input type="checkbox" name="rainy"> Rainy day</label></h2>
+                    <div class="seg three">
+                        <label><input type="radio" name="budget" value="student"><span>Student</span></label>
+                        <label><input type="radio" name="budget" value="normal" checked><span>Normal</span></label>
+                        <label><input type="radio" name="budget" value="splurge"><span>Splurge</span></label>
                     </div>
                 </section>
                 <div>
@@ -350,7 +368,7 @@
             <figure class="portrait">
                 <img src="docs/editor.webp" alt="Suhani in a pink and brown argyle cardigan, smiling down at a latte with a heart in the foam" width="1132" height="1390">
                 <figcaption>
-                    <span class="photo-title">The OG coffee connoisseur<br><em>&amp;</em> brunch queen.</span>
+                    <span class="photo-title">The woman behind<br><em>the weekend.</em></span>
                     <span class="photo-sub">The editor, mid-latte. Research is research.</span>
                 </figcaption>
             </figure>
@@ -385,6 +403,6 @@
 </div>
 
 
-<script src="web/app.js?v=11" defer></script>
+<script src="web/app.js?v=12" defer></script>
 </body>
 </html>

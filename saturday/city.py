@@ -95,3 +95,87 @@ class WalkCity:
             return self.TOO_FAR
         return round(d * self.PACE)
 
+
+
+# CapMetro, approximately: the main lines between the neighborhoods on the map, in stop order.
+# Good enough to plan a day; check the CapMetro app for live times. (Free with a UT ID.)
+BUS_ROUTES = {
+    "801": ["North Loop", "West Campus", "Campus", "Downtown", "South Congress"],        # MetroRapid N Lamar/S Congress
+    "803": ["Domain", "North Loop", "West Campus", "Campus", "Downtown", "Zilker", "South Lamar"],  # MetroRapid Burnet/S Lamar
+    "20": ["Mueller", "Campus", "Downtown"],
+    "4": ["Downtown", "East Austin"],
+    "30": ["Downtown", "Zilker", "Barton Creek"],
+}
+BUS_WAIT = 12       # minutes waiting at the stop (and again at a transfer)
+BUS_SLOWER = 1.5    # a bus takes about 1.5x the drive
+STOP_WALK = 6       # minutes walking to the stop and from it at the other end
+
+
+class TransitCity:
+    """Bus + walk: walk anything under a mile, take the bus for the rest, and skip what the bus doesn't reach.
+
+    Like WalkCity, places are spot names (their real coordinates), falling back to their neighborhood.
+    Bus times come from Dijkstra over (neighborhood, route) states, so a transfer costs another wait.
+    """
+    TOO_FAR = WalkCity.TOO_FAR
+
+    def __init__(self, fallback: dict, routes: dict = BUS_ROUTES, roads: City = None) -> None:
+        self.walk = WalkCity(fallback)
+        self.fallback = self.walk.fallback
+        roads = roads or City()
+        self.edges = {}  # (zone, route) -> [((zone, route), minutes)]
+        for name, stops in routes.items():
+            for a, b in zip(stops, stops[1:]):
+                ride = roads.minutes(a, b) * BUS_SLOWER
+                self.edges.setdefault((a, name), []).append(((b, name), ride))
+                self.edges.setdefault((b, name), []).append(((a, name), ride))
+        self.lines = {}  # zone -> the routes that stop there
+        for name, stops in routes.items():
+            for z in stops:
+                self.lines.setdefault(z, set()).add(name)
+        self._bus = {}
+
+    def zone(self, place: str) -> str:
+        return self.fallback.get(place, place)
+
+    def bus(self, a: str, b: str) -> float:
+        """Stop-to-stop minutes between two neighborhoods, waits included (inf if the bus doesn't go)."""
+        if (a, b) in self._bus:
+            return self._bus[a, b]
+        if a == b or a not in self.lines or b not in self.lines:
+            best = float("inf")
+        else:
+            dist = {(a, r): BUS_WAIT for r in self.lines[a]}
+            heap = [(BUS_WAIT, a, r) for r in self.lines[a]]
+            heapq.heapify(heap)
+            best = float("inf")
+            while heap:
+                d, z, r = heapq.heappop(heap)
+                if d > dist.get((z, r), float("inf")):
+                    continue
+                if z == b:
+                    best = d
+                    break
+                moves = self.edges.get((z, r), []) + [((z, r2), BUS_WAIT) for r2 in self.lines[z] if r2 != r]
+                for state, w in moves:
+                    if d + w < dist.get(state, float("inf")):
+                        dist[state] = d + w
+                        heapq.heappush(heap, (d + w, *state))
+        self._bus[a, b] = best
+        return best
+
+    def how(self, a: str, b: str) -> str:
+        """'walk' or 'bus': whichever the minutes() below picked."""
+        if a == b:
+            return "walk"
+        miles = self.walk.miles(a, b)
+        walk = miles * WalkCity.PACE if miles <= 1 else float("inf")
+        return "walk" if walk <= self.bus(self.zone(a), self.zone(b)) + 2 * STOP_WALK else "bus"
+
+    def minutes(self, a: str, b: str) -> int:
+        if a == b:
+            return 0
+        miles = self.walk.miles(a, b)
+        walk = miles * WalkCity.PACE if miles <= 1 else float("inf")
+        best = min(walk, self.bus(self.zone(a), self.zone(b)) + 2 * STOP_WALK)
+        return self.TOO_FAR if best == float("inf") else round(best)

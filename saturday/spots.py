@@ -83,6 +83,11 @@ AREAS = {
     "mueller": ("Mueller", {"Mueller"}),
 }
 
+# "starting from": where home is, as one of the map's neighborhoods
+STARTS = {"ut": "West Campus", "downtown": "Downtown", "east": "East Austin", "soco": "South Congress",
+          "clarksville": "Clarksville", "domain": "Domain", "zilker": "Zilker", "south-lamar": "South Lamar",
+          "north-loop": "North Loop", "mueller": "Mueller"}
+
 # what "absolutely not" can rule out besides one place
 NOT_THESE = {
     "workouts": ("Workouts", {"exercise"}),
@@ -143,6 +148,7 @@ class Spot:
     moods: frozenset
     note: str = ""
     dressy: bool = False  # worth going home to change for
+    price: int = 0        # rough dollars per person
 
     @property
     def slot(self) -> str:
@@ -163,7 +169,7 @@ class Spot:
 def load(path: Path = DATA) -> list:
     with open(path, newline="", encoding="utf-8") as f:
         return [Spot(r["spot"], r["zone"], r["category"], int(r["stay_minutes"]), int(r["joy"]),
-                     frozenset(r["moods"].split("|")), r["note"], r.get("dressy") == "yes")
+                     frozenset(r["moods"].split("|")), r["note"], r.get("dressy") == "yes", int(r.get("price") or 0))
                 for r in csv.DictReader(f)]
 
 

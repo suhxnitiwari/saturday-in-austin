@@ -82,9 +82,37 @@ OFF_HOURS = 15        # a park at 1 PM in July, a latte at 4:30
 BRUNCH_BONUS = 40     # it's Saturday. We're getting brunch
 FAVORITE_BONUS = 20   # ...ideally at Josephine House or Hillside Farmacy
 AFTER_MEAL_SHOP = 5   # shopping right after brunch or lunch just works
+TRANSIT_COST = 1.5    # per minute on the bus (it's free with a UT ID; it just takes a while)
+RIDE_TIME = 1.0       # per minute in an Uber...
+UBER_DOLLAR = 4       # ...plus every dollar of the fare: cost-efficient means staying put
 STOP_COST = 40        # every stop takes a little energy: fewer, better stops beat a packed day
 LONG_DAY = 1.0        # per minute out past LONG: nobody needs a 14-hour Saturday
 LONG = 8 * 60
+
+# what a dollar costs, by budget: on a student budget, free things win
+DOLLAR = {"student": 3.0, "normal": 0.6, "splurge": 0.0}
+MODES = ("car", "uber", "transit", "walk")
+
+
+@dataclass(frozen=True)
+class Ways:
+    """How you get around and what you want to spend."""
+    mode: str = "car"       # car, uber, transit (bus + walk) or walk
+    budget: str = "normal"  # student, normal or splurge
+
+
+def uber_fare(minutes: float) -> float:
+    """A rough UberX fare for a ride this long in Austin: a base, per minute, and a minimum."""
+    return max(10.0, 4 + 0.8 * minutes) if minutes else 0.0
+
+
+def travel_cost(minutes: float, ways: "Ways" = None) -> float:
+    """What getting somewhere costs the plan, by how you're getting there."""
+    mode = (ways or Ways()).mode
+    if mode == "uber":
+        return minutes * RIDE_TIME + uber_fare(minutes) * UBER_DOLLAR  # 0 minutes = same neighborhood = walk
+    return minutes * {"car": DRIVE_COST, "walk": WALK_COST, "transit": TRANSIT_COST}[mode]
+
 
 EVENING = 16 * H + 30  # changing to go out only makes sense this late
 OUT_A_WHILE = 3 * H    # ...after being out at least this long
@@ -142,9 +170,9 @@ def _outside(start: int, windows: tuple) -> bool:
     return bool(windows) and not any(a <= start <= b for a, b in windows)
 
 
-def move_cost(prev, spot, travel: int, walking: bool = False) -> float:
-    """The part of a move's cost that doesn't care what time it is: travel, energy, what came before."""
-    c = travel * (WALK_COST if walking else DRIVE_COST) + (0 if kind(spot).reset else STOP_COST)
+def move_cost(prev, spot, travel: int, ways: Ways = Ways()) -> float:
+    """The part of a move's cost that doesn't care what time it is: travel, energy, money, what came before."""
+    c = travel_cost(travel, ways) + (0 if kind(spot).reset else STOP_COST) + spot.price * DOLLAR[ways.budget]
     if prev is not None and spot.category == "shopping" and kind(prev).food == "full":
         c -= AFTER_MEAL_SHOP
     return c
@@ -160,9 +188,9 @@ def time_cost(spot, start: int) -> float:
     return c
 
 
-def cost(prev, spot, start: int, travel: int, walking: bool = False) -> float:
+def cost(prev, spot, start: int, travel: int, ways: Ways = Ways()) -> float:
     """What this move costs the plan. Lower is better."""
-    return move_cost(prev, spot, travel, walking) + time_cost(spot, start)
+    return move_cost(prev, spot, travel, ways) + time_cost(spot, start)
 
 
 def late_enough(start: int, out: int) -> bool:
@@ -178,7 +206,7 @@ def resets(home: str) -> list:
     """The two blocks at home the planner can use: a shower after a workout, a change before going out."""
     from .spots import Spot
     return [Spot("Home", home, "reset-shower", 60, 0, frozenset(), "shower + get ready"),
-            Spot("Home", home, "reset-change", 45, 3, frozenset(), "change + reset")]
+            Spot("Home", home, "reset-change", 45, 3, frozenset(), "change + reset")]  # free, obviously
 
 
 # ------------------------------------------------------------------ why?

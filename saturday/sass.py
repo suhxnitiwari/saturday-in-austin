@@ -9,7 +9,7 @@ def _clock(minutes: int) -> str:
 
 
 def judge(start: int, end: int, hours, mood: str = "everything",
-          walk: bool = False, rainy: bool = False, area: str = None) -> list:
+          walk: bool = False, rainy: bool = False, area: str = None, mode: str = "", budget: str = "normal") -> list:
     """Comments on the choices someone made. start = ready to go, end = home by, in minutes
     after midnight; hours=None means all day."""
     notes = []
@@ -42,6 +42,14 @@ def judge(start: int, end: int, hours, mood: str = "everything",
         notes.append("Walking to the Domain? That's a two-hour walk, babe. Treat yourself to a ride.")
     elif walk and mood != "day-in":
         notes.append("No car? Walking it is. Comfy shoes on.")
+    elif mode == "transit" and mood != "day-in":
+        notes.append("Bus and a little walking. CapMetro is free with your UT ID, so this day costs zero in rides.")
+    elif mode == "uber" and mood != "day-in":
+        notes.append("Ubers, but cost-efficient. We pick a neighborhood and stay there.")
+    if budget == "student" and mood != "day-in":
+        notes.append("Student budget: free museums, cheap tacos, and not a single $18 mimosa.")
+    elif budget == "splurge" and mood != "day-in":
+        notes.append("Splurge mode. Your bank app will not be invited.")
     if area and mood != "day-in":
         notes.append(f"Just {area}? Keeping it local. Love that.")
     if rainy and mood != "day-in":

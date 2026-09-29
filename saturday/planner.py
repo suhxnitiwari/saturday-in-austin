@@ -60,6 +60,12 @@ class Plan:
         return sum(s.drive for s in self.stops) + self.back
 
     back: int = 0  # minutes from the last stop home
+    spend: float = 0  # rough dollars at the stops
+    fares: float = 0  # rough dollars in Ubers
+
+    @property
+    def dollars(self) -> float:
+        return self.spend + self.fares
 
     @property
     def score(self) -> float:
@@ -124,7 +130,7 @@ def shortlist(spots: list, must: list, rng=None, per_slot: int = 2, limit: int =
 
 
 def plan_day(spots: list, city: City, home: str, leave: int, end: int,
-             must: list = (), need=("coffee",), caps: dict = None, walking: bool = False,
+             must: list = (), need=("coffee",), caps: dict = None, ways: rules.Ways = rules.Ways(),
              real_meals: bool = True) -> Plan:
     """Bitmask dynamic programming over subsets of spots, with a person inside.
 
@@ -152,9 +158,9 @@ def plan_day(spots: list, city: City, home: str, leave: int, end: int,
     closes = [rules.kind(s).close for s in spots]
     stay = [s.stay for s in spots]
     phase = [s.phase for s in spots]
-    back_cost = [b * (rules.WALK_COST if walking else rules.DRIVE_COST) for b in back]
+    back_cost = [rules.travel_cost(b, ways) for b in back]
     # the rules, looked up instead of called: move costs as a table, the rest cached as we go
-    move = [[rules.move_cost(a, b, drive[i][j], walking) for j, b in enumerate(spots)] for i, a in enumerate(spots)]
+    move = [[rules.move_cost(a, b, drive[i][j], ways) for j, b in enumerate(spots)] for i, a in enumerate(spots)]
     timing, steps = {}, {}
 
     def time_cost(j, begin):
@@ -183,7 +189,7 @@ def plan_day(spots: list, city: City, home: str, leave: int, end: int,
             continue
         h = step(rules.START, i, begin)
         if h is not None:
-            layer[(1 << i, unit[i], h, i, begin + stay[i])] = rules.cost(None, s, begin, out[i], walking)
+            layer[(1 << i, unit[i], h, i, begin + stay[i])] = rules.cost(None, s, begin, out[i], ways)
     while layer:
         best.update(layer)
         nxt_layer = {}
@@ -232,10 +238,10 @@ def plan_day(spots: list, city: City, home: str, leave: int, end: int,
     while state is not None:
         order.append(spots[state[3]])
         state = prev.get(state)
-    return schedule(order[::-1], city, home, leave, walking)
+    return schedule(order[::-1], city, home, leave, ways)
 
 
-def schedule(order: list, city: City, home: str, leave: int, walking: bool = False) -> Plan:
+def schedule(order: list, city: City, home: str, leave: int, ways: rules.Ways = rules.Ways()) -> Plan:
     """Turn an ordered list of spots into real times, including any wait for a window to open.
 
     If the first stop isn't open yet, you simply leave home later instead of waiting outside.
@@ -250,10 +256,13 @@ def schedule(order: list, city: City, home: str, leave: int, walking: bool = Fal
         travel = city.minutes(zone, s.zone)
         start = s.opens_by(clock + travel + (BUFFER if travel else 0))
         plan.stops.append(Stop(s, clock + travel, start, travel))
-        plan.cost += rules.cost(prev, s, start, travel, walking)
+        plan.cost += rules.cost(prev, s, start, travel, ways)
+        plan.spend += s.price
+        plan.fares += rules.uber_fare(travel) if ways.mode == "uber" else 0
         clock, zone, prev = start + s.stay, s.zone, s
     plan.back = city.minutes(zone, home)
-    plan.cost += plan.back * (rules.WALK_COST if walking else rules.DRIVE_COST)
+    plan.cost += rules.travel_cost(plan.back, ways)
+    plan.fares += rules.uber_fare(plan.back) if ways.mode == "uber" else 0
     plan.home_by = clock + plan.back
     plan.cost += rules.long_day(plan.home_by - planned)
     return plan
@@ -293,6 +302,39 @@ def walking(spots: list, home: str, fill: list = ()) -> tuple:
     return city, [replace(s, zone=s.name) for s in kept]
 
 
+def transit(spots: list, home: str, fill: list = (), rng=None, must: list = ()) -> tuple:
+    """Bus + walk: what's walkable from home, plus ONE neighborhood the bus goes to (and what's
+    walkable there). Nobody takes three buses in a day. The destination is drawn by lottery
+    (weighted by how many spots it has), or it's wherever your must-have place is.
+    Like walking(), a missing coffee, lunch or dinner is filled in."""
+    from dataclasses import replace
+    from .city import TransitCity
+    fallback = {s.name: s.zone for s in list(spots) + list(fill)}
+    city = TransitCity(fallback)
+    near = lambda s: city.walk.miles(home, s.name) <= WALK_RADIUS
+    by_bus = lambda s: city.minutes(home, s.name) < TransitCity.TOO_FAR
+    zones = {}
+    for s in spots:
+        if by_bus(s) and not near(s) and s.zone in city.lines and s.zone != city.zone(home):
+            zones[s.zone] = zones.get(s.zone, 0) + 1
+    wanted = [s.zone for s in must if not near(s) and s.zone in zones]
+    if wanted:
+        there = wanted[0]
+    elif zones:
+        names = sorted(zones)
+        there = (rng or __import__("random")).choices(names, weights=[zones[z] for z in names])[0]
+    else:
+        there = None
+    ok = lambda s: near(s) or (s.zone == there and by_bus(s)) or s in must
+    kept = [s for s in spots if ok(s)]
+    for slot in ("coffee", "midday meal", "dinner"):
+        options = [c for c in fill if c.slot == slot and ok(c)]
+        if options and not any(s.slot == slot for s in kept):
+            kept.append(min(options, key=lambda c: city.minutes(home, c.name)))
+    city.destination = there
+    return city, [replace(s, zone=s.name) for s in kept]
+
+
 def reachable(spots: list, city: City, home: str, minutes: float, keep=()) -> list:
     """Only spots you could get to, enjoy and get home from in the time you have
     (so a one-hour outing picks from quick coffees, not a two-hour pottery class)."""
@@ -306,7 +348,7 @@ def meals(leave: int, end: int) -> tuple:
 
 
 def plan_outing(spots: list, city: City, home: str, start: int, end: int, hours: float = None,
-                must: list = (), mood: Mood = Mood(), step: int = 30, walking: bool = False) -> Plan:
+                must: list = (), mood: Mood = Mood(), step: int = 30, ways: rules.Ways = rules.Ways()) -> Plan:
     """The best `hours` out, somewhere between `start` (ready to go) and `end` (home by).
     hours=None means all of it. Times are minutes after midnight; home by 1:00 AM works too.
 
@@ -332,7 +374,7 @@ def plan_outing(spots: list, city: City, home: str, start: int, end: int, hours:
             need = mood.need + (mood.want if with_wants else ())
             # stops start on :00 and :30, so the search gets a little slack; the real plan still has to fit
             plan = plan_day(spots, city, home, leave, min(leave + length + SLACK, end), must, need, mood.caps,
-                            walking, real_meals=with_meals)
+                            ways, real_meals=with_meals)
             if not plan.stops or plan.outside > length:
                 continue
             key = (plan.score, start_pref * plan.leave)
@@ -354,7 +396,7 @@ def best_score_by_search(spots: list, city: City, home: str, leave: int, end: in
         home_trip = city.minutes(zone, home)
         required = need + (tuple(m for m in meals(leave, clock + home_trip) if m in on_list) if real_meals else ())
         if used and clock + home_trip <= end and rules.can_end(h) and all(c in cats for c in required):
-            score = rules.JOY * joy - cost - home_trip * rules.DRIVE_COST - rules.long_day(clock + home_trip - leave)
+            score = rules.JOY * joy - cost - rules.travel_cost(home_trip) - rules.long_day(clock + home_trip - leave)
             best = score if best is None else max(best, score)
         for i, s in enumerate(spots):
             if used >> i & 1 or s.slot == (last.slot if last else None) or s.phase < phase:
