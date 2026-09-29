@@ -50,7 +50,19 @@
         main { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); gap: 36px; min-height: 0; }
 
         /* controls: four tabs, one panel at a time */
-        form { display: grid; grid-template-rows: auto minmax(0, 1fr); min-height: 0; }
+        form { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; min-height: 0; }
+        /* bottom left: the day's one-line verdict and the day at a glance */
+        .verdict { margin: 0; padding: 22px 0 0; border-top: 1px solid var(--line); }
+        .verdict[hidden] { display: none; }
+        .verdict blockquote { margin: 0 0 18px; font-family: var(--display); font-style: italic; font-size: clamp(26px, 2.6vw, 40px); line-height: 1.12; max-width: 22ch; }
+        .verdict blockquote::before { content: "“"; color: var(--pink); }
+        .verdict blockquote::after { content: "”"; color: var(--pink); }
+        .glance { position: relative; height: 14px; border: 1px solid var(--line); }
+        .glance i { position: absolute; top: 0; bottom: 0; background: var(--ink); }
+        .glance i + i { border-left: 2px solid var(--paper); }
+        .glance i.food { background: var(--pink); }
+        .glance i.home { background: repeating-linear-gradient(45deg, var(--paper) 0 3px, var(--ink) 3px 4px); }
+        .glance-times { display: flex; justify-content: space-between; margin-top: 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; color: var(--grey); }
         .tabs { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--line); }
         .tabs button { position: relative; text-align: left; padding: 10px 14px 12px; border: 0; background: none; cursor: pointer; font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); }
         .tabs button i { font-style: normal; font-family: var(--display); font-size: 15px; letter-spacing: 0; margin-right: 6px; color: var(--gold); }
@@ -287,6 +299,12 @@
                     <input class="box" type="text" id="exclude" name="exclude" list="nots" placeholder="a place, or workouts, museums, shopping, sweets…">
                 </div>
             </section>
+            <figure class="verdict" hidden>
+                <figcaption class="label">Today’s verdict</figcaption>
+                <blockquote></blockquote>
+                <div class="glance" aria-hidden="true"></div>
+                <div class="glance-times"><span></span><span></span></div>
+            </figure>
             <datalist id="places"></datalist>
             <datalist id="nots">
                 <option value="workouts"></option>
@@ -378,6 +396,6 @@
 </div>
 
 
-<script src="web/app.js?v=6" defer></script>
+<script src="web/app.js?v=7" defer></script>
 </body>
 </html>

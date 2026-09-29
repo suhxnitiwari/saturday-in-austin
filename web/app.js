@@ -62,6 +62,7 @@
         sassBox.hidden = !plan.sass.length;
         list.replaceChildren();
         if (!plan.stops.length) {
+            form.querySelector('.verdict').hidden = true;
             status.textContent = 'Nothing fits. Try a longer day, a later “home by,” or a different mood.';
             status.hidden = false;
             stats.hidden = true;
@@ -111,6 +112,38 @@
         );
         stats.hidden = false;
         number.textContent = `xoxo, Saturday #${plan.seed}`;
+        verdict(plan);
+    }
+
+    // bottom left: the day's best line, and the day as one bar
+    const verdictBox = form.querySelector('.verdict');
+    const minutes = label => {
+        const [t, ampm] = label.split(' ');
+        const [h, m] = t.split(':').map(Number);
+        return (h % 12 + (ampm === 'PM' ? 12 : 0)) * 60 + m;
+    };
+    const FOOD = new Set(['coffee', 'smoothie', 'brunch', 'lunch', 'dinner', 'treat', 'late night', 'order in', 'snack']);
+    function verdict(plan) {
+        const why = plan.stops.map(s => s.why).filter(Boolean);
+        verdictBox.querySelector('blockquote').textContent = why[0] || plan.sass[0] || plan.sign_off;
+        const bar = verdictBox.querySelector('.glance');
+        const start = minutes(plan.leave);
+        let end = minutes(plan.home);
+        if (end < start) end += 24 * 60;
+        bar.replaceChildren(...plan.stops.filter(s => s.type !== 'free').map(s => {
+            let at = minutes(s.time);
+            if (at < start) at += 24 * 60;
+            const i = document.createElement('i');
+            i.className = s.type === 'reset' ? 'home' : FOOD.has(s.category) ? 'food' : '';
+            i.style.left = `${(at - start) / (end - start) * 100}%`;
+            i.style.width = `${s.minutes / (end - start) * 100}%`;
+            i.title = s.name;
+            return i;
+        }));
+        const [a, b] = verdictBox.querySelectorAll('.glance-times span');
+        a.textContent = `Out ${plan.leave}`;
+        b.textContent = `Home ${plan.home}`;
+        verdictBox.hidden = false;
     }
 
     let pending = 0;
