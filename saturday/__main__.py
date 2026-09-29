@@ -12,10 +12,12 @@ import random
 import sys
 from pathlib import Path
 
-from .city import City
+from .city import WALK_PACE, City
 from .planner import plan_outing, shortlist
 from .sass import judge, sign_off
-from .spots import MOODS, RULES, Guide, UnknownSpotError, half_hour, load
+from .spots import MOODS, RULES, Guide, UnknownSpotError, half_hour, load, shelf_note
+
+MAX_WALK = 45  # minutes: with no car, only spots within a walk of home
 
 PINK, BOLD, DIM, RESET = "\033[38;5;211m", "\033[1m", "\033[2m", "\033[0m"
 
@@ -43,16 +45,18 @@ def main(argv=None) -> int:
     p.add_argument("--home", default="West Campus", help="where you start and end (default West Campus)")
     p.add_argument("--include", action="append", default=[], metavar="SPOT", help="a spot you have to go to")
     p.add_argument("--skip", action="append", default=[], metavar="SPOT", help="a spot to leave out")
+    p.add_argument("--walk", action="store_true", help="no car: walk everywhere, so stay close to home")
+    p.add_argument("--rainy", action="store_true", help="a rainy day: indoor spots only")
     p.add_argument("--chart", action="store_true", help="also save the day as plan.png")
-    p.add_argument("--seed", type=int, help="repeat a specific Saturday (each run prints its seed)")
+    p.add_argument("--seed", type=int, help="repeat a Saturday you liked by its number")
     args = p.parse_args(argv)
 
-    city = City()
+    city = City(pace=WALK_PACE if args.walk else 1)
     if args.home not in city.roads:
         print(f"I don't know the neighborhood '{args.home}'. Try one of: {', '.join(sorted(city.roads))}")
         return 1
     guide, mood = Guide(load(), args.home), RULES[args.mood]
-    for note in judge(args.wake, args.sleep, args.hours, args.mood):
+    for note in judge(args.wake, args.sleep, args.hours, args.mood, args.walk, args.rainy):
         print(f"\n  {PINK}{note}{RESET}")
     try:
         must = [guide.find(name) for name in args.include]
@@ -62,7 +66,10 @@ def main(argv=None) -> int:
         return 1
 
     seed = args.seed if args.seed is not None else random.randrange(1000, 10000)
-    spots = shortlist(guide.pool(args.mood, must, skip), must, random.Random(seed), caps=mood.caps, need=mood.need)
+    near = (lambda s: city.minutes(args.home, s.zone) <= MAX_WALK) if args.walk else None
+    rng = random.Random(seed)
+    pool = guide.pool(args.mood, must, skip, args.rainy, near)
+    spots = shortlist(pool, must, rng, caps=mood.caps, need=mood.need)
     plan = plan_outing(spots, city, args.home, args.wake, args.sleep, args.hours, must, mood)
 
     if not plan.stops:
@@ -77,13 +84,17 @@ def main(argv=None) -> int:
             h, m = divmod(int(free), 60)
             length = (f"{h}h {m}m" if m else f"{h}h") if h else f"{m} min"
             print(f"  {clock(stop.arrive - stop.drive):>8}  {DIM}free time ({length}): nap, journal, wander{RESET}")
-        note = f"  {DIM}({stop.spot.note}){RESET}" if stop.spot.note else ""
+        picked = shelf_note(stop.spot, rng)
+        note = f"  {DIM}({picked}){RESET}" if picked else ""
         print(f"  {clock(stop.start):>8}  {stop.spot.name}{note}")
-    print(f"  {clock(half_hour(plan.home_by)):>8}  {sign_off(half_hour(plan.home_by), plan.outside / 60, seed, args.mood)}")
+    movie = any(s.spot.slot == "movie" for s in plan.stops)
+    ending = sign_off(half_hour(plan.home_by), plan.outside / 60, seed, args.mood, movie)
+    print(f"  {clock(half_hour(plan.home_by)):>8}  {ending}")
     out = f"{plan.outside / 60:.1f}".rstrip("0").rstrip(".")
     stops = f"{len(plan.stops)} stop{'s' * (len(plan.stops) != 1)}"
-    print(f"\n  {DIM}{stops} · {out} hours out · {plan.driving} min of driving · seed {seed}{RESET}")
-    print(f"  {DIM}run it again for a different Saturday ✦{RESET}\n")
+    travel = "walking" if args.walk else "driving"
+    print(f"\n  {DIM}{stops} · {out} hours out · {plan.driving} min of {travel} · Saturday #{seed}{RESET}")
+    print(f"  {DIM}run it again for a different Saturday, or --seed {seed} to get this one back ✦{RESET}\n")
 
     if args.chart:
         from .chart import draw

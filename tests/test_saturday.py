@@ -55,7 +55,7 @@ def test_moods_filter(guide):
 
 
 def test_there_are_plenty_of_spots(guide):
-    assert len(guide.spots) >= 100
+    assert len(guide.spots) >= 200
     for mood in MOODS:
         assert len(guide.for_mood(mood)) >= 8, mood
 
@@ -118,6 +118,39 @@ def test_day_in_ends_with_pizza_and_a_movie(city, guide):
     plan = plan_outing(spots, city, "West Campus", 9 * 60, 23 * 60 + 30, 12, mood=rules)
     kinds = [s.spot.category for s in plan.stops]
     assert "order in" in kinds and kinds.index("order in") < kinds.index("movie") if "movie" in kinds else True
+
+
+@pytest.mark.parametrize("wake,sleep,hours", [(7, 10, 1.5), (8, 11, 3), (7, 23, 3), (20, 23, 2)])
+def test_a_day_in_always_has_something_to_do(wake, sleep, hours):
+    import json
+    from saturday.web import plan_json
+    data = json.loads(plan_json(f"{wake}:00", f"{sleep}:00", hours, "day-in", 1))
+    assert data["stops"] and data["driving"] == 0 or wake >= 18
+
+
+def test_filters():
+    import json
+    from saturday.spots import OUTDOORS
+    from saturday.web import plan_json
+    for seed in range(6):
+        rainy = json.loads(plan_json("8:00", "23:00", 10, "adventurous", seed, rainy=True))
+        assert rainy["stops"] and not any(s.get("category") in OUTDOORS for s in rainy["stops"])
+        walk = json.loads(plan_json("8:00", "23:00", 8, "everything", seed, walk=True))
+        assert walk["stops"] and walk["walking"]
+    assert any("two-hour walk" in n for n in judge(9 * 60, 23 * 60, 6, "treat-yourself", walk=True))
+
+
+def test_movie_night_picks_from_the_shelf():
+    import json
+    from saturday.spots import SHELF
+    from saturday.web import plan_json
+    data = json.loads(plan_json("9:00", "23:00", 4, "day-in", 3))
+    movies = [s["note"] for s in data["stops"] if s.get("category") == "movie"]
+    assert movies and movies[0] in SHELF["movie"]
+
+
+def test_daytime_bedtime_gets_asked_about():
+    assert any("Did you mean 10:00 PM" in n for n in judge(7 * 60, 10 * 60, 1.5))
 
 
 def test_adventurous_takes_breaks(city, guide):
@@ -205,7 +238,7 @@ def test_same_seed_same_saturday(capsys):
 def test_random_days_are_different_but_always_valid(city, guide):
     days = set()
     for seed in range(60):
-        spots = shortlist(guide.spots, [], random.Random(seed))
+        spots = shortlist(guide.spots, [], random.Random(seed), need=("coffee",))
         plan = plan_day(spots, city, "West Campus", TEN_AM, EIGHT_PM)
         assert follows_the_rules(plan, city, "West Campus", TEN_AM, EIGHT_PM)
         days.add(tuple(s.spot.name for s in plan.stops))

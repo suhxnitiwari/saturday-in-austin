@@ -4,7 +4,7 @@
 
 **[Try it live →](https://suhxnitiwari.github.io/saturday-in-austin/)** (the Python runs right in your browser)
 
-Every run is a different Saturday, drawn from 100+ Austin spots: coffee shops, brunches, pottery studios, nail spas at the Domain, hikes on the Greenbelt, kayaking on Lady Bird Lake, game days at Victory Lap and nights in with pizza and a movie. Can't decide? Hit **🎲 Just pick for me**.
+Every run is a different Saturday, drawn from 200 Austin spots: coffee shops, brunches, pottery studios, nail spas at the Domain, hikes on the Greenbelt, kayaking on Lady Bird Lake, game days at Victory Lap and nights in with pizza and a movie from my own shelf. Can't decide? Hit **🎲 Just pick for me**.
 
 ```
 $ python -m saturday
@@ -39,14 +39,16 @@ python3 -m venv .venv && .venv/bin/pip install matplotlib pytest
 | `--wake 9:00` | when you wake up |
 | `--sleep 23:00` | when you go to bed (after midnight works too) |
 | `--hours 10` | how many hours you want to be out |
-| `--mood` | `treat-yourself`, `adventurous`, `productive`, `social`, `day-in`, `cozy` or `everything` |
+| `--mood` | `treat-yourself`, `adventurous`, `productive`, `social`, `day-in`, `cozy`, `foodie`, `music-art` or `everything` |
+| `--walk` | no car: walk everywhere, so the day stays close to home |
+| `--rainy` | a rainy day: indoor spots only |
 | `--home "West Campus"` | where the day starts and ends |
 | `--include "Numero 28"` | a spot you have to go to (typos get a "did you mean?") |
 | `--skip PCL` | a spot to leave out |
 | `--chart` | save the day as a picture |
-| `--seed 5` | repeat a Saturday you liked (every run prints its seed) |
+| `--seed 5` | get Saturday #5 back (every plan shows its number) |
 
-## Six moods, six different Saturdays
+## Eight moods, eight different Saturdays
 
 | Mood | The day |
 |---|---|
@@ -54,8 +56,10 @@ python3 -m venv .venv && .venv/bin/pip install matplotlib pytest
 | 🥾 Adventurous | Hikes, kayaking and cold swims, at most two per day and never back to back |
 | 📚 Productive | Café hopping: up to three coffee shops, with study spots in between |
 | 🏈 Social | Built around Victory Lap or Topgolf, with group brunch and dinner |
-| 🛋️ Day in | A late brunch, then a face mask, pizza delivered and a movie |
+| 🛋️ Day in | A fruit bowl, pizza delivered and a movie from my shelf. No driving |
 | 🕯️ Cozy & creative | Slow lattes, pottery and candle studios, bookstores and a warm dinner |
+| 🍽️ Foodie | Brunch *and* lunch, BBQ, gelato and a big dinner |
+| 🎸 Music & art | Murals and museums by day, a show at Antone's or the Broken Spoke by night |
 
 ## The rules every plan follows
 

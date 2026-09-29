@@ -11,11 +11,16 @@ ROADS = [
     ("Downtown", "East Austin", 6), ("Downtown", "South Congress", 7), ("Downtown", "Zilker", 8),
     ("Zilker", "South Congress", 6), ("Lake Austin", "Zilker", 9), ("Zilker", "Barton Creek", 10),
     ("South Lamar", "Zilker", 5), ("South Lamar", "South Congress", 7), ("Barton Creek", "Hill Country", 30),
+    ("Downtown", "Southeast", 18), ("South Congress", "Southeast", 15), ("Lake Austin", "Northwest", 12),
+    ("Domain", "Northwest", 15), ("Barton Creek", "Southwest", 12), ("South Lamar", "Southwest", 15),
 ]
+
+WALK_PACE = 5  # walking takes about five times as long as driving (a 6-minute drive is a 30-minute walk)
 
 
 class City:
-    def __init__(self, roads=ROADS) -> None:
+    def __init__(self, roads=ROADS, pace: float = 1) -> None:
+        self.pace = pace  # 1 for driving, WALK_PACE for walking
         self.roads = {}  # zone -> {neighbor: minutes}
         for a, b, minutes in roads:
             self.roads.setdefault(a, {})[b] = minutes
@@ -48,7 +53,8 @@ class City:
         return result
 
     def minutes(self, start: str, end: str) -> int:
-        return self.drive(start, end)[0]
+        """Travel minutes: the drive, or the walk when there's no car."""
+        return round(self.drive(start, end)[0] * self.pace)
 
 
 def _route(prev: dict, start: str, zone: str) -> list:

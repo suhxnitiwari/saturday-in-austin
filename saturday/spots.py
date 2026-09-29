@@ -3,11 +3,12 @@ from __future__ import annotations
 
 import csv
 import difflib
+import json
 from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 DATA = Path(__file__).parent / "data" / "spots.csv"
-MOODS = ("everything", "treat-yourself", "adventurous", "productive", "social", "day-in", "cozy")
+MOODS = ("everything", "treat-yourself", "adventurous", "productive", "social", "day-in", "cozy", "foodie", "music-art")
 
 # when each kind of stop makes sense: (earliest start, latest start), minutes after midnight
 WINDOWS = {
@@ -29,8 +30,16 @@ WINDOWS = {
     "hangout": (11 * 60, 21 * 60),
     "cinema": (12 * 60, 21 * 60),
     "treat": (14 * 60, 21 * 60 + 30),  # after lunch, not instead of it
-    "self care": (11 * 60, 20 * 60),
-    "movie": (12 * 60, 22 * 60 + 30),
+    "self care": (8 * 60, 21 * 60),
+    "snack": (7 * 60, 21 * 60 + 30),
+    "movie": (8 * 60, 22 * 60 + 30),  # at home, any time is movie time
+    "show": (8 * 60, 22 * 60 + 30),
+    "read": (8 * 60, 22 * 60),
+    "games": (10 * 60, 22 * 60),
+    "spa": (10 * 60, 18 * 60),
+    "murals": (9 * 60, 19 * 60),
+    "game": (11 * 60, 19 * 60 + 30),
+    "live music": (19 * 60, 23 * 60),
     "dinner": (17 * 60 + 30, 21 * 60),
     "order in": (17 * 60, 21 * 60 + 30),
     "late night": (21 * 60, 23 * 60 + 30),
@@ -39,10 +48,17 @@ WINDOWS = {
 
 # categories that fill the same slot in a day: brunch OR lunch, a hike OR a swim...
 SLOTS = {"brunch": "midday meal", "lunch": "midday meal", "order in": "dinner",
-         "hike": "outdoor", "paddle": "outdoor", "swim": "outdoor", "park": "outdoor"}
+         "hike": "outdoor", "paddle": "outdoor", "swim": "outdoor", "park": "outdoor",
+         "game": "hangout", "spa": "nails", "show": "movie"}
 
 # the evening only moves forward: after dinner, the only thing left is a late-night snack
-PHASE = {"dinner": 1, "order in": 1, "movie": 2, "late night": 2}
+PHASE = {"dinner": 1, "order in": 1, "movie": 2, "show": 2, "live music": 2, "late night": 2}
+
+# out in the weather: left out on a rainy day
+OUTDOORS = {"hike", "paddle", "swim", "park", "sunset", "murals", "market", "game"}
+
+# movie night and reading pick from my real shelves (suhanitiwari.com/home/favorites)
+SHELF = json.loads((Path(__file__).parent / "data" / "shelf.json").read_text(encoding="utf-8"))
 
 HOME = "Home"  # the zone for day-in stops; it becomes wherever the day starts
 
@@ -62,8 +78,10 @@ RULES = {
     "adventurous": Mood(caps={"outdoor": 2}),  # two adventures, never back to back
     "productive": Mood(caps={"coffee": 3, "study": 2}),  # café hopping
     "social": Mood(need=(), want=("hangout",)),  # Victory Lap or Topgolf with everyone
-    "day-in": Mood(need=("order in",), late=True),
+    "day-in": Mood(need=(), want=("order in", "movie"), late=True),  # food and a movie, always something to do
     "cozy": Mood(want=("creative",), caps={"creative": 2}),  # something handmade
+    "foodie": Mood(need=(), caps={"midday meal": 2, "treat": 2}),  # brunch AND lunch, on purpose
+    "music-art": Mood(want=("live music",)),  # murals and museums by day, a show at night
 }
 
 
@@ -134,9 +152,18 @@ class Guide:
             return [s for s in self.spots if s.name not in self.home_spots]
         return [s for s in self.spots if mood in s.moods]
 
-    def pool(self, mood: str, must=(), skip=()) -> list:
-        """The spots a mood can pick from, plus must-haves, minus skips, and coffee if it needs it."""
-        spots = [s for s in self.for_mood(mood) + list(must) if s.name not in skip]
+    def pool(self, mood: str, must=(), skip=(), rainy: bool = False, near=None) -> list:
+        """The spots a mood can pick from, plus must-haves, minus skips, and coffee if it needs it.
+        On a rainy day, only indoor spots; with `near`, only spots it says are close enough."""
+        spots = [s for s in self.for_mood(mood) + list(must)
+                 if s.name not in skip and (s in must or not (rainy and s.category in OUTDOORS)
+                                            and (near is None or near(s)))]
         if "coffee" in RULES[mood].need and not any(s.category == "coffee" for s in spots):
             spots.append(self.find("Medici"))
         return spots
+
+
+def shelf_note(spot: Spot, rng) -> str:
+    """What to watch or read, from the shelf; any other spot keeps its own note."""
+    picks = SHELF.get(spot.category)
+    return rng.choice(picks) if picks else spot.note

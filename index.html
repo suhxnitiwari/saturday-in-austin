@@ -32,6 +32,10 @@
         .sat-hours span { display: flex; align-items: center; gap: 10px; }
         .sat-hours input { flex: 1; accent-color: #E9A6BC; }
         .sat-hours output { min-width: 2.2em; font: 14px var(--mono); color: #F5E5E1; letter-spacing: 0; }
+        .sat-filters { grid-column: 1 / -1; display: flex; gap: 8px; flex-wrap: wrap; }
+        .sat-filters label { flex-direction: row; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; border: 1px solid rgba(245, 229, 225, 0.25); font-size: 12px; letter-spacing: 0.04em; text-transform: none; cursor: pointer; }
+        .sat-filters input { accent-color: #E9A6BC; margin: 0; }
+        .sat-filters label:has(input:checked) { background: rgba(233, 166, 188, 0.18); border-color: #E9A6BC; color: #F5E5E1; }
         .sat-actions { grid-column: 1 / -1; display: flex; gap: 10px; }
         .sat-actions button[type="submit"] { flex: 1; }
         .sat-form .sat-random { background: transparent; color: #E9A6BC; box-shadow: inset 0 0 0 1.5px #E9A6BC; }
@@ -83,8 +87,14 @@
                     <option value="social">Social</option>
                     <option value="day-in">Day in</option>
                     <option value="cozy">Cozy &amp; creative</option>
+                    <option value="foodie">Foodie</option>
+                    <option value="music-art">Music &amp; art</option>
                 </select>
             </label>
+            <div class="sat-filters">
+                <label><input type="checkbox" name="walk"> 🚶 No car</label>
+                <label><input type="checkbox" name="rainy"> ☔ Rainy day</label>
+            </div>
             <div class="sat-actions">
                 <button type="submit">Plan my Saturday ✦</button>
                 <button type="button" class="sat-random">🎲 Just pick for me</button>

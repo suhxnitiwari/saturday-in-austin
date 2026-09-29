@@ -6,7 +6,7 @@
 
     const PYODIDE = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/';
     const BASE = 'saturday/';  // served straight from this repo by GitHub Pages
-    const FILES = ['__init__.py', '__main__.py', 'city.py', 'planner.py', 'spots.py', 'sass.py', 'web.py', 'data/spots.csv'];
+    const FILES = ['__init__.py', '__main__.py', 'city.py', 'planner.py', 'spots.py', 'sass.py', 'web.py', 'data/spots.csv', 'data/shelf.json'];
 
     const form = root.querySelector('.sat-form');
     const out = root.querySelector('.sat-out');
@@ -81,7 +81,7 @@
         out.appendChild(line('sat-row', ['b', plan.home], ['span', plan.sign_off]));
         const count = plan.stops.filter(s => s.name).length;
         out.appendChild(line('sat-foot', ['span',
-            `${count} stop${count === 1 ? '' : 's'} · ${plan.hours_out} hour${plan.hours_out === 1 ? '' : 's'} out · ${plan.driving} min of driving · seed ${plan.seed}`]));
+            `${count} stop${count === 1 ? '' : 's'} · ${plan.hours_out} hour${plan.hours_out === 1 ? '' : 's'} out · ${plan.driving} min of ${plan.walking ? 'walking' : 'driving'} · Saturday #${plan.seed}`]));
     }
 
     // can't decide? pick everything at random, then plan it
@@ -108,7 +108,7 @@
         try {
             const plan = await boot();
             const f = form.elements;
-            draw(JSON.parse(plan(f.wake.value, f.sleep.value, Number(f.hours.value), f.mood.value, '')));
+            draw(JSON.parse(plan(f.wake.value, f.sleep.value, Number(f.hours.value), f.mood.value, '', f.walk.checked, f.rainy.checked)));
             button.textContent = 'Plan another ✦';
         } catch (err) {
             out.replaceChildren(line('sat-status', ['span', 'Python took a nap. Check your connection and try again ✦']));

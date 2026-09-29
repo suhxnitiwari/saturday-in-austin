@@ -1,44 +1,44 @@
 spot,zone,category,stay_minutes,joy,moods,note
 Medici,West Campus,coffee,60,10,cozy|productive|social,vanilla latte
-Mozart's,Lake Austin,coffee,60,8,cozy|productive,lake view
+Mozart's,Lake Austin,coffee,60,8,cozy|music-art|productive,lake view
 Black Fox,Downtown,coffee,30,7,adventurous|productive,
 Two Hands,Campus,coffee,30,7,productive|social,
-Jo's Coffee,South Congress,coffee,30,8,social,the I love you so much mural
-Epoch Coffee,North Loop,coffee,90,8,productive,open 24/7
+Jo's Coffee,South Congress,coffee,30,8,music-art|social,the I love you so much mural
+Epoch Coffee,North Loop,coffee,90,8,music-art|productive,open 24/7
 Bennu Coffee,East Austin,coffee,90,7,productive,open 24/7
 Haraz Coffee House,Campus,coffee,90,7,productive,right across from campus
 Merit Coffee,South Lamar,coffee,60,7,cozy|productive,
 Figure 8 Coffee,East Austin,coffee,60,8,cozy|productive,
 Sa-Ten,East Austin,coffee,60,8,cozy|productive,matcha and toast
 Fleet Coffee,East Austin,coffee,30,8,adventurous,tiny and perfect
-Radio Coffee & Beer,South Lamar,coffee,60,8,adventurous|social,the big patio
+Radio Coffee & Beer,South Lamar,coffee,60,8,adventurous|music-art|social,the big patio
 Cosmic Coffee + Beer Garden,South Congress,coffee,90,8,cozy|social,the garden
 Life Science Library,Campus,study,90,8,cozy|productive,the prettiest study spot
 PCL,Campus,study,120,5,productive,lock-in mode
 Texas Union,Campus,study,60,5,productive,
-Austin Central Library,Downtown,study,120,9,cozy|productive,the rooftop garden
-Blanton Museum of Art,Campus,museum,90,8,cozy,Ellsworth Kelly's Austin
-Harry Ransom Center,Campus,museum,60,7,cozy|productive,the Gutenberg Bible
+Austin Central Library,Downtown,study,120,9,cozy|music-art|productive,the rooftop garden
+Blanton Museum of Art,Campus,museum,90,8,cozy|music-art,Ellsworth Kelly's Austin
+Harry Ransom Center,Campus,museum,60,7,cozy|music-art|productive,the Gutenberg Bible
 Bullock Museum,Campus,museum,90,7,productive,Texas history
-Hillside Farmacy,East Austin,brunch,90,8,cozy|social,
-Josephine House,Clarksville,brunch,90,8,cozy|day-in,
-Café No Sé,South Congress,brunch,90,7,social,
-Snooze,North Loop,brunch,90,8,day-in|social,"pancake flight: pineapple upside-down, cinnamon, banana bliss"
-June's All Day,South Congress,brunch,90,8,social,pastries and mimosas
-Toastique,Domain,brunch,60,8,treat-yourself,smoothie bowls and fancy toast
-Juliet,Zilker,brunch,90,8,social,the pink patio
-Kerbey Lane Cafe,Campus,brunch,60,7,day-in|social,queso and pancakes
-Magnolia Cafe,South Congress,brunch,60,7,day-in,gingerbread pancakes
-Bouldin Creek Cafe,South Congress,brunch,60,7,cozy|day-in,
-Paperboy,East Austin,brunch,60,8,adventurous|cozy,
-Bird Bird Biscuit,East Austin,brunch,30,8,adventurous|day-in,the Queen Beak
-Sweetgreen,Campus,lunch,30,6,adventurous|productive,custom guacamole greens bowl
-Veracruz,East Austin,lunch,30,7,adventurous|social,
-Torchy's Tacos,South Congress,lunch,30,7,adventurous|social,trailer park
-Tacodeli,Barton Creek,lunch,30,7,adventurous,
-Taco Joint,West Campus,lunch,30,6,productive,
-Better Half,Clarksville,lunch,60,8,cozy,patio lunch
-Franklin Barbecue,East Austin,lunch,120,9,social,worth the line
+Hillside Farmacy,East Austin,brunch,90,8,cozy|foodie|social,
+Josephine House,Clarksville,brunch,90,8,cozy|day-in|foodie,
+Café No Sé,South Congress,brunch,90,7,foodie|music-art|social,
+Snooze,North Loop,brunch,90,8,day-in|foodie|social,"pancake flight: pineapple upside-down, cinnamon, banana bliss"
+June's All Day,South Congress,brunch,90,8,foodie|social,pastries and mimosas
+Toastique,Domain,brunch,60,8,foodie|treat-yourself,smoothie bowls and fancy toast
+Juliet,Zilker,brunch,90,8,foodie|social,the pink patio
+Kerbey Lane Cafe,Campus,brunch,60,7,day-in|foodie|social,queso and pancakes
+Magnolia Cafe,South Congress,brunch,60,7,day-in|foodie,gingerbread pancakes
+Bouldin Creek Cafe,South Congress,brunch,60,7,cozy|day-in|foodie,
+Paperboy,East Austin,brunch,60,8,adventurous|cozy|foodie,
+Bird Bird Biscuit,East Austin,brunch,30,8,adventurous|day-in|foodie,the Queen Beak
+Sweetgreen,Campus,lunch,30,6,adventurous|foodie|productive,custom guacamole greens bowl
+Veracruz,East Austin,lunch,30,7,adventurous|foodie|music-art|social,
+Torchy's Tacos,South Congress,lunch,30,7,adventurous|foodie|social,trailer park
+Tacodeli,Barton Creek,lunch,30,7,adventurous|foodie,
+Taco Joint,West Campus,lunch,30,6,foodie|productive,
+Better Half,Clarksville,lunch,60,8,cozy|foodie,patio lunch
+Franklin Barbecue,East Austin,lunch,120,9,foodie|social,worth the line
 The Little Bisque,North Loop,creative,120,9,cozy,pottery painting
 Rosa Pottery Studio,East Austin,creative,120,9,cozy,
 Mosaic Workshop,East Austin,creative,120,9,cozy,
@@ -47,15 +47,15 @@ South Congress,South Congress,shopping,90,8,social,Kendra Scott and Tecovas
 The Domain,Domain,shopping,150,8,treat-yourself,"Reformation, Anine Bing, Nordstrom"
 Barton Creek Mall,Barton Creek,shopping,90,6,social,
 Allen's Boots,South Congress,shopping,60,8,social,rows and rows of boots
-BookPeople,Downtown,shopping,60,9,cozy|productive,the best bookstore in Texas
-Waterloo Records,Downtown,shopping,45,7,cozy|social,
-SFC Farmers' Market,Downtown,market,60,8,cozy|social,Saturday mornings at Republic Square
-Barton Creek Farmers Market,Barton Creek,market,60,7,adventurous|social,
+BookPeople,Downtown,shopping,60,9,cozy|music-art|productive,the best bookstore in Texas
+Waterloo Records,Downtown,shopping,45,7,cozy|music-art|social,
+SFC Farmers' Market,Downtown,market,60,8,cozy|foodie|social,Saturday mornings at Republic Square
+Barton Creek Farmers Market,Barton Creek,market,60,7,adventurous|foodie|social,
 M Vince Nail Spa,Domain,nails,90,9,treat-yourself,chandelier and a glass of something
 Milano Nail Spa,East Austin,nails,90,9,treat-yourself,the big glam one
 Caesars Nail Salon & Spa,Domain,nails,90,7,treat-yourself,
 Prana Wellness Club,Clarksville,exercise,60,8,productive,Pilates: the best reset
-CorePower Yoga,West Campus,exercise,60,8,cozy|productive,yoga
+CorePower Yoga,West Campus,exercise,60,8,cozy|productive,
 [solidcore],South Congress,exercise,60,7,productive,Pilates
 Barton Creek Greenbelt,Barton Creek,hike,120,9,adventurous,hike to the Gus Fruh swimming hole
 Mount Bonnell,Lake Austin,hike,60,8,adventurous|social,the best view in town
@@ -66,42 +66,136 @@ Deep Eddy Pool,Lake Austin,swim,90,8,adventurous,the oldest pool in Texas
 Hamilton Pool Preserve,Hill Country,swim,150,9,adventurous,book ahead and go early
 Zilker Park,Zilker,park,90,8,social,picnic and people watching
 Zilker Botanical Garden,Zilker,park,60,8,cozy,the Japanese garden
-Laguna Gloria,Lake Austin,park,60,8,cozy,art on the lake
+Laguna Gloria,Lake Austin,park,60,8,cozy|music-art,art on the lake
 Mayfield Park,Lake Austin,park,45,7,cozy,the peacocks
 Congress Bridge Bats,Downtown,sunset,30,8,adventurous|social,1.5 million bats at dusk
 Victory Lap,West Campus,hangout,150,10,social,the game on the jumbotron
 Topgolf,Domain,hangout,120,8,social,
 Alamo Drafthouse,South Lamar,cinema,150,9,cozy|social,dinner and a movie in one
-Amy's Ice Creams,Campus,treat,30,8,cozy|social,Mexican vanilla
-Lick Honest Ice Creams,South Lamar,treat,30,8,cozy,goat cheese thyme and honey
-Big Top Candy Shop,South Congress,treat,30,7,social,
-Numero 28,Downtown,dinner,90,10,cozy|social,good memories
-Yamas,Downtown,dinner,90,9,social,Mediterranean
-Aba,South Congress,dinner,90,8,social,Mediterranean
-Éma,Domain,dinner,90,9,treat-yourself,Mediterranean
-Clay Pit,Downtown,dinner,90,9,cozy|productive,North Indian
-Tarka,West Campus,dinner,60,7,productive,North Indian
-Saffron,Domain,dinner,90,8,treat-yourself,North Indian
-El Alma,Zilker,dinner,90,8,adventurous|social,Mexican
-Arriba Abajo,East Austin,dinner,90,7,social,Mexican
-Roya,Downtown,dinner,90,8,cozy,Persian
-North Italia,Domain,dinner,90,7,treat-yourself,
-Uchi,South Lamar,dinner,120,9,social,the sushi splurge
-Launderette,East Austin,dinner,90,9,cozy,birthday cake ice cream sandwich
-Suerte,East Austin,dinner,90,8,social,suadero tacos
-Odd Duck,South Lamar,dinner,90,8,cozy,
-Matt's El Rancho,South Lamar,dinner,90,8,social,Bob Armstrong dip
-Perla's,South Congress,dinner,90,8,social,
-Mattie's,South Congress,dinner,90,8,cozy,the peacocks
-Terry Black's,Zilker,dinner,90,8,adventurous|social,brisket
-Guero's Taco Bar,South Congress,dinner,90,7,adventurous|social,
-Loro,South Lamar,dinner,90,8,adventurous|social,
-Ramen Tatsu-Ya,South Lamar,dinner,60,8,cozy|productive,
-Pizza Press,West Campus,late night,30,6,productive|social,the late-night guilty pleasure
-Voodoo Doughnut,Downtown,late night,30,6,social,
-Pizza Press (order in),Home,order in,60,9,day-in,the guilty pleasure comes to you
-Home Slice (order in),Home,order in,60,8,day-in,
-Via 313 (order in),Home,order in,60,8,day-in,Detroit-style
+Amy's Ice Creams,Campus,treat,30,8,cozy|foodie|social,Mexican vanilla
+Lick Honest Ice Creams,South Lamar,treat,30,8,cozy|foodie,goat cheese thyme and honey
+Big Top Candy Shop,South Congress,treat,30,7,foodie|social,
+Numero 28,Downtown,dinner,90,10,cozy|foodie|social,good memories
+Yamas,Downtown,dinner,90,9,foodie|social,Mediterranean
+Aba,South Congress,dinner,90,8,foodie|social,Mediterranean
+Éma,Domain,dinner,90,9,foodie|treat-yourself,Mediterranean
+Clay Pit,Downtown,dinner,90,9,cozy|foodie|productive,North Indian
+Tarka,West Campus,dinner,60,7,foodie|productive,North Indian
+Saffron,Domain,dinner,90,8,foodie|treat-yourself,North Indian
+El Alma,Zilker,dinner,90,8,adventurous|foodie|social,Mexican
+Arriba Abajo,East Austin,dinner,90,7,foodie|social,Mexican
+Roya,Downtown,dinner,90,8,cozy|foodie,Persian
+North Italia,Domain,dinner,90,7,foodie|treat-yourself,
+Uchi,South Lamar,dinner,120,9,foodie|social,the sushi splurge
+Launderette,East Austin,dinner,90,9,cozy|foodie,birthday cake ice cream sandwich
+Suerte,East Austin,dinner,90,8,foodie|social,suadero tacos
+Odd Duck,South Lamar,dinner,90,8,cozy|foodie,
+Matt's El Rancho,South Lamar,dinner,90,8,foodie|social,Bob Armstrong dip
+Perla's,South Congress,dinner,90,8,foodie|social,
+Mattie's,South Congress,dinner,90,8,cozy|foodie,the peacocks
+Terry Black's,Zilker,dinner,90,8,adventurous|foodie|social,brisket
+Guero's Taco Bar,South Congress,dinner,90,7,adventurous|foodie|music-art|social,
+Loro,South Lamar,dinner,90,8,adventurous|foodie|social,
+Ramen Tatsu-Ya,South Lamar,dinner,60,8,cozy|foodie|productive,
+Pizza Press,West Campus,late night,30,6,foodie|productive|social,the late-night guilty pleasure
+Voodoo Doughnut,Downtown,late night,30,6,foodie|social,
+Pizza Press (order in),Home,order in,30,9,day-in,the guilty pleasure comes to you
+Home Slice (order in),Home,order in,30,8,day-in,
+Via 313 (order in),Home,order in,30,8,day-in,Detroit-style
 Tiff's Treats (delivered),Home,treat,30,8,day-in,warm cookies at the door
-Movie night,Home,movie,150,9,day-in,"comfort movie, blanket required"
+Movie night,Home,movie,120,9,day-in,
 Face mask and a long shower,Home,self care,60,8,day-in,everything shower
+Make a fruit bowl,Home,snack,30,8,day-in,strawberries and mango
+Kerbey Lane (delivered),Home,brunch,60,8,day-in,pancakes in pajamas
+Sweetgreen (delivered),Home,lunch,30,7,day-in,
+Thunderbird Coffee,East Austin,coffee,60,7,music-art|productive,
+Seventh Flag Coffee,South Congress,coffee,60,7,cozy|productive,
+Counter Café,Downtown,brunch,60,8,cozy|foodie,"tiny diner, big pancakes"
+Tiny Boxwoods,Clarksville,brunch,60,8,foodie,the chocolate chip cookies
+Joann's Fine Foods,South Congress,brunch,90,8,foodie|music-art|social,at the Austin Motel
+Elizabeth Street Café,South Congress,brunch,90,8,foodie,pastel French-Vietnamese
+Cenote,East Austin,brunch,60,7,cozy|foodie|productive,
+Walton's Fancy and Staple,Downtown,brunch,60,8,cozy|foodie,
+Phoebe's Diner,South Congress,brunch,60,7,foodie|social,
+Blue Dahlia Bistro,East Austin,brunch,60,7,cozy|foodie,
+Moonshine Grill,Downtown,brunch,90,8,foodie|social,the famous brunch buffet
+Haywire,Domain,brunch,90,8,foodie|treat-yourself,blueberry biscuits
+Micklethwait Craft Meats,East Austin,lunch,60,9,foodie,brisket from a trailer
+La Barbecue,East Austin,lunch,90,9,foodie|social,
+Kerlin BBQ,East Austin,lunch,60,8,foodie,
+Home Slice Pizza,South Congress,lunch,60,8,foodie|music-art|social,a slice on SoCo
+Mi Madre's,East Austin,lunch,60,8,adventurous|foodie,breakfast tacos all day
+Chi'Lantro,Campus,lunch,30,7,foodie|music-art|productive,kimchi fries
+P. Terry's,South Lamar,lunch,30,7,adventurous|foodie|productive,
+Uncle Nicky's,North Loop,lunch,60,7,cozy|foodie,
+The Picnic,Zilker,lunch,60,7,adventurous|foodie|social,food trucks by the park
+True Food Kitchen,Domain,lunch,60,7,foodie|treat-yourself,
+Jeffrey's,Clarksville,dinner,120,9,foodie,the fancy one
+Clark's Oyster Bar,Clarksville,dinner,90,8,foodie,
+Barley Swine,North Loop,dinner,120,9,foodie,
+Olamaie,Downtown,dinner,90,9,cozy|foodie,the biscuits
+Uchiko,North Loop,dinner,120,9,foodie,
+Kemuri Tatsu-ya,East Austin,dinner,90,8,foodie|social,
+Nixta Taqueria,East Austin,dinner,60,9,foodie|music-art,
+Fonda San Miguel,North Loop,dinner,90,8,cozy|foodie,the most beautiful dining room
+Hopdoddy,South Congress,dinner,60,7,adventurous|foodie|social,burgers and truffle fries
+Chuy's,Zilker,dinner,60,7,foodie|music-art|social,
+Maie Day,South Congress,dinner,90,8,foodie,
+Red Ash,Downtown,dinner,90,8,foodie,
+Hestia,Downtown,dinner,120,9,foodie,the splurge
+The Salt Lick,Hill Country,dinner,90,9,adventurous|foodie,BBQ under the oaks
+Dai Due,East Austin,dinner,90,8,cozy|foodie,
+Gourdough's,South Lamar,late night,30,7,foodie|social,giant doughnuts
+Whataburger,Campus,late night,30,6,foodie|productive|social,the honey butter chicken biscuit
+Dolce Neve,South Congress,treat,30,8,cozy|foodie,gelato
+Sweet Ritual,North Loop,treat,30,7,cozy|foodie,
+Hey Cupcake!,South Congress,treat,30,7,foodie|social,the silver trailer
+Tiny Pies,South Lamar,treat,30,7,cozy|foodie,
+Jeni's Splendid Ice Creams,South Congress,treat,30,8,foodie,
+Toy Joy,Downtown,shopping,45,7,cozy|music-art,
+Half Price Books,North Loop,shopping,60,7,cozy|productive,
+Buffalo Exchange,Campus,shopping,60,7,music-art|social,thrift finds
+Feathers Boutique,South Congress,shopping,60,7,music-art,vintage
+Second Street District,Downtown,shopping,90,7,social,
+Antone's Record Shop,North Loop,shopping,45,7,music-art,
+McKinney Falls State Park,Southeast,hike,120,8,adventurous,waterfalls and limestone
+Bull Creek District Park,Northwest,swim,90,8,adventurous,wade the creek
+Pease Park,Clarksville,park,60,7,cozy|social,
+Sculpture Falls,Barton Creek,hike,120,8,adventurous,
+Pedernales Falls State Park,Hill Country,hike,150,9,adventurous,
+Jacob's Well,Hill Country,swim,120,9,adventurous,book ahead
+Krause Springs,Hill Country,swim,150,8,adventurous,
+Auditorium Shores,Downtown,park,60,7,cozy|social,the dog park
+Texas Rowing Center,Lake Austin,paddle,90,8,adventurous,
+Lady Bird Johnson Wildflower Center,Southwest,park,90,9,cozy|music-art,
+Austin Bouldering Project,East Austin,exercise,90,8,adventurous|social,climbing
+Austin FC at Q2 Stadium,Domain,game,180,9,social,match days only
+Longhorns at DKR,Campus,game,240,10,social,home game days only. Hook 'em
+Cidercade,East Austin,hangout,120,8,music-art|social,arcade games
+Continental Club,South Congress,live music,120,9,music-art|social,
+Antone's,Downtown,live music,120,9,music-art,
+ACL Live at the Moody Theater,Downtown,live music,150,9,music-art,
+Mohawk,Downtown,live music,120,8,music-art|social,
+Cactus Cafe,Campus,live music,90,8,cozy|music-art,acoustic
+Saxon Pub,South Lamar,live music,120,8,music-art,
+The White Horse,East Austin,live music,120,8,music-art|social,two-step lessons
+Broken Spoke,South Lamar,live music,150,9,music-art|social,two-stepping since 1964
+Stubb's,Downtown,live music,150,9,music-art|social,
+Greetings from Austin mural,South Congress,murals,30,8,music-art|social,
+"Hi, How Are You mural",Campus,murals,30,7,music-art,
+Willie Nelson statue,Downtown,murals,30,7,music-art,
+Texas State Capitol,Downtown,museum,60,8,music-art|productive,taller than the U.S. Capitol
+LBJ Presidential Library,Campus,museum,90,8,music-art|productive,
+Mexic-Arte Museum,Downtown,museum,60,7,music-art,
+Umlauf Sculpture Garden,Zilker,museum,60,8,cozy|music-art,
+Elisabet Ney Museum,North Loop,museum,60,7,cozy|music-art,
+Museum of the Weird,Downtown,museum,45,7,music-art|social,
+Texas Science & Natural History Museum,Campus,museum,90,7,productive,
+Austin Nature & Science Center,Zilker,museum,60,7,adventurous|cozy,
+Viva Day Spa,Domain,spa,90,9,treat-yourself,massage and a steam
+Doug Sahm Hill,Zilker,sunset,30,8,cozy|social,the skyline at sunset
+Pennybacker Bridge overlook,Northwest,sunset,45,9,adventurous,the 360 bridge view
+Read a book,Home,read,90,8,cozy|day-in,
+Binge a comfort show,Home,show,120,8,day-in,
+Bake cookies,Home,snack,60,8,day-in,
+Board games,Home,games,60,7,day-in,

@@ -224,7 +224,8 @@ def plan_outing(spots: list, city: City, home: str, wake: int, sleep: int, hours
     start_pref = 1 if mood.late else -1
     # the whole day if it fits; otherwise skip the meals, then what the mood is built around
     for with_meals, with_wants in ((True, True), (False, True), (False, False)):
-        for leave in range(first, last_home - length + 1, step):
+        # leave right away, or on any :00 or :30 after (stops start on the half hour, so those waste nothing)
+        for leave in [first] + list(range(half_hour(first + 1), last_home - length + 1, step)):
             need = mood.need + (mood.want if with_wants else ()) + (meals(leave, leave + length) if with_meals else ())
             plan = plan_day(spots, city, home, leave, leave + length, must, need, mood.caps)
             if not plan.stops:
