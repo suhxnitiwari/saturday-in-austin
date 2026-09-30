@@ -9,7 +9,7 @@ from saturday.city import City
 from saturday.planner import best_score_by_search, meals, plan_day, plan_outing, schedule, shortlist, walking
 from saturday.sass import judge, sign_off
 from saturday.spots import AREAS, MOODS, OUTDOORS, RULES, SHELF, WINDOWS, Guide, Spot, UnknownSpotError, load
-from saturday.web import plan_json
+from saturday.web import deck_json, plan_json
 
 TEN_AM, EIGHT_PM = 10 * 60, 20 * 60
 
@@ -564,3 +564,34 @@ def test_starting_somewhere_else_moves_the_day():
     campus = day("9:00", "22:00", 6, "everything", 5, travel="walk", start_from="ut")
     soco = day("9:00", "22:00", 6, "everything", 5, travel="walk", start_from="soco")
     assert {s["where"] for s in soco["stops"] if s["type"] == "stop"} != {s["where"] for s in campus["stops"] if s["type"] == "stop"}
+
+
+def test_the_swipe_deck_is_a_mix_of_places_for_the_mood(guide):
+    for seed in range(20):
+        deck = json.loads(deck_json("everything", False, "anywhere", "ut", seed))
+        assert 8 <= len(deck) <= 12
+        spots = [guide.find(c["name"]) for c in deck]
+        assert len({s.name for s in spots}) == len(spots)
+        assert max(sum(s.slot == t.slot for t in spots) for s in spots) <= 2  # two of a kind, at most
+        assert not any(rules.kind(s).reset for s in spots)
+    assert all(guide.find(c["name"]).category not in OUTDOORS
+               for c in json.loads(deck_json("everything", True, "anywhere", "ut", 3)))  # rainy decks stay dry
+
+
+def test_a_yes_usually_makes_the_day_and_a_no_never_does():
+    made = 0
+    for seed in range(30):
+        deck = json.loads(deck_json("everything", False, "anywhere", "ut", seed, "9:00", "22:00"))
+        yes, no = deck[0]["name"], [c["name"] for c in deck[1:]]
+        plan = day("9:00", "22:00", "8", "everything", seed, likes=yes, nopes=",".join(no))
+        names = [s.get("name") for s in plan["stops"]]
+        assert not set(names) & set(no)
+        made += yes in names
+    assert made >= 25  # every yes goes in unless the hours or the drives truly cannot hold it
+
+
+def test_the_deck_only_shows_places_open_while_you_are_out(guide):
+    for seed in range(10):
+        for c in json.loads(deck_json("everything", False, "anywhere", "ut", seed, "9:00", "17:00")):
+            spot = guide.find(c["name"])
+            assert WINDOWS[spot.category][0] + spot.stay <= 17 * 60  # nothing that opens after you're home

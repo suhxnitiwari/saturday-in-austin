@@ -32,7 +32,8 @@
         document.head.appendChild(s);
     });
 
-    let python = null;
+    let python = null, deckFn = null;
+    let swiped = { likes: [], nopes: [] };  // from Swipe to plan: the planner builds around the yeses
     function boot() {
         if (python) return python;
         python = (async () => {
@@ -44,7 +45,8 @@
                 if (!r.ok) throw new Error(`couldn't load ${f}`);
                 py.FS.writeFile('/home/pyodide/saturday/' + f, await r.text());
             }));
-            py.runPython('import sys; sys.path.insert(0, "/home/pyodide")\nfrom saturday.web import plan_json, names, stats');
+            py.runPython('import sys; sys.path.insert(0, "/home/pyodide")\nfrom saturday.web import plan_json, deck_json, names, stats');
+            deckFn = py.globals.get('deck_json');
             PLACES.push(...JSON.parse(py.globals.get('names')()));
             // this planner's numbers, counted from the data (so they grow with the list)
             for (const [key, value] of Object.entries(JSON.parse(py.globals.get('stats')()))) {
@@ -139,7 +141,8 @@
             const f = form.elements;
             const result = plan(f.start.value, f.end.value, f.hours.value, f.mood.value, String(seed),
                                 false, f.rainy.checked, f.area.value, f.include.value, f.exclude.value,
-                                f.travel.value, f.budget.value, f.start_from.value, hotSaturday);
+                                f.travel.value, f.budget.value, f.start_from.value, hotSaturday,
+                                swiped.likes.join(','), swiped.nopes.join(','));
             draw(JSON.parse(result));
             again.disabled = false;
         } catch (err) {
@@ -153,9 +156,111 @@
     let timer;
     const soon = () => { clearTimeout(timer); timer = setTimeout(run, 250); };
     form.addEventListener('input', soon);
-    form.addEventListener('change', soon);
+    form.addEventListener('change', e => {  // a new mood, place or forecast means a new deck: old yeses step aside
+        if (['mood', 'area', 'start_from', 'rainy'].includes(e.target.name)) swiped = { likes: [], nopes: [] };
+        soon();
+    });
     form.addEventListener('submit', e => { e.preventDefault(); run(); });
-    again.addEventListener('click', () => { seed = 1000 + Math.floor(Math.random() * 9000); run(); });
+    again.addEventListener('click', () => { seed = 1000 + Math.floor(Math.random() * 9000); run(); });  // same yeses, new day
+
+    // Swipe to plan: a hand of places for this mood and these hours; right is yes, left is no
+    const swipeBox = document.getElementById('swipe'), deckEl = swipeBox.querySelector('.deck');
+    const countEl = swipeBox.querySelector('.swipe-count'), doneBtn = swipeBox.querySelector('.swipe-done');
+    const yesBtn = swipeBox.querySelector('.swipe-yes'), noBtn = swipeBox.querySelector('.swipe-no');
+    let hand = [], at = 0, picks = { likes: [], nopes: [] }, drag = null;
+    const cardFor = (c, i) => {
+        const card = el('article', 'swipe-card');
+        card.dataset.i = i;
+        card.append(el('div', 'sc-img', c.label), el('p', 'sc-kicker', `${c.label} · ${c.where}`), el('h3', null, c.name),
+                    el('p', 'sc-note', [c.note, c.price ? `about $${c.price}` : 'free'].filter(Boolean).join(' · ')),
+                    el('span', 'stamp yes', 'Yes'), el('span', 'stamp no', 'Nope'));
+        return card;
+    };
+    const topCard = () => deckEl.querySelector(`.swipe-card[data-i="${at}"]`);
+    function stack() {
+        deckEl.querySelectorAll('.swipe-card').forEach(card => {
+            const d = card.dataset.i - at;
+            card.hidden = d > 2;
+            card.style.zIndex = 10 - d;
+            if (!card.classList.contains('gone')) card.style.transform = d ? `translateY(${d * 12}px) scale(${1 - d * 0.04})` : '';
+        });
+        const n = picks.likes.length, left = hand.length - at;
+        countEl.textContent = left ? `${at + 1} / ${hand.length}` : 'done';
+        yesBtn.disabled = noBtn.disabled = !left;
+        doneBtn.disabled = !at;
+        doneBtn.textContent = n ? `Plan my Saturday with ${n} ${n === 1 ? 'yes' : 'yeses'} →` : 'Plan my Saturday →';
+        if (hand.length && !left) deckEl.replaceChildren(el('p', 'deck-note', n ? `${n} ${n === 1 ? 'yes' : 'yeses'}. Let’s make a Saturday.` : 'Nothing? Tough crowd. I’ll pick for you.'));
+    }
+    function decide(yes) {
+        const card = topCard();
+        if (!card) return;
+        (yes ? picks.likes : picks.nopes).push(hand[at].name);
+        card.classList.add('gone');
+        card.style.setProperty(yes ? '--yes' : '--no', 1);
+        card.style.transform = `translateX(${yes ? 140 : -140}%) rotate(${yes ? 18 : -18}deg)`;
+        card.style.opacity = 0;
+        at++;
+        setTimeout(() => card.remove(), 260);
+        stack();
+    }
+    async function openSwipe() {
+        hand = []; at = 0; picks = { likes: [], nopes: [] };
+        deckEl.replaceChildren(el('p', 'deck-note', 'Shuffling the deck…'));
+        countEl.textContent = '';
+        yesBtn.disabled = noBtn.disabled = doneBtn.disabled = true;
+        swipeBox.showModal();
+        try { await boot(); } catch { deckEl.replaceChildren(el('p', 'deck-note', 'Python took a nap. Try again in a second.')); return; }
+        const f = form.elements;
+        hand = JSON.parse(deckFn(f.mood.value, f.rainy.checked, f.area.value, f.start_from.value, String(seed), f.start.value, f.end.value));
+        if (hand.length < 3) {
+            deckEl.replaceChildren(el('p', 'deck-note', f.mood.value === 'day-in' ? 'A day in doesn’t need swiping. Stay home, it’s allowed.' : 'Not much open in those hours. Try a longer day.'));
+            return;
+        }
+        deckEl.replaceChildren(...hand.map(cardFor));
+        stack();
+    }
+    deckEl.addEventListener('pointerdown', e => {
+        const card = topCard();
+        if (!card || !card.contains(e.target)) return;
+        drag = { x: e.clientX, dx: 0, card };
+        card.setPointerCapture(e.pointerId);
+        card.style.transition = 'none';
+    });
+    deckEl.addEventListener('pointermove', e => {
+        if (!drag) return;
+        const dx = drag.dx = e.clientX - drag.x;
+        drag.card.style.transform = `translateX(${dx}px) rotate(${dx / 18}deg)`;
+        drag.card.style.setProperty('--yes', Math.max(0, Math.min(1, dx / 90)));
+        drag.card.style.setProperty('--no', Math.max(0, Math.min(1, -dx / 90)));
+    });
+    const letGo = () => {
+        if (!drag) return;
+        const { card, dx } = drag;
+        drag = null;
+        card.style.transition = '';
+        if (Math.abs(dx) > 90) return decide(dx > 0);
+        card.style.transform = '';
+        card.style.setProperty('--yes', 0);
+        card.style.setProperty('--no', 0);
+    };
+    deckEl.addEventListener('pointerup', letGo);
+    deckEl.addEventListener('pointercancel', letGo);
+    yesBtn.addEventListener('click', () => decide(true));
+    noBtn.addEventListener('click', () => decide(false));
+    swipeBox.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight') { e.preventDefault(); decide(true); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); decide(false); }
+    });
+    swipeBox.addEventListener('click', e => { if (e.target === swipeBox) swipeBox.close(); });
+    swipeBox.querySelector('.close-swipe').addEventListener('click', () => swipeBox.close());
+    document.querySelector('.swipe-open').addEventListener('click', openSwipe);
+    doneBtn.addEventListener('click', () => {
+        swiped = picks;
+        swipeBox.close();
+        show('plan');
+        run();
+        if (innerWidth <= 1000) day.scrollIntoView({ behavior: 'smooth' });
+    });
 
     // magazine sections: Plan, The Editor, The Method (one screen each)
     const sections = [...document.querySelectorAll('.sections button')];
