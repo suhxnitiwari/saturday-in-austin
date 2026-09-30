@@ -416,7 +416,7 @@
             wx('feels', `feels like ${Math.round(c.apparent_temperature)}°, ${c.relative_humidity_2m}% humidity`);
             wx('sunset', clockOf(d.sunset[0]));
             const now = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' });
-            wx('src', `Open-Meteo weather, updated ${now} CT · Wikidata population`);
+            wx('src', `Open-Meteo weather, updated ${now} CT · Census 2025 population`);
             const i = untilSaturday;  // the forecast starts today, so Saturday is this many days in
             const high = Math.round(d.temperature_2m_max[i]), rain = d.precipitation_probability_max[i] ?? 0;
             wx('sat-title', i === 0 ? 'Today is Saturday' : `This Saturday, ${d.time[i].slice(5).replace('-', '/')}`);
@@ -432,18 +432,6 @@
             }
         })
         .catch(() => wx('sky', 'weather unavailable'));
-    fetch('https://www.wikidata.org/w/api.php?action=wbgetclaims&entity=Q16559&property=P1082&format=json&origin=*')
-        .then(r => r.json())
-        .then(d => {
-            // the newest population figure (each one has a "point in time")
-            const figures = d.claims.P1082.map(c => ({
-                n: Number(c.mainsnak.datavalue.value.amount),
-                year: ((c.qualifiers || {}).P585 || [{}])[0].datavalue?.value.time.slice(1, 5) || '',
-            })).sort((a, b) => b.year.localeCompare(a.year));
-            wx('pop', figures[0].n.toLocaleString('en-US'));
-            wx('pop-year', figures[0].year ? `population, ${figures[0].year} census` : 'people');
-        })
-        .catch(() => wx('pop', '1M-ish'));
 
     // The great debate: big small city or small big city. Tallies live in a free public counter
     // (no names, no data, just two numbers); your own vote is remembered in this browser.

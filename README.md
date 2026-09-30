@@ -67,7 +67,7 @@ When a rule shapes the day, the plan says so: *"It's Saturday. We're getting bru
 - **Budget:** Student, Normal or Splurge, with a rough total for the day (food, tickets and Ubers).
 - **💌 Send it as a letter:** the day becomes a Bridgerton-style letter to a friend, with a link that opens the exact same Saturday.
 - **The map:** every neighborhood in the planner, numbered on a simplified street map, with the drives the planner knows between them. Tap one to see them.
-- **Austin, right now:** live weather and sunset from Open-Meteo and population from Wikidata on the Austin page, with a flip to the planner's own numbers. If it's raining in Austin, Rainy day turns itself on.
+- **Austin, right now:** live weather and sunset from Open-Meteo, plus Austin's population from the U.S. Census Bureau's July 2025 estimate (1,002,632), on the Austin page, with a flip to the planner's own numbers. If it's raining in Austin, Rainy day turns itself on.
 
 ## How it works
 
