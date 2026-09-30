@@ -621,7 +621,49 @@
             show('plan');
             form.dispatchEvent(new Event('change'));
         }
+        const save = e.target.closest('[data-download]');
+        if (save) downloadStory(save.dataset.download, save);
     });
+
+    // Download an article as a PDF, set like the page: kicker, headline, dek, then the days
+    let jspdf;
+    const downloadStory = async (name, button) => {
+        const label = button.textContent;
+        button.textContent = 'One moment…';
+        try {
+            jspdf ??= await new Promise((ok, fail) => {
+                const tag = Object.assign(document.createElement('script'), { src: 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js' });
+                tag.onload = () => ok(window.jspdf); tag.onerror = fail;
+                document.head.append(tag);
+            });
+            const doc = new jspdf.jsPDF({ unit: 'pt', format: 'letter' });
+            const W = doc.internal.pageSize.getWidth(), H = doc.internal.pageSize.getHeight(), M = 64;
+            let y = M;
+            const write = (text, font, style, size, color, gap, lead = 1.45) => {
+                doc.setFont(font, style).setFontSize(size).setTextColor(...color);
+                for (const line of doc.splitTextToSize(text.replace(/\s+/g, ' ').trim(), W - 2 * M)) {
+                    if (y + size > H - M) { doc.addPage(); y = M; }
+                    doc.text(line, M, y + size); y += size * lead;
+                }
+                y += gap;
+            };
+            const INK = [17, 17, 17], PINK = [184, 13, 98], GOLD = [184, 151, 90], GREY = [110, 110, 110];
+            for (const el of storyBody.children) {
+                const text = el.textContent;
+                if (el.matches('.st-kicker')) write(text.toUpperCase(), 'helvetica', 'bold', 8, GOLD, 6);
+                else if (el.matches('h2')) write(text, 'times', 'normal', 34, INK, 4, 1.1);
+                else if (el.matches('.st-dek')) { write(text, 'courier', 'normal', 10.5, INK, 6);
+                    doc.setDrawColor(...INK).setLineWidth(0.6).line(M, y, W - M, y).line(M, y + 3, W - M, y + 3); y += 18; }
+                else if (el.matches('h3')) write(text, 'times', 'italic', 16, PINK, 2);
+                else if (el.matches('.st-tip')) write(text, 'times', 'italic', 10.5, GREY, 8);
+                else if (el.matches('p')) write(text, 'helvetica', 'normal', 10, INK, 8);
+            }
+            doc.setFont('helvetica', 'normal').setFontSize(8).setTextColor(...GREY)
+               .text('Saturday in Austin · suhxnitiwari.github.io/saturday-in-austin', M, H - 36);
+            doc.save(name + '.pdf');
+        } catch { alert('The download didn’t load. Try again in a moment.'); }
+        button.textContent = label;
+    };
 
     // The editor's photos: arrows, arrow keys, or a swipe
     const slides = document.querySelector('[data-slides]');

@@ -211,22 +211,28 @@
         .follows a { font-family: var(--display); font-style: italic; font-size: 16px; color: var(--ink); text-decoration: none; border-bottom: 1px solid transparent; }
         .follows a:hover, .follows a:focus-visible { color: var(--pink); border-bottom-color: var(--pink); }
         @media (max-width: 1000px) { .column-head { flex-direction: column; align-items: flex-start; gap: 14px; } }
-        .column-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr) auto auto auto; column-gap: 32px; row-gap: 0; min-height: 0; }
-        .story { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; min-height: 0; padding-top: 14px; border-top: 4px double var(--line); }  /* images, numbers, titles and subtitles share rows */
-        .story h3 { align-self: start; }
-        .story-img { display: grid; place-items: center; min-height: 160px; background: var(--blush); border: 1px solid var(--line); outline: 1px solid var(--gold); outline-offset: 4px; margin: 4px 4px 18px; font-family: var(--display); font-style: italic; font-size: 18px; color: var(--pink-ink); }
+        /* The Column: one lead, four features, and a run of briefs down the side */
+        .column-grid { display: grid; grid-template-columns: 1.55fr 1fr 1fr 0.95fr; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); column-gap: 28px; row-gap: 22px; min-height: 0; }
+        .story { display: flex; flex-direction: column; min-height: 0; padding-top: 14px; border-top: 4px double var(--line); }
+        .story-img { flex: 1 1 0; min-height: 0; display: grid; place-items: center; background: var(--blush); border: 1px solid var(--line); outline: 1px solid var(--gold); outline-offset: 4px; margin: 4px 4px 16px; font-family: var(--display); font-style: italic; font-size: 18px; color: var(--pink-ink); }
         .story-no { margin: 0; font-size: 10.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
-        .story h3 { margin: 6px 0 0; font-family: var(--display); font-weight: 500; font-size: clamp(24px, 2.2vw, 32px); line-height: 1.1; }
+        .story h3 { margin: 6px 0 0; font-family: var(--display); font-weight: 500; font-size: clamp(19px, 1.55vw, 24px); line-height: 1.1; }
         .story h3 em { color: var(--pink); font-weight: 400; }
-        .story-soon { margin: 8px 0 0; font-family: var(--typewriter); font-size: 13px; color: var(--grey); }
-        .column-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr) auto auto auto); column-gap: 24px; }
-        .story:nth-child(n + 6) { margin-top: 26px; }
+        .story-soon { margin: 6px 0 0; font-family: var(--typewriter); font-size: 13px; color: var(--grey); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .story.lead { grid-row: 1 / span 2; }
+        .story.lead .story-img { font-size: 24px; }
+        .story.lead h3 { font-size: clamp(34px, 3.3vw, 52px); line-height: 1.02; }
+        .story.lead .story-soon { font-size: 15px; }
+        .also { grid-column: 4; grid-row: 1 / span 2; display: flex; flex-direction: column; min-height: 0; border-top: 4px double var(--line); padding-top: 14px; }
+        .also .label { margin: 0 0 4px; }
+        .story.brief { flex: 1 1 0; justify-content: center; padding: 8px 0; border-top: 1px solid var(--hair, #E5E5E5); }
+        .story.brief:first-of-type { border-top: 0; }
+        .story.brief h3 { font-size: clamp(16px, 1.2vw, 19px); }
+        .story.brief .story-soon { font-size: 12px; -webkit-line-clamp: 1; }
         .story[data-story] { cursor: pointer; }
         .story[data-story]:hover h3, .story[data-story]:focus-visible h3 { text-decoration: underline; text-decoration-color: var(--pink); text-underline-offset: 5px; }
         .story[data-story]:focus-visible { outline: 2px solid var(--pink); outline-offset: 4px; }
         .story[data-story] .story-soon { color: var(--pink-ink); }
-        .story-img { min-height: 110px; }
-        .story h3 { font-size: clamp(20px, 1.7vw, 26px); }
         .story-box { width: min(760px, calc(100% - 32px)); max-height: calc(100vh - 40px); padding: 0; border: 0; background: transparent; }
         .story-box::backdrop { background: rgba(17, 17, 17, 0.5); }
         .story-paper { position: relative; max-height: calc(100vh - 40px); overflow-y: auto; padding: 44px 52px 40px; background: var(--paper); border: 1px solid var(--line); outline: 1px solid var(--gold); outline-offset: -8px; }
@@ -245,6 +251,9 @@
         .st-defs b { display: block; margin-bottom: 2px; }
         .st-tip { margin-top: 22px !important; font-family: var(--display); font-style: italic; font-size: 18px !important; color: var(--pink-ink); }
         .story-body .cta { margin-top: 16px; }
+        .st-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+        .cta.quiet { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+        .cta.quiet:hover { background: var(--ink); color: var(--paper); }
         @media (max-width: 560px) { .story-paper { padding: 36px 20px 28px; } }
         .cards-title { grid-column: 1 / -1; margin: 6px 0 -8px; font-family: var(--display); font-weight: 500; font-size: clamp(24px, 2.2vw, 32px); line-height: 1.1; }
         .cards-title em { color: var(--pink); font-weight: 400; }
@@ -456,7 +465,8 @@
             h1 { white-space: normal; }
             .sections { flex-wrap: wrap; }
             .method, .editor, .numbers, .austin, .cards, .column-grid { grid-template-columns: 1fr; gap: 28px; }
-            .column-grid { grid-template-rows: none; } .story { grid-row: auto; grid-template-rows: auto; }
+            .column-grid { grid-template-rows: none; } .story.lead, .also { grid-row: auto; grid-column: auto; }
+            .story-img { flex: none; height: 180px; } .story.brief { flex: none; }
             .atx { max-height: none; }
             .wx-saturday { display: block; }
             .wx-saturday .cta { margin-top: 14px; }
@@ -667,7 +677,7 @@
             </nav>
         </div>
         <div class="column-grid">
-            <article class="story" data-story="make" tabindex="0" role="button" aria-label="Read: Make something, with your hands.">
+            <article class="story lead" data-story="make" tabindex="0" role="button" aria-label="Read: Make something, with your hands.">
                 <div class="story-img">Image coming soon</div>
                 <p class="story-no">No. 01 · Make</p>
                 <h3>Make something, <em>with your hands.</em></h3>
@@ -697,36 +707,39 @@
                 <h3>Four days in <em>Austin.</em></h3>
                 <p class="story-soon">For the friend who wants all of it. Read →</p>
             </article>
-            <article class="story" data-story="vegan" tabindex="0" role="button" aria-label="Read: The Vegan Edit.">
-                <div class="story-img">Image coming soon</div>
-                <p class="story-no">No. 06 · Plants</p>
-                <h3>The Vegan <em>Edit.</em></h3>
-                <p class="story-soon">Where to eat plant-based, and drink it too. Read →</p>
-            </article>
-            <article class="story" data-story="hoods" tabindex="0" role="button" aria-label="Read: Fourteen neighborhoods, fourteen personalities.">
-                <div class="story-img">Image coming soon</div>
-                <p class="story-no">No. 07 · Neighborhoods</p>
-                <h3>Fourteen neighborhoods, <em>fourteen personalities.</em></h3>
-                <p class="story-soon">Who’s who, from West Campus to Rock Rose. Read →</p>
-            </article>
-            <article class="story" data-story="college" tabindex="0" role="button" aria-label="Read: The best college town in America.">
-                <div class="story-img">Image coming soon</div>
-                <p class="story-no">No. 08 · Students</p>
-                <h3>The best college town <em>in America.</em></h3>
-                <p class="story-soon">Why the Forty Acres wins. Read →</p>
-            </article>
-            <article class="story soon">
-                <div class="story-img">Image coming soon</div>
-                <p class="story-no">No. 09 · Coffee</p>
-                <h3>The best coffee in <em>Austin.</em></h3>
-                <p class="story-soon">The editor’s picks, coming soon.</p>
-            </article>
-            <article class="story soon">
-                <div class="story-img">Image coming soon</div>
-                <p class="story-no">No. 10 · Mexican & Indian</p>
-                <h3>The best Mexican and Indian in <em>Austin.</em></h3>
-                <p class="story-soon">The editor’s picks, coming soon.</p>
-            </article>
+            <aside class="also">
+                <p class="label">Also in this issue</p>
+                <article class="story brief" data-story="vegan" tabindex="0" role="button" aria-label="Read: The Vegan Edit.">
+                    <p class="story-no">No. 06 · Plants</p>
+                    <h3>The Vegan <em>Edit.</em></h3>
+                    <p class="story-soon">Where to eat plant-based, and drink it too. Read →</p>
+                </article>
+                <article class="story brief" data-story="hoods" tabindex="0" role="button" aria-label="Read: Fourteen neighborhoods, fourteen personalities.">
+                    <p class="story-no">No. 07 · Neighborhoods</p>
+                    <h3>Fourteen neighborhoods, <em>fourteen personalities.</em></h3>
+                    <p class="story-soon">Who’s who, from West Campus to Rock Rose. Read →</p>
+                </article>
+                <article class="story brief" data-story="college" tabindex="0" role="button" aria-label="Read: The best college town in America.">
+                    <p class="story-no">No. 08 · Students</p>
+                    <h3>The best college town <em>in America.</em></h3>
+                    <p class="story-soon">Why the Forty Acres wins. Read →</p>
+                </article>
+                <article class="story brief soon">
+                    <p class="story-no">No. 09 · Coffee</p>
+                    <h3>The best coffee in <em>Austin.</em></h3>
+                    <p class="story-soon">The editor’s picks, coming soon.</p>
+                </article>
+                <article class="story brief soon">
+                    <p class="story-no">No. 10 · Mexican</p>
+                    <h3>The best Mexican food in <em>Austin.</em></h3>
+                    <p class="story-soon">The editor’s picks, coming soon.</p>
+                </article>
+                <article class="story brief soon">
+                    <p class="story-no">No. 11 · Indian</p>
+                    <h3>The best Indian food in <em>Austin.</em></h3>
+                    <p class="story-soon">The editor’s picks, coming soon.</p>
+                </article>
+            </aside>
         </div>
     </section>
 
@@ -1111,7 +1124,7 @@
 <h3>Day 4 · East Austin</h3>
 <p>Brunch at <b>Paperboy</b>. Make something at <b>The Mosaic Workshop</b> or <b>7th Street Candle Co.</b>, barbecue at <b>la Barbecue</b>, coffee at <b>Palomino</b>. Dinner at <b>Suerte</b>, and end at <b>The White Horse</b>.</p>
 <p class="st-tip">Book Josephine House and Suerte ahead. The bats fly spring through fall. Barton Springs is free before 8 AM and after 9 PM in summer, and closed Thursday daytimes for cleaning.</p>
-<button type="button" class="cta" data-plan-mood="everything">Plan a Saturday →</button>
+<div class="st-actions"><button type="button" class="cta" data-plan-mood="everything">Plan a Saturday →</button><button type="button" class="cta quiet" data-download="four-days-in-austin">Download the plan ↓</button></div>
 </template>
 <template id="story-vegan">
 <p class="st-kicker">The Column · No. 06 · Plants</p>
@@ -1214,6 +1227,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=41" defer></script>
+<script src="web/app.js?v=42" defer></script>
 </body>
 </html>
