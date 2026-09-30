@@ -326,8 +326,8 @@
         .pin[data-story="coffee"] { grid-column: 1; grid-row: 2 / 9; } .pin[data-story="brunch"] { grid-column: 1; grid-row: 9 / 16; } .pin[data-story="vegan"] { grid-column: 1; grid-row: 16 / 22; }
         .pin[data-story="mexican"] { grid-column: 2; grid-row: 2 / 8; } .pin[data-story="indian"] { grid-column: 2; grid-row: 8 / 16; } .pin[data-story="date"] { grid-column: 2; grid-row: 16 / 22; }
         .pin[data-story="make"] { grid-column: 4; grid-row: 2 / 7; } .pin[data-story="music"] { grid-column: 4; grid-row: 7 / 12; } .pin[data-story="free"] { grid-column: 4; grid-row: 12 / 17; }
-        .pin[data-story="boots"] { grid-column: 4; grid-row: 17 / 22; } .pin[data-story="bars"] { grid-column: 5; grid-row: 2 / 9; } .pin[data-story="study"] { grid-column: 5; grid-row: 9 / 15; }
-        .pin[data-story="follow"] { grid-column: 5; grid-row: 15 / 22; } .pin[data-story="bus"] { grid-column: 7; grid-row: 2 / 7; } .pin[data-story="four"] { grid-column: 7; grid-row: 7 / 12; }
+        .pin[data-story="boots"] { grid-column: 4; grid-row: 17 / 22; } .pin[data-story="bars"] { grid-column: 5; grid-row: 2 / 7; } .pin[data-story="study"] { grid-column: 5; grid-row: 7 / 12; }
+        .pin[data-story="follow"] { grid-column: 5; grid-row: 12 / 17; } .pin[data-story="thursday"] { grid-column: 5; grid-row: 17 / 22; } .pin[data-story="bus"] { grid-column: 7; grid-row: 2 / 7; } .pin[data-story="four"] { grid-column: 7; grid-row: 7 / 12; }
         .pin[data-story="college"] { grid-column: 7; grid-row: 12 / 17; } .pin[data-story="history"] { grid-column: 7; grid-row: 17 / 22; } .pin[data-story="symbols"] { grid-column: 8; grid-row: 2 / 9; }
         .pin[data-story="hoods"] { grid-column: 8; grid-row: 9 / 16; } .pin[data-story="football"] { grid-column: 8; grid-row: 16 / 22; }
         .pin .story-img { position: relative; flex: 1 1 0; min-height: 0; display: grid; place-items: center; border-radius: 16px; background: var(--peach); overflow: hidden; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--orange-ink); transition: filter .15s; }
@@ -863,6 +863,12 @@
                 <div class="story-img"><img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=70&auto=format&fit=crop" alt="An iced latte on a café table" loading="lazy"></div>
                 <p class="story-no">Instagram</p>
                 <h3>Worth a <em>follow.</em></h3>
+                <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
+            </article>
+            <article class="pin" data-story="thursday" tabindex="0" role="button" aria-label="Read: Thursday is college night.">
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1666279881169-1d22715bfe23?w=600&q=70&auto=format&fit=crop" alt="A couple two-stepping in a dance hall" loading="lazy"></div>
+                <p class="story-no">After dark</p>
+                <h3>Thursday is <em>college night.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <div class="third-rule" style="grid-column: 6" aria-hidden="true"></div>
@@ -1575,6 +1581,29 @@
 <button type="button" class="cta" data-plan-mood="shopping">Plan a South Congress Saturday →</button>
 </template>
 
+<template id="story-thursday" data-hash="college-night">
+<p class="st-kicker">The Column · No. 21 · After dark</p>
+<h2>Thursday is <em>college night.</em></h2>
+<p class="st-dek">At UT, the weekend starts on Thursday. Here’s how to do it right.</p>
+<h3>Mavs</h3>
+<p><b>Mavericks Dance Hall</b> in Buda, 275 Old San Antonio Road: five bars, a patio and a big dance floor, open Wednesday to Saturday, 7 p.m. to 2 a.m. Thursday is college night. Check the age rule and the cover on their page before you drive out, and bring your ID either way.</p>
+<h3>Mavs etiquette</h3>
+<ul class="st-list st-defs">
+<li><b>The floor moves</b> Two-steppers go around the floor counterclockwise. Faster couples on the outside, beginners toward the middle.</li>
+<li><b>Don’t cut across</b> Walk around the dance floor, never through it, and don’t stop in a lane to chat.</li>
+<li><b>Line dances</b> take the middle of the floor. The couples keep circling around them.</li>
+<li><b>Take the lesson</b> They teach early in the night. The two-step is quick, quick, slow, slow.</li>
+<li><b>Asking and saying no</b> Anyone can ask anyone. A polite “no, thank you” is fine; saying yes to someone else for that same song is not.</li>
+<li><b>Wear boots</b> Smooth soles turn; sneakers stick. See: Cowboy boots, for non-Texans.</li>
+</ul>
+<h3>Closer to campus</h3>
+<p>West Campus has its own traditions. At <b>Victory Lap</b>, your 21st means a signed dollar bill on the ceiling and a Polaroid. <b>Cain &amp; Abel’s</b> does $1 beers, on Tuesdays. Then there’s <b>Hole in the Wall</b> for karaoke, <b>Dirty Martin’s</b> and <b>The Cauldron</b>.</p>
+<h3>Getting home</h3>
+<p>Buda is about 25 minutes south, and the bus doesn’t go there, so pick a driver or split an Uber. In town, the <b>Night Owl</b> buses run midnight to 3 a.m., free with your UT ID. Go together, leave together, and tip your bartenders.</p>
+<p class="st-tip">All of this is 21+ to drink. Nobody at Mavs cares if you can dance, only that you tried.</p>
+<button type="button" class="cta" data-plan-mood="social">Plan a social Saturday →</button>
+</template>
+
 <template id="story-football" data-hash="texas-football">
 <p class="st-kicker">The Column · No. 13 · Football</p>
 <h2>Texas football <em>for dummies.</em></h2>
@@ -1670,6 +1699,6 @@
     </div>
 </dialog>
 <script src="web/samples.js?v=1" defer></script>
-<script src="web/app.js?v=76" defer></script>
+<script src="web/app.js?v=77" defer></script>
 </body>
 </html>

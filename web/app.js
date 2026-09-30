@@ -743,6 +743,7 @@
     // the traditions that come back on the same schedule every year
     const EVERY_YEAR = [
         { when: 'Every week', name: 'The Concourse Project', where: '8509 Burleson Rd', note: 'Austin’s electronic music hall. DJs most weekends, until late.', link: 'https://concourseproject.com' },
+        { when: 'Thursdays', name: 'College night at Mavs', where: 'Mavericks Dance Hall, Buda', note: 'Two-stepping, five bars and a big patio, 25 minutes south. Check the age rule first.', link: 'https://buda.mavericksdancehall.com' },
         { when: 'Game days', name: 'Victory Lap', where: '504 W 24th St', note: 'The Longhorns sports bar by campus. Opens early on game days; trivia every Tuesday.' },
         { when: 'Mar–Oct', name: 'The bats', where: 'Congress Avenue Bridge', note: 'About 1.5 million of them fly out at sunset.' },
         { when: 'Spring', name: 'ABC Kite Fest', where: 'Zilker Park', note: 'A Saturday in late March or April. The sky fills with kites.' },
@@ -885,7 +886,7 @@
                      'vegan-edit': 'vegan', 'neighborhoods': 'hoods', 'college-town': 'college', 'worth-a-follow': 'follow',
                      'texas-football': 'football', 'austin-history': 'history',
                      'best-coffee': 'coffee', 'best-mexican': 'mexican', 'best-indian': 'indian', 'capmetro': 'bus',
-                     'best-brunch': 'brunch', 'study-spots': 'study', 'first-dates': 'date', 'zero-dollar-saturday': 'free', 'cowboy-boots': 'boots' };
+                     'best-brunch': 'brunch', 'study-spots': 'study', 'first-dates': 'date', 'zero-dollar-saturday': 'free', 'cowboy-boots': 'boots', 'college-night': 'thursday' };
     document.querySelectorAll('[data-open-story]').forEach(a => a.addEventListener('click', e => {
         e.preventDefault();
         history.replaceState(null, '', '#' + Object.keys(HASHES).find(k => HASHES[k] === a.dataset.openStory));
