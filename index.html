@@ -185,9 +185,7 @@
         .big em { color: var(--pink); font-weight: 400; }
         .dek { margin: 16px 0 0; font-family: var(--typewriter); font-size: 15px; line-height: 1.5; }
         .method { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px 48px; align-content: start; padding-top: 6px; }
-        .method .numbers { grid-column: 2; grid-row: 1; border-bottom: 0; padding-bottom: 0; }
-        .method-intro { grid-column: 1; grid-row: 1; }
-        .method-intro .dek { font-size: 13.5px; }
+        .method .numbers { grid-column: 1 / -1; grid-row: 1; border-bottom: 0; padding-bottom: 0; }
         /* The Column: three stories, magazine covers */
         .screen.column { min-height: 0; overflow-y: auto; }
         .column { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 22px; padding-top: 6px; }
@@ -460,7 +458,7 @@
             .atx { max-height: none; }
             .wx-saturday { display: block; }
             .wx-saturday .cta { margin-top: 14px; }
-            .method .numbers, .method-intro { grid-column: 1; grid-row: auto; }
+            .method .numbers { grid-column: 1; grid-row: auto; }
             .card:not(:nth-child(3n + 1)) { padding-left: 0; border-left: 0; }
             .figs { grid-template-columns: 1fr 1fr; }
             .figs div:nth-child(3) { padding-left: 0; border-left: 0; }
@@ -744,11 +742,6 @@
                     <div><b>86</b><span>tests keeping Saturday civilized</span></div>
                 </div>
             </div>
-        </div>
-        <div class="method-intro">
-            <p class="kicker">The Method</p>
-            <h2 class="big">Okay, but how is it<br><em class="nowrap">in the know?</em></h2>
-            <p class="dek">Austin became a graph. My opinions became rules. The planner finds the one day that fits.</p>
         </div>
         <h3 class="cards-title">The science of <em>Saturday.</em></h3>
         <div class="cards">
@@ -1221,6 +1214,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=49" defer></script>
+<script src="web/app.js?v=50" defer></script>
 </body>
 </html>

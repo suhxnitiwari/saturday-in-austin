@@ -379,7 +379,7 @@
         cards.style.gridTemplateRows = tracks.map((x, i) => i % per === 0 ? x + 'px' : 'auto').join(' ');  // only the picture rows are pinned
     }
     const refit = new ResizeObserver(() => fillCards());
-    [method, method.querySelector('.method-intro'), method.querySelector('.numbers')].forEach(e => e && refit.observe(e));
+    [method, method.querySelector('.numbers')].forEach(e => e && refit.observe(e));
     window.addEventListener('resize', fillCards);
     method.addEventListener('refit', fillCards);
     document.fonts?.ready.then(fillCards);
