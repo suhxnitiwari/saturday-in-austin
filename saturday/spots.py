@@ -116,7 +116,7 @@ class Mood:
 RULES = {
     "everything": Mood(),
     "slow": Mood(late=True),  # a slow morning, lattes, bookstores, nowhere to be
-    "social": Mood(need=(), want=("hangout",)),  # Victory Lap or Topgolf with everyone
+    "social": Mood(need=(), want=("hangout",)),  # Victory Lap or Peter Pan with everyone
     "creative": Mood(want=("creative",), caps={"creative": 2}),  # studios, murals, a show at night
     "foodie": Mood(need=(), caps={"midday meal": 2, "treat": 2}),  # brunch AND lunch, on purpose
     "outside": Mood(caps={"outdoor": 2}),  # two adventures, never back to back

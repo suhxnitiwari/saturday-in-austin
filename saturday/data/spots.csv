@@ -3,7 +3,6 @@ Medici,West Campus,coffee,60,10,foodie|productive|slow|social,,7,vanilla latte
 Medici (West Lynn),Clarksville,coffee,60,10,foodie|productive|slow|social,,7,"vanilla latte, the West Lynn one"
 Mozart's,Lake Austin / West Austin,coffee,60,8,creative|foodie|productive|slow,,7,lake view
 Black Fox,Downtown,coffee,30,7,foodie|outside|productive|shopping,,7,
-Two Hands,Campus,coffee,30,7,foodie|productive|shopping|social,,7,
 Jo's Coffee,South Congress,coffee,30,8,creative|foodie|shopping|social,,7,the I love you so much mural
 Epoch Coffee,North Loop,coffee,90,8,creative|foodie|productive,,7,open 24/7
 Bennu Coffee,East Austin,coffee,90,7,foodie|productive,,7,open 24/7
@@ -26,16 +25,13 @@ Josephine House,Clarksville,brunch,90,8,day-in|foodie|slow,,25,
 Café No Sé,South Congress,brunch,90,7,creative|foodie|shopping|social,,25,
 Snooze,North Loop,brunch,90,8,day-in|foodie|social,,22,"pancake flight: pineapple upside-down, cinnamon, banana bliss"
 June's All Day,South Congress,brunch,90,8,foodie|shopping|social,,25,pastries and mimosas
-Toastique,Domain,brunch,60,8,foodie|shopping|treat-myself,,18,smoothie bowls and fancy toast
 Juliet,Zilker,brunch,90,8,foodie|social,yes,35,the pink patio
 Kerbey Lane Cafe,Campus,brunch,60,7,day-in|foodie|shopping|social,,18,queso and pancakes
 Magnolia Cafe,South Congress,brunch,60,7,day-in|foodie|shopping,,18,gingerbread pancakes
 Bouldin Creek Cafe,South Congress,brunch,60,7,day-in|foodie|shopping|slow,,25,
 Paperboy,East Austin,brunch,60,8,foodie|outside|slow,,25,
 Bird Bird Biscuit,East Austin,brunch,30,8,day-in|foodie|outside,,12,the Queen Beak
-Sweetgreen,Campus,lunch,30,6,foodie|outside|productive|shopping,,15,custom guacamole greens bowl
 Veracruz,East Austin,lunch,30,7,creative|foodie|outside|social,,12,
-Torchy's Tacos,South Congress,lunch,30,7,foodie|outside|shopping|social,,14,trailer park
 Tacodeli,Barton Hills / Greenbelt,lunch,30,7,foodie|outside,,15,
 Better Half,Clarksville,lunch,60,8,foodie|slow,,15,patio lunch
 Franklin Barbecue,East Austin,lunch,120,9,foodie|social,,30,worth the line
@@ -55,7 +51,6 @@ M Vince Nail Spa,Domain,nails,90,9,treat-myself,,60,chandelier and a glass of so
 Milano Nail Spa,East Austin,nails,90,9,treat-myself,,50,the big glam one
 Caesars Nail Salon & Spa,Domain,nails,90,7,treat-myself,,50,
 Prana Wellness Club,Clarksville,exercise,60,8,productive,,30,Pilates: the best reset
-Solidcore,South Congress,exercise,60,7,productive,,30,Pilates
 Barton Creek Greenbelt,Barton Hills / Greenbelt,hike,120,9,outside,,0,hike to the Gus Fruh swimming hole
 Mount Bonnell,Lake Austin / West Austin,hike,60,8,outside|social,,0,the best view in town
 Lady Bird Lake Trail,Downtown,park,90,8,foodie|outside|slow,,0,walk a piece of the 10-mile loop
@@ -68,9 +63,7 @@ Laguna Gloria,Lake Austin / West Austin,park,60,8,creative|slow,,10,art on the l
 Mayfield Park,Lake Austin / West Austin,park,45,7,slow,,0,the peacocks
 Congress Bridge Bats,Downtown,sunset,30,8,foodie|outside|social,,0,1.5 million bats at dusk
 Victory Lap,West Campus,hangout,150,10,social,,20,the game on the jumbotron
-Topgolf,Domain,hangout,120,8,social,,40,
 Alamo Drafthouse,South Lamar,cinema,150,9,slow|social,,25,dinner and a movie in one
-Lick Honest Ice Creams,South Lamar,treat,30,8,foodie|slow,,7,goat cheese thyme and honey
 Big Top Candy Shop,South Congress,treat,30,7,foodie|shopping|social,,7,
 Numero 28,Downtown,dinner,90,10,foodie|slow|social,yes,45,good memories
 Yamas,Downtown,dinner,90,9,foodie|social,yes,40,Mediterranean
@@ -94,7 +87,6 @@ Guero's Taco Bar,South Congress,dinner,90,7,creative|foodie|outside|social,,25,
 Loro,South Lamar,dinner,90,8,foodie|outside|social,,40,
 Ramen Tatsu-Ya,South Lamar,dinner,60,8,foodie|productive|slow,,20,
 Pizza Press,West Campus,late night,30,6,foodie|productive|social,,10,the late-night guilty pleasure
-Voodoo Doughnut,Downtown,late night,30,6,foodie|social,,6,
 Pizza Press (order in),Home,order in,30,9,day-in,,22,the guilty pleasure comes to you
 Home Slice (order in),Home,order in,30,8,day-in,,22,
 Via 313 (order in),Home,order in,30,8,day-in,,22,Detroit-style
@@ -107,6 +99,10 @@ Kerbey Lane (delivered),Home,brunch,60,8,day-in,,25,pancakes in pajamas
 Sweetgreen (delivered),Home,lunch,30,7,day-in,,15,
 Thunderbird Coffee,East Austin,coffee,60,7,creative|foodie|productive,,7,
 Seventh Flag Coffee,South Congress,coffee,60,7,foodie|productive|shopping|slow,,7,
+Soup Peddler,South Lamar,smoothie,30,8,foodie|outside|productive,,10,build-your-own smoothies
+Get Juicy Roots,South Congress,smoothie,30,8,foodie|outside|shopping,,10,"the SoCo juice truck, açaí bowls"
+Wonky Blends,East Austin,smoothie,30,8,foodie|outside|slow,,11,"organic, no refined sugar"
+Juiced Up Cafe,Downtown,smoothie,30,8,foodie|productive,,10,a juice bar inside a yoga studio
 Sugarwolf Bakery,Downtown,coffee,45,5,foodie|social,,14,"the new, pretty, popular one. Great location, sadly overhyped"
 Opa! Coffee & Wine Bar,South Lamar,coffee,60,8,foodie|slow|social,,12,"Greek coffee by day, wine by night, porch swings"
 2nd & Roast,Downtown,coffee,30,8,foodie|productive,,7,Medici coffee in the W lobby
@@ -127,7 +123,6 @@ Kerlin BBQ,East Austin,lunch,60,8,foodie,,22,
 Home Slice Pizza,South Congress,lunch,60,8,creative|foodie|shopping|social,,12,a slice on SoCo
 Mi Madre's,East Austin,lunch,60,8,foodie|outside,,14,breakfast tacos all day
 Chi'Lantro,Campus,lunch,30,7,creative|foodie|productive|shopping,,13,kimchi fries
-P. Terry's,South Lamar,lunch,30,7,foodie|outside|productive,,10,
 Uncle Nicky's,Hyde Park,lunch,60,7,foodie|slow,,15,
 Cabo Bob's,West Campus,lunch,30,8,foodie|productive|social,,12,burritos on hand-pressed tortillas
 The Picnic,Zilker,lunch,60,7,foodie|outside|social,,15,food trucks by the park
@@ -140,8 +135,6 @@ Uchiko,North Loop,dinner,120,9,foodie,yes,90,
 Kemuri Tatsu-ya,East Austin,dinner,90,8,foodie|social,,40,
 Nixta Taqueria,East Austin,dinner,60,9,creative|foodie,,30,
 Fonda San Miguel,North Loop,dinner,90,8,foodie|slow,yes,50,the most beautiful dining room
-Hopdoddy,South Congress,dinner,60,7,foodie|outside|social,,20,burgers and truffle fries
-Chuy's,Zilker,dinner,60,7,creative|foodie|social,,20,
 Maie Day,South Congress,dinner,90,8,foodie,yes,70,
 Red Ash,Downtown,dinner,90,8,foodie,yes,70,
 Hestia,Downtown,dinner,120,9,foodie,yes,150,the splurge
@@ -156,14 +149,12 @@ Sweet Ritual,North Loop,treat,30,7,foodie|slow,,7,
 Hey Cupcake!,South Congress,treat,30,7,foodie|shopping|social,,7,the silver trailer
 Tiny Pies,South Lamar,treat,30,7,foodie|slow,,7,
 The Salty,South Congress,treat,30,8,foodie|shopping|social,,8,the fancy donuts
-Jeni's Splendid Ice Creams,South Congress,treat,30,8,foodie|shopping,,7,
 Toy Joy,Downtown,shopping,45,7,creative|shopping|slow,,15,
 Half Price Books,North Loop,shopping,60,7,productive|shopping|slow,,10,
 First Light Books,Hyde Park,shopping,60,9,creative|productive|shopping|slow,,20,books and a coffee window in an old post office
 Paper Source,Domain,shopping,45,8,creative|shopping|treat-myself,,25,cards and pretty pens
 Erin Condren,Domain,shopping,45,8,creative|productive|shopping|treat-myself,,30,the flagship: planners made while you wait
 The Paper + Craft Pantry,East Austin,shopping,60,8,creative|shopping|slow,,25,stationery and craft workshops
-Buffalo Exchange,Campus,shopping,60,7,creative|shopping|social,,20,thrift finds
 Feathers Boutique,South Congress,shopping,60,7,creative|shopping,,25,vintage
 Second Street District,Downtown,shopping,90,7,foodie|shopping|social,,40,
 Antone's Record Shop,North Loop,shopping,45,7,creative|shopping,,15,
@@ -206,5 +197,3 @@ Colleen's Kitchen,Mueller,brunch,60,8,foodie|slow,,25,
 Citizen All Day,North Loop,brunch,75,8,foodie|social,,25,banana bread French toast
 Lutie's,Hyde Park,brunch,90,8,foodie,yes,45,garden brunch at Commodore Perry Estate
 Thinkery,Mueller,museum,90,7,creative,,20,the hands-on science museum
-JuiceLand (Guadalupe),Campus,smoothie,30,7,foodie|outside|productive|slow|social,,10,
-JuiceLand (Barton Springs),Zilker,smoothie,30,8,foodie|outside|slow|social,,10,the Barton Springs original
