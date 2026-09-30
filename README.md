@@ -8,7 +8,7 @@
 
 **[Try it live →](https://suhxnitiwari.github.io/saturday-in-austin/)** (the Python runs right in your browser)
 
-I gave Python my favorite Austin spots and, apparently, my opinions about how a Saturday should work. Coffee belongs in the morning. Saturday is for brunch. You probably want to shower after Pilates. And I'm not sending you from South Congress to the Domain and back for no reason.
+A Saturday planner for UT Austin students: tell it your hours, your mood, your budget and how you're getting around (the bus is free with a UT ID), and it plans the day. I gave Python my favorite Austin spots and, apparently, my opinions about how a Saturday should work. Coffee belongs in the morning. Saturday is for brunch. You probably want to shower after Pilates. And I'm not sending you from South Congress to the Domain and back for no reason.
 
 ```
 $ python -m saturday --start 8:00 --back 22:00 --seed 54
@@ -67,11 +67,16 @@ When a rule shapes the day, the plan says so: *"It's Saturday. We're getting bru
 
 ## On the website
 
-- **Getting around:** Car, Uber, Bus + walk or Walk, from wherever you're starting. Uber days show the fares; bus days take at most one bus somewhere and walk the rest (the CapMetro map is an approximation of MetroRapid 801/803 and a few local routes, so check the CapMetro app for live times).
-- **Budget:** Student, Normal or Splurge, with a rough total for the day (food, tickets and Ubers).
-- **💌 Send it as a letter:** the day becomes a Bridgerton-style letter to a friend, with a link that opens the exact same Saturday.
-- **The map:** every neighborhood in the planner, numbered on a simplified street map, with the drives the planner knows between them. Tap one to see them.
-- **Austin, right now:** live weather and sunset from Open-Meteo, plus Austin's population from the U.S. Census Bureau's July 2025 estimate (1,002,632), on the Austin page, with a flip to the planner's own numbers. If it's raining in Austin, Rainy day turns itself on.
+- **Built for UT students:** it starts on Bus + walk and a Student budget. Every stop opens in Google Maps with directions for how you're getting around.
+- **Swipe to plan:** a deck of 12 places for your mood and your hours. Right is yes, left is no, and the planner builds the day around the yeses (every yes goes in if the day can hold them).
+- **Swipe with friends:** send the deck to the group chat. Everyone swipes the same cards, and the last person plans the Saturday the group actually agrees on.
+- **What's on:** an Austin calendar (ACL and its lineup, F1, SXSW, concerts, festivals, and the traditions that come back every year), plus every Longhorns game, live from ESPN.
+- **It knows what's happening this Saturday:** Zilker Park is off-limits on ACL weekends, F1 weekend comes with a traffic warning, and home games get a game-day plan: *Saturdays are for the boys.* Away games? Watch at Victory Lap.
+- **The Column:** my articles, on a Pinterest-style board: the best coffee, Mexican and Indian food, the bus guide, Texas football for dummies, Austin's history, and more.
+- **Getting around and budget:** Car, Uber, Bus + walk or Walk; Student, Normal or Splurge, with a rough total for the day.
+- **Take it with you:** download any Saturday as a PDF, or send it as a Bridgerton-style 💌 letter with a link that opens the exact same day.
+- **The map and Austin, right now:** every neighborhood on a simplified street map, live weather and sunset (if it's raining, Rainy day turns itself on), and Longhorns scores.
+- **An app on your phone:** add it to your home screen. After the first visit it opens fast and still plans with no signal.
 
 ## How it works
 
@@ -79,7 +84,10 @@ When a rule shapes the day, the plan says so: *"It's Saturday. We're getting bru
 2. **Lottery** (`planner.shortlist`): filter by mood, neighborhood, weather and your "absolutely not," then draw about a dozen candidates with **weighted sampling without replacement** (Efraimidis–Spirakis: each place gets the key `random() ** (1 / weight)` and the biggest keys win). Weight grows with how much I love a place and shrinks with how far away it is.
 3. **Rules** (`rules.py`): every kind of stop has a `Kind`: how filling it is, whether it's a workout, whether you can show up sweaty, when it closes, the hours it's best at. `step(state, spot)` says whether a person would make that move, where the state is five tiny numbers (just worked out? just ate? just changed? had coffee? had cocktails?). `cost(...)` prices travel and timing. `explain(...)` writes the notes.
 4. **Plan** (`planner.plan_day`): **dynamic programming over subsets** (bitmask DP). A state is which places you've been, how many of each kind, the person state, the last stop and when you finish it; each keeps its cheapest cost. The winner scores `10 × joy − travel − timing − energy`. That turns n! orderings into a search that runs in a fraction of a second, in the browser.
-5. **Check** (`tests/`): 86 tests. A **backtracking** search that really tries every order, with every rule, runs on dozens of random days and the DP has to match its best score every time. The people rules are tested one by one: Pilates → coffee → shower is valid, Pilates → coffee → shopping is not, brunch → lunch 45 minutes later never happens, and nothing is scheduled outside its hours.
+5. **Group votes in a link** (`web/app.js`): each friend's yeses are a 12-bit mask, three hex characters in the share link. A place makes the group's day if at least half the masks have its bit set; nobody's yes means it's skipped. No accounts, no server.
+6. **The city's calendar** (`web/app.js`, `web.plan_json`): ESPN's schedule says whether the Longhorns are home this Saturday (the game is off the list otherwise), and festival closures are passed to the planner as places to skip.
+7. **Fast and offline** (`sw.js`, `web/make_samples.py`): a service worker keeps Pyodide and the photos on the phone after the first visit. A first-time visitor sees a real Saturday instantly from a few baked plans, and a test checks that each one still matches the planner exactly.
+8. **Check** (`tests/`): 95 tests. A **backtracking** search that really tries every order, with every rule, runs on dozens of random days and the DP has to match its best score every time. The people rules are tested one by one: Pilates → coffee → shower is valid, Pilates → coffee → shopping is not, brunch → lunch 45 minutes later never happens, and nothing is scheduled outside its hours.
 
 Every Saturday has a number. The randomness is seeded, so Saturday #184 is always the same Saturday.
 
