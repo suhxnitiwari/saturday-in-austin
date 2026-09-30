@@ -181,6 +181,17 @@
         .method .numbers { grid-column: 2; grid-row: 1; border-bottom: 0; padding-bottom: 0; }
         .method-intro { grid-column: 1; grid-row: 1; }
         .method-intro .dek { font-size: 13.5px; }
+        /* The Column: three stories, magazine covers */
+        .screen.column { min-height: 0; overflow-y: auto; }
+        .column { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 22px; padding-top: 6px; }
+        .column-head .big em { color: var(--pink); font-weight: 400; }
+        .column-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; min-height: 0; }
+        .story { display: grid; grid-template-rows: minmax(160px, 1fr) auto auto auto; min-height: 0; padding-top: 14px; border-top: 4px double var(--line); }
+        .story-img { display: grid; place-items: center; min-height: 160px; background: var(--blush); border: 1px solid var(--line); outline: 1px solid var(--gold); outline-offset: 4px; margin: 4px 4px 18px; font-family: var(--display); font-style: italic; font-size: 18px; color: var(--pink-ink); }
+        .story-no { margin: 0; font-size: 10.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+        .story h3 { margin: 6px 0 0; font-family: var(--display); font-weight: 500; font-size: clamp(24px, 2.2vw, 32px); line-height: 1.1; }
+        .story h3 em { color: var(--pink); font-weight: 400; }
+        .story-soon { margin: 8px 0 0; font-family: var(--typewriter); font-size: 13px; color: var(--grey); }
         .cards-title { grid-column: 1 / -1; margin: 6px 0 -8px; font-family: var(--display); font-weight: 500; font-size: clamp(24px, 2.2vw, 32px); line-height: 1.1; }
         .cards-title em { color: var(--pink); font-weight: 400; }
         .cards { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 4px double var(--line); }
@@ -386,7 +397,7 @@
             header { grid-template-columns: 1fr; gap: 12px; align-items: start; }
             h1 { white-space: normal; }
             .sections { flex-wrap: wrap; }
-            .method, .editor, .numbers, .austin, .cards { grid-template-columns: 1fr; gap: 28px; }
+            .method, .editor, .numbers, .austin, .cards, .column-grid { grid-template-columns: 1fr; gap: 28px; }
             .atx { max-height: none; }
             .wx-saturday { display: block; }
             .wx-saturday .cta { margin-top: 14px; }
@@ -457,6 +468,7 @@
             <button type="button" role="tab" data-screen="plan" aria-selected="true">Plan</button>
             <button type="button" role="tab" data-screen="austin" aria-selected="false">Austin</button>
             <button type="button" role="tab" data-screen="editor" aria-selected="false">The Editor</button>
+            <button type="button" role="tab" data-screen="column" aria-selected="false">The Column</button>
             <button type="button" role="tab" data-screen="method" aria-selected="false">The Method</button>
             <a href="https://github.com/suhxnitiwari/saturday-in-austin">Code ↗</a>
         </nav>
@@ -571,6 +583,33 @@
             </div>
         </aside>
     </main>
+
+    <section class="screen column" id="screen-column" hidden>
+        <div class="column-head">
+            <p class="kicker">The Column</p>
+            <h2 class="big">Opinions, <em>strongly held.</em></h2>
+        </div>
+        <div class="column-grid">
+            <article class="story">
+                <div class="story-img">Image coming soon</div>
+                <p class="story-no">No. 01 · Coffee</p>
+                <h3>The best coffee in <em>Austin.</em></h3>
+                <p class="story-soon">The editor’s picks, coming soon.</p>
+            </article>
+            <article class="story">
+                <div class="story-img">Image coming soon</div>
+                <p class="story-no">No. 02 · Mexican</p>
+                <h3>The best Mexican food in <em>Austin.</em></h3>
+                <p class="story-soon">The editor’s picks, coming soon.</p>
+            </article>
+            <article class="story">
+                <div class="story-img">Image coming soon</div>
+                <p class="story-no">No. 03 · Indian</p>
+                <h3>The best Indian food in <em>Austin.</em></h3>
+                <p class="story-soon">The editor’s picks, coming soon.</p>
+            </article>
+        </div>
+    </section>
 
     <section class="screen method" id="screen-method" hidden>
         <div class="numbers">
