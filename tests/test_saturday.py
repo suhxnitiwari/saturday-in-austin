@@ -93,24 +93,24 @@ def sequence(guide, *spot_names):
 
 
 def test_1_pilates_then_coffee_then_shower_is_fine(guide):
-    assert rules.valid(sequence(guide, "Orangetheory Fitness Triangle", "Black Fox", "shower"))
+    assert rules.valid(sequence(guide, "Prana Wellness Club", "Black Fox", "shower"))
 
 
 def test_2_pilates_then_a_latte_then_shower_is_fine(guide):
-    assert rules.valid(sequence(guide, "Orangetheory Fitness Triangle", "Medici", "shower"))
+    assert rules.valid(sequence(guide, "Prana Wellness Club", "Medici", "shower"))
 
 
 def test_3_pilates_then_shower_is_fine(guide):
-    assert rules.valid(sequence(guide, "Orangetheory Fitness Triangle", "shower", "Josephine House"),
+    assert rules.valid(sequence(guide, "Prana Wellness Club", "shower", "Josephine House"),
                        starts=[9 * 60, 10 * 60, 11 * 60 + 30])
 
 
 def test_4_pilates_then_shopping_is_not(guide):
-    assert not rules.valid(sequence(guide, "Orangetheory Fitness Triangle", "South Congress", "shower"))
+    assert not rules.valid(sequence(guide, "Prana Wellness Club", "South Congress", "shower"))
 
 
 def test_5_pilates_coffee_shopping_is_not(guide):
-    assert not rules.valid(sequence(guide, "Orangetheory Fitness Triangle", "Black Fox", "South Congress", "shower"))
+    assert not rules.valid(sequence(guide, "Prana Wellness Club", "Black Fox", "South Congress", "shower"))
 
 
 def test_6_brunch_then_lunch_is_not(guide):
@@ -156,9 +156,9 @@ def test_8_saturday_brunch_favorites_win(guide):
 
 
 def test_9_workout_then_brunch_allows_coffee_not_breakfast(guide):
-    assert rules.valid(sequence(guide, "Orangetheory Fitness Triangle", "Black Fox", "shower", "Josephine House"),
+    assert rules.valid(sequence(guide, "Prana Wellness Club", "Black Fox", "shower", "Josephine House"),
                        starts=[8 * 60, 9 * 60, 9 * 60 + 30, 11 * 60])
-    assert not rules.valid(sequence(guide, "Orangetheory Fitness Triangle", "shower", "Kerbey Lane Cafe", "Josephine House"),
+    assert not rules.valid(sequence(guide, "Prana Wellness Club", "shower", "Kerbey Lane Cafe", "Josephine House"),
                            starts=[8 * 60, 9 * 60, 10 * 60, 11 * 60 + 30])
 
 
@@ -192,7 +192,7 @@ def test_no_coffee_after_dinner(guide):
 
 
 def test_after_a_workout_only_coffee_or_a_smoothie(guide):
-    pilates = guide.find("Orangetheory Fitness Triangle")
+    pilates = guide.find("Prana Wellness Club")
     for nice in ("Aba", "Josephine House", "BookPeople", "Blanton Museum of Art"):
         assert not rules.valid([pilates, guide.find(nice)], [9 * 60, 10 * 60 + 30])  # a shower is missing from this story
         assert not rules.valid([pilates, guide.find("Black Fox"), guide.find(nice)], [9 * 60, 10 * 60, 11 * 60])
@@ -200,7 +200,7 @@ def test_after_a_workout_only_coffee_or_a_smoothie(guide):
                        [8 * 60, 9 * 60, 10 * 60, 17 * 60])
 
 def test_no_workout_after_cocktails(guide):
-    pilates = guide.find("Orangetheory Fitness Triangle")
+    pilates = guide.find("Prana Wellness Club")
     for drinks in ("Josephine House", "Cidercade"):
         assert not rules.valid([guide.find(drinks), guide.find("BookPeople"), guide.find("Blanton Museum of Art"), pilates],
                                [10 * 60, 13 * 60, 14 * 60, 17 * 60])  # absolutely not
@@ -216,7 +216,7 @@ def test_planned_days_skip_coffee_after_brunch_and_pilates_after_drinks():
                 assert not (k == "exercise" and any(rules.KINDS[x].drinks for x in kinds[:i]))
 
 def test_the_person_state_moves_like_a_person(guide):
-    pilates, coffee, lunch = guide.find("Orangetheory Fitness Triangle"), guide.find("Black Fox"), guide.find("Veracruz")
+    pilates, coffee, lunch = guide.find("Prana Wellness Club"), guide.find("Black Fox"), guide.find("Veracruz")
     s = rules.step(rules.START, pilates, 9 * 60, 0)
     assert s[0] == 2                                   # sweaty
     s = rules.step(s, coffee, 10 * 60, 60)
@@ -286,7 +286,7 @@ def test_planner_finds_the_best_day_every_time(city, guide):
     rng = random.Random(2026)
     pool = [s for s in guide.spots if s.name not in guide.home_spots]
     for _ in range(40):
-        spots = rng.sample(pool, 6) + [guide.find("Orangetheory Fitness Triangle")] + rules.resets("Campus / UT Corridor")[:1]
+        spots = rng.sample(pool, 6) + [guide.find("Prana Wellness Club")] + rules.resets("Campus / UT Corridor")[:1]
         leave = rng.choice([8, 9, 10, 12]) * 60
         end = leave + rng.choice([3, 5, 8, 11]) * 60
         plan = plan_day(spots, city, "Campus / UT Corridor", leave, end, need=())
