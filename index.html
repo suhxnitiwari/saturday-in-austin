@@ -555,6 +555,20 @@
         .contact-links a { font-family: var(--display); font-size: 11.5px; font-weight: 500; letter-spacing: 0.32em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
         .contact-links a:hover, .contact-links a:focus-visible { color: var(--orange); }
         .contact-copy { margin: 0; white-space: nowrap; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--orange-ink); }
+        /* footer: the day's last route, links as stops on a line, ending at me */
+        .route { display: flex; align-items: center; flex: 1; margin: 0; padding: 0; list-style: none; }
+        .route li { display: flex; align-items: center; white-space: nowrap; }
+        .route li + li::before { content: ""; width: clamp(18px, 4vw, 64px); height: 2px; background: var(--ink); }
+        .route li:not(.route-start) > *::before, .route-end::after { content: none; }
+        .route a, .route-end { display: flex; align-items: center; gap: 8px; margin-left: 10px; font-family: var(--display); font-size: 11.5px; font-weight: 500; letter-spacing: 0.32em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
+        .route a::before { content: ""; width: 9px; height: 9px; border: 2px solid var(--ink); border-radius: 50%; background: var(--paper); }
+        .route a:hover, .route a:focus-visible { color: var(--orange); }
+        .route a:hover::before { border-color: var(--orange); }
+        .route-start { font-family: var(--display); font-style: italic; font-size: 13px; color: var(--orange-ink); margin-right: 10px; }
+        .route-start + li::before { content: none; }
+        .route-end { font-style: italic; font-size: 15px; letter-spacing: 0; text-transform: none; color: var(--orange-ink); }
+        .route-end::before { content: ""; width: 12px; height: 12px; border-radius: 50%; background: var(--orange); }
+        @media (max-width: 1000px) { .route-start { display: none; } .route li + li::before { width: 10px; } .route a, .route-end { margin-left: 6px; gap: 5px; font-size: 10px; letter-spacing: 0.12em; } .route-end { font-size: 12px; } }
         @media (max-width: 1000px) { .contact { flex-wrap: nowrap; gap: 12px; margin-top: 0; padding: 10px 0 0; } .contact-links { flex-wrap: nowrap; gap: 0; } .contact-links em, .contact-copy, .rsvp { display: none; } .contact-links { flex: 1; justify-content: flex-start; } .contact-links a { font-size: 10px; letter-spacing: 0.12em; } .contact-links li + li::before { margin: 0 8px; } .rsvp { font-size: 17px; } }
         @media (max-width: 1000px), (max-height: 640px) {
             .screen, .austin { overflow: visible !important; }  /* phones scroll the page, never a box inside it */
@@ -1229,13 +1243,15 @@
         </aside>
     </section>
     <footer class="contact" id="say-hi">
-        <ul class="contact-links">
+        <!-- the last route of the day: my links as stops on the map, ending at me -->
+        <ol class="route" aria-label="Last stop of the day">
+            <li class="route-start">Last stop</li>
             <li><a href="mailto:suhxnitiwari@gmail.com">Email</a></li>
             <li><a href="https://www.instagram.com/suhxnitiwari/" target="_blank" rel="noopener">Instagram</a></li>
             <li><a href="https://www.linkedin.com/in/suhxnitiwari/" target="_blank" rel="noopener">LinkedIn</a></li>
             <li><a href="https://github.com/suhxnitiwari" target="_blank" rel="noopener">GitHub</a></li>
-        </ul>
-        <p class="contact-copy">Suhani Tiwari</p>
+            <li class="route-end">Suhani Tiwari</li>
+        </ol>
     </footer>
 </div>
 
