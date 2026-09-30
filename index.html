@@ -181,9 +181,10 @@
         .stats div + div { border-left: 1px solid var(--line); }
         .stats b { display: block; font-family: var(--display); font-weight: 500; font-size: 22px; line-height: 1; }
         .stats span { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--grey); }
-        .again-row { display: grid; grid-template-columns: 1fr auto auto; border-top: 1px solid var(--line); }
+        .again-row { display: grid; grid-template-columns: 1fr auto auto auto; border-top: 1px solid var(--line); }
         .seal-it { width: 52px; border: 0; border-left: 1px solid var(--line); background: var(--paper); font-size: 22px; cursor: pointer; }
         .seal-it:hover { background: var(--blush); }
+        .save-it { font-family: var(--display); color: var(--pink-ink); }
         .seal-it:disabled { opacity: 0.4; cursor: progress; }
         .again { height: 46px; border: 0; background: var(--pink); color: var(--paper); font-size: 11.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: background .12s; }
         .again:hover { background: var(--ink); color: var(--paper); }
@@ -487,7 +488,7 @@
             .block { grid-template-columns: minmax(0, 1fr); }
             .sec .mini { float: none; display: flex; width: max-content; margin: 10px 0 0; }
             .block.when .span2 { grid-column: 1 / -1; }
-            .again-row { grid-template-columns: 1fr auto; }
+            .again-row { grid-template-columns: 1fr auto auto; }
             .again-row .number { grid-column: 1 / -1; }
             .number { border-left: 0; border-top: 1px solid var(--line); padding: 10px 14px; }
         }
@@ -649,6 +650,7 @@
                 <div class="stats" hidden></div>
                 <div class="again-row">
                     <button type="button" class="again" disabled>Give me another Saturday</button>
+                    <button type="button" class="seal-it save-it" disabled aria-label="Download this Saturday as a PDF" title="Download as a PDF">↓</button>
                     <button type="button" class="seal-it" disabled aria-label="Send this Saturday as a letter" title="Send as a letter">💌</button>
                     <p class="number"></p>
                 </div>
@@ -880,7 +882,7 @@
                     <div><b>∞</b><span>opinions</span></div>
                 </div>
                 <div class="figs" data-flip-page data-title="Longhorns, this season · Hook ’em" hidden>
-                    <div><b data-tx="record">…</b><span>overall record</span></div>
+                    <div><b data-tx="record">…</b><span>SEC record</span></div>
                     <div><b data-tx="standing">…</b><span>in the SEC</span></div>
                     <div><b data-tx="last">…</b><span data-tx="last-label">last game</span></div>
                     <div><b data-tx="next">…</b><span data-tx="next-label">next game</span></div>
@@ -1233,6 +1235,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=44" defer></script>
+<script src="web/app.js?v=45" defer></script>
 </body>
 </html>

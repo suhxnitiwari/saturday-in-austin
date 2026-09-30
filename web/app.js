@@ -119,7 +119,7 @@
         number.textContent = `xoxo, Saturday #${plan.seed}`;
         verdict(plan);
         lastPlan = plan;
-        document.querySelector('.seal-it').disabled = false;
+        document.querySelectorAll('.seal-it, .save-it').forEach(b => { b.disabled = false; });
         if (autoRain && form.elements.rainy.checked) {
             sassBox.prepend(el('p', null, 'Rain in the Saturday forecast, so I turned on Rainy day.'));
             sassBox.hidden = false;
@@ -362,7 +362,7 @@
         return lines.join('\n').replace(/\n{3,}/g, '\n\n');
     }
     const refreshLetter = () => { if (lastPlan) letterBody.textContent = composeLetter(lastPlan); };
-    document.querySelector('.seal-it').addEventListener('click', () => {
+    document.querySelector('.seal-it:not(.save-it)').addEventListener('click', () => {
         letterNote.textContent = '';
         refreshLetter();
         letterBox.showModal();
@@ -566,16 +566,19 @@
     // Longhorns football, live from ESPN: record, SEC standing, last score, next game
     const tx = (key, text) => document.querySelectorAll(`[data-tx="${key}"]`).forEach(e => { e.textContent = text; });
     const ESPN = 'https://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/251';
+    // ESPN doesn't flag conference games, so the SEC record is counted against the other fifteen SEC schools
+    const SEC = new Set(['333', '8', '2', '57', '61', '96', '99', '145', '344', '142', '201', '2579', '2633', '245', '238']);
     Promise.all([fetch(ESPN).then(r => r.json()), fetch(ESPN + '/schedule').then(r => r.json())])
         .then(([team, sched]) => {
-            const t = team.team;
-            tx('record', (t.record?.items?.[0]?.summary || '–').replace('-', '–'));
-            tx('standing', (t.standingSummary || '').replace(' in SEC', '') || '–');
+            tx('standing', (team.team.standingSummary || '').replace(' in SEC', '') || '–');
             const games = sched.events.map(e => {
                 const c = e.competitions[0], us = c.competitors.find(x => x.team.id === '251'), them = c.competitors.find(x => x.team.id !== '251');
                 return { done: c.status.type.completed, date: new Date(e.date), home: us.homeAway === 'home', them: them.team.shortDisplayName,
-                         us: us.score?.displayValue, they: them.score?.displayValue, won: us.winner };
+                         us: us.score?.displayValue, they: them.score?.displayValue, won: us.winner,
+                         sec: SEC.has(them.team.id) && e.seasonType?.type === 2 };
             });
+            const sec = games.filter(g => g.done && g.sec);
+            tx('record', `${sec.filter(g => g.won).length}–${sec.filter(g => !g.won).length}`);
             const last = games.filter(g => g.done).pop(), next = games.find(g => !g.done);
             if (last) {
                 tx('last', `${last.won ? 'W' : 'L'} ${last.us}–${last.they}`);
@@ -625,11 +628,11 @@
         if (save) downloadStory(save.dataset.download, save);
     });
 
-    // Download an article as a PDF, set like the page: kicker, headline, dek, then the days
+    // PDFs, set like the page: gold kicker, Bodoni-ish headline, typewriter dek, pink italic heads
     let jspdf;
-    const downloadStory = async (name, button) => {
+    async function savePdf(name, blocks, button) {
         const label = button.textContent;
-        button.textContent = 'One moment…';
+        if (button.dataset.download) button.textContent = 'One moment…';
         try {
             jspdf ??= await new Promise((ok, fail) => {
                 const tag = Object.assign(document.createElement('script'), { src: 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js' });
@@ -648,22 +651,48 @@
                 y += gap;
             };
             const INK = [17, 17, 17], PINK = [184, 13, 98], GOLD = [184, 151, 90], GREY = [110, 110, 110];
-            for (const el of storyBody.children) {
-                const text = el.textContent;
-                if (el.matches('.st-kicker')) write(text.toUpperCase(), 'helvetica', 'bold', 8, GOLD, 6);
-                else if (el.matches('h2')) write(text, 'times', 'normal', 34, INK, 4, 1.1);
-                else if (el.matches('.st-dek')) { write(text, 'courier', 'normal', 10.5, INK, 6);
+            for (const [kind, text] of blocks) {
+                if (kind === 'kicker') write(text.toUpperCase(), 'helvetica', 'bold', 8, GOLD, 6);
+                else if (kind === 'h2') write(text, 'times', 'normal', 34, INK, 4, 1.1);
+                else if (kind === 'dek') { write(text, 'courier', 'normal', 10.5, INK, 6);
                     doc.setDrawColor(...INK).setLineWidth(0.6).line(M, y, W - M, y).line(M, y + 3, W - M, y + 3); y += 18; }
-                else if (el.matches('h3')) write(text, 'times', 'italic', 16, PINK, 2);
-                else if (el.matches('.st-tip')) write(text, 'times', 'italic', 10.5, GREY, 8);
-                else if (el.matches('p')) write(text, 'helvetica', 'normal', 10, INK, 8);
+                else if (kind === 'h3') write(text, 'times', 'italic', 16, PINK, 2);
+                else if (kind === 'tip') write(text, 'times', 'italic', 10.5, GREY, 8);
+                else if (kind === 'small') write(text, 'helvetica', 'normal', 8.5, GREY, 8);
+                else write(text, 'helvetica', 'normal', 10, INK, 8);
             }
             doc.setFont('helvetica', 'normal').setFontSize(8).setTextColor(...GREY)
                .text('Saturday in Austin · suhxnitiwari.github.io/saturday-in-austin', M, H - 36);
             doc.save(name + '.pdf');
         } catch { alert('The download didn’t load. Try again in a moment.'); }
         button.textContent = label;
-    };
+    }
+    const downloadStory = (name, button) => savePdf(name, [...storyBody.children].flatMap(el =>
+        el.matches('.st-kicker') ? [['kicker', el.textContent]] : el.matches('h2') ? [['h2', el.textContent]]
+        : el.matches('.st-dek') ? [['dek', el.textContent]] : el.matches('h3') ? [['h3', el.textContent]]
+        : el.matches('.st-tip') ? [['tip', el.textContent]] : el.matches('p') ? [['p', el.textContent]]
+        : el.matches('ul') ? [...el.children].map(li => ['p', li.textContent]) : []), button);
+
+    // Download the Saturday on screen: every stop, the trips between, and the link back
+    document.querySelector('.save-it').addEventListener('click', e => {
+        const plan = lastPlan, st = plan.stats, blocks = [
+            ['kicker', `Saturday in Austin · Saturday #${plan.seed}`],
+            ['h2', 'Your Saturday.'],
+            ['dek', `${st.stops} ${st.stops === 1 ? 'stop' : 'stops'} · ${st.hours_out} hours out · about $${st.spend} · home by ${plan.home}`]];
+        const hop = (via, minutes, fare) => via === 'uber' ? `Uber, ${minutes} min, about $${fare}`
+            : `${minutes} min ${via === 'bus' ? 'bus' : via === 'walk' ? 'walk' : 'drive'}`;
+        plan.stops.forEach((s, i) => {
+            if (s.type === 'free') { blocks.push(['small', `Free time · ${duration(s.free)} to wander`]); return; }
+            if (s.travel && i) blocks.push(['small', hop(s.via, s.travel, s.fare)]);
+            if (s.type === 'reset') { blocks.push(['h3', `${s.time} · Home`], ['p', `${s.note} · ${s.minutes} min`]); return; }
+            const where = s.where === 'home' ? 'at home' : s.where;
+            blocks.push(['h3', `${s.time} · ${s.name}`], ['p', `${s.label} · ${s.note || where} · ${duration(s.minutes)}`]);
+            if (s.why) blocks.push(['tip', s.why]);
+        });
+        if (plan.back) blocks.push(['small', `${hop(plan.back_via, plan.back, plan.back_fare)} home`]);
+        blocks.push(['h3', `${plan.home} · Home`], ['p', plan.sign_off], ['small', `See it again: ${shareLink()}`]);
+        savePdf(`saturday-${plan.seed}`, blocks, e.currentTarget);
+    });
 
     // The editor's photos: arrows, arrow keys, or a swipe
     const slides = document.querySelector('[data-slides]');
