@@ -181,6 +181,8 @@
         .method .numbers { grid-column: 2; grid-row: 1; border-bottom: 0; padding-bottom: 0; }
         .method-intro { grid-column: 1; grid-row: 1; }
         .method-intro .dek { font-size: 13.5px; }
+        .cards-title { grid-column: 1 / -1; margin: 6px 0 -8px; font-family: var(--display); font-weight: 500; font-size: clamp(24px, 2.2vw, 32px); line-height: 1.1; }
+        .cards-title em { color: var(--pink); font-weight: 400; }
         .cards { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 4px double var(--line); }
         .card { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; align-content: start; padding: 18px 20px 18px 0; border-bottom: 1px solid var(--line); }  /* pictures, titles, text and terms each share a row */
         .nowrap { white-space: nowrap; }
@@ -574,6 +576,7 @@
             <h2 class="big">Okay, but how is it<br><em class="nowrap">in the know?</em></h2>
             <p class="dek">I turned Austin into a graph, gave every place its own rules, and taught the planner how a girl actually spends a Saturday. It keeps track of the time, the neighborhood, the drive, when you last ate, the weather and how much energy you have left. It knows what belongs before brunch and what never happens right after Pilates. Then it finds the one day that actually fits. On Saturdays, we brunch.</p>
         </div>
+        <h3 class="cards-title">The science of <em>Saturday.</em></h3>
         <div class="cards">
             <article class="card">
                 <svg viewBox="0 0 240 120" role="img" aria-label="A small map of Austin neighborhoods as dots and lines; the fastest path from West Campus to South Congress is highlighted">
