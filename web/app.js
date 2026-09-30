@@ -560,6 +560,31 @@
         });
     }
 
+    // Longhorns football, live from ESPN: record, SEC standing, last score, next game
+    const tx = (key, text) => document.querySelectorAll(`[data-tx="${key}"]`).forEach(e => { e.textContent = text; });
+    const ESPN = 'https://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/251';
+    Promise.all([fetch(ESPN).then(r => r.json()), fetch(ESPN + '/schedule').then(r => r.json())])
+        .then(([team, sched]) => {
+            const t = team.team;
+            tx('record', (t.record?.items?.[0]?.summary || '–').replace('-', '–'));
+            tx('standing', (t.standingSummary || '').replace(' in SEC', '') || '–');
+            const games = sched.events.map(e => {
+                const c = e.competitions[0], us = c.competitors.find(x => x.team.id === '251'), them = c.competitors.find(x => x.team.id !== '251');
+                return { done: c.status.type.completed, date: new Date(e.date), home: us.homeAway === 'home', them: them.team.shortDisplayName,
+                         us: us.score?.displayValue, they: them.score?.displayValue, won: us.winner };
+            });
+            const last = games.filter(g => g.done).pop(), next = games.find(g => !g.done);
+            if (last) {
+                tx('last', `${last.won ? 'W' : 'L'} ${last.us}–${last.they}`);
+                tx('last-label', `last game, ${last.home ? 'vs' : 'at'} ${last.them}`);
+            }
+            if (next) {
+                tx('next', next.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'America/Chicago' }));
+                tx('next-label', `next game, ${next.home ? 'vs' : 'at'} ${next.them}`);
+            } else { tx('next', '–'); tx('next-label', 'season’s over'); }
+        })
+        .catch(() => { tx('record', '–'); tx('standing', '–'); tx('last', '–'); tx('next', '–'); tx('next-label', 'scores are shy right now'); });
+
     // The Column: tap a cover to read it
     const storyBox = document.getElementById('story'), storyBody = storyBox.querySelector('.story-body');
     const openStory = key => {
