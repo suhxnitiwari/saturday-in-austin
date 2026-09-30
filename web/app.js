@@ -199,6 +199,7 @@
     const show = name => {
         sections.forEach(b => b.setAttribute('aria-selected', b.dataset.screen === name));
         document.querySelectorAll('.screen').forEach(sc => { sc.hidden = sc.id !== 'screen-' + name; });
+        if (name === 'method') setTimeout(() => document.getElementById('screen-method').dispatchEvent(new Event('refit')), 0);
     };
     sections.forEach(b => b.addEventListener('click', () => show(b.dataset.screen)));
     document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => show(b.dataset.go)));
@@ -369,6 +370,31 @@
     more.addEventListener('click', () => dayScroll.scrollBy({ top: dayScroll.clientHeight * 0.8, behavior: 'smooth' }));
     // on a phone the day is below the form
     document.querySelector('.see-day').addEventListener('click', () => document.querySelector('.day').scrollIntoView({ behavior: 'smooth' }));
+
+    // The Method: the first three cards fill the screen down to the bottom line; scroll for the next three
+    const method = document.getElementById('screen-method'), cards = method.querySelector('.cards');
+    function fillCards() {
+        cards.classList.remove('fill');
+        cards.style.gridTemplateRows = '';
+        if (method.hidden || innerWidth <= 1000) return;
+        cards.classList.add('fill');
+        const tracks = getComputedStyle(cards).gridTemplateRows.split(' ').map(parseFloat);
+        const card = [...cards.children], per = 4;
+        if (tracks.length < per * 2 || tracks.some(isNaN)) return;
+        const top = cards.getBoundingClientRect().top - method.getBoundingClientRect().top + method.scrollTop;
+        const pad = parseFloat(getComputedStyle(method).paddingBottom) || 0;
+        const room = [method.clientHeight - top - pad - 4, method.clientHeight - pad - 4];  // row 1 ends at the bottom; row 2 is a full screen
+        for (let r = 0; r * 3 < card.length && r < 2; r++) {
+            const extra = room[r] - card[r * 3].getBoundingClientRect().height;
+            if (extra > 0) tracks[r * per] += extra;
+        }
+        cards.style.gridTemplateRows = tracks.map((x, i) => i % per === 0 ? x + 'px' : 'auto').join(' ');  // only the picture rows are pinned
+    }
+    const refit = new ResizeObserver(() => fillCards());
+    [method, method.querySelector('.method-intro'), method.querySelector('.numbers')].forEach(e => e && refit.observe(e));
+    window.addEventListener('resize', fillCards);
+    method.addEventListener('refit', fillCards);
+    document.fonts?.ready.then(fillCards);
 
     // the editor's own ideal Saturday
     const ideal = document.getElementById('ideal');

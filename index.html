@@ -183,7 +183,10 @@
         .method-intro .dek { font-size: 13.5px; }
         .cards { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 4px double var(--line); }
         .card { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; align-content: start; padding: 18px 20px 18px 0; border-bottom: 1px solid var(--line); }  /* pictures, titles, text and terms each share a row */
+        .nowrap { white-space: nowrap; }
         .card > :first-child { align-self: end; }
+        .cards.fill .card > :first-child { align-self: center; }  /* each row fills a screen: the pictures take the extra room */
+        .cards.fill .card svg { max-width: 320px; }
         .card:not(:nth-child(3n + 1)) { padding-left: 20px; border-left: 1px solid var(--hair); }
         .card svg { display: block; width: 100%; max-width: 280px; height: auto; margin-bottom: 10px; }
         .card h3 { margin: 0 0 6px; font-family: var(--display); font-weight: 500; font-size: 21px; line-height: 1.15; }
@@ -568,7 +571,7 @@
         </div>
         <div class="method-intro">
             <p class="kicker">The Method</p>
-            <h2 class="big">Okay, but how is it <em>in the know?</em></h2>
+            <h2 class="big">Okay, but how is it<br><em class="nowrap">in the know?</em></h2>
             <p class="dek">I turned Austin into a graph, gave every place its own rules, and taught the planner how a girl actually spends a Saturday. It keeps track of the time, the neighborhood, the drive, when you last ate, the weather and how much energy you have left. It knows what belongs before brunch and what never happens right after Pilates. Then it finds the one day that actually fits. On Saturdays, we brunch.</p>
         </div>
         <div class="cards">
@@ -766,7 +769,7 @@
                 </div>
                 <figcaption>
                     <span class="photo-title">The woman behind<br><em>the weekend.</em></span>
-                    <span class="photo-sub">The editor, mid-latte. Research is research.</span>
+                    <span class="photo-sub">The editor, mid-latte. Research is researching…</span>
                 </figcaption>
             </figure>
         </div>
@@ -843,6 +846,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=27" defer></script>
+<script src="web/app.js?v=30" defer></script>
 </body>
 </html>
