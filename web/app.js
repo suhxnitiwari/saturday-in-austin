@@ -133,7 +133,7 @@
         const [h, m] = t.split(':').map(Number);
         return (h % 12 + (ampm === 'PM' ? 12 : 0)) * 60 + m;
     };
-    const FOOD = new Set(['coffee', 'smoothie', 'brunch', 'lunch', 'dinner', 'treat', 'late night', 'order in', 'snack']);
+    const FOOD = new Set(['coffee', 'smoothie', 'tea', 'brunch', 'lunch', 'dinner', 'treat', 'late night', 'order in', 'snack']);
     // on a short screen the verdict steps aside so nothing spills past the page
     function fitVerdict() {
         verdictBox.classList.remove('squeezed');
@@ -344,7 +344,8 @@
     const VERB = { coffee: 'coffee at ', smoothie: 'a smoothie at ', brunch: 'brunch at ', lunch: 'lunch at ',
                    dinner: 'dinner at ', treat: 'something sweet at ', 'late night': 'one last stop at ',
                    exercise: 'a class at ', shopping: 'shopping at ', nails: 'nails at ', 'live music': 'a show at ',
-                   nightlife: 'drinks at ', karaoke: 'karaoke at ', comedy: 'a show at ' };
+                   nightlife: 'drinks at ', karaoke: 'karaoke at ', comedy: 'a show at ',
+                   tea: 'boba at ', 'escape room': 'an escape room at ' };
     function composeLetter(plan) {
         const to = toInput.value.trim() || 'reader', from = fromInput.value.trim();
         const lines = [`Dearest ${to},`, '', 'Your Saturday has been decided. Do not argue.', ''];
@@ -527,7 +528,7 @@
     }
 
     // The map: tap a neighborhood to see the drives the planner knows from there
-    const MAP = {"names": {"1": "Campus / UT Corridor", "2": "Downtown", "3": "Clarksville / West Austin", "4": "South Congress", "5": "East Austin", "6": "South Lamar", "7": "The Domain / Rock Rose", "8": "West Campus", "9": "Zilker / Barton Springs / Greenbelt", "10": "Hyde Park / North Loop", "11": "Lake Austin / West Austin", "12": "Mueller", "13": "South First", "14": "Burnet Road / Mid-North"}, "count": {"1": 11, "2": 55, "3": 11, "4": 23, "5": 37, "6": 18, "7": 20, "8": 11, "9": 15, "10": 12, "11": 6, "12": 5, "13": 4, "14": 7}, "roads": [[8, 1, 4], [1, 2, 7], [8, 2, 8], [8, 3, 6], [3, 2, 6], [3, 11, 7], [1, 10, 7], [10, 14, 6], [14, 7, 12], [10, 12, 8], [1, 12, 10], [5, 12, 8], [1, 5, 8], [2, 5, 6], [2, 4, 7], [2, 13, 7], [4, 13, 3], [13, 6, 5], [6, 9, 5], [2, 9, 8], [9, 4, 6], [11, 9, 9], [11, 7, 20], [11, 14, 12]]};
+    const MAP = {"names": {"1": "Campus / UT Corridor", "2": "Downtown", "3": "Clarksville / West Austin", "4": "South Congress", "5": "East Austin", "6": "South Lamar", "7": "The Domain / Rock Rose", "8": "West Campus", "9": "Zilker / Barton Springs / Greenbelt", "10": "Hyde Park / North Loop", "11": "Lake Austin / West Austin", "12": "Mueller", "13": "South First", "14": "Burnet Road / Mid-North"}, "count": {"1": 11, "2": 60, "3": 12, "4": 23, "5": 37, "6": 19, "7": 21, "8": 14, "9": 15, "10": 12, "11": 8, "12": 5, "13": 4, "14": 8}, "roads": [[8, 1, 4], [1, 2, 7], [8, 2, 8], [8, 3, 6], [3, 2, 6], [3, 11, 7], [1, 10, 7], [10, 14, 6], [14, 7, 12], [10, 12, 8], [1, 12, 10], [5, 12, 8], [1, 5, 8], [2, 5, 6], [2, 4, 7], [2, 13, 7], [4, 13, 3], [13, 6, 5], [6, 9, 5], [2, 9, 8], [9, 4, 6], [11, 9, 9], [11, 7, 20], [11, 14, 12]]};
     const atx = document.querySelector('.atx');
     if (atx) {
         const note = document.querySelector('[data-map-note]'), lines = atx.querySelector('.atx-drives');
@@ -600,7 +601,7 @@
     });
     storyBox.querySelector('.close-story').addEventListener('click', () => storyBox.close());
     // shareable links: #four-days opens the four-day plan (and the header link does the same)
-    const HASHES = { 'four-days': 'four', 'make-something': 'make', 'sixth-and-rainey': 'bars', 'austin-decoded': 'symbols' };
+    const HASHES = { 'four-days': 'four', 'make-something': 'make', 'nightlife': 'bars', 'live-music': 'music', 'austin-decoded': 'symbols' };
     document.querySelectorAll('[data-open-story]').forEach(a => a.addEventListener('click', e => {
         e.preventDefault();
         history.replaceState(null, '', '#' + Object.keys(HASHES).find(k => HASHES[k] === a.dataset.openStory));

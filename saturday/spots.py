@@ -52,6 +52,8 @@ WINDOWS = {
     "nightlife": (20 * 60, 23 * 60 + 30),   # 21+
     "karaoke": (20 * 60, 23 * 60),
     "comedy": (19 * 60, 22 * 60 + 30),
+    "tea": (10 * 60, 21 * 60 + 30),       # boba, matcha, high tea
+    "escape room": (10 * 60, 22 * 60),
 }
 
 
@@ -59,7 +61,7 @@ WINDOWS = {
 SLOTS = {"brunch": "midday meal", "lunch": "midday meal", "order in": "dinner",
          "hike": "outdoor", "paddle": "outdoor", "swim": "outdoor", "park": "outdoor",
          "game": "hangout", "spa": "nails", "show": "movie",
-         "nightlife": "night out", "karaoke": "night out", "comedy": "evening show", "live music": "evening show"}
+         "nightlife": "night out", "karaoke": "night out", "escape room": "hangout", "tea": "treat", "comedy": "evening show", "live music": "evening show"}
 
 # the evening only moves forward: after dinner, the only thing left is a late-night snack
 PHASE = {"dinner": 1, "order in": 1, "movie": 2, "show": 2, "live music": 2, "late night": 2, "nightlife": 2, "karaoke": 2, "comedy": 2}

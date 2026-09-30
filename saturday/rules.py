@@ -73,6 +73,8 @@ KINDS = {
     "nightlife": Kind(drinks=True, prefer=((21 * H, 24 * H),)),  # 21+
     "karaoke": Kind(drinks=True),
     "comedy": Kind(),
+    "tea": Kind(food="small", close=22 * H),
+    "escape room": Kind(close=23 * H),
     "reset-shower": Kind(reset="shower"),
     "reset-change": Kind(reset="change"),
 }
