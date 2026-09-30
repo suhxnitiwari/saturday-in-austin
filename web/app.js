@@ -66,7 +66,6 @@
         sassBox.hidden = !plan.sass.length;
         list.replaceChildren();
         if (!plan.stops.length) {
-            form.querySelector('.verdict').hidden = true;
             status.textContent = 'Nothing fits. Try a longer day, a later “home by,” or a different mood.';
             status.hidden = false;
             stats.hidden = true;
@@ -119,51 +118,12 @@
         );
         stats.hidden = false;
         number.textContent = `xoxo, Saturday #${plan.seed}`;
-        verdict(plan);
         lastPlan = plan;
         document.querySelectorAll('.seal-it, .save-it').forEach(b => { b.disabled = false; });
         if (autoRain && form.elements.rainy.checked) {
             sassBox.prepend(el('p', null, 'Rain in the Saturday forecast, so I turned on Rainy day.'));
             sassBox.hidden = false;
         }
-    }
-
-    // bottom left: the day's best line, and the day as one bar
-    const verdictBox = form.querySelector('.verdict');
-    const minutes = label => {
-        const [t, ampm] = label.split(' ');
-        const [h, m] = t.split(':').map(Number);
-        return (h % 12 + (ampm === 'PM' ? 12 : 0)) * 60 + m;
-    };
-    const FOOD = new Set(['coffee', 'smoothie', 'tea', 'brunch', 'lunch', 'dinner', 'treat', 'late night', 'order in', 'snack']);
-    // on a short screen the verdict steps aside so nothing spills past the page
-    function fitVerdict() {
-        verdictBox.classList.remove('squeezed');
-        if (innerWidth > 1000 && form.scrollHeight > form.clientHeight + 1) verdictBox.classList.add('squeezed');
-    }
-    new ResizeObserver(() => { if (!verdictBox.hidden) fitVerdict(); }).observe(form);
-    function verdict(plan) {
-        const why = plan.stops.map(s => s.why).filter(Boolean);
-        verdictBox.querySelector('blockquote').textContent = why[0] || plan.sass[0] || plan.sign_off;
-        const bar = verdictBox.querySelector('.glance');
-        const start = minutes(plan.leave);
-        let end = minutes(plan.home);
-        if (end < start) end += 24 * 60;
-        bar.replaceChildren(...plan.stops.filter(s => s.type !== 'free').map(s => {
-            let at = minutes(s.time);
-            if (at < start) at += 24 * 60;
-            const i = document.createElement('i');
-            i.className = s.type === 'reset' ? 'home' : FOOD.has(s.category) ? 'food' : '';
-            i.style.left = `${(at - start) / (end - start) * 100}%`;
-            i.style.width = `${s.minutes / (end - start) * 100}%`;
-            i.title = s.name;
-            return i;
-        }));
-        const [a, b] = verdictBox.querySelectorAll('.glance-times span');
-        a.textContent = `Out ${plan.leave}`;
-        b.textContent = `Home ${plan.home}`;
-        verdictBox.hidden = false;
-        fitVerdict();
     }
 
     let hotSaturday = false;  // set from the forecast: 90° and up means a swim
@@ -203,7 +163,23 @@
         sections.forEach(b => b.setAttribute('aria-selected', b.dataset.screen === name));
         document.querySelectorAll('.screen').forEach(sc => { sc.hidden = sc.id !== 'screen-' + name; });
         if (name === 'method') setTimeout(() => document.getElementById('screen-method').dispatchEvent(new Event('refit')), 0);
+        squeeze();
     };
+    // short windows: the Editor and Austin pages tighten a notch at a time until they fit (no words cut)
+    const NOTCHES = ['sq1', 'sq2', 'sq3'];
+    function squeeze() {
+        ['screen-editor', 'screen-austin'].forEach(id => {
+            const sc = document.getElementById(id);
+            sc.classList.remove(...NOTCHES);
+            if (sc.hidden || innerWidth <= 1000) return;
+            for (const n of NOTCHES) {
+                if (sc.scrollHeight <= sc.clientHeight + 1) break;
+                sc.classList.add(n);
+            }
+        });
+    }
+    window.addEventListener('resize', squeeze);
+    document.fonts?.ready.then(squeeze);
     sections.forEach(b => b.addEventListener('click', () => { show(b.dataset.screen); menu(false); }));
     // on a phone the nav is three lines
     const head = document.querySelector('header'), burger = document.querySelector('.burger');

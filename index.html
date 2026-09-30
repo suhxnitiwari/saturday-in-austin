@@ -77,20 +77,7 @@
 
         /* controls: one calm column of numbered sections */
         form { display: flex; flex-direction: column; gap: 19px; min-height: 0; height: 100%; overflow-y: auto; }  /* never spill under the footer */
-        .verdict.squeezed { display: none !important; }  /* no room on this screen: the form comes first */
         .block { display: grid; gap: 10px; }
-        /* bottom left: the day's one-line verdict and the day at a glance */
-        .verdict { margin: auto 0 0; padding: 18px 0 0; border-top: 1px solid var(--line); }
-        .verdict[hidden] { display: none; }
-        .verdict blockquote { margin: 0 0 16px; font-family: var(--display); font-style: italic; font-size: clamp(20px, 1.9vw, 30px); line-height: 1.15; }
-        .verdict blockquote::before { content: "“"; color: var(--pink); }
-        .verdict blockquote::after { content: "”"; color: var(--pink); }
-        .glance { position: relative; height: 14px; border: 1px solid var(--line); }
-        .glance i { position: absolute; top: 0; bottom: 0; background: var(--ink); }
-        .glance i + i { border-left: 2px solid var(--paper); }
-        .glance i.food { background: var(--pink); }
-        .glance i.home { background: repeating-linear-gradient(45deg, var(--paper) 0 3px, var(--ink) 3px 4px); }
-        .glance-times { display: flex; justify-content: space-between; margin-top: 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; color: var(--grey); }
         .block.when { grid-template-columns: 1fr 1fr 2fr; gap: 10px 14px; align-items: end; }
         .block.when .sec { grid-column: 1 / -1; }
         .pair-blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 22px 26px; align-items: start; }
@@ -507,12 +494,14 @@
             .again-row .number { grid-column: 1 / -1; }
             .number { border-left: 0; border-top: 1px solid var(--line); padding: 10px 14px; }
         }
-        @media (max-height: 800px) and (min-width: 1001px) { .verdict { display: none !important; } }
-        @media (max-height: 820px) and (min-width: 1001px) {  /* short laptops: the letter drops its pull quote, never its words */
-            .pull { display: none; } .letter-head { font-size: 24px; padding-bottom: 0; border-bottom: 0; margin-bottom: 6px !important; }
-            .letter p { line-height: 1.4 !important; } .letter .drop::first-letter { font-size: 46px; }
-            .editor .ideal-open { margin-top: 12px; height: 40px; }
-        }
+        /* short windows: app.js adds these one at a time until the page fits */
+        #screen-editor.sq1 .pull { display: none; }
+        #screen-editor.sq2 .letter p { line-height: 1.42; } #screen-editor.sq2 .letter-head { font-size: 24px; padding-bottom: 0; border-bottom: 0; margin-bottom: 6px !important; }
+        #screen-editor.sq2 .ideal-open { margin-top: 10px; height: 38px; } #screen-editor.sq2 .letter .drop::first-letter { font-size: 44px; }
+        #screen-editor.sq3 .letter p { font-size: 12px; line-height: 1.36; margin-bottom: 5px; } #screen-editor.sq3 .letter .dear { font-size: 17px; margin-bottom: 4px; } #screen-editor.sq3 .ideal-open { height: 34px; margin-top: 6px; } #screen-editor.sq3 .portrait img { max-height: calc(100vh - 460px); } #screen-editor.sq3 .monogram { font-size: 40px !important; } #screen-editor.sq3 .signoff { margin-top: 8px; }
+        #screen-austin.sq1 .now-src { display: none; } #screen-austin.sq1 .wx-temp { font-size: 72px; } #screen-austin.sq1 .atx { max-height: calc(100vh - 330px); }
+        #screen-austin.sq2 .wx-grid div { padding-top: 6px; padding-bottom: 6px; } #screen-austin.sq2 .wx-now { margin-bottom: 6px; } #screen-austin.sq2 .wx-grid b { font-size: 20px; }
+        #screen-austin.sq3 .wx-temp { font-size: 60px; } #screen-austin.sq3 .atx { max-height: calc(100vh - 360px); } #screen-austin.sq3 .map-card { margin-top: 8px; padding: 6px 10px; } #screen-austin.sq3 .flip .figs b { font-size: 19px; } #screen-austin.sq3 .map-key li { padding: 2px 0; }
         @media (max-height: 920px) and (min-width: 1001px) {  /* laptop screens: the Austin page stays on one screen */
             .story.brief .story-by { display: none; } .column-head h2 { font-size: 44px; }
             .wx-temp { font-size: clamp(72px, 7vw, 100px); }
@@ -647,12 +636,6 @@
                 </div>
             </div>
 
-            <figure class="verdict" hidden>
-                <figcaption class="label">Today’s verdict</figcaption>
-                <blockquote></blockquote>
-                <div class="glance" aria-hidden="true"></div>
-                <div class="glance-times"><span></span><span></span></div>
-            </figure>
             <button type="button" class="cta see-day">See my Saturday ↓</button>
         </form>
 
@@ -765,7 +748,7 @@
                     <div><b data-app="places">253</b><span>places handpicked</span></div>
                     <div><b data-app="neighborhoods">14</b><span>Austin neighborhoods</span></div>
                     <div><b data-app="moods">10</b><span>Saturday moods</span></div>
-                    <div><b>1</b><span>editor, strong opinions</span></div>
+                    <div><b>86</b><span>tests keeping Saturday civilized</span></div>
                 </div>
             </div>
         </div>
@@ -816,7 +799,7 @@
                 </ul>
                 <p class="grown">State machine (<code>rules.step()</code>)</p>
                 <h3>Rules about being a person</h3>
-                <p>It remembers if you just ate or just worked out. Coffee in gym clothes, fine. Shopping in them, no.</p>
+                <p>It remembers if you just ate, just worked out or dressed up, and every next stop has to make sense.</p>
             </article>
             <article class="card">
                 <svg viewBox="0 0 240 120" role="img" aria-label="Days grow one stop at a time; when two versions end up the same, only the better one is kept">
@@ -884,21 +867,13 @@
             <div class="strip flip" data-flip>
                 <div class="flip-head">
                     <p class="label" data-flip-title>Austin, by the numbers</p>
-                    <div class="flip-nav"><button type="button" data-flip-go="-1" aria-label="Previous numbers">‹</button><span class="flip-count" data-flip-count>1 / 3</span><button type="button" data-flip-go="1" aria-label="Next numbers">›</button></div>
+                    <div class="flip-nav"><button type="button" data-flip-go="-1" aria-label="Previous numbers">‹</button><span class="flip-count" data-flip-count>1 / 2</span><button type="button" data-flip-go="1" aria-label="Next numbers">›</button></div>
                 </div>
                 <div class="figs" data-flip-page data-title="Austin, by the numbers">
                     <div><b>1,002,632</b><span>Austinites</span></div>
                     <div><b>319.9 mi²</b><span>to somehow get across</span></div>
                     <div><b>#12</b><span>biggest U.S. city</span></div>
                     <div><b>55,172</b><span>Longhorns making weekend plans</span></div>
-                </div>
-                <div class="figs six" data-flip-page data-title="Saturday in Austin, by the numbers" hidden>
-                    <div><b data-app="places">253</b><span>places in my little black book</span></div>
-                    <div><b data-app="neighborhoods">14</b><span>neighborhoods</span></div>
-                    <div><b data-app="moods">10</b><span>moods</span></div>
-                    <div><b>86</b><span>tests keeping Saturday civilized</span></div>
-                    <div><b>1 mi</b><span>longest walk between stops</span></div>
-                    <div><b>∞</b><span>opinions</span></div>
                 </div>
                 <div class="figs" data-flip-page data-title="Longhorns, this season · Hook ’em" hidden>
                     <div><b data-tx="record">…</b><span>SEC record</span></div>
@@ -1009,9 +984,6 @@
             </dl>
             <p class="label rules-label">The rules</p>
             <ol class="rules">
-                <li>Lattes are for mornings.</li>
-                <li>Saturday brunch comes with mimosas.</li>
-                <li>After Pilates, one showers before being seen in public.</li>
                 <li>You just ate. No second restaurant.</li>
                 <li>No South Congress to the Domain and back. A girl has standards.</li>
             </ol>
@@ -1256,6 +1228,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=46" defer></script>
+<script src="web/app.js?v=48" defer></script>
 </body>
 </html>
