@@ -509,6 +509,11 @@
         .contact-copy { margin: 0; white-space: nowrap; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--orange-ink); }
         @media (max-width: 1000px) { .contact { flex-wrap: nowrap; gap: 12px; margin-top: 0; padding: 10px 0 0; } .contact-links { flex-wrap: nowrap; gap: 0; } .contact-links em, .contact-copy, .rsvp { display: none; } .contact-links { flex: 1; justify-content: flex-start; } .contact-links a { font-size: 10px; letter-spacing: 0.12em; } .contact-links li + li::before { margin: 0 8px; } .rsvp { font-size: 17px; } }
         @media (max-width: 1000px), (max-height: 640px) {
+            .screen, .austin { overflow: visible !important; }  /* phones scroll the page, never a box inside it */
+            footer a, .visiting { padding: 10px 0; }  /* thumb-sized taps */
+            header.slim { min-height: 60px; align-items: start; }  /* the menu button sits above the double rule */
+            .column-head { flex-direction: column !important; align-items: center !important; gap: 6px !important; } .column-head h2 { font-size: 44px; white-space: nowrap; }
+            .swipe-open { height: 38px; }
             .page { height: auto; padding: 22px 18px 30px; }
             header { grid-template-columns: 1fr; gap: 12px; align-items: start; }
             h1 { white-space: normal; }
@@ -996,7 +1001,7 @@
                 <li data-n="13"><b>13</b> South First<span>4</span></li>
                 <li data-n="14"><b>14</b> Burnet Road / Mid-North<span>8</span></li>
             </ol>
-            <p class="map-src">Pink lines: the drives it knows.</p>
+            <p class="map-src">Orange lines: the drives it knows.</p>
             <div class="vote" data-vote>
                 <p class="label">The great debate</p>
                 <p class="vote-q">Pick a side.</p>
