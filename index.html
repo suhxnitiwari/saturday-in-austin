@@ -57,7 +57,8 @@
         main { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); gap: 36px; min-height: 0; padding-top: 6px; }
 
         /* controls: one calm column of numbered sections */
-        form { display: flex; flex-direction: column; gap: 22px; min-height: 0; height: 100%; }
+        form { display: flex; flex-direction: column; gap: 19px; min-height: 0; height: 100%; overflow-y: auto; }  /* never spill under the footer */
+        .verdict.squeezed { display: none !important; }  /* no room on this screen: the form comes first */
         .block { display: grid; gap: 10px; }
         /* bottom left: the day's one-line verdict and the day at a glance */
         .verdict { margin: auto 0 0; padding: 18px 0 0; border-top: 1px solid var(--line); }
@@ -366,9 +367,7 @@
         .contact-links a { font-family: var(--display); font-size: 11.5px; font-weight: 500; letter-spacing: 0.32em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
         .contact-links a:hover, .contact-links a:focus-visible { color: var(--pink); }
         .contact-copy { margin: 0; white-space: nowrap; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--pink-ink); }
-        .contact-top { white-space: nowrap; font-size: 10px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
-        .contact-top:hover { color: var(--pink); }
-        @media (max-width: 1000px) { .contact { flex-wrap: nowrap; gap: 12px; padding: 9px 18px 8px; } .contact-links { flex-wrap: nowrap; gap: 0; } .contact-links em, .contact-copy, .rsvp { display: none; } .contact-links { flex: 1; justify-content: flex-start; } .contact-top { margin-left: auto; } .contact-links a, .contact-top { font-size: 10px; letter-spacing: 0.12em; } .contact-links li + li::before { margin: 0 8px; } .rsvp { font-size: 17px; } }
+        @media (max-width: 1000px) { .contact { flex-wrap: nowrap; gap: 12px; padding: 9px 18px 8px; } .contact-links { flex-wrap: nowrap; gap: 0; } .contact-links em, .contact-copy, .rsvp { display: none; } .contact-links { flex: 1; justify-content: flex-start; } .contact-links a { font-size: 10px; letter-spacing: 0.12em; } .contact-links li + li::before { margin: 0 8px; } .rsvp { font-size: 17px; } }
         @media (max-width: 1000px), (max-height: 640px) {
             .page { height: auto; padding: 22px 18px 30px; }
             header { grid-template-columns: 1fr; gap: 12px; align-items: start; }
@@ -807,7 +806,6 @@
         <li><a href="https://github.com/suhxnitiwari" target="_blank" rel="noopener">GitHub</a></li>
     </ul>
     <p class="contact-copy">XOXO, the editor</p>
-    <a class="contact-top" href="#top" aria-label="Back to top">Top ↑</a>
 </footer>
 
 
@@ -845,6 +843,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=25" defer></script>
+<script src="web/app.js?v=26" defer></script>
 </body>
 </html>
