@@ -411,7 +411,7 @@ def test_random_days_are_different():
 
 def test_every_favorite_gets_its_turn(guide):
     seen = set()
-    for seed in range(300):
+    for seed in range(3000):  # lots of dinners now, so it takes a few thousand Saturdays
         seen |= {s.name for s in shortlist(guide.spots, [], random.Random(seed))}
     assert {s.name for s in guide.spots if s.category == "dinner"} <= seen
 
