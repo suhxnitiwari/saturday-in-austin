@@ -356,21 +356,19 @@
         .rules li::before { content: counter(rule, decimal-leading-zero); font-family: var(--display); font-style: italic; color: var(--pink); }
 
         /* smaller screens: stack and scroll like a normal page */
-        /* a slim RSVP bar just past the fold */
-        .contact { display: flex; flex-wrap: nowrap; align-items: center; gap: 10px 22px; max-width: 1440px; margin: 0 auto; padding: 14px 36px; border-top: 4px double var(--line); }
-        .rsvp { margin: 0; white-space: nowrap; font-family: var(--display); font-size: 19px; font-weight: 500; }
+        /* a slim masthead just past the fold: fewer words, more serif */
+        .contact { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 10px 24px; max-width: 1440px; margin: 0 auto; padding: 9px 36px 8px; border-top: 1px solid var(--line); box-shadow: inset 0 3px 0 var(--paper), inset 0 4px 0 var(--line); }
+        .rsvp { margin: 0; white-space: nowrap; font-family: var(--display); font-size: 15px; font-weight: 500; letter-spacing: 0.01em; }
         .rsvp em { color: var(--pink); font-weight: 400; }
-        .contact-links { display: flex; flex-wrap: nowrap; gap: 6px 18px; margin: 0; padding: 0; list-style: none; }
-        .contact-links li { display: flex; align-items: baseline; gap: 6px; white-space: nowrap; }
-        .contact-links a { white-space: nowrap; color: var(--ink); font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; }
+        .contact-links { display: flex; flex-wrap: nowrap; margin: 0; padding: 0; list-style: none; }
+        .contact-links li { white-space: nowrap; }
+        .contact-links li + li::before { content: ""; display: inline-block; width: 1px; height: 12px; margin: 0 18px; vertical-align: -1px; background: var(--line); }
+        .contact-links a { font-family: var(--display); font-size: 11.5px; font-weight: 500; letter-spacing: 0.32em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
         .contact-links a:hover, .contact-links a:focus-visible { color: var(--pink); }
-        .contact-links em { font-family: var(--display); font-size: 13px; color: var(--pink-ink); }
-        .contact-top { white-space: nowrap; color: var(--ink); font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; }
+        .contact-copy { margin: 0; white-space: nowrap; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--pink-ink); }
+        .contact-top { white-space: nowrap; font-size: 10px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
         .contact-top:hover { color: var(--pink); }
-        .contact-copy { margin: 0 0 0 auto; font-family: var(--display); font-style: italic; font-size: 14px; color: var(--pink-ink); }
-        @media (max-width: 1360px) and (min-width: 1001px) { .contact-copy { display: none; } .contact-top { margin-left: auto; } }
-        @media (max-width: 1180px) and (min-width: 1001px) { .rsvp em { display: none; } }
-        @media (max-width: 1000px) { .contact { flex-wrap: nowrap; gap: 12px; padding: 12px 18px; } .contact-links { flex-wrap: nowrap; gap: 12px; } .contact-links em, .contact-copy, .rsvp { display: none; } .contact-links { flex: 1; justify-content: space-between; } .contact-top { margin-left: auto; } .contact-links a, .contact-top { font-size: 9.5px; letter-spacing: 0.08em; } .rsvp { font-size: 17px; } }
+        @media (max-width: 1000px) { .contact { flex-wrap: nowrap; gap: 12px; padding: 9px 18px 8px; } .contact-links { flex-wrap: nowrap; gap: 0; } .contact-links em, .contact-copy, .rsvp { display: none; } .contact-links { flex: 1; justify-content: flex-start; } .contact-top { margin-left: auto; } .contact-links a, .contact-top { font-size: 10px; letter-spacing: 0.12em; } .contact-links li + li::before { margin: 0 8px; } .rsvp { font-size: 17px; } }
         @media (max-width: 1000px), (max-height: 640px) {
             .page { height: auto; padding: 22px 18px 30px; }
             header { grid-template-columns: 1fr; gap: 12px; align-items: start; }
@@ -803,10 +801,10 @@
 <footer class="contact" id="say-hi">
     <p class="rsvp">Spotted: <em>you, still scrolling.</em></p>
     <ul class="contact-links">
-        <li><a href="mailto:suhxnitiwari@gmail.com">Email ↗</a><em>the opening scene</em></li>
-        <li><a href="https://www.instagram.com/suhxnitiwari/" target="_blank" rel="noopener">Instagram ↗</a><em>the montage</em></li>
-        <li><a href="https://www.linkedin.com/in/suhxnitiwari/" target="_blank" rel="noopener">LinkedIn ↗</a><em>the power move</em></li>
-        <li><a href="https://github.com/suhxnitiwari" target="_blank" rel="noopener">GitHub ↗</a><em>the plot twist</em></li>
+        <li><a href="mailto:suhxnitiwari@gmail.com">Email</a></li>
+        <li><a href="https://www.instagram.com/suhxnitiwari/" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.linkedin.com/in/suhxnitiwari/" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/suhxnitiwari" target="_blank" rel="noopener">GitHub</a></li>
     </ul>
     <p class="contact-copy">XOXO, the editor</p>
     <a class="contact-top" href="#top" aria-label="Back to top">Top ↑</a>
