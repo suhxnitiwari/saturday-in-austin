@@ -55,6 +55,9 @@ WINDOWS = {
     "tea": (10 * 60, 21 * 60 + 30),       # boba, matcha, high tea
     "escape room": (10 * 60, 22 * 60),
     "boat": (16 * 60 + 30, 20 * 60 + 30),  # golden hour on the lake
+    "tour": (9 * 60 + 30, 16 * 60),       # food, bike and bus tours run by day
+    "ghost tour": (19 * 60, 21 * 60 + 30),
+    "brewery": (12 * 60, 21 * 60 + 30),   # 21+ to drink
 }
 
 
@@ -62,13 +65,15 @@ WINDOWS = {
 SLOTS = {"brunch": "midday meal", "lunch": "midday meal", "order in": "dinner",
          "hike": "outdoor", "paddle": "outdoor", "swim": "outdoor", "park": "outdoor",
          "game": "hangout", "spa": "nails", "show": "movie",
-         "nightlife": "night out", "karaoke": "night out", "escape room": "hangout", "tea": "treat", "boat": "outdoor", "comedy": "evening show", "live music": "evening show"}
+         "nightlife": "night out", "karaoke": "night out", "escape room": "hangout", "tea": "treat", "boat": "outdoor", "comedy": "evening show", "live music": "evening show",
+         "ghost tour": "evening show"}
 
 # the evening only moves forward: after dinner, the only thing left is a late-night snack
-PHASE = {"dinner": 1, "order in": 1, "movie": 2, "show": 2, "live music": 2, "late night": 2, "nightlife": 2, "karaoke": 2, "comedy": 2}
+PHASE = {"dinner": 1, "order in": 1, "movie": 2, "show": 2, "live music": 2, "late night": 2, "nightlife": 2, "karaoke": 2, "comedy": 2,
+         "ghost tour": 2}
 
 # out in the weather: left out on a rainy day
-OUTDOORS = {"hike", "paddle", "swim", "park", "sunset", "murals", "market", "game", "boat"}
+OUTDOORS = {"hike", "paddle", "swim", "park", "sunset", "murals", "market", "game", "boat", "tour", "ghost tour"}
 
 # movie night and reading pick from my real shelves (suhanitiwari.com/home/favorites)
 SHELF = json.loads((Path(__file__).parent / "data" / "shelf.json").read_text(encoding="utf-8"))
@@ -104,7 +109,7 @@ NOT_THESE = {
     "shopping": ("Shopping", {"shopping", "market"}),
     "outdoors": ("Anything outdoors", {"hike", "paddle", "swim", "park", "sunset", "murals", "market", "game"}),
     "live-music": ("Live music", {"live music"}),
-    "nightlife": ("Bars and nightlife", {"nightlife", "karaoke"}),
+    "nightlife": ("Bars and nightlife", {"nightlife", "karaoke", "brewery"}),
     "studying": ("Studying", {"study"}),
     "sweets": ("Sweets", {"treat", "late night", "snack"}),
 }

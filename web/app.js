@@ -339,10 +339,16 @@
         if (innerWidth <= 1000) day.scrollIntoView({ behavior: 'smooth' });
     });
 
-    // magazine sections: Plan, The Editor, The Method (one screen each)
-    const sections = [...document.querySelectorAll('.sections button')];
+    // magazine sections: Plan, Austin, What's on, The Column, and About (The Editor, The Method, Code)
+    const sections = [...document.querySelectorAll('.sections button, .subnav button')];
+    const ABOUT = ['editor', 'method'];
+    let lastAbout = 'editor';
     const show = name => {
-        sections.forEach(b => b.setAttribute('aria-selected', b.dataset.screen === name));
+        if (name === 'about') name = lastAbout;
+        const about = ABOUT.includes(name);
+        if (about) lastAbout = name;
+        sections.forEach(b => b.setAttribute('aria-selected', String(b.dataset.screen === name || (about && b.dataset.screen === 'about'))));
+        document.querySelector('.subnav').hidden = !about;
         document.querySelectorAll('.screen').forEach(sc => { sc.hidden = sc.id !== 'screen-' + name; });
         document.querySelector('header').classList.toggle('slim', name !== 'plan');
         if (name !== 'plan') document.querySelector('.see-day').classList.remove('show');
@@ -836,71 +842,105 @@
     let longhorns = [];
     const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const day0 = iso => { const [y, m, d] = iso.split('-').map(Number); return new Date(y, m - 1, d); };
-    function drawCalendar() {
-        const cal = document.querySelector('[data-cal]');
-        if (!cal) return;
-        const today = new Date(); today.setHours(0, 0, 0, 0);
-        const sat = new Date(today); sat.setDate(today.getDate() + (6 - today.getDay() + 7) % 7);
+    // What's on: a real month, one at a time; today circled; the month's events in the sidebar
+    const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const ymd = d => `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+    let calMonth = (() => { const d = new Date(); return new Date(d.getFullYear(), d.getMonth(), 1); })();
+    let calPick = null;      // a day someone tapped: the sidebar shows just that day
+    let calSide = 'month';   // or 'yearly'
+    const kindOf = e => e.where === 'DKR' || e.where === 'Watch at Victory Lap' ? 'game' : e.closes || /Fest|SXSW|Grand Prix|Festival|Seismic/.test(e.name) ? 'big' : 'other';
+    function allEvents() {
         const kickoff = g => g.timed ? `Kickoff ${g.date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' })}.` : 'Kickoff time TBA.';
         const games = longhorns.map(g => g.home
             ? { from: g.day, name: `Texas vs. ${g.them}`, where: 'DKR', link: 'https://texassports.com/sports/football/schedule', note: `${kickoff(g)} Hook ’em.` }
             : { from: g.day, name: `Texas at ${g.them}`, where: 'Watch at Victory Lap', link: 'https://texassports.com/sports/football/schedule', note: `${kickoff(g)} Away game: the TVs on 24th.` });
-        const all = [...EVENTS, ...games].filter(e => day0(e.to || e.from) >= today).sort((a, b) => day0(a.from) - day0(b.from));
-        const months = new Map();
-        all.forEach(e => {
-            const d = day0(e.from), key = `${MON[d.getMonth()]} ${d.getFullYear()}`;
-            if (!months.has(key)) months.set(key, []);
-            months.get(key).push(e);
-        });
-        cal.replaceChildren(...[...months].map(([month, list]) => {
-            const box = el('section', 'cal-month');
-            box.appendChild(el('h3', null, month.replace(/^(\w+)/, m => ({ Jan: 'January', Feb: 'February', Mar: 'March', Apr: 'April', May: 'May', Jun: 'June', Jul: 'July', Aug: 'August', Sep: 'September', Oct: 'October', Nov: 'November', Dec: 'December' })[m])));
-            list.forEach(e => {
-                const from = day0(e.from), to = day0(e.to || e.from), now = from <= sat && sat <= to;
-                const row = el('article', 'ev' + (now ? ' now' : ''));
-                const date = el('div', 'ev-date', e.tba || String(from.getDate()));
-                date.appendChild(el('small', null, e.tba ? 'dates tba' : e.to && e.to !== e.from
-                    ? `to ${to.getMonth() !== from.getMonth() ? MON[to.getMonth()] + ' ' : ''}${to.getDate()}` : from.toLocaleDateString('en-US', { weekday: 'short' })));
-                const body = el('div'), title = el('h4');
-                if (e.link) title.appendChild(Object.assign(el('a', null, e.name), { href: e.link, target: '_blank', rel: 'noopener' }));
-                else title.textContent = e.name;
-                if (now) title.appendChild(el('span', 'tag', 'This Saturday'));
-                const where = el('p', 'ev-where', e.where);
-                body.append(title, where);
-                if (e.note) body.appendChild(el('p', null, e.note));
-                if (!e.tba) {
-                    const add = el('button', 'ev-add', '+ Calendar');
-                    add.type = 'button';
-                    const ymd = d => `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
-                    const after = new Date(to); after.setDate(after.getDate() + 1);  // all-day events end the morning after
-                    add.addEventListener('click', () => saveIcs(e.name.replace(/[^a-z0-9]+/gi, '-').toLowerCase(),
-                        [{ allDay: true, start: ymd(from), end: ymd(after), title: e.name, where: e.where, notes: e.note, url: e.link }]));
-                    where.appendChild(add);
-                }
-                row.append(date, body);
-                box.appendChild(row);
-            });
-            return box;
-        }), (() => {
-            const box = el('section', 'cal-month yearly');
-            box.appendChild(el('h3', null, 'Every year'));
-            EVERY_YEAR.forEach(e => {
+        return [...EVENTS, ...games].sort((a, b) => day0(a.from) - day0(b.from));
+    }
+    function eventRow(e) {
+        const sat = new Date(); sat.setHours(0, 0, 0, 0); sat.setDate(sat.getDate() + (6 - sat.getDay() + 7) % 7);
+        const from = day0(e.from), to = day0(e.to || e.from), now = !e.tba && from <= sat && sat <= to;
+        const row = el('article', 'ev ' + kindOf(e) + (now ? ' now' : ''));
+        const date = el('div', 'ev-date', e.tba || String(from.getDate()));
+        date.appendChild(el('small', null, e.tba ? 'dates tba' : e.to && e.to !== e.from
+            ? `to ${to.getMonth() !== from.getMonth() ? MON[to.getMonth()] + ' ' : ''}${to.getDate()}` : from.toLocaleDateString('en-US', { weekday: 'short' })));
+        const body = el('div'), title = el('h4');
+        if (e.link) title.appendChild(Object.assign(el('a', null, e.name), { href: e.link, target: '_blank', rel: 'noopener' }));
+        else title.textContent = e.name;
+        if (now) title.appendChild(el('span', 'tag', 'This Saturday'));
+        const where = el('p', 'ev-where', e.where);
+        body.append(title, where);
+        if (e.note) body.appendChild(el('p', null, e.note));
+        if (!e.tba) {
+            const add = el('button', 'ev-add', '+ Calendar');
+            add.type = 'button';
+            const after = new Date(to); after.setDate(after.getDate() + 1);  // all-day events end the morning after
+            add.addEventListener('click', () => saveIcs(e.name.replace(/[^a-z0-9]+/gi, '-').toLowerCase(),
+                [{ allDay: true, start: ymd(from), end: ymd(after), title: e.name, where: e.where, notes: e.note, url: e.link }]));
+            where.appendChild(add);
+        }
+        row.append(date, body);
+        return row;
+    }
+    function drawCalendar() {
+        const grid = document.querySelector('[data-cal-grid]');
+        if (!grid) return;
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const y = calMonth.getFullYear(), m = calMonth.getMonth();
+        document.querySelector('[data-cal-title]').replaceChildren(MONTHS[m] + ' ', el('em', null, String(y)));
+        const events = allEvents().filter(e => !e.tba);
+        const on = d => events.filter(e => day0(e.from) <= d && d <= day0(e.to || e.from));
+        const first = new Date(y, m, 1), start = new Date(y, m, 1 - first.getDay());
+        const weeks = Math.ceil((first.getDay() + new Date(y, m + 1, 0).getDate()) / 7);
+        grid.style.setProperty('--weeks', weeks);
+        const cells = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => el('div', 'cal-dow' + (d === 'Sat' ? ' sat' : ''), d));
+        for (let i = 0; i < weeks * 7; i++) {
+            const d = new Date(start); d.setDate(start.getDate() + i);
+            const cell = el('button', 'cal-day');
+            cell.type = 'button';
+            if (d.getMonth() !== m) cell.classList.add('out');
+            if (d.getDay() === 6) cell.classList.add('sat');
+            if (+d === +today) cell.classList.add('today');
+            if (calPick && +d === +calPick) cell.classList.add('picked');
+            cell.appendChild(el('span', 'num', String(d.getDate())));
+            const list = on(d);
+            list.slice(0, 2).forEach(e => cell.appendChild(el('span', 'chip ' + kindOf(e), e.name)));
+            if (list.length > 2) cell.appendChild(el('span', 'more-ev', `+${list.length - 2} more`));
+            cell.setAttribute('aria-label', `${d.toDateString()}${list.length ? ': ' + list.map(e => e.name).join(', ') : ''}`);
+            cell.addEventListener('click', () => { calPick = calPick && +calPick === +d ? null : d; calSide = 'month'; drawCalendar(); });
+            cells.push(cell);
+        }
+        grid.replaceChildren(...cells);
+        // the sidebar: a picked day, this month's events, or the yearly traditions
+        document.querySelectorAll('[data-cal-tab]').forEach(t => t.setAttribute('aria-selected', String(t.dataset.calTab === calSide)));
+        const side = document.querySelector('[data-cal-list]');
+        if (calSide === 'yearly') {
+            side.replaceChildren(...EVERY_YEAR.map(e => {
                 const row = el('article', 'ev yearly'), body = el('div'), title = el('h4');
                 if (e.link) title.appendChild(Object.assign(el('a', null, e.name), { href: e.link, target: '_blank', rel: 'noopener' }));
                 else title.textContent = e.name;
                 body.append(title, el('p', 'ev-where', e.where), el('p', null, e.note));
                 row.append(el('div', 'ev-when', e.when), body);
-                box.appendChild(row);
-            });
-            return box;
-        })());
+                return row;
+            }));
+            return;
+        }
+        const monthEnd = new Date(y, m + 1, 0), thisMonth = y === today.getFullYear() && m === today.getMonth();
+        // this month: what's coming up from today; any other month: that month's highlights
+        const shown = calPick ? on(calPick) : thisMonth ? allEvents().filter(e => day0(e.to || e.from) >= today).slice(0, 8)
+            : allEvents().filter(e => (e.tba ? day0(e.from).getMonth() === m && day0(e.from).getFullYear() === y
+                : day0(e.from) <= monthEnd && day0(e.to || e.from) >= first));
+        const head = el('p', 'cal-side-head', calPick ? calPick.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
+            : thisMonth ? 'Coming up' : `${MONTHS[m]} highlights`);
+        side.replaceChildren(head, ...(shown.length ? shown.map(eventRow) : [el('p', 'cal-empty', calPick ? 'Nothing big that day. A normal Saturday, then.' : 'A quiet month. More soon.')]));
     }
-    const calTabs = document.querySelectorAll('[data-cal-tab]');
-    calTabs.forEach(b => b.addEventListener('click', () => {
-        calTabs.forEach(t => t.setAttribute('aria-selected', String(t === b)));
-        document.querySelector('[data-cal]').dataset.show = b.dataset.calTab;
+    document.querySelectorAll('[data-cal-go]').forEach(b => b.addEventListener('click', () => {
+        const go = b.dataset.calGo;
+        if (go === 'today') { const d = new Date(); calMonth = new Date(d.getFullYear(), d.getMonth(), 1); }
+        else calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + Number(go), 1);
+        calPick = null;
+        drawCalendar();
     }));
-    document.querySelector('[data-cal]').dataset.show = 'soon';
+    document.querySelectorAll('[data-cal-tab]').forEach(b => b.addEventListener('click', () => { calSide = b.dataset.calTab; calPick = null; drawCalendar(); }));
     // what's happening this Saturday, for the Plan page and the planner
     function thisSaturday() {
         const today = new Date(); today.setHours(0, 0, 0, 0);

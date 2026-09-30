@@ -26,6 +26,7 @@ LABELS = {
     "exercise": "workout", "study": "study spot", "creative": "make something", "paddle": "on the water",
     "murals": "mural", "game": "game day", "cinema": "movie", "order in": "dinner in", "movie": "movie night",
     "read": "reading", "games": "game night", "nightlife": "21+ night out", "comedy": "comedy & shows", "tea": "boba & tea", "boat": "on the boat",
+    "tour": "tour", "ghost tour": "ghost tour", "brewery": "brewery, 21+",
 }
 NEIGHBORHOODS = {"Campus / UT Corridor": "UT campus", "The Domain / Rock Rose": "the Domain"}
 

@@ -76,6 +76,9 @@ KINDS = {
     "tea": Kind(food="small", close=22 * H),
     "escape room": Kind(close=23 * H),
     "boat": Kind(close=21 * H + 30, prefer=((18 * H, 20 * H + 30),)),  # best right before sunset
+    "tour": Kind(close=19 * H),
+    "ghost tour": Kind(drinks=True),  # the haunted tours are tavern crawls
+    "brewery": Kind(drinks=True, prefer=((13 * H, 19 * H),)),  # an afternoon on a patio
     "reset-shower": Kind(reset="shower"),
     "reset-change": Kind(reset="change"),
 }
