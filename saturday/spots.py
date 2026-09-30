@@ -114,6 +114,7 @@ class Mood:
     want: tuple = ()  # what the day is built around, whenever it fits
     caps: dict = field(default_factory=dict)  # slots allowed more than once, and how many times
     late: bool = False  # prefer a later start (a slow morning)
+    meals: bool = True  # out through lunch or dinner means a real meal (a study day eats at home)
 
     def relaxed(self) -> "Mood":
         """In one neighborhood, a mood's must-haves become nice-to-haves (not every block has nails)."""
@@ -128,7 +129,7 @@ RULES = {
     "foodie": Mood(need=(), caps={"midday meal": 2, "treat": 2}),  # brunch AND lunch, on purpose
     "outside": Mood(caps={"outdoor": 2}),  # two adventures, never back to back
     "shopping": Mood(want=("shopping",), caps={"shopping": 3}),  # SoCo, the Domain, a treat between
-    "productive": Mood(caps={"coffee": 3, "study": 2}),  # café hopping
+    "productive": Mood(caps={"coffee": 3, "study": 2}, meals=False),  # café hopping; they'll eat at home
     "treat-myself": Mood(need=("nails",)),  # a Domain day: brunch, nails, shopping, dinner
     "day-in": Mood(need=(), want=("order in", "movie"), late=True),  # food and a movie, always something to do
 }

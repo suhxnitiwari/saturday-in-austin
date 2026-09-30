@@ -273,7 +273,7 @@ def test_every_mood_makes_its_own_kind_of_day(city, guide, mood):
             assert sum(s.slot == slot for s in stops) <= rules_.caps.get(slot, 1)
         every = [s.spot for s in plan.stops]
         assert all(a.slot != b.slot for a, b in zip(every, every[1:])), "never the same thing twice in a row"
-        for meal in meals(plan.leave, plan.home_by):
+        for meal in meals(plan.leave, plan.home_by) if rules_.meals else ():  # a study day eats at home
             assert any(s.slot == meal for s in stops), f"out through mealtime means a real {meal}"
 
 
@@ -408,6 +408,15 @@ def test_random_days_are_different():
     days = {tuple(names(day("9:00", "22:00", "all", "everything", seed))) for seed in range(30)}
     assert len(days) >= 20
 
+
+def test_a_study_day_does_not_stop_for_meals():
+    assert not RULES["productive"].meals and RULES["everything"].meals
+    skipped = 0
+    for seed in range(10):  # out 9 to 9 would mean lunch and dinner on any other day
+        stops = [s for s in day("9:00", "21:00", "all", "productive", seed)["stops"] if s["type"] == "stop"]
+        assert stops
+        skipped += not {"lunch", "dinner"} <= {s["category"] for s in stops}
+    assert skipped  # they'll eat at home
 
 def test_every_favorite_gets_its_turn(guide):
     seen = set()
