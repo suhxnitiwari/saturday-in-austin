@@ -55,6 +55,10 @@
         .sections button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
         .visiting { display: inline-block; margin-top: 8px; font-family: var(--typewriter); font-size: 13px; color: var(--pink-ink); text-decoration: none; border-bottom: 1px solid var(--pink); }
         .visiting:hover { color: var(--ink); border-bottom-color: var(--ink); }
+        /* off the Plan page the masthead is just the name and the nav */
+        header.slim { align-items: center; padding-bottom: 12px; }
+        header.slim > div > .kicker, header.slim .headline, header.slim .visiting { display: none; }
+        header.slim h1 { font-size: clamp(30px, 3vw, 42px); }
         .burger { display: none; }
         @media (max-width: 760px) {  /* phones: the nav folds into three lines */
             header { position: relative; }
@@ -190,18 +194,33 @@
         /* The Column: three stories, magazine covers */
         .screen.column { min-height: 0; overflow-y: auto; }
         .column { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 22px; padding-top: 6px; }
+        /* Austin page: three stories from The Column, one big and two small */
+        .reads { margin-top: 18px; }
+        .reads .label { margin: 0 0 8px; }
+        .read { display: grid; color: var(--ink); text-decoration: none; }
+        .read-img { display: grid; place-items: center; border-radius: 12px; background: var(--blush); font-family: var(--display); font-style: italic; font-size: 14px; color: var(--pink-ink); transition: filter .15s; }
+        .read:hover .read-img, .read:focus-visible .read-img { filter: brightness(0.93); }
+        .read-t { font-family: var(--display); font-weight: 500; line-height: 1.12; }
+        .read-t em { color: var(--pink); font-weight: 400; }
+        .read.big { position: relative; }
+        .read.big .read-img { height: 120px; }
+        .read.big .read-t { margin-top: 8px; font-size: 21px; }
+        .read-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+        .read-row .read { grid-template-columns: 52px 1fr; gap: 10px; align-items: center; }
+        .read-row .read-img { height: 52px; border-radius: 10px; }
+        .read-row .read-t { font-size: 15px; }
         /* The Column, as a Pinterest board: twelve pins, staggered heights, rounded photos, just the title underneath */
         .column-head { display: flex; align-items: baseline; justify-content: center; gap: 14px; border-bottom: 1px solid var(--hair); padding-bottom: 12px; }
         .column-head h2 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(38px, 4vw, 60px); line-height: 1; letter-spacing: 0.01em; }
         .column-head p { margin: 0; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); }
         .board { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-rows: repeat(20, minmax(0, 1fr)); gap: 0 16px; min-height: 0; }
         .pin { display: flex; flex-direction: column; min-height: 0; padding-bottom: 14px; cursor: pointer; }
-        .pin:nth-child(1) { grid-column: 1; grid-row: 1 / 13; } .pin:nth-child(2) { grid-column: 1; grid-row: 13 / 21; }
-        .pin:nth-child(3) { grid-column: 2; grid-row: 1 / 9; } .pin:nth-child(4) { grid-column: 2; grid-row: 9 / 21; }
-        .pin:nth-child(5) { grid-column: 3; grid-row: 1 / 12; } .pin:nth-child(6) { grid-column: 3; grid-row: 12 / 21; }
-        .pin:nth-child(7) { grid-column: 4; grid-row: 1 / 14; } .pin:nth-child(8) { grid-column: 4; grid-row: 14 / 21; }
-        .pin:nth-child(9) { grid-column: 5; grid-row: 1 / 10; } .pin:nth-child(10) { grid-column: 5; grid-row: 10 / 21; }
-        .pin:nth-child(11) { grid-column: 6; grid-row: 1 / 11; } .pin:nth-child(12) { grid-column: 6; grid-row: 11 / 21; }
+        .pin:nth-child(1) { grid-column: 1; grid-row: 1 / 8; } .pin:nth-child(2) { grid-column: 1; grid-row: 8 / 15; } .pin:nth-child(3) { grid-column: 1; grid-row: 15 / 21; }
+        .pin:nth-child(4) { grid-column: 2; grid-row: 1 / 9; } .pin:nth-child(5) { grid-column: 2; grid-row: 9 / 21; }
+        .pin:nth-child(6) { grid-column: 3; grid-row: 1 / 12; } .pin:nth-child(7) { grid-column: 3; grid-row: 12 / 21; }
+        .pin:nth-child(8) { grid-column: 4; grid-row: 1 / 7; } .pin:nth-child(9) { grid-column: 4; grid-row: 7 / 15; } .pin:nth-child(10) { grid-column: 4; grid-row: 15 / 21; }
+        .pin:nth-child(11) { grid-column: 5; grid-row: 1 / 10; } .pin:nth-child(12) { grid-column: 5; grid-row: 10 / 21; }
+        .pin:nth-child(13) { grid-column: 6; grid-row: 1 / 11; } .pin:nth-child(14) { grid-column: 6; grid-row: 11 / 21; }
         .pin .story-img { position: relative; flex: 1 1 0; min-height: 0; display: grid; place-items: center; border-radius: 16px; background: var(--blush); overflow: hidden; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--pink-ink); transition: filter .15s; }
         .pin .story-img::after { content: "Read"; position: absolute; top: 10px; right: 10px; padding: 8px 14px; border-radius: 999px; background: var(--pink); color: var(--paper); font-family: var(--sans); font-style: normal; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; opacity: 0; transition: opacity .15s; }
         .pin[data-story]:hover .story-img, .pin[data-story]:focus-visible .story-img { filter: brightness(0.93); }
@@ -488,6 +507,7 @@
         #screen-editor.sq2 .letter p { line-height: 1.42; } #screen-editor.sq2 .letter-head { font-size: 24px; padding-bottom: 0; border-bottom: 0; margin-bottom: 6px !important; }
         #screen-editor.sq2 .ideal-open { margin-top: 10px; height: 38px; } #screen-editor.sq2 .letter .drop::first-letter { font-size: 44px; }
         #screen-editor.sq3 .letter p { font-size: 12px; line-height: 1.36; margin-bottom: 5px; } #screen-editor.sq3 .letter .dear { font-size: 17px; margin-bottom: 4px; } #screen-editor.sq3 .ideal-open { height: 34px; margin-top: 6px; } #screen-editor.sq3 .portrait img { max-height: calc(100vh - 460px); } #screen-editor.sq3 .monogram { font-size: 40px !important; } #screen-editor.sq3 .signoff { margin-top: 8px; }
+        #screen-austin.sq1 .read.big .read-img { height: 64px; } #screen-austin.sq2 .read.big .read-img { display: none; } #screen-austin.sq2 .read.big .read-t { margin-top: 0; } #screen-austin.sq3 .read-row .read { grid-template-columns: 1fr; } #screen-austin.sq3 .read-row .read-img { display: none; } #screen-austin.sq3 .reads { margin-top: 10px; }
         #screen-austin.sq1 .now-src { display: none; } #screen-austin.sq1 .wx-temp { font-size: 72px; } #screen-austin.sq1 .atx { max-height: calc(100vh - 330px); }
         #screen-austin.sq2 .wx-grid div { padding-top: 6px; padding-bottom: 6px; } #screen-austin.sq2 .wx-now { margin-bottom: 6px; } #screen-austin.sq2 .wx-grid b { font-size: 20px; }
         #screen-austin.sq3 .wx-temp { font-size: 60px; } #screen-austin.sq3 .atx { max-height: calc(100vh - 360px); } #screen-austin.sq3 .map-card { margin-top: 8px; padding: 6px 10px; } #screen-austin.sq3 .flip .figs b { font-size: 19px; } #screen-austin.sq3 .map-key li { padding: 2px 0; }
@@ -711,6 +731,18 @@
                 <h3>Worth a <em>follow.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
+            <article class="pin" data-story="football" tabindex="0" role="button" aria-label="Read: Texas football for dummies.">
+                <div class="story-img">Image coming soon</div>
+                <p class="story-no">Football</p>
+                <h3>Texas football <em>for dummies.</em></h3>
+                <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
+            </article>
+            <article class="pin" data-story="history" tabindex="0" role="button" aria-label="Read: Austin, a history.">
+                <div class="story-img">Image coming soon</div>
+                <p class="story-no">History</p>
+                <h3>Austin, <em>a history.</em></h3>
+                <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
+            </article>
             <article class="pin soon">
                 <div class="story-img">Image coming soon</div>
                 <p class="story-no">Coffee</p>
@@ -925,6 +957,17 @@
                     <button type="button" data-pick="small-big"><span><em>A small</em> big city</span><span class="vote-bar"><i></i></span><b class="vote-pct"></b></button>
                 </div>
                 <p class="vote-note" data-vote-note>Cast your vote. One per person, we're not animals.</p>
+            </div>
+            <div class="reads">
+                <p class="label">From The Column</p>
+                <a class="read big" href="#college-town" data-open-story="college">
+                    <span class="read-img">Image coming soon</span>
+                    <span class="read-t">Why Austin is the best <em>university town.</em></span>
+                </a>
+                <div class="read-row">
+                    <a class="read" href="#texas-football" data-open-story="football"><span class="read-img"></span><span class="read-t">Texas football <em>for dummies.</em></span></a>
+                    <a class="read" href="#austin-history" data-open-story="history"><span class="read-img"></span><span class="read-t">Austin, <em>a history.</em></span></a>
+                </div>
             </div>
         </div>
     </section>
@@ -1157,6 +1200,42 @@
 <button type="button" class="cta" data-plan-mood="everything">Plan a Saturday →</button>
 </template>
 
+<template id="story-football" data-hash="texas-football">
+<p class="st-kicker">The Column · No. 13 · Football</p>
+<h2>Texas football <em>for dummies.</em></h2>
+<p class="st-dek">You don’t have to understand a single play. You do have to know these.</p>
+<ul class="st-list st-defs">
+<li><b>DKR</b> Darrell K Royal–Texas Memorial Stadium, on campus. Around a hundred thousand people, most of them in burnt orange.</li>
+<li><b>Hook ’em</b> Index and pinky up, the other fingers down. That’s the Longhorns. Throw it up when the band plays.</li>
+<li><b>Bevo</b> The mascot is a real longhorn steer. Admire from a distance.</li>
+<li><b>The Eyes of Texas</b> The alma mater. Everyone stays after the game to sing it, win or lose.</li>
+<li><b>Big Bertha and Smokey</b> A famously enormous bass drum, and a cannon that fires after every Texas score.</li>
+<li><b>The orange Tower</b> After a win, the UT Tower lights up orange. It’s the best way to find out the score.</li>
+<li><b>Red River</b> Texas vs. Oklahoma, every October in Dallas during the State Fair. The one that matters most.</li>
+<li><b>The SEC</b> Texas joined the Southeastern Conference in 2024, and got its rivalry with Texas A&amp;M back.</li>
+</ul>
+<p class="st-tip">Tailgate before, sing after, and wear orange even if you don’t know who’s playing.</p>
+<button type="button" class="cta" data-plan-mood="social">Plan a game-day Saturday →</button>
+</template>
+
+<template id="story-history" data-hash="austin-history">
+<p class="st-kicker">The Column · No. 14 · History</p>
+<h2>Austin, <em>a history.</em></h2>
+<p class="st-dek">From a village called Waterloo to the Live Music Capital of the World.</p>
+<ul class="st-list st-defs">
+<li><b>1839</b> The Republic of Texas picks a village called Waterloo for its capital and renames it after Stephen F. Austin, the Father of Texas. Edwin Waller lays out the downtown grid.</li>
+<li><b>1842</b> The Archive War. Sam Houston tries to move the government’s papers out of town; Angelina Eberly fires a cannon to stop him. Her statue is on Congress Avenue.</li>
+<li><b>1883</b> The University of Texas opens.</li>
+<li><b>1888</b> The Capitol is finished in pink granite, and it’s taller than the one in Washington.</li>
+<li><b>1890s</b> Moonlight towers go up to light the city at night. Some still stand, and still glow.</li>
+<li><b>1970s</b> Armadillo World Headquarters, cosmic cowboys, and <i>Austin City Limits</i> on TV. The music city is born.</li>
+<li><b>1980s</b> Michael Dell starts a computer company in his UT dorm. SXSW begins in 1987. The bats move in under the Congress Avenue Bridge.</li>
+<li><b>2000s</b> Keep Austin Weird becomes the unofficial motto, and a promise.</li>
+</ul>
+<p class="st-tip">See it in a day: the Capitol, the Eberly statue, a moonlight tower and the bats at sunset.</p>
+<button type="button" class="cta" data-plan-mood="creative">Plan a history Saturday →</button>
+</template>
+
 <template id="story-college">
 <p class="st-kicker">The Column · No. 08 · Students</p>
 <h2>The best college town <em>in America.</em></h2>
@@ -1215,6 +1294,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=52" defer></script>
+<script src="web/app.js?v=53" defer></script>
 </body>
 </html>

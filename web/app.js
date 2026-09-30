@@ -162,6 +162,7 @@
     const show = name => {
         sections.forEach(b => b.setAttribute('aria-selected', b.dataset.screen === name));
         document.querySelectorAll('.screen').forEach(sc => { sc.hidden = sc.id !== 'screen-' + name; });
+        document.querySelector('header').classList.toggle('slim', name !== 'plan');
         if (name === 'method') setTimeout(() => document.getElementById('screen-method').dispatchEvent(new Event('refit')), 0);
         squeeze();
     };
@@ -595,7 +596,8 @@
     storyBox.querySelector('.close-story').addEventListener('click', () => storyBox.close());
     // shareable links: #four-days opens the four-day plan (and the header link does the same)
     const HASHES = { 'four-days': 'four', 'make-something': 'make', 'nightlife': 'bars', 'live-music': 'music', 'austin-decoded': 'symbols',
-                     'vegan-edit': 'vegan', 'neighborhoods': 'hoods', 'college-town': 'college', 'worth-a-follow': 'follow' };
+                     'vegan-edit': 'vegan', 'neighborhoods': 'hoods', 'college-town': 'college', 'worth-a-follow': 'follow',
+                     'texas-football': 'football', 'austin-history': 'history' };
     document.querySelectorAll('[data-open-story]').forEach(a => a.addEventListener('click', e => {
         e.preventDefault();
         history.replaceState(null, '', '#' + Object.keys(HASHES).find(k => HASHES[k] === a.dataset.openStory));
