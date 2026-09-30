@@ -143,6 +143,16 @@
             sassBox.prepend(banner);
             sassBox.hidden = false;
         });
+        if (awayDay && !gameDay) {  // an away game: watch it by campus
+            const banner = el('div', 'gameday'), text = el('p');
+            text.append(el('b', null, 'Saturdays are for the boys.'), `Texas plays at ${awayDay.them} today. Watch it at Victory Lap on 24th.`);
+            const go = el('button', null, 'Plan a watch party');
+            go.type = 'button';
+            go.addEventListener('click', () => { form.elements.include.value = 'Victory Lap'; form.elements.mood.value = 'social'; run(); });
+            banner.append(text, go);
+            sassBox.prepend(banner);
+            sassBox.hidden = false;
+        }
         if (gameDay) {  // home game this Saturday
             const banner = el('div', 'gameday'), text = el('p');
             text.append(el('b', null, 'Saturdays are for the boys.'), `Game day: Texas vs. ${gameDay.them} at DKR${gameDay.time ? `, ${gameDay.time}` : ''}.`);
@@ -161,6 +171,7 @@
 
     let hotSaturday = false;  // set from the forecast: 90° and up means a swim
     let gameDay = null;  // set from ESPN: the Longhorns are home this Saturday
+    let awayDay = null;  // or they're playing somewhere else, and Victory Lap has the TVs
     let pending = 0;
     async function run() {
         const ticket = ++pending;
@@ -764,7 +775,9 @@
                 gameDay = { them: home.them, time: home.timed ? home.date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' }) : '' };
                 run();
             }
-            longhorns = games.filter(g => g.home && !g.done);
+            const away = games.find(g => !g.home && !g.done && g.day === satDay);
+            if (away && !awayDay) { awayDay = { them: away.them }; run(); }
+            longhorns = games.filter(g => !g.done);
             drawCalendar();
             const sec = games.filter(g => g.done && g.sec);
             tx('record', `${sec.filter(g => g.won).length}–${sec.filter(g => !g.won).length}`);
@@ -812,6 +825,7 @@
     // the traditions that come back on the same schedule every year
     const EVERY_YEAR = [
         { when: 'Every week', name: 'The Concourse Project', where: '8509 Burleson Rd', note: 'Austin’s electronic music hall. DJs most weekends, until late.', link: 'https://concourseproject.com' },
+        { when: 'Game days', name: 'Victory Lap', where: '504 W 24th St', note: 'The Longhorns sports bar by campus. Opens early on game days; trivia every Tuesday.' },
         { when: 'Mar–Oct', name: 'The bats', where: 'Congress Avenue Bridge', note: 'About 1.5 million of them fly out at sunset.' },
         { when: 'Spring', name: 'ABC Kite Fest', where: 'Zilker Park', note: 'A Saturday in late March or April. The sky fills with kites.' },
         { when: 'Late Apr', name: 'Eeyore’s Birthday Party', where: 'Pease Park', note: 'Usually the last Saturday in April, since 1963. Costumes, drum circles, very Austin.' },
@@ -827,8 +841,10 @@
         if (!cal) return;
         const today = new Date(); today.setHours(0, 0, 0, 0);
         const sat = new Date(today); sat.setDate(today.getDate() + (6 - today.getDay() + 7) % 7);
-        const games = longhorns.map(g => ({ from: g.day, name: `Texas vs. ${g.them}`, where: 'DKR', link: 'https://texassports.com/sports/football/schedule',
-            note: g.timed ? `Kickoff ${g.date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' })}. Hook ’em.` : 'Kickoff time TBA. Hook ’em.' }));
+        const kickoff = g => g.timed ? `Kickoff ${g.date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' })}.` : 'Kickoff time TBA.';
+        const games = longhorns.map(g => g.home
+            ? { from: g.day, name: `Texas vs. ${g.them}`, where: 'DKR', link: 'https://texassports.com/sports/football/schedule', note: `${kickoff(g)} Hook ’em.` }
+            : { from: g.day, name: `Texas at ${g.them}`, where: 'Watch at Victory Lap', link: 'https://texassports.com/sports/football/schedule', note: `${kickoff(g)} Away game: the TVs on 24th.` });
         const all = [...EVENTS, ...games].filter(e => day0(e.to || e.from) >= today).sort((a, b) => day0(a.from) - day0(b.from));
         const months = new Map();
         all.forEach(e => {
@@ -885,6 +901,8 @@
     // preview a game day without waiting for one: ?game=Florida
     const preview = new URLSearchParams(location.search).get('game');
     if (preview) gameDay = { them: preview, time: '' };
+    const previewAway = new URLSearchParams(location.search).get('away');  // ?away=Oklahoma
+    if (previewAway) awayDay = { them: previewAway };
 
     // The Column: tap a cover to read it
     const storyBox = document.getElementById('story'), storyBody = storyBox.querySelector('.story-body');
