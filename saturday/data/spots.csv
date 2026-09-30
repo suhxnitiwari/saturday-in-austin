@@ -66,7 +66,7 @@ Clay Pit Contemporary Indian Cuisine,West Campus,lunch,90,9,foodie|productive|sl
 Tarka Indian Kitchen,Burnet Road / Mid-North,lunch,60,8,foodie|social,,18,
 Saffron Austin,The Domain / Rock Rose,lunch,90,8,foodie|treat-myself,,40,North Indian
 Nasha,East Austin,lunch,60,8,foodie|social,,18,
-Sangam Chettinad Indian Cuisine,The Domain / Rock Rose,lunch,60,8,foodie|social,,18,
+Sangam Chettinad Indian Cuisine,The Domain / Rock Rose,lunch,60,8,foodie|social|treat-myself,,18,
 Acre 41,West Campus,dinner,90,8,foodie,yes,75,the fancy dinner on campus
 Alteño,Downtown,dinner,90,8,foodie|social,yes,60,in the tallest building in Texas
 Arriba Abajo,East Austin,dinner,90,7,foodie|social,,40,Mexican
@@ -175,7 +175,7 @@ The Art Garage,South Lamar,creative,120,8,creative,,45,
 Dougherty Arts Center,Zilker / Barton Springs / Greenbelt,creative,120,8,creative,,45,
 Rosa Pottery Studio,East Austin,creative,120,9,creative,,45,
 Milano Nail Spa,East Austin,nails,90,9,treat-myself,,50,the big glam one
-milk + honey,Downtown,spa,90,8,slow,,90,
+milk + honey,The Domain / Rock Rose,spa,90,8,slow|treat-myself,,90,the Arboretum one
 Viva Day Spa,The Domain / Rock Rose,spa,90,9,treat-myself,,120,massage and a steam
 Moonlight Head Spa,Burnet Road / Mid-North,spa,90,8,slow,,90,
 Ceremony,South Lamar,spa,90,8,slow,,90,
@@ -231,6 +231,11 @@ Room Service Vintage,Hyde Park / North Loop,shopping,60,8,shopping,,40,
 Halal Bros,West Campus,lunch,60,8,foodie|social,,18,
 Quack's,Hyde Park / North Loop,coffee,45,8,foodie|productive|slow,,7,
 Prana Wellness Club,Clarksville / West Austin,exercise,60,8,productive,,30,Pilates: the best reset
+The Domain,The Domain / Rock Rose,shopping,150,8,shopping|treat-myself,,60,"Reformation, Anine Bing, Nordstrom"
+M Vince Nail Spa,The Domain / Rock Rose,nails,90,9,treat-myself,,60,chandelier and a glass of something
+Caesars Nail Salon & Spa,The Domain / Rock Rose,nails,90,7,treat-myself,,50,
+Paper Source,The Domain / Rock Rose,shopping,45,8,creative|shopping|treat-myself,,25,cards and pretty pens
+Erin Condren,The Domain / Rock Rose,shopping,45,8,creative|productive|shopping|treat-myself,,30,the flagship: planners made while you wait
 Pizza Press (order in),Home,order in,30,9,day-in,,22,the guilty pleasure comes to you
 Home Slice (order in),Home,order in,30,8,day-in,,22,
 Via 313 (order in),Home,order in,30,8,day-in,,22,Detroit-style

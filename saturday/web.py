@@ -60,7 +60,9 @@ def plan_json(start: str, end: str, hours="all", mood: str = "everything", seed=
     seed = int(seed) if seed not in (None, "") else random.randrange(1000, 10000)
     area = area or "anywhere"
     mode = travel or ("walk" if walk else "car")
-    ways = rules.Ways(mode, budget or "normal")
+    budget = budget or "normal"
+    # a treat-myself day is supposed to cost something: prices only matter on a student budget
+    ways = rules.Ways(mode, "splurge" if mood == "treat-myself" and budget == "normal" else budget)
     home = STARTS.get(start_from or "ut", "West Campus")
     guide = _guide(home)
     zone_of = {s.name: s.zone for s in guide.spots}  # walking and bus days rename zones; this keeps the real ones
