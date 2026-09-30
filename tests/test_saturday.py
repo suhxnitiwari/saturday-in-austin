@@ -262,7 +262,7 @@ def test_why_notes_are_few_and_real():
 def test_every_mood_makes_its_own_kind_of_day(city, guide, mood):
     rules_ = RULES[mood]
     for seed in range(6):
-        spots = shortlist(guide.pool(mood), [], random.Random(seed), caps=rules_.caps, need=rules_.need)
+        spots = shortlist(guide.pool(mood), [], random.Random(seed), caps=rules_.caps, need=rules_.need, favor=rules_.want)
         plan = plan_outing(spots, city, "West Campus", 8 * 60, 23 * 60 + 30, 10, mood=rules_)
         stops = [s.spot for s in plan.places]
         assert stops, "there's always something to do"
@@ -418,7 +418,7 @@ def test_every_favorite_gets_its_turn(guide):
 
 def test_higher_rated_spots_win_more_often(guide):
     wins = {"Numero 28": 0, "Arriba Abajo": 0}
-    for seed in range(400):
+    for seed in range(3000):  # the list is long now, so it takes a few thousand Saturdays to see the odds
         chosen = {s.name for s in shortlist(guide.spots, [], random.Random(seed))}
         for name in wins:
             wins[name] += name in chosen

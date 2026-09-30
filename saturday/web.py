@@ -104,7 +104,7 @@ def plan_json(start: str, end: str, hours="all", mood: str = "everything", seed=
         near_matters = {"walk": 3, "transit": 2, "uber": 2}.get(mode, 1)  # without a car, near matters more
         spots = shortlist(pool, keep, random.Random(seed), caps=mood_rules.caps, need=mood_rules.need,
                           distance=lambda s: min(far.minutes(home, s.zone), 300) * near_matters,
-                          favor=("brunch",) if brunch_time else ())
+                          favor=(("brunch",) if brunch_time else ()) + tuple(mood_rules.want))  # what the mood wants always gets a ticket
         plan = plan_outing(spots, city, home, t0, t1, hours, keep, mood_rules, ways=ways)
         if mode in ("walk", "transit") and not plan.stops:  # a missing coffee shop shouldn't mean no day at all
             plan = plan_outing(spots, city, home, t0, t1, hours, keep, mood_rules.relaxed(), ways=ways)
