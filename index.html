@@ -20,14 +20,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..600&family=Courier+Prime:ital@0;1&display=swap" rel="stylesheet">
     <style>
         :root {
-            --ink: #111111;
-            --paper: #FFFFFF;
-            --pink: #E8127C;      /* hot pink, very Carrie */
-            --pink-ink: #B80D62;
-            --blush: #FFF0F6;
-            --gold: #B8975A;      /* gold hairlines, very Blair */
+            --ink: #0A0A0A;       /* jet black */
+            --paper: #FFFFFF;     /* stark white */
+            --orange: #BF5700;    /* burnt orange, the UT one */
+            --orange-ink: #9A4600;  /* burnt orange, dark enough for small text */
+            --peach: #FFE9D9;     /* pastel orange */
+            --gold: #BF5700;      /* kickers and hairlines match the orange */
             --grey: #6E6E6E;
-            --line: #111111;
+            --line: #0A0A0A;
             --hair: #E4E4E4;
             --display: "Bodoni Moda", Didot, "Bodoni 72", Georgia, serif;
             --sans: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
@@ -37,7 +37,7 @@
         html, body { height: 100%; }
         body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
         a { color: inherit; }
-        :focus-visible { outline: 2px solid var(--pink); outline-offset: 2px; }
+        :focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
         button, input, select { font-family: inherit; }
 
         /* one screen: header, then the planner fills the rest */
@@ -46,14 +46,14 @@
         header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 40px; align-items: end; padding-bottom: 16px; border-bottom: 4px double var(--line); }
         .kicker { margin: 0 0 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); }
         h1 { margin: 0; font-family: var(--display); font-weight: 500; font-size: clamp(40px, 4.6vw, 64px); line-height: 0.92; letter-spacing: -0.02em; white-space: nowrap; }
-        h1 em { color: var(--pink); font-weight: 400; }
+        h1 em { color: var(--orange); font-weight: 400; }
         .headline { margin: 10px 0 0; font-family: var(--typewriter); font-size: 15px; line-height: 1.3; }
         .sections { display: flex; gap: 0; align-items: stretch; border: 1px solid var(--line); }
         .sections button, .sections a { display: flex; align-items: center; height: 38px; padding: 0 16px; font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; background: var(--paper); border: 0; cursor: pointer; color: var(--ink); white-space: nowrap; }
         .sections > * + * { border-left: 1px solid var(--line) !important; }
-        .sections button:hover, .sections a:hover { background: var(--blush); }
+        .sections button:hover, .sections a:hover { background: var(--peach); }
         .sections button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
-        .visiting { display: inline-block; margin-top: 8px; font-family: var(--typewriter); font-size: 13px; color: var(--pink-ink); text-decoration: none; border-bottom: 1px solid var(--pink); }
+        .visiting { display: inline-block; margin-top: 8px; font-family: var(--typewriter); font-size: 13px; color: var(--orange-ink); text-decoration: none; border-bottom: 1px solid var(--orange); }
         .visiting:hover { color: var(--ink); border-bottom-color: var(--ink); }
         /* off the Plan page the masthead is just the name and the nav */
         header.slim { align-items: center; padding-bottom: 12px; }
@@ -74,7 +74,7 @@
             header.open .sections { display: flex; }
             .sections > * + * { border-left: 0 !important; border-top: 1px solid var(--line); }
             .sections button, .sections a { height: 50px; padding: 0 18px; font-size: 12px; justify-content: space-between; }
-            .sections button[aria-selected="true"]::after { content: "●"; color: var(--pink); font-size: 10px; }
+            .sections button[aria-selected="true"]::after { content: "●"; color: var(--orange); font-size: 10px; }
         }
 
         main { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); gap: 36px; min-height: 0; padding-top: 6px; }
@@ -95,24 +95,24 @@
         .seg.two { grid-template-columns: repeat(2, 1fr); }
         .seg.three { grid-template-columns: repeat(3, 1fr); }
         .sec .mini { float: right; display: inline-flex; align-items: center; gap: 7px; min-height: 30px; margin-top: -9px; padding: 0 10px; border: 1px solid var(--line); font-size: 10.5px; letter-spacing: 0.14em; cursor: pointer; }
-        .sec .mini:hover { background: var(--blush); }
-        .sec .mini input { accent-color: var(--pink); width: 15px; height: 15px; margin: 0; }
+        .sec .mini:hover { background: var(--peach); }
+        .sec .mini input { accent-color: var(--orange); width: 15px; height: 15px; margin: 0; }
         .sec .mini .onoff::before { content: "Off"; color: var(--grey); }
-        .sec .mini:has(input:checked) { background: var(--blush); border-color: var(--pink); color: var(--pink-ink); }
-        .sec .mini:has(input:checked) .onoff::before { content: "On"; color: var(--pink-ink); }
-        .sec .mini:has(input:focus-visible) { outline: 2px solid var(--pink); outline-offset: 2px; }
+        .sec .mini:has(input:checked) { background: var(--peach); border-color: var(--orange); color: var(--orange-ink); }
+        .sec .mini:has(input:checked) .onoff::before { content: "On"; color: var(--orange-ink); }
+        .sec .mini:has(input:focus-visible) { outline: 2px solid var(--orange); outline-offset: 2px; }
         .seg.five { grid-template-columns: repeat(5, 1fr); }
         .seg label { position: relative; display: block; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
         .seg input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
         .seg span { display: flex; align-items: center; justify-content: center; height: 42px; padding: 0 8px; font-size: 13px; font-weight: 600; text-align: center; transition: background .12s, color .12s; }
-        .seg label:hover span { background: var(--blush); }
+        .seg label:hover span { background: var(--peach); }
         .seg input:checked + span { background: var(--ink); color: var(--paper); }
-        .seg input:focus-visible + span { outline: 2px solid var(--pink); outline-offset: -4px; }
+        .seg input:focus-visible + span { outline: 2px solid var(--orange); outline-offset: -4px; }
         .box { width: 100%; height: 42px; border: 1px solid var(--line); border-radius: 0; background: var(--paper); padding: 0 12px; font-size: 14px; color: var(--ink); appearance: none; -webkit-appearance: none; }
-        .box:focus { outline: none; border-color: var(--pink); box-shadow: inset 0 0 0 1px var(--pink); }
+        .box:focus { outline: none; border-color: var(--orange); box-shadow: inset 0 0 0 1px var(--orange); }
         input::placeholder { color: #A5A5A5; }
         .hint:empty { display: none; }
-        /* our own dropdowns: square, black-bordered, pink when chosen */
+        /* our own dropdowns: square, black-bordered, orange when chosen */
         .combo { position: relative; }
         .combo .box { padding-right: 34px; background: linear-gradient(45deg, transparent 50%, var(--ink) 50%) right 18px center / 5px 5px no-repeat,
                                                      linear-gradient(-45deg, transparent 50%, var(--ink) 50%) right 13px center / 5px 5px no-repeat; }
@@ -122,10 +122,10 @@
         .combo li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; font-size: 14px; cursor: pointer; border-left: 3px solid transparent; }
         .combo li + li { border-top: 1px solid var(--hair); }
         .combo li small { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); }
-        .combo li.on, .combo li:hover { background: var(--blush); border-left-color: var(--pink); }
+        .combo li.on, .combo li:hover { background: var(--peach); border-left-color: var(--orange); }
         .combo li.empty { cursor: default; font-family: var(--typewriter); font-size: 12.5px; color: var(--grey); }
         .combo li.empty:hover { background: none; border-left-color: transparent; }
-        .hint { margin: 8px 0 0; font-family: var(--typewriter); font-size: 12.5px; color: var(--pink-ink); }
+        .hint { margin: 8px 0 0; font-family: var(--typewriter); font-size: 12.5px; color: var(--orange-ink); }
 
         /* the day */
         .day { display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto; min-height: 0; border: 2px solid var(--line); background: var(--paper); outline: 1px solid var(--gold); outline-offset: 4px; margin: 5px; }
@@ -133,11 +133,11 @@
         .day-top { grid-row: 1; } .sass { grid-row: 2; } .scroll { grid-row: 3; } .foot { grid-row: 4; }
         .day-top { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px 10px; border-bottom: 1px solid var(--line); }
         .day-head { margin: 0; font-size: 11px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; }
-        .swipe-open { height: 30px; padding: 0 14px; border: 0; border-radius: 999px; background: var(--pink); color: var(--paper); font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; }
+        .swipe-open { height: 30px; padding: 0 14px; border: 0; border-radius: 999px; background: var(--orange); color: var(--paper); font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer; }
         .swipe-open:hover { background: var(--ink); }
         .sass { padding: 10px 18px 0; }
         .sass:empty, .sass[hidden] { display: none; }
-        .sass p { margin: 0 0 4px; font-family: var(--display); font-style: italic; font-size: 13.5px; color: var(--pink-ink); }
+        .sass p { margin: 0 0 4px; font-family: var(--display); font-style: italic; font-size: 13.5px; color: var(--orange-ink); }
         .scroll { overflow-y: auto; padding: 14px 18px 18px; min-height: 0; }
         .status { margin: 0; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--grey); }
         .day.thinking .timeline { opacity: 0.35; transition: opacity .15s; }
@@ -147,12 +147,12 @@
         .timeline li { position: relative; }
         /* pearls */
         .timeline li::before { content: ""; position: absolute; left: -21px; top: 3px; width: 9px; height: 9px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #FFFFFF 0 20%, #EFE9E3 55%, #C9BFB5 100%); box-shadow: 0 0 0 1px #B7ADA3; }
-        .t { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; color: var(--pink-ink); }
+        .t { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; color: var(--orange-ink); }
         .stop { padding: 0 0 11px; }
         .stop .name { margin: 2px 0 1px; font-family: var(--display); font-size: 18px; font-weight: 500; line-height: 1.12; }
         .stop .meta { margin: 0; font-size: 12.5px; color: var(--ink); }
         .t .tag { font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--grey); }
-        .why { margin: 5px 0 0; font-family: var(--typewriter); font-size: 12.5px; line-height: 1.4; color: var(--pink-ink); }
+        .why { margin: 5px 0 0; font-family: var(--typewriter); font-size: 12.5px; line-height: 1.4; color: var(--orange-ink); }
         .why::before { content: "— "; }
         .timeline li.reset::before { background: var(--paper); box-shadow: 0 0 0 1px var(--gold); }
         .reset { padding: 0 0 11px; }
@@ -161,7 +161,7 @@
         .timeline li.travel::before, .timeline li.free::before { display: none; }
         .travel { padding: 0 0 9px; font-size: 10.5px; letter-spacing: 0.06em; color: var(--grey); }
         .free { padding: 0 0 9px; font-family: var(--display); font-style: italic; font-size: 13px; color: var(--grey); }
-        .timeline li.home::before { background: radial-gradient(circle at 35% 30%, #FFD1E6 0 20%, var(--pink) 70%); box-shadow: 0 0 0 1px var(--pink-ink); }
+        .timeline li.home::before { background: radial-gradient(circle at 35% 30%, #FFD2AD 0 20%, var(--orange) 70%); box-shadow: 0 0 0 1px var(--orange-ink); }
         .home .meta { margin: 2px 0 0; font-family: var(--display); font-style: italic; font-size: 14px; }
 
         .foot { position: relative; border-top: 1px solid var(--line); }
@@ -176,10 +176,10 @@
         .stats span { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--grey); }
         .again-row { display: grid; grid-template-columns: 1fr auto auto auto; border-top: 1px solid var(--line); }
         .seal-it { width: 52px; border: 0; border-left: 1px solid var(--line); background: var(--paper); font-size: 22px; cursor: pointer; }
-        .seal-it:hover { background: var(--blush); }
-        .save-it { font-family: var(--display); color: var(--pink-ink); }
+        .seal-it:hover { background: var(--peach); }
+        .save-it { font-family: var(--display); color: var(--orange-ink); }
         .seal-it:disabled { opacity: 0.4; cursor: progress; }
-        .again { height: 46px; border: 0; background: var(--pink); color: var(--paper); font-size: 11.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: background .12s; }
+        .again { height: 46px; border: 0; background: var(--orange); color: var(--paper); font-size: 11.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: background .12s; }
         .again:hover { background: var(--ink); color: var(--paper); }
         .again:disabled { opacity: 0.5; cursor: progress; }
         .number { margin: 0; display: flex; align-items: center; padding: 0 14px; border-left: 1px solid var(--line); font-family: var(--display); font-style: italic; font-size: 14px; white-space: nowrap; }
@@ -188,7 +188,7 @@
         .screen[hidden] { display: none !important; }
         .screen.method, .screen.editor { min-height: 0; overflow-y: auto; }
         .big { margin: 0; font-family: var(--display); font-weight: 500; font-size: clamp(34px, 3.6vw, 54px); line-height: 1.02; letter-spacing: -0.015em; }
-        .big em { color: var(--pink); font-weight: 400; }
+        .big em { color: var(--orange); font-weight: 400; }
         .dek { margin: 16px 0 0; font-family: var(--typewriter); font-size: 15px; line-height: 1.5; }
         .method { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px 48px; align-content: start; padding-top: 6px; }
         .method .numbers { grid-column: 1 / -1; grid-row: 1; border-bottom: 0; padding-bottom: 0; }
@@ -200,36 +200,36 @@
         .swipe-box::backdrop { background: rgba(17, 17, 17, 0.5); }
         .swipe-paper { position: relative; padding: 30px 28px 24px; background: var(--paper); border: 1px solid var(--line); outline: 1px solid var(--gold); outline-offset: -8px; }
         .swipe-head { margin: 8px 0 0; font-family: var(--display); font-weight: 500; font-size: 34px; line-height: 1; }
-        .swipe-head em { color: var(--pink); font-weight: 400; }
+        .swipe-head em { color: var(--orange); font-weight: 400; }
         .deck { position: relative; height: min(340px, calc(100vh - 350px)); margin: 18px 0 40px; }
-        .deck-note { display: grid; place-items: center; height: 100%; margin: 0; padding: 0 20px; text-align: center; font-family: var(--display); font-style: italic; font-size: 22px; color: var(--pink-ink); }
+        .deck-note { display: grid; place-items: center; height: 100%; margin: 0; padding: 0 20px; text-align: center; font-family: var(--display); font-style: italic; font-size: 22px; color: var(--orange-ink); }
         .swipe-card { position: absolute; inset: 0; display: flex; flex-direction: column; padding: 10px 10px 14px; background: var(--paper); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 18px 30px -24px rgba(17, 17, 17, 0.55); touch-action: none; user-select: none; cursor: grab; transition: transform .25s ease, opacity .25s ease; }
         .swipe-card:active { cursor: grabbing; }
         .swipe-card[hidden] { display: none; }
         .swipe-paper .st-kicker { margin: 0; font-size: 10.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
-        .sc-img { flex: 1 1 0; min-height: 0; display: grid; place-items: center; border-radius: 12px; background: var(--blush); font-family: var(--display); font-style: italic; font-size: 30px; color: var(--pink-ink); }
+        .sc-img { flex: 1 1 0; min-height: 0; display: grid; place-items: center; border-radius: 12px; background: var(--peach); font-family: var(--display); font-style: italic; font-size: 30px; color: var(--orange-ink); }
         .sc-kicker { margin: 12px 4px 0; font-size: 9.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); }
         .swipe-card h3 { margin: 4px 4px 0; font-family: var(--display); font-weight: 500; font-size: 24px; line-height: 1.1; }
         .sc-note { margin: 4px 4px 0; font-family: var(--typewriter); font-size: 12px; line-height: 1.4; color: var(--grey); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .stamp { position: absolute; top: 26px; padding: 4px 12px; border: 3px solid; border-radius: 8px; font-size: 20px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; pointer-events: none; }
-        .stamp.yes { left: 24px; color: var(--pink); transform: rotate(-12deg); opacity: var(--yes, 0); }
+        .stamp.yes { left: 24px; color: var(--orange); transform: rotate(-12deg); opacity: var(--yes, 0); }
         .stamp.no { right: 24px; color: var(--ink); transform: rotate(12deg); opacity: var(--no, 0); }
         .swipe-actions { display: flex; align-items: center; justify-content: center; gap: 30px; }
         .swipe-actions button { width: 56px; height: 56px; border: 1px solid var(--line); border-radius: 50%; background: var(--paper); font-size: 22px; cursor: pointer; transition: transform .12s; }
         .swipe-actions button:hover { transform: scale(1.08); }
-        .swipe-actions .swipe-yes { border-color: var(--pink); color: var(--pink); }
+        .swipe-actions .swipe-yes { border-color: var(--orange); color: var(--orange); }
         .swipe-actions button:disabled { opacity: 0.3; cursor: default; transform: none; }
         .swipe-count { min-width: 56px; text-align: center; font-family: var(--typewriter); font-size: 12px; color: var(--grey); }
         .swipe-done { display: block; width: 100%; margin-top: 18px; }
-        .swipe-done:disabled { opacity: 0.4; cursor: default; background: var(--pink); }
+        .swipe-done:disabled { opacity: 0.4; cursor: default; background: var(--orange); }
         /* Austin page: three stories from The Column, one big and two small */
         .reads { margin-top: 18px; }
         .reads .label { margin: 0 0 8px; }
         .read { display: grid; color: var(--ink); text-decoration: none; }
-        .read-img { display: grid; place-items: center; border-radius: 12px; background: var(--blush); font-family: var(--display); font-style: italic; font-size: 14px; color: var(--pink-ink); transition: filter .15s; }
+        .read-img { display: grid; place-items: center; border-radius: 12px; background: var(--peach); font-family: var(--display); font-style: italic; font-size: 14px; color: var(--orange-ink); transition: filter .15s; }
         .read:hover .read-img, .read:focus-visible .read-img { filter: brightness(0.93); }
         .read-t { font-family: var(--display); font-weight: 500; line-height: 1.12; }
-        .read-t em { color: var(--pink); font-weight: 400; }
+        .read-t em { color: var(--orange); font-weight: 400; }
         .read.big { position: relative; }
         .read.big .read-img { height: 120px; }
         .read.big .read-t { margin-top: 8px; font-size: 21px; }
@@ -249,15 +249,17 @@
         .pin:nth-child(8) { grid-column: 4; grid-row: 1 / 7; } .pin:nth-child(9) { grid-column: 4; grid-row: 7 / 15; } .pin:nth-child(10) { grid-column: 4; grid-row: 15 / 21; }
         .pin:nth-child(11) { grid-column: 5; grid-row: 1 / 10; } .pin:nth-child(12) { grid-column: 5; grid-row: 10 / 21; }
         .pin:nth-child(13) { grid-column: 6; grid-row: 1 / 11; } .pin:nth-child(14) { grid-column: 6; grid-row: 11 / 21; }
-        .pin .story-img { position: relative; flex: 1 1 0; min-height: 0; display: grid; place-items: center; border-radius: 16px; background: var(--blush); overflow: hidden; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--pink-ink); transition: filter .15s; }
-        .pin .story-img::after { content: "Read"; position: absolute; top: 10px; right: 10px; padding: 8px 14px; border-radius: 999px; background: var(--pink); color: var(--paper); font-family: var(--sans); font-style: normal; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; opacity: 0; transition: opacity .15s; }
+        .pin .story-img { position: relative; flex: 1 1 0; min-height: 0; display: grid; place-items: center; border-radius: 16px; background: var(--peach); overflow: hidden; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--orange-ink); transition: filter .15s; }
+        .pin .story-img::after { content: "Read"; position: absolute; top: 10px; right: 10px; padding: 8px 14px; border-radius: 999px; background: var(--orange); color: var(--paper); font-family: var(--sans); font-style: normal; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; opacity: 0; transition: opacity .15s; }
+        .story-img img, .read-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        .read-img { position: relative; overflow: hidden; }
         .pin[data-story]:hover .story-img, .pin[data-story]:focus-visible .story-img { filter: brightness(0.93); }
         .pin[data-story]:hover .story-img::after, .pin[data-story]:focus-visible .story-img::after { opacity: 1; }
         .pin:focus-visible { outline: none; }
-        .pin:focus-visible .story-img { outline: 2px solid var(--pink); outline-offset: 3px; }
+        .pin:focus-visible .story-img { outline: 2px solid var(--orange); outline-offset: 3px; }
         .pin .story-no { display: none; }
         .pin h3 { margin: 8px 2px 0; font-family: var(--display); font-weight: 500; font-size: clamp(14px, 1.1vw, 17px); line-height: 1.15; }
-        .pin h3 em { color: var(--pink); font-weight: 400; }
+        .pin h3 em { color: var(--orange); font-weight: 400; }
         .pin .story-by { display: none; }
         .pin.soon { cursor: default; }
         .pin.soon .story-by { display: block; margin: 3px 2px 0; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--grey); }
@@ -268,24 +270,24 @@
         .close-story:hover { background: var(--ink); color: var(--paper); }
         .story-body .st-kicker { margin: 0; font-size: 10.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
         .story-body h2 { margin: 10px 60px 0 0; font-family: var(--display); font-weight: 500; font-size: clamp(32px, 4vw, 46px); line-height: 1.05; }
-        .story-body h2 em { color: var(--pink); font-weight: 400; }
+        .story-body h2 em { color: var(--orange); font-weight: 400; }
         .story-body .st-dek { margin: 16px 0 6px; padding-bottom: 18px; border-bottom: 4px double var(--line); font-family: var(--typewriter); font-size: 15px; line-height: 1.55; }
-        .story-body h3 { margin: 24px 0 8px; font-family: var(--display); font-style: italic; font-weight: 400; font-size: 24px; color: var(--pink-ink); }
+        .story-body h3 { margin: 24px 0 8px; font-family: var(--display); font-style: italic; font-weight: 400; font-size: 24px; color: var(--orange-ink); }
         .story-body p { margin: 0 0 10px; font-size: 15px; line-height: 1.7; }
         .st-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
         .st-list li { padding: 10px 0; border-bottom: 1px solid var(--hair); font-size: 14.5px; line-height: 1.6; }
         .st-list b { font-family: var(--display); font-weight: 500; font-size: 18px; margin-right: 8px; }
         .st-list span { margin-right: 8px; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); }
         .st-defs b { display: block; margin-bottom: 2px; }
-        .st-tip { margin-top: 22px !important; font-family: var(--display); font-style: italic; font-size: 18px !important; color: var(--pink-ink); }
+        .st-tip { margin-top: 22px !important; font-family: var(--display); font-style: italic; font-size: 18px !important; color: var(--orange-ink); }
         .story-body .cta { margin-top: 16px; }
-        .story-body a { color: var(--pink-ink); text-decoration-color: var(--pink); text-underline-offset: 3px; }
+        .story-body a { color: var(--orange-ink); text-decoration-color: var(--orange); text-underline-offset: 3px; }
         .st-actions { display: flex; flex-wrap: wrap; gap: 12px; }
         .cta.quiet { background: transparent; color: var(--ink); border: 1px solid var(--line); }
         .cta.quiet:hover { background: var(--ink); color: var(--paper); }
         @media (max-width: 560px) { .story-paper { padding: 36px 20px 28px; } }
         .cards-title { grid-column: 1 / -1; margin: 6px 0 -8px; font-family: var(--display); font-weight: 500; font-size: clamp(24px, 2.2vw, 32px); line-height: 1.1; }
-        .cards-title em { color: var(--pink); font-weight: 400; }
+        .cards-title em { color: var(--orange); font-weight: 400; }
         .cards { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 4px double var(--line); }
         .card { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; align-content: start; padding: 18px 20px 18px 0; border-bottom: 1px solid var(--line); }  /* pictures, titles, text and terms each share a row */
         .nowrap { white-space: nowrap; }
@@ -299,44 +301,44 @@
         .nope { max-width: 320px; margin: 0 0 10px; padding: 0; list-style: none; border-top: 1px solid var(--line); }
         .nope li { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; padding: 6px 0; border-bottom: 1px solid var(--hair); }
         .nope b { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; }
-        .nope span { grid-row: 1 / 3; grid-column: 2; align-self: center; color: var(--pink); font-size: 16px; }
+        .nope span { grid-row: 1 / 3; grid-column: 2; align-self: center; color: var(--orange); font-size: 16px; }
         .nope .yes span { color: var(--ink); }
-        .nope em { font-family: var(--typewriter); font-style: normal; font-size: 12px; line-height: 1.35; color: var(--pink-ink); }
-        .card .grown { margin: 4px 0 6px; font-size: 9.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--pink-ink); }
-        .card .grown code { font-family: var(--typewriter); font-size: 10.5px; letter-spacing: 0; text-transform: none; color: var(--pink-ink); background: var(--blush); padding: 0 3px; }
+        .nope em { font-family: var(--typewriter); font-style: normal; font-size: 12px; line-height: 1.35; color: var(--orange-ink); }
+        .card .grown { margin: 4px 0 6px; font-size: 9.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange-ink); }
+        .card .grown code { font-family: var(--typewriter); font-size: 10.5px; letter-spacing: 0; text-transform: none; color: var(--orange-ink); background: var(--peach); padding: 0 3px; }
         .now { margin: 22px 0 0; padding: 14px 0 0; border-top: 1px solid var(--line); }
         .now-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 18px; margin-top: 6px; }
         .now-grid b { display: block; font-family: var(--display); font-weight: 500; font-size: 26px; line-height: 1.1; }
         .now-grid span { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--grey); }
         .now-src { margin: 10px 0 0; font-family: var(--typewriter); font-size: 12px; color: #555; }
 
-        /* the love letter: cream paper, a pink wax seal, very Bridgerton */
+        /* the love letter: cream paper, an orange wax seal */
         .letter-box { width: min(620px, calc(100% - 32px)); max-height: calc(100vh - 40px); padding: 0; border: 0; background: transparent; overflow: visible; }
         .letter-box::backdrop { background: rgba(17, 17, 17, 0.45); }
         .paper { position: relative; padding: 38px 42px 26px; background: #FFFBF5; border: 1px solid #E8DCCB; box-shadow: 0 30px 60px -30px rgba(17, 17, 17, 0.6), inset 0 0 0 6px #FFFBF5, inset 0 0 0 7px var(--gold); max-height: calc(100vh - 40px); overflow-y: auto; }
-        .seal { position: absolute; top: 18px; right: 24px; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #F77BB4, var(--pink) 55%, #A50A55); color: #FFE3F0; font-family: var(--display); font-style: italic; font-size: 22px; box-shadow: 0 4px 10px rgba(165, 10, 85, 0.35), inset 0 0 0 4px rgba(255, 255, 255, 0.18); transform: rotate(-8deg); }
+        .seal { position: absolute; top: 18px; right: 24px; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #F77BB4, var(--orange) 55%, #A50A55); color: #FFE3F0; font-family: var(--display); font-style: italic; font-size: 22px; box-shadow: 0 4px 10px rgba(165, 10, 85, 0.35), inset 0 0 0 4px rgba(255, 255, 255, 0.18); transform: rotate(-8deg); }
         .letter-kicker { margin: 0 80px 14px 0; font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
         .letter-to { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
         .letter-to label { display: flex; flex-direction: column; gap: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
         .letter-to input { height: 36px; border: 0; border-bottom: 1px solid var(--line); background: transparent; font-family: var(--display); font-style: italic; font-size: 18px; color: var(--ink); }
-        .letter-to input:focus { outline: none; border-bottom-color: var(--pink); }
+        .letter-to input:focus { outline: none; border-bottom-color: var(--orange); }
         .letter-body { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--display); font-size: 17px; line-height: 1.6; color: var(--ink); }
         .letter-actions { display: flex; gap: 0; margin-top: 20px; border: 1px solid var(--line); }
         .letter-actions button { flex: 1; height: 42px; border: 0; background: var(--paper); font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; }
         .letter-actions button + button { border-left: 1px solid var(--line); }
-        .letter-actions .copy { background: var(--pink); color: var(--paper); }
+        .letter-actions .copy { background: var(--orange); color: var(--paper); }
         .letter-actions button:hover { background: var(--ink); color: var(--paper); }
         .ideal-open { display: block; width: 100%; margin-top: 18px; }
         .ideal-title { margin: 0 80px 16px 0; font-family: var(--display); font-weight: 500; font-size: 34px; line-height: 1.05; }
-        .ideal-title em { color: var(--pink); font-weight: 400; }
+        .ideal-title em { color: var(--orange); font-weight: 400; }
         .ideal { margin: 0; padding: 0; list-style: none; counter-reset: ideal; border-top: 1px solid var(--line); }
         .ideal li { counter-increment: ideal; display: grid; grid-template-columns: 30px 70px 1fr; column-gap: 12px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--hair); }
-        .ideal li::before { content: counter(ideal, decimal-leading-zero); grid-row: 1 / 3; font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; color: var(--pink); }
+        .ideal li::before { content: counter(ideal, decimal-leading-zero); grid-row: 1 / 3; font-size: 10.5px; font-weight: 700; letter-spacing: 0.1em; color: var(--orange); }
         .ideal b { grid-row: 1 / 3; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
         .ideal span { font-family: var(--display); font-size: 21px; line-height: 1.2; }
-        .ideal em { grid-column: 3; font-family: var(--typewriter); font-style: normal; font-size: 13px; line-height: 1.4; color: var(--pink-ink); }
+        .ideal em { grid-column: 3; font-family: var(--typewriter); font-style: normal; font-size: 13px; line-height: 1.4; color: var(--orange-ink); }
         .ideal li.home span { font-style: italic; }
-        .letter-note { min-height: 1em; margin: 10px 0 0; font-family: var(--typewriter); font-size: 12px; color: var(--pink-ink); }
+        .letter-note { min-height: 1em; margin: 10px 0 0; font-family: var(--typewriter); font-size: 12px; color: var(--orange-ink); }
         /* Austin: a big weather widget and the city by the numbers */
         .austin { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.8fr) minmax(0, 1fr); gap: 36px; align-content: start; padding-top: 6px; overflow-y: auto; min-height: 0; }
         .flip { margin-top: 16px; }
@@ -349,63 +351,63 @@
         .flip-nav { display: flex; border: 1px solid var(--line); }
         .flip-nav button { width: 30px; height: 26px; border: 0; background: var(--paper); color: var(--ink); font-size: 16px; line-height: 1; cursor: pointer; }
         .flip-count { display: flex; align-items: center; padding: 0 8px; border-left: 1px solid var(--line); border-right: 1px solid var(--line); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; }
-        .flip-nav button:focus-visible { outline: 2px solid var(--pink); outline-offset: -2px; }
-        .flip-nav button:hover { background: var(--blush); color: var(--pink); }
+        .flip-nav button:focus-visible { outline: 2px solid var(--orange); outline-offset: -2px; }
+        .flip-nav button:hover { background: var(--peach); color: var(--orange); }
         .flip .figs b { font-size: clamp(22px, 1.8vw, 26px); }
         .flip .figs.six { grid-template-columns: repeat(3, 1fr); }
         .flip .figs.six div:nth-child(4) { padding-left: 0; border-left: 0; }
         .flip .figs.six div:nth-child(n + 4) { border-top: 1px solid var(--hair); margin-top: 10px; }
         .flip .figs.six div { padding-bottom: 4px; }
-        /* the map: cream paper, thin black streets, pink neighborhoods */
+        /* the map: peach paper, thin black streets, orange neighborhoods */
         .map-fig { margin: 0; }
         .atx { display: block; width: 100%; height: auto; max-height: calc(100vh - 300px); border: 1px solid var(--line); outline: 1px solid var(--gold); outline-offset: 4px; }
-        .atx-paper { fill: var(--blush); }
+        .atx-paper { fill: var(--peach); }
         .atx-grid line { stroke: #F4CDE0; stroke-width: 0.6; }
-        .atx-grid text { font: 7.5px var(--typewriter); fill: #9A9A9A; paint-order: stroke; stroke: var(--blush); stroke-width: 3px; }
-        .atx-compass circle { fill: var(--blush); stroke: var(--ink); stroke-width: 0.8; }
+        .atx-grid text { font: 7.5px var(--typewriter); fill: #9A9A9A; paint-order: stroke; stroke: var(--peach); stroke-width: 3px; }
+        .atx-compass circle { fill: var(--peach); stroke: var(--ink); stroke-width: 0.8; }
         .atx-compass line { stroke: var(--ink); stroke-width: 0.6; }
         .atx-compass path { fill: var(--ink); }
-        .atx-compass path.n { fill: var(--pink); }
+        .atx-compass path.n { fill: var(--orange); }
         .atx-compass text { font: 700 7.5px var(--sans); fill: var(--ink); letter-spacing: 0.05em; }
-        .atx-compass text.n { fill: var(--pink); }
+        .atx-compass text.n { fill: var(--orange); }
         .atx-streets path { fill: none; stroke: var(--ink); stroke-width: 0.8; stroke-linejoin: round; }
         .atx-river { fill: none; stroke: var(--ink); stroke-width: 4.5; stroke-linejoin: round; stroke-linecap: round; }
-        .atx-river-in { fill: none; stroke: var(--blush); stroke-width: 2.8; stroke-linejoin: round; stroke-linecap: round; }
-        .atx-street-names text { font: 700 6.5px var(--sans); letter-spacing: 0.14em; fill: #6E6E6E; paint-order: stroke; stroke: var(--blush); stroke-width: 3px; }
+        .atx-river-in { fill: none; stroke: var(--peach); stroke-width: 2.8; stroke-linejoin: round; stroke-linecap: round; }
+        .atx-street-names text { font: 700 6.5px var(--sans); letter-spacing: 0.14em; fill: #6E6E6E; paint-order: stroke; stroke: var(--peach); stroke-width: 3px; }
         .atx-street-names .atx-lake { font-style: italic; font-weight: 400; font-family: var(--display); font-size: 8px; letter-spacing: 0.08em; }
-        .atx-drives polyline { fill: none; stroke-linejoin: round; stroke: var(--pink); stroke-width: 0.9; stroke-dasharray: 2 2.5; opacity: 0.55; transition: opacity 0.2s; }
+        .atx-drives polyline { fill: none; stroke-linejoin: round; stroke: var(--orange); stroke-width: 0.9; stroke-dasharray: 2 2.5; opacity: 0.55; transition: opacity 0.2s; }
         .atx-drives polyline.on { stroke-width: 1.8; stroke-dasharray: none; opacity: 1; }
         .atx-drives.focus polyline:not(.on) { opacity: 0.12; }
-        .atx-edge { font: italic 8px var(--display); fill: var(--pink-ink); }
+        .atx-edge { font: italic 8px var(--display); fill: var(--orange-ink); }
         .atx-dots g { cursor: pointer; outline: none; }
         .atx-dots .hit { fill: transparent; stroke: none; }
-        .atx-dots g.on circle:not(.hit), .atx-dots g:focus-visible circle:not(.hit) { stroke: var(--pink); stroke-width: 3; }
+        .atx-dots g.on circle:not(.hit), .atx-dots g:focus-visible circle:not(.hit) { stroke: var(--orange); stroke-width: 3; }
         .atx-dots g.on circle:not(.hit) { r: 12px; }
-        .atx-dots circle { fill: var(--pink); stroke: var(--blush); stroke-width: 1.5; }
+        .atx-dots circle { fill: var(--orange); stroke: var(--peach); stroke-width: 1.5; }
         .atx-dots text { font: 700 8px var(--sans); fill: #fff; text-anchor: middle; pointer-events: none; }
         .atx-dots g.on circle:not(.hit), .atx-dots g:hover circle:not(.hit), .atx-dots g.hov circle:not(.hit), .atx-dots g:focus-visible circle:not(.hit) { fill: var(--ink); }
-        .map-card { display: grid; gap: 3px; margin-top: 14px; padding: 10px 12px; border: 1px solid var(--line); border-left: 4px solid var(--pink); }
-        .mc-kicker { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--pink-ink); }
+        .map-card { display: grid; gap: 3px; margin-top: 14px; padding: 10px 12px; border: 1px solid var(--line); border-left: 4px solid var(--orange); }
+        .mc-kicker { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--orange-ink); }
         .mc-name { font-family: var(--display); font-weight: 500; font-size: 21px; line-height: 1.1; }
         .mc-body { font-family: var(--typewriter); font-size: 12px; line-height: 1.45; color: #333; }
         .map-key-label { margin-bottom: 6px; }
         .map-head { margin: 4px 0 0; font-family: var(--display); font-weight: 500; font-size: clamp(26px, 2.3vw, 36px); line-height: 1.08; letter-spacing: -0.01em; }
-        .map-head em { color: var(--pink); font-weight: 400; }
+        .map-head em { color: var(--orange); font-weight: 400; }
         .map-dek { margin: 10px 0 14px; font-family: var(--typewriter); font-size: 13px; line-height: 1.5; }
         .map-key { columns: 2; column-gap: 18px; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
         .map-key li { display: flex; align-items: baseline; gap: 8px; padding: 4px 0; border-bottom: 1px solid var(--hair); break-inside: avoid; font-size: 12.5px; cursor: pointer; }
-        .map-key li b { font-size: 10px; letter-spacing: 0.08em; color: var(--pink); }
+        .map-key li b { font-size: 10px; letter-spacing: 0.08em; color: var(--orange); }
         .map-key li span { margin-left: auto; font-family: var(--typewriter); font-size: 11px; color: var(--grey); }
-        .map-key li.on, .map-key li:hover, .map-key li.hov { background: var(--blush); }
+        .map-key li.on, .map-key li:hover, .map-key li.hov { background: var(--peach); }
         .map-key li.on b { color: var(--ink); }
         .map-src { margin: 8px 0 0; font-family: var(--typewriter); font-size: 11px; color: var(--grey); }
         .wx-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
         .wx-head .kicker { margin: 0; }
         .motto { margin: 0; font-family: var(--display); font-style: italic; font-size: clamp(17px, 1.5vw, 22px); line-height: 1; color: var(--ink); white-space: nowrap; }
-        .motto em { color: var(--pink); }
+        .motto em { color: var(--orange); }
         .wx-now { display: flex; align-items: flex-end; gap: 22px; margin: 4px 0 12px; }
         .wx-temp { font-family: var(--display); font-weight: 500; font-size: clamp(80px, 8.5vw, 124px); line-height: 0.85; letter-spacing: -0.03em; }
-        .wx-sky { margin: 0; font-family: var(--display); font-style: italic; font-size: 28px; color: var(--pink); text-transform: lowercase; }
+        .wx-sky { margin: 0; font-family: var(--display); font-style: italic; font-size: 28px; color: var(--orange); text-transform: lowercase; }
         .wx-feels { margin: 6px 0 0; font-family: var(--typewriter); font-size: 13px; color: var(--grey); }
         .wx-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
         .wx-grid div { padding: 12px 12px 12px 0; }
@@ -415,7 +417,7 @@
         .wx-saturday { margin-top: 16px; padding: 14px 18px 16px; border: 2px solid var(--line); outline: 1px solid var(--gold); outline-offset: 4px; }
         .wx-sat-line { margin: 4px 0 0; font-family: var(--typewriter); font-size: 14px; }
         .wx-sat-line b { font-family: var(--display); font-weight: 500; font-size: 30px; margin-right: 8px; }
-        .wx-verdict { margin: 8px 0 0; font-family: var(--display); font-style: italic; font-size: 20px; color: var(--pink-ink); }
+        .wx-verdict { margin: 8px 0 0; font-family: var(--display); font-style: italic; font-size: 20px; color: var(--orange-ink); }
         .wx-saturday { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 16px; }
         .wx-saturday .label, .wx-sat-line { grid-column: 1; }
         .wx-saturday .cta { grid-column: 2; grid-row: 1 / 3; align-self: center; margin: 0; }
@@ -425,16 +427,16 @@
         .vote-opts { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); }
         .vote-opts button { position: relative; display: grid; gap: 8px; align-content: start; padding: 14px; border: 0; background: var(--paper); color: var(--ink); font-family: var(--display); font-size: 18px; text-align: left; cursor: pointer; }
         .vote-opts button + button { border-left: 1px solid var(--line); }
-        .vote-opts button:hover { background: var(--blush); }
-        .vote-opts button em { color: var(--pink); }
+        .vote-opts button:hover { background: var(--peach); }
+        .vote-opts button em { color: var(--orange); }
         .vote-opts button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
-        .vote-opts button[aria-pressed="true"] > span:first-child::after { content: " ✓"; color: var(--pink); }
-        .vote-opts button:focus-visible { outline: 2px solid var(--pink); outline-offset: -3px; }
+        .vote-opts button[aria-pressed="true"] > span:first-child::after { content: " ✓"; color: var(--orange); }
+        .vote-opts button:focus-visible { outline: 2px solid var(--orange); outline-offset: -3px; }
         .vote-bar, .vote-pct { display: none; }
         .vote.voted .vote-bar { display: block; height: 6px; border: 1px solid currentColor; }
-        .vote.voted .vote-bar i { display: block; height: 100%; width: 0; background: var(--pink); transition: width 0.6s ease; }
+        .vote.voted .vote-bar i { display: block; height: 100%; width: 0; background: var(--orange); transition: width 0.6s ease; }
         .vote.voted .vote-pct { display: block; font-family: var(--sans); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
-        .vote-note { margin: 10px 0 0; font-family: var(--typewriter); font-size: 12.5px; color: var(--pink-ink); }
+        .vote-note { margin: 10px 0 0; font-family: var(--typewriter); font-size: 12.5px; color: var(--orange-ink); }
 
         /* the numbers: two editorial strips across the top of The Method */
         .numbers { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr; gap: 40px; padding-bottom: 22px; border-bottom: 4px double var(--line); }
@@ -453,27 +455,27 @@
         .slides:focus-visible { outline: none; }
         .slide-nav { display: flex; align-items: stretch; margin-top: 14px; border: 1px solid var(--line); width: max-content; }
         .slide-nav button { width: 34px; height: 30px; border: 0; background: var(--paper); color: var(--ink); font-size: 14px; cursor: pointer; }
-        .slide-nav button:hover { background: var(--blush); color: var(--pink); }
+        .slide-nav button:hover { background: var(--peach); color: var(--orange); }
         .slide-nav span { display: flex; align-items: center; padding: 0 12px; border-left: 1px solid var(--line); border-right: 1px solid var(--line); font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; }
         .portrait figcaption { margin-top: 16px; }
         .photo-title { display: block; white-space: nowrap; font-family: var(--display); font-weight: 500; font-size: clamp(24px, 2.3vw, 34px); line-height: 1.08; letter-spacing: -0.01em; }
-        .photo-title em { color: var(--pink); font-weight: 400; }
+        .photo-title em { color: var(--orange); font-weight: 400; }
         .photo-sub { display: block; margin-top: 8px; font-family: var(--typewriter); font-size: 12.5px; color: var(--grey); }
         .editor .big { font-size: clamp(40px, 4.4vw, 68px); }
-        .cta { margin-top: 20px; height: 46px; padding: 0 22px; border: 0; background: var(--pink); color: var(--paper); font-size: 11.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
+        .cta { margin-top: 20px; height: 46px; padding: 0 22px; border: 0; background: var(--orange); color: var(--paper); font-size: 11.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
         .cta:hover { background: var(--ink); }
         .letter { border-left: 1px solid var(--line); padding-left: 32px; }
         .letter p { margin: 0 0 12px; font-size: 14px; line-height: 1.7; }
         .letter .dear { font-family: var(--display); font-style: italic; font-size: 22px; margin-bottom: 10px; }
         .letter-head { margin: 2px 0 0; font-family: var(--display); font-weight: 500; font-size: clamp(28px, 2.5vw, 38px); line-height: 1.05; }
-        .letter-head em { color: var(--pink); font-weight: 400; }
+        .letter-head em { color: var(--orange); font-weight: 400; }
         .letter-by { color: var(--grey); }
         .letter-head { padding-bottom: 12px; margin-bottom: 12px !important; border-bottom: 1px solid var(--hair); }
-        .letter .drop::first-letter { float: left; margin: 6px 8px 0 0; font-family: var(--display); font-size: 58px; line-height: 0.8; color: var(--pink); }
+        .letter .drop::first-letter { float: left; margin: 6px 8px 0 0; font-family: var(--display); font-size: 58px; line-height: 0.8; color: var(--orange); }
         .pull { margin: 8px 0 10px; padding: 8px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-family: var(--display); font-style: italic; font-size: clamp(20px, 1.8vw, 26px); line-height: 1.2; text-align: center; }
-        .pull em { color: var(--pink); }
+        .pull em { color: var(--orange); }
         .letter .signoff { margin: 18px 0 0; font-family: var(--typewriter); }
-        .monogram { margin: 2px 0 0 !important; font-family: var(--display); font-style: italic; font-size: 54px !important; line-height: 1 !important; color: var(--pink-ink); }
+        .monogram { margin: 2px 0 0 !important; font-family: var(--display); font-style: italic; font-size: 54px !important; line-height: 1 !important; color: var(--orange-ink); }
         .monogram span + span { margin-left: -14px; }
         .picks dl { margin: 0; }
         .picks dt { padding-top: 10px; border-top: 1px solid var(--line); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
@@ -481,19 +483,19 @@
         .rules-label { margin-top: 22px !important; }
         .rules { margin: 0; padding: 0; list-style: none; counter-reset: rule; }
         .rules li { counter-increment: rule; display: grid; grid-template-columns: 28px 1fr; padding: 7px 0; border-top: 1px solid var(--hair); font-family: var(--typewriter); font-size: 13px; line-height: 1.45; }
-        .rules li::before { content: counter(rule, decimal-leading-zero); font-family: var(--display); font-style: italic; color: var(--pink); }
+        .rules li::before { content: counter(rule, decimal-leading-zero); font-family: var(--display); font-style: italic; color: var(--orange); }
 
         /* smaller screens: stack and scroll like a normal page */
         /* contact, as a thin masthead line at the bottom of every screen */
         .contact { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 10px 24px; margin-top: -8px; padding: 8px 0 0; border-top: 1px solid var(--line); }
         .rsvp { margin: 0; white-space: nowrap; font-family: var(--display); font-size: 15px; font-weight: 500; letter-spacing: 0.01em; }
-        .rsvp em { color: var(--pink); font-weight: 400; }
+        .rsvp em { color: var(--orange); font-weight: 400; }
         .contact-links { display: flex; flex-wrap: nowrap; margin: 0; padding: 0; list-style: none; }
         .contact-links li { white-space: nowrap; }
         .contact-links li + li::before { content: ""; display: inline-block; width: 1px; height: 12px; margin: 0 18px; vertical-align: -1px; background: var(--line); }
         .contact-links a { font-family: var(--display); font-size: 11.5px; font-weight: 500; letter-spacing: 0.32em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
-        .contact-links a:hover, .contact-links a:focus-visible { color: var(--pink); }
-        .contact-copy { margin: 0; white-space: nowrap; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--pink-ink); }
+        .contact-links a:hover, .contact-links a:focus-visible { color: var(--orange); }
+        .contact-copy { margin: 0; white-space: nowrap; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--orange-ink); }
         @media (max-width: 1000px) { .contact { flex-wrap: nowrap; gap: 12px; margin-top: 0; padding: 10px 0 0; } .contact-links { flex-wrap: nowrap; gap: 0; } .contact-links em, .contact-copy, .rsvp { display: none; } .contact-links { flex: 1; justify-content: flex-start; } .contact-links a { font-size: 10px; letter-spacing: 0.12em; } .contact-links li + li::before { margin: 0 8px; } .rsvp { font-size: 17px; } }
         @media (max-width: 1000px), (max-height: 640px) {
             .page { height: auto; padding: 22px 18px 30px; }
@@ -706,85 +708,85 @@
         </header>
         <div class="column-grid board">
             <article class="pin" data-story="make" tabindex="0" role="button" aria-label="Read: Make something, with your hands.">
-                <div class="story-img">Image coming soon</div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1607556671927-78a6605e290b?w=600&q=70&auto=format&fit=crop" alt="Hands shaping clay on a pottery wheel" loading="lazy"></div>
                 <p class="story-no">Make</p>
                 <h3>Make something, <em>with your hands.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="bars" tabindex="0" role="button" aria-label="Read: Nightlife in Austin.">
-                <div class="story-img">Image coming soon</div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1758882249153-67c3d5a17ea7?w=600&q=70&auto=format&fit=crop" alt="A red neon bull sign outside a bar at night" loading="lazy"></div>
                 <p class="story-no">After dark</p>
                 <h3>Nightlife in <em>Austin.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="music" tabindex="0" role="button" aria-label="Read: The Live Music Capital of the World.">
-                <div class="story-img">Image coming soon</div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?w=600&q=70&auto=format&fit=crop" alt="A guitarist playing on stage" loading="lazy"></div>
                 <p class="story-no">Music</p>
                 <h3>The Live Music Capital <em>of the World.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="symbols" tabindex="0" role="button" aria-label="Read: Austin, decoded.">
-                <div class="story-img">Image coming soon</div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1514955178284-91542d316afe?w=600&q=70&auto=format&fit=crop" alt="Birds flying across a sunset sky" loading="lazy"></div>
                 <p class="story-no">Symbols</p>
                 <h3>Austin, <em>decoded.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="four" tabindex="0" role="button" aria-label="Read: Four days in Austin.">
-                <div class="story-img">Image coming soon</div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1666969565832-b55bf42a900d?w=600&q=70&auto=format&fit=crop" alt="The Austin skyline at sunset" loading="lazy"></div>
                 <p class="story-no">Visiting</p>
                 <h3>Four days in <em>Austin.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="vegan" tabindex="0" role="button" aria-label="Read: The Vegan Edit.">
-                <div class="story-img">Image coming soon</div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1627308594190-a057cd4bfac8?w=600&q=70&auto=format&fit=crop" alt="Two acai bowls with bananas, berries and granola" loading="lazy"></div>
                 <p class="story-no">Plants</p>
                 <h3>The Vegan <em>Edit.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="hoods" tabindex="0" role="button" aria-label="Read: Fourteen neighborhoods, fourteen personalities.">
-                <div class="story-img">Image coming soon</div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1572281311118-47bfceb16da7?w=600&q=70&auto=format&fit=crop" alt="A brightly painted door" loading="lazy"></div>
                 <p class="story-no">Neighborhoods</p>
                 <h3>Fourteen neighborhoods, <em>fourteen personalities.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="college" tabindex="0" role="button" aria-label="Read: The best college town in America.">
-                <div class="story-img">Image coming soon</div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1726303325145-3587ea11259d?w=600&q=70&auto=format&fit=crop" alt="The UT Tower" loading="lazy"></div>
                 <p class="story-no">Students</p>
                 <h3>The best college town <em>in America.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="follow" tabindex="0" role="button" aria-label="Read: Worth a follow.">
-                <div class="story-img">Image coming soon</div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=600&q=70&auto=format&fit=crop" alt="A latte in a white cup" loading="lazy"></div>
                 <p class="story-no">Instagram</p>
                 <h3>Worth a <em>follow.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="football" tabindex="0" role="button" aria-label="Read: Texas football for dummies.">
-                <div class="story-img">Image coming soon</div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1709199880597-9e0cd5948ed0?w=600&q=70&auto=format&fit=crop" alt="A longhorn steer in a field" loading="lazy"></div>
                 <p class="story-no">Football</p>
                 <h3>Texas football <em>for dummies.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="history" tabindex="0" role="button" aria-label="Read: Austin, a history.">
-                <div class="story-img">Image coming soon</div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1637768316226-44d97e7d6af4?w=600&q=70&auto=format&fit=crop" alt="The Texas State Capitol with its flag" loading="lazy"></div>
                 <p class="story-no">History</p>
                 <h3>Austin, <em>a history.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="coffee" tabindex="0" role="button" aria-label="Read: The best coffee in Austin.">
-                <div class="story-img">Image coming soon</div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1559001724-fbad036dbc9e?w=600&q=70&auto=format&fit=crop" alt="A latte with leaf art" loading="lazy"></div>
                 <p class="story-no">Coffee</p>
                 <h3>The best coffee in <em>Austin.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="mexican" tabindex="0" role="button" aria-label="Read: The best Mexican food in Austin.">
-                <div class="story-img">Image coming soon</div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=70&auto=format&fit=crop" alt="Tacos on a plate" loading="lazy"></div>
                 <p class="story-no">Mexican</p>
                 <h3>The best Mexican food in <em>Austin.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="indian" tabindex="0" role="button" aria-label="Read: The best Indian food in Austin.">
-                <div class="story-img">Image coming soon</div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=70&auto=format&fit=crop" alt="A bowl of curry" loading="lazy"></div>
                 <p class="story-no">Indian</p>
                 <h3>The best Indian food in <em>Austin.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
@@ -811,13 +813,13 @@
                     <g stroke="#111" stroke-width="1" font-family="Helvetica Neue, Arial, sans-serif" font-size="9">
                         <line x1="30" y1="36" x2="96" y2="22"/><line x1="96" y1="22" x2="112" y2="70"/><line x1="96" y1="22" x2="196" y2="46"/>
                         <line x1="112" y1="70" x2="196" y2="46"/><line x1="112" y1="70" x2="44" y2="100"/><line x1="44" y1="100" x2="176" y2="104"/>
-                        <line x1="30" y1="36" x2="112" y2="70" stroke="#E8127C" stroke-width="3.5"/><line x1="112" y1="70" x2="176" y2="104" stroke="#E8127C" stroke-width="3.5"/>
+                        <line x1="30" y1="36" x2="112" y2="70" stroke="#BF5700" stroke-width="3.5"/><line x1="112" y1="70" x2="176" y2="104" stroke="#BF5700" stroke-width="3.5"/>
                     </g>
                     <g font-family="Helvetica Neue, Arial, sans-serif" font-size="9" fill="#111">
                         <text x="60" y="24">4</text><text x="108" y="44">7</text><text x="150" y="30">8</text><text x="158" y="54">6</text><text x="70" y="80">8</text><text x="104" y="98">6</text>
-                        <text x="62" y="60" fill="#B80D62" font-weight="700">8</text><text x="146" y="84" fill="#B80D62" font-weight="700">7</text>
+                        <text x="62" y="60" fill="#9A4600" font-weight="700">8</text><text x="146" y="84" fill="#9A4600" font-weight="700">7</text>
                     </g>
-                    <g fill="#fff" stroke="#111" stroke-width="1.5"><circle cx="30" cy="36" r="6" fill="#E8127C" stroke="#E8127C"/><circle cx="96" cy="22" r="5"/><circle cx="112" cy="70" r="6" fill="#111"/><circle cx="196" cy="46" r="5"/><circle cx="44" cy="100" r="5"/><circle cx="176" cy="104" r="6" fill="#E8127C" stroke="#E8127C"/></g>
+                    <g fill="#fff" stroke="#111" stroke-width="1.5"><circle cx="30" cy="36" r="6" fill="#BF5700" stroke="#BF5700"/><circle cx="96" cy="22" r="5"/><circle cx="112" cy="70" r="6" fill="#111"/><circle cx="196" cy="46" r="5"/><circle cx="44" cy="100" r="5"/><circle cx="176" cy="104" r="6" fill="#BF5700" stroke="#BF5700"/></g>
                     <g font-family="Helvetica Neue, Arial, sans-serif" font-size="8" font-weight="700" fill="#6E6E6E" letter-spacing=".5"><text x="4" y="20">WEST CAMPUS</text><text x="116" y="118">SOUTH CONGRESS</text><text x="120" y="66">DOWNTOWN</text></g>
                 </svg>
                 <p class="grown">Dijkstra’s shortest-path algorithm</p>
@@ -828,7 +830,7 @@
                 <svg viewBox="0 0 240 120" role="img" aria-label="Lottery tickets: a loved, nearby place gets five tickets; a far away place gets one">
                     <g font-family="Helvetica Neue, Arial, sans-serif" font-size="10" font-weight="700" fill="#111"><text x="6" y="30">Medici</text><text x="6" y="82">Far away</text></g>
                     <g font-family="Helvetica Neue, Arial, sans-serif" font-size="8" fill="#6E6E6E"><text x="6" y="44">loved + close</text><text x="6" y="96">just okay + far</text></g>
-                    <g fill="#E8127C">
+                    <g fill="#BF5700">
                         <rect x="86" y="18" width="26" height="18" rx="2"/><rect x="116" y="18" width="26" height="18" rx="2"/><rect x="146" y="18" width="26" height="18" rx="2"/><rect x="176" y="18" width="26" height="18" rx="2"/><rect x="206" y="18" width="26" height="18" rx="2"/>
                     </g>
                     <rect x="86" y="70" width="26" height="18" rx="2" fill="none" stroke="#111" stroke-width="1.5"/>
@@ -852,10 +854,10 @@
                 <svg viewBox="0 0 240 120" role="img" aria-label="Days grow one stop at a time; when two versions end up the same, only the better one is kept">
                     <g stroke="#111" stroke-width="1"><line x1="20" y1="60" x2="80" y2="24"/><line x1="20" y1="60" x2="80" y2="60"/><line x1="20" y1="60" x2="80" y2="96"/>
                     <line x1="80" y1="24" x2="150" y2="14"/><line x1="80" y1="24" x2="150" y2="44"/><line x1="80" y1="60" x2="150" y2="44" stroke-dasharray="3 3" stroke="#B5B5B5"/><line x1="80" y1="96" x2="150" y2="84"/><line x1="80" y1="96" x2="150" y2="108"/>
-                    <line x1="150" y1="44" x2="214" y2="44" stroke="#E8127C" stroke-width="3"/></g>
-                    <g fill="#fff" stroke="#111" stroke-width="1.5"><circle cx="20" cy="60" r="6" fill="#111"/><circle cx="80" cy="24" r="5"/><circle cx="80" cy="60" r="5"/><circle cx="80" cy="96" r="5"/><circle cx="150" cy="14" r="5"/><circle cx="150" cy="44" r="6" fill="#E8127C" stroke="#E8127C"/><circle cx="150" cy="84" r="5"/><circle cx="150" cy="108" r="5"/><circle cx="214" cy="44" r="5"/></g>
+                    <line x1="150" y1="44" x2="214" y2="44" stroke="#BF5700" stroke-width="3"/></g>
+                    <g fill="#fff" stroke="#111" stroke-width="1.5"><circle cx="20" cy="60" r="6" fill="#111"/><circle cx="80" cy="24" r="5"/><circle cx="80" cy="60" r="5"/><circle cx="80" cy="96" r="5"/><circle cx="150" cy="14" r="5"/><circle cx="150" cy="44" r="6" fill="#BF5700" stroke="#BF5700"/><circle cx="150" cy="84" r="5"/><circle cx="150" cy="108" r="5"/><circle cx="214" cy="44" r="5"/></g>
                     <g font-family="Helvetica Neue, Arial, sans-serif" font-size="8" font-weight="700" fill="#6E6E6E"><text x="4" y="78">HOME</text><text x="62" y="118">1 STOP</text><text x="134" y="120">2 STOPS</text><text x="196" y="62">3…</text></g>
-                    <text x="92" y="56" font-family="Helvetica Neue, Arial, sans-serif" font-size="14" fill="#E8127C">✗</text>
+                    <text x="92" y="56" font-family="Helvetica Neue, Arial, sans-serif" font-size="14" fill="#BF5700">✗</text>
                 </svg>
                 <p class="grown">Bitmask dynamic programming</p>
                 <h3>Building the day, one stop at a time</h3>
@@ -863,7 +865,7 @@
             </article>
             <article class="card">
                 <svg viewBox="0 0 240 120" role="img" aria-label="The slow way tries every order; the fast way uses the planner; both must give the same answer">
-                    <g fill="none" stroke="#111" stroke-width="1.5"><rect x="6" y="14" width="92" height="36"/><rect x="6" y="70" width="92" height="36"/><rect x="146" y="40" width="88" height="40" stroke="#E8127C" stroke-width="2.5"/></g>
+                    <g fill="none" stroke="#111" stroke-width="1.5"><rect x="6" y="14" width="92" height="36"/><rect x="6" y="70" width="92" height="36"/><rect x="146" y="40" width="88" height="40" stroke="#BF5700" stroke-width="2.5"/></g>
                     <g font-family="Helvetica Neue, Arial, sans-serif" font-size="9" font-weight="700" fill="#111"><text x="16" y="30">THE SLOW WAY</text><text x="16" y="86">THE FAST WAY</text><text x="158" y="58">SAME ANSWER</text></g>
                     <g font-family="Helvetica Neue, Arial, sans-serif" font-size="8" fill="#6E6E6E"><text x="16" y="42">tries every order</text><text x="16" y="98">the planner</text><text x="162" y="72">every single time</text></g>
                     <g stroke="#111" stroke-width="1.5"><line x1="100" y1="32" x2="142" y2="54"/><line x1="100" y1="88" x2="142" y2="66"/></g>
@@ -875,9 +877,9 @@
             </article>
             <article class="card">
                 <svg viewBox="0 0 240 120" role="img" aria-label="Saturday number 184 always gives the same day">
-                    <text x="6" y="70" font-family="Bodoni Moda, Didot, Georgia, serif" font-style="italic" font-size="44" fill="#E8127C">#184</text>
-                    <g fill="#111"><rect x="120" y="26" width="30" height="10"/><rect x="154" y="26" width="18" height="10" fill="#E8127C"/><rect x="176" y="26" width="26" height="10"/><rect x="206" y="26" width="26" height="10" fill="#E8127C"/>
-                    <rect x="120" y="76" width="30" height="10"/><rect x="154" y="76" width="18" height="10" fill="#E8127C"/><rect x="176" y="76" width="26" height="10"/><rect x="206" y="76" width="26" height="10" fill="#E8127C"/></g>
+                    <text x="6" y="70" font-family="Bodoni Moda, Didot, Georgia, serif" font-style="italic" font-size="44" fill="#BF5700">#184</text>
+                    <g fill="#111"><rect x="120" y="26" width="30" height="10"/><rect x="154" y="26" width="18" height="10" fill="#BF5700"/><rect x="176" y="26" width="26" height="10"/><rect x="206" y="26" width="26" height="10" fill="#BF5700"/>
+                    <rect x="120" y="76" width="30" height="10"/><rect x="154" y="76" width="18" height="10" fill="#BF5700"/><rect x="176" y="76" width="26" height="10"/><rect x="206" y="76" width="26" height="10" fill="#BF5700"/></g>
                     <g font-family="Helvetica Neue, Arial, sans-serif" font-size="8" font-weight="700" fill="#6E6E6E"><text x="120" y="20">TODAY</text><text x="120" y="70">NEXT WEEK</text><text x="176" y="58" font-size="14" fill="#111">=</text></g>
                 </svg>
                 <p class="grown">Seeded random number generator</p>
@@ -989,12 +991,12 @@
             <div class="reads">
                 <p class="label">From The Column</p>
                 <a class="read big" href="#college-town" data-open-story="college">
-                    <span class="read-img">Image coming soon</span>
+                    <span class="read-img"><img src="https://images.unsplash.com/photo-1726303325145-3587ea11259d?w=800&q=70&auto=format&fit=crop" alt="The UT Tower" loading="lazy"></span>
                     <span class="read-t">Why Austin is the best <em>university town.</em></span>
                 </a>
                 <div class="read-row">
-                    <a class="read" href="#texas-football" data-open-story="football"><span class="read-img"></span><span class="read-t">Texas football <em>for dummies.</em></span></a>
-                    <a class="read" href="#austin-history" data-open-story="history"><span class="read-img"></span><span class="read-t">Austin, <em>a history.</em></span></a>
+                    <a class="read" href="#texas-football" data-open-story="football"><span class="read-img"><img src="https://images.unsplash.com/photo-1709199880597-9e0cd5948ed0?w=200&q=70&auto=format&fit=crop" alt="A longhorn steer in a field" loading="lazy"></span><span class="read-t">Texas football <em>for dummies.</em></span></a>
+                    <a class="read" href="#austin-history" data-open-story="history"><span class="read-img"><img src="https://images.unsplash.com/photo-1637768316226-44d97e7d6af4?w=200&q=70&auto=format&fit=crop" alt="The Texas State Capitol with its flag" loading="lazy"></span><span class="read-t">Austin, <em>a history.</em></span></a>
                 </div>
             </div>
         </div>
@@ -1013,7 +1015,7 @@
                     <button type="button" data-slide="1" aria-label="Next photo">→</button>
                 </div>
                 <figcaption>
-                    <span class="photo-title">The woman behind<br><em>the weekend.</em></span>
+                    <span class="photo-title">The brains behind<br><em>the weekend.</em></span>
                     <span class="photo-sub">The editor, mid-latte. Research is researching…</span>
                 </figcaption>
             </figure>
@@ -1043,7 +1045,7 @@
             <p class="label rules-label">The rules</p>
             <ol class="rules">
                 <li>You just ate. No second restaurant.</li>
-                <li>No South Congress to the Domain and back. A girl has standards.</li>
+                <li>No South Congress to the Domain and back. One has standards.</li>
             </ol>
         </aside>
     </section>
@@ -1073,7 +1075,7 @@
 <ul class="st-list">
 <li><b>The Mosaic Workshop</b> <span>East Austin</span> Break tile on purpose, then turn it into something you’ll actually hang up.</li>
 <li><b>7th Street Candle Co.</b> <span>East Austin</span> Pick a scent, pour your own candle, take the smell of Saturday home.</li>
-<li><b>The Paper + Craft Pantry</b> <span>East Austin</span> Stationery, supplies and workshops for the girl who owns too many pens.</li>
+<li><b>The Paper + Craft Pantry</b> <span>East Austin</span> Stationery, supplies and workshops for anyone who owns too many pens.</li>
 <li><b>Kraft Stories</b> <span>East Austin</span> Craft workshops for a group day.</li>
 </ul>
 <h3>Silver and art</h3>
@@ -1392,6 +1394,6 @@
         <button type="button" class="cta swipe-done" disabled>Plan my Saturday →</button>
     </div>
 </dialog>
-<script src="web/app.js?v=56" defer></script>
+<script src="web/app.js?v=57" defer></script>
 </body>
 </html>

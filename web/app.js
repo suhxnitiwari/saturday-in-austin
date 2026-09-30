@@ -724,7 +724,7 @@
         if (save) downloadStory(save.dataset.download, save);
     });
 
-    // PDFs, set like the page: gold kicker, Bodoni-ish headline, typewriter dek, pink italic heads
+    // PDFs, set like the page: gold kicker, Bodoni-ish headline, typewriter dek, burnt-orange italic heads
     let jspdf;
     async function savePdf(name, blocks, button) {
         const label = button.textContent;
@@ -746,7 +746,7 @@
                 }
                 y += gap;
             };
-            const INK = [17, 17, 17], PINK = [184, 13, 98], GOLD = [184, 151, 90], GREY = [110, 110, 110];
+            const INK = [10, 10, 10], PINK = [154, 70, 0], GOLD = [191, 87, 0], GREY = [110, 110, 110];
             for (const [kind, text] of blocks) {
                 if (kind === 'kicker') write(text.toUpperCase(), 'helvetica', 'bold', 8, GOLD, 6);
                 else if (kind === 'h2') write(text, 'times', 'normal', 34, INK, 4, 1.1);
