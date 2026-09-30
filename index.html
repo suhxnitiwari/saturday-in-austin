@@ -210,9 +210,16 @@
         .column { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 22px; padding-top: 6px; }
         /* What's on: the Austin calendar, month by month */
         .screen.calendar { min-height: 0; overflow-y: auto; }
-        .calendar { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 18px; padding-top: 6px; }
-        .cal { columns: 3; column-gap: 36px; min-height: 0; }
-        .cal-month { break-inside: avoid; margin: 0 0 18px; }
+        .calendar { display: grid; grid-template-rows: auto auto auto; align-content: start; gap: 18px; padding-top: 6px; }
+        .cal { columns: 4; column-gap: 32px; }
+        .cal[data-show="soon"] .cal-month.yearly, .cal[data-show="yearly"] .cal-month:not(.yearly) { display: none; }
+        .cal[data-show="yearly"] { columns: 2; max-width: 900px; margin: 0 auto; width: 100%; }
+        .cal-tabs { display: flex; border: 1px solid var(--line); }
+        .cal-tabs button { height: 34px; padding: 0 16px; border: 0; background: var(--paper); font-size: 10.5px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; }
+        .cal-tabs button + button { border-left: 1px solid var(--line); }
+        .cal-tabs button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+        .cal-month { margin: 0 0 18px; }
+        .cal-month h3 { break-after: avoid; }
         .cal-month h3 { margin: 0 0 4px; padding-bottom: 6px; border-bottom: 1px solid var(--line); font-size: 10.5px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange-ink); }
         .ev { display: grid; grid-template-columns: 62px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--hair); break-inside: avoid; }
         .ev-date { font-family: var(--display); font-size: 26px; line-height: 1; }
@@ -225,6 +232,12 @@
         .ev.now { background: var(--peach); margin: 0 -10px; padding: 10px; border-radius: 10px; border-bottom: 0; }
         .ev .tag { display: inline-block; margin-left: 6px; padding: 2px 8px; border-radius: 999px; background: var(--orange); color: var(--paper); font-family: var(--sans); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; vertical-align: 3px; }
         .cal-src { margin: 0; font-family: var(--typewriter); font-size: 11.5px; color: var(--grey); }
+        .ev-when { padding-top: 3px; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange-ink); }
+        /* this Saturday's city events on the Plan page */
+        .happening { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; margin: 0 0 8px; padding: 10px 12px; border-radius: 10px; background: var(--peach); }
+        .happening p { margin: 0; font-family: var(--sans) !important; font-style: normal !important; font-size: 12.5px !important; line-height: 1.35; color: var(--ink) !important; }
+        .happening b { display: block; font-family: var(--display); font-style: italic; font-weight: 400; font-size: 17px; color: var(--orange-ink); }
+        .happening button { height: 32px; padding: 0 12px; border: 1px solid var(--orange); border-radius: 999px; background: var(--paper); color: var(--orange-ink); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
         /* game day on the Plan page */
         .gameday { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; margin: 0 0 8px; padding: 10px 12px; border-radius: 10px; background: var(--orange); color: var(--paper); }
         .gameday p { margin: 0; font-family: var(--sans) !important; font-style: normal !important; font-size: 12.5px !important; line-height: 1.35; color: var(--paper) !important; }
@@ -545,7 +558,7 @@
             h1 { white-space: normal; }
             .sections { flex-wrap: wrap; }
             .method, .editor, .numbers, .austin, .cards, .column-grid { grid-template-columns: 1fr; gap: 28px; }
-            .cal { columns: 1; }
+            .cal, .cal[data-show="yearly"] { columns: 1; }
             .board { display: block; columns: 2; column-gap: 12px; } .pin { break-inside: avoid; }
             .pin .story-img { flex: none; height: 170px; } .pin:nth-child(4n + 1) .story-img, .pin:nth-child(4n + 4) .story-img { height: 240px; }
             .atx { max-height: none; }
@@ -587,6 +600,10 @@
         #screen-austin.sq1 .now-src { display: none; } #screen-austin.sq1 .wx-temp { font-size: 72px; } #screen-austin.sq1 .atx { max-height: calc(100vh - 330px); }
         #screen-austin.sq2 .wx-grid div { padding-top: 6px; padding-bottom: 6px; } #screen-austin.sq2 .wx-now { margin-bottom: 6px; } #screen-austin.sq2 .wx-grid b { font-size: 20px; }
         #screen-austin.sq3 .wx-temp { font-size: 60px; } #screen-austin.sq3 .atx { max-height: calc(100vh - 360px); } #screen-austin.sq3 .map-card { margin-top: 8px; padding: 6px 10px; } #screen-austin.sq3 .flip .figs b { font-size: 19px; } #screen-austin.sq3 .map-key li { padding: 2px 0; }
+        @media (max-height: 820px) and (min-width: 1001px) {  /* the calendar on short laptops */
+            .ev { padding: 6px 0; } .ev p { font-size: 11.5px; line-height: 1.35; } .ev h4 { font-size: 17px; } .ev-date { font-size: 22px; }
+            .calendar { gap: 10px; } .cal-month { margin-bottom: 10px; }
+        }
         @media (max-height: 920px) and (min-width: 1001px) {  /* laptop screens: the Austin page stays on one screen */
             .column-head h2 { font-size: 44px; }
             .wx-temp { font-size: clamp(72px, 7vw, 100px); }
@@ -855,7 +872,7 @@
                     <div><b data-app="places">253</b><span>places handpicked</span></div>
                     <div><b data-app="neighborhoods">14</b><span>Austin neighborhoods</span></div>
                     <div><b data-app="moods">10</b><span>Saturday moods</span></div>
-                    <div><b>94</b><span>tests keeping Saturday civilized</span></div>
+                    <div><b>95</b><span>tests keeping Saturday civilized</span></div>
                 </div>
             </div>
         </div>
@@ -1054,7 +1071,10 @@
     <section class="screen calendar" id="screen-calendar" hidden>
         <header class="column-head">
             <h2>What’s on</h2>
-            <p>Austin, this season</p>
+            <div class="cal-tabs" role="tablist" aria-label="Calendar">
+                <button type="button" role="tab" aria-selected="true" data-cal-tab="soon">Coming up</button>
+                <button type="button" role="tab" aria-selected="false" data-cal-tab="yearly">Every year</button>
+            </div>
         </header>
         <div class="cal" data-cal></div>
         <p class="cal-src">Dates from the organizers and ESPN. Lineups change, so check before you buy.</p>
@@ -1480,6 +1500,6 @@
     </div>
 </dialog>
 <script src="web/samples.js?v=1" defer></script>
-<script src="web/app.js?v=64" defer></script>
+<script src="web/app.js?v=66" defer></script>
 </body>
 </html>

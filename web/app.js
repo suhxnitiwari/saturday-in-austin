@@ -133,6 +133,16 @@
         lastPlan = plan;
         document.querySelectorAll('.seal-it, .save-it').forEach(b => { b.disabled = false; });
         document.querySelector('.see-day').textContent = `Your Saturday · ${st.stops} ${st.stops === 1 ? 'stop' : 'stops'} · $${st.spend} ↑`;
+        thisSaturday().filter(e => e.heads).reverse().forEach(e => {  // the city's plans for this Saturday
+            const banner = el('div', 'happening'), text = el('p');
+            text.append(el('b', null, `This Saturday: ${e.name}.`), e.heads);
+            const see = el('button', null, 'What’s on');
+            see.type = 'button';
+            see.addEventListener('click', () => show('calendar'));
+            banner.append(text, see);
+            sassBox.prepend(banner);
+            sassBox.hidden = false;
+        });
         if (gameDay) {  // home game this Saturday
             const banner = el('div', 'gameday'), text = el('p');
             text.append(el('b', null, 'Saturdays are for the boys.'), `Game day: Texas vs. ${gameDay.them} at DKR${gameDay.time ? `, ${gameDay.time}` : ''}.`);
@@ -164,7 +174,8 @@
             const result = plan(f.start.value, f.end.value, f.hours.value, f.mood.value, String(seed),
                                 false, f.rainy.checked, f.area.value, f.include.value, f.exclude.value,
                                 f.travel.value, f.budget.value, f.start_from.value, hotSaturday,
-                                swiped.likes.join(','), swiped.nopes.join(','), !!swiped.group, !!gameDay);
+                                swiped.likes.join(','), swiped.nopes.join(','), !!swiped.group, !!gameDay,
+                                thisSaturday().flatMap(e => e.closes || []).join(','));
             draw(JSON.parse(result));
             again.disabled = false;
         } catch (err) {
@@ -258,7 +269,8 @@
         swipeBox.showModal();
         try { await boot(); } catch { deckEl.replaceChildren(el('p', 'deck-note', 'Python took a nap. Try again in a second.')); return; }
         const f = form.elements;
-        hand = JSON.parse(deckFn(f.mood.value, f.rainy.checked, f.area.value, f.start_from.value, String(seed), f.start.value, f.end.value, 12, !!gameDay));
+        hand = JSON.parse(deckFn(f.mood.value, f.rainy.checked, f.area.value, f.start_from.value, String(seed), f.start.value, f.end.value, 12, !!gameDay,
+            thisSaturday().flatMap(e => e.closes || []).join(',')));
         if (hand.length < 3) {
             deckEl.replaceChildren(el('p', 'deck-note', f.mood.value === 'day-in' ? 'A day in doesn’t need swiping. Stay home, it’s allowed.' : 'Not much open in those hours. Try a longer day.'));
             return;
@@ -769,22 +781,43 @@
         .catch(() => { tx('record', '–'); tx('standing', '–'); tx('last', '–'); tx('next', '–'); tx('next-label', 'scores are shy right now'); });
 
     // What's on: the big Austin dates, plus every Longhorns home game from ESPN
+    // closes: places the city takes over that Saturday; heads: what the Plan page says about it
     const EVENTS = [
         { from: '2026-10-02', to: '2026-10-04', name: 'ACL Fest, Weekend One', where: 'Zilker Park', link: 'https://www.aclfestival.com',
-          note: 'Charli xcx, Lorde, RÜFÜS DU SOL, Twenty One Pilots, The xx, and Skrillex, this weekend only.' },
+          note: 'Charli xcx, Lorde, RÜFÜS DU SOL, Twenty One Pilots, The xx, and Skrillex, this weekend only.',
+          closes: ['Zilker Park'], heads: 'Zilker Park is the festival, so I kept you out of it. Barton Springs Pool stays open through its south gate.' },
         { from: '2026-10-07', to: '2026-10-08', name: 'Kacey Musgraves', where: 'Moody Center', link: 'https://moodycenteratx.com' },
         { from: '2026-10-09', to: '2026-10-11', name: 'ACL Fest, Weekend Two', where: 'Zilker Park', link: 'https://www.aclfestival.com',
-          note: 'The same lineup, with Kings of Leon instead of Skrillex.' },
+          note: 'The same lineup, with Kings of Leon instead of Skrillex.',
+          closes: ['Zilker Park'], heads: 'Zilker Park is the festival, so I kept you out of it. Barton Springs Pool stays open through its south gate.' },
         { from: '2026-10-13', name: 'Bryson Tiller', where: 'Moody Center', link: 'https://moodycenteratx.com', note: 'With Majid Jordan and Ty Dolla $ign.' },
         { from: '2026-10-23', to: '2026-10-25', name: 'Formula 1 U.S. Grand Prix', where: 'Circuit of the Americas', link: 'https://www.circuitoftheamericas.com',
-          note: 'Maroon 5 on Friday, Post Malone on Saturday, Alesso after Sunday’s race.' },
+          note: 'Maroon 5 on Friday, Post Malone on Saturday, Alesso after Sunday’s race.',
+          heads: 'The city is full of F1 fans: expect traffic and pricier Ubers, especially toward the east side.' },
+        { from: '2026-10-24', name: 'Viva la Vida Fest', where: '4th and Congress', link: 'https://mexic-artemuseum.org',
+          note: 'Mexic-Arte’s Día de los Muertos parade and festival, downtown.', heads: 'Viva la Vida is downtown today: the parade and festival are on 4th and Congress.' },
         { from: '2026-10-29', to: '2026-11-05', name: 'Austin Film Festival', where: 'Around town', link: 'https://austinfilmfestival.com' },
-        { from: '2026-10-31', name: 'Halloween, on a Saturday', where: 'Sixth Street', note: 'Costumes required. Patience recommended.' },
-        { from: '2026-11-14', to: '2026-11-15', name: 'Texas Book Festival', where: 'Around the Capitol', link: 'https://texasbookfestival.org' },
+        { from: '2026-10-31', name: 'Halloween, on a Saturday', where: 'Sixth Street', note: 'Costumes required. Patience recommended.',
+          heads: 'Halloween on a Saturday: Sixth Street will be packed, so costume accordingly.' },
+        { from: '2026-11-13', to: '2026-11-15', name: 'Seismic 9.0', where: 'The Concourse Project', link: 'https://concourseproject.com',
+          note: 'Indoor and outdoor stages of house, techno and bass at Austin’s electronic music hall.' },
+        { from: '2026-11-14', to: '2026-11-15', name: 'Texas Book Festival', where: 'Around the Capitol', link: 'https://texasbookfestival.org',
+          heads: 'The Texas Book Festival is around the Capitol this weekend.' },
         { from: '2026-11-29', to: '2027-01-01', name: 'Zilker Holiday Tree', where: 'Zilker Park', note: 'The lights come on at the ceremony on the 29th.' },
         { from: '2026-12-01', name: 'Trail of Lights', where: 'Zilker Park', tba: 'Dec', note: 'Every December. This year’s dates come out in October.' },
+        { from: '2026-12-31', name: 'New Year’s Eve', where: 'Vic Mathias Shores', note: 'The city’s party on the water, with fireworks over Lady Bird Lake at 10 p.m.' },
         { from: '2027-03-13', to: '2027-03-21', name: 'SXSW', where: 'Downtown', link: 'https://www.sxsw.com',
-          note: 'SXSW EDU March 13–16, then music, film, tech and comedy March 15–21.' },
+          note: 'SXSW EDU March 13–16, then music, film, tech and comedy March 15–21.', heads: 'SXSW week: downtown is packed and badges are everywhere.' },
+    ];
+    // the traditions that come back on the same schedule every year
+    const EVERY_YEAR = [
+        { when: 'Every week', name: 'The Concourse Project', where: '8509 Burleson Rd', note: 'Austin’s electronic music hall. DJs most weekends, until late.', link: 'https://concourseproject.com' },
+        { when: 'Mar–Oct', name: 'The bats', where: 'Congress Avenue Bridge', note: 'About 1.5 million of them fly out at sunset.' },
+        { when: 'Spring', name: 'ABC Kite Fest', where: 'Zilker Park', note: 'A Saturday in late March or April. The sky fills with kites.' },
+        { when: 'Late Apr', name: 'Eeyore’s Birthday Party', where: 'Pease Park', note: 'Usually the last Saturday in April, since 1963. Costumes, drum circles, very Austin.' },
+        { when: 'Jul 4', name: 'Symphony and fireworks', where: 'Vic Mathias Shores', note: 'The Austin Symphony plays, then fireworks over the skyline. Free.' },
+        { when: 'Summer', name: 'Blues on the Green', where: 'ACL Radio', note: 'Free outdoor concerts on summer evenings.' },
+        { when: 'Sep', name: 'Levitation', where: 'Venues around town', note: 'Psych rock, punk and more, over four days.' },
     ];
     let longhorns = [];
     const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -822,7 +855,31 @@
                 box.appendChild(row);
             });
             return box;
-        }));
+        }), (() => {
+            const box = el('section', 'cal-month yearly');
+            box.appendChild(el('h3', null, 'Every year'));
+            EVERY_YEAR.forEach(e => {
+                const row = el('article', 'ev yearly'), body = el('div'), title = el('h4');
+                if (e.link) title.appendChild(Object.assign(el('a', null, e.name), { href: e.link, target: '_blank', rel: 'noopener' }));
+                else title.textContent = e.name;
+                body.append(title, el('p', 'ev-where', e.where), el('p', null, e.note));
+                row.append(el('div', 'ev-when', e.when), body);
+                box.appendChild(row);
+            });
+            return box;
+        })());
+    }
+    const calTabs = document.querySelectorAll('[data-cal-tab]');
+    calTabs.forEach(b => b.addEventListener('click', () => {
+        calTabs.forEach(t => t.setAttribute('aria-selected', String(t === b)));
+        document.querySelector('[data-cal]').dataset.show = b.dataset.calTab;
+    }));
+    document.querySelector('[data-cal]').dataset.show = 'soon';
+    // what's happening this Saturday, for the Plan page and the planner
+    function thisSaturday() {
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const sat = new Date(today); sat.setDate(today.getDate() + (6 - today.getDay() + 7) % 7);
+        return EVENTS.filter(e => !e.tba && day0(e.from) <= sat && sat <= day0(e.to || e.from));
     }
     drawCalendar();
     // preview a game day without waiting for one: ?game=Florida
@@ -964,7 +1021,7 @@
     }
 
     // a first visit shows a baked Saturday right away; Python replans the very same day once it's awake
-    if (!form.dataset.shared && window.SAMPLES?.length) {
+    if (!form.dataset.shared && window.SAMPLES?.length && !thisSaturday().some(e => e.closes)) {
         const sample = window.SAMPLES[Math.floor(Math.random() * window.SAMPLES.length)];
         seed = sample.seed;
         draw(sample);

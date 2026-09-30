@@ -615,3 +615,10 @@ def test_the_longhorns_game_only_happens_on_home_game_saturdays():
             assert dkr not in [c["name"] for c in json.loads(deck_json(mood, False, "anywhere", "ut", seed))]
     game = day("09:00", "23:30", "all", "social", 1, include=dkr, game_day=True)
     assert dkr in [s.get("name") for s in game["stops"]]  # on game day, it's the whole point
+
+
+def test_a_park_closed_for_a_festival_stays_off_the_plan():
+    for seed in range(40):
+        plan = day("09:00", "20:00", "all", "outside", seed, closed="Zilker Park")
+        assert "Zilker Park" not in [s.get("name") for s in plan["stops"]]
+        assert "Zilker Park" not in [c["name"] for c in json.loads(deck_json("outside", False, "anywhere", "ut", seed, closed="Zilker Park"))]
