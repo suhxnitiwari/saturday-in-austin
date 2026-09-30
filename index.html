@@ -2,8 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Saturday in Austin</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#BF5700">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="icons/favicon-64.png">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Saturday">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="description" content="Tell me when you're free. I'll decide what we're doing. A Python planner with opinions about Austin Saturdays.">
     <meta property="og:title" content="Saturday in Austin">
     <meta property="og:description" content="Tell me when you're free. I'll decide what we're doing.">
@@ -41,7 +50,7 @@
         button, input, select { font-family: inherit; }
 
         /* one screen: header, then the planner fills the rest */
-        .page { height: 100vh; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; padding: 18px 36px 10px; gap: 16px; max-width: 1440px; margin: 0 auto; }
+        .page { height: 100vh; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; padding: max(18px, env(safe-area-inset-top)) max(36px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(36px, env(safe-area-inset-left)); gap: 16px; max-width: 1440px; margin: 0 auto; }
 
         header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 40px; align-items: end; padding-bottom: 16px; border-bottom: 4px double var(--line); }
         .kicker { margin: 0 0 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); }
@@ -519,6 +528,7 @@
             .more { display: none; }
         }
         @media (max-width: 560px) {
+            input, select, textarea { font-size: 16px !important; }  /* iPhones zoom in on anything smaller */
             .map-key { columns: 1; } .map-key li { white-space: nowrap; }
             .seg.five { grid-template-columns: repeat(2, 1fr); }
             .block.when { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
@@ -1418,6 +1428,6 @@
         <button type="button" class="cta swipe-done" disabled>Plan my Saturday →</button>
     </div>
 </dialog>
-<script src="web/app.js?v=58" defer></script>
+<script src="web/app.js?v=59" defer></script>
 </body>
 </html>

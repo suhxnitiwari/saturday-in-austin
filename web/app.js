@@ -1,6 +1,9 @@
 // Saturday in Austin ✦ runs the Python planner in this repo in the visitor's browser with Pyodide.
 // Every control replans right away with the same Saturday number; "another Saturday" draws a new one.
 (() => {
+    // installable: works offline and opens fast after the first visit
+    if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('sw.js').catch(() => {});
+
     const PYODIDE = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/';
     const BASE = 'saturday/';  // served straight from this repo by GitHub Pages
     const FILES = ['__init__.py', '__main__.py', 'city.py', 'planner.py', 'rules.py', 'spots.py', 'sass.py', 'web.py',
