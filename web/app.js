@@ -383,7 +383,9 @@
         if (tracks.length < per * 2 || tracks.some(isNaN)) return;
         const top = cards.getBoundingClientRect().top - method.getBoundingClientRect().top + method.scrollTop;
         const pad = parseFloat(getComputedStyle(method).paddingBottom) || 0;
-        const room = [method.clientHeight - top - pad - 4, method.clientHeight - pad - 4];  // row 1 ends at the bottom; row 2 is a full screen
+        const fit = method.clientHeight - top - pad - 4;  // row 1 ends at the bottom line
+        const natural = Math.max(...[0, 3].map(i => card[i] ? card[i].getBoundingClientRect().height : 0));
+        const room = [Math.max(fit, natural), Math.max(fit, natural)];  // and both rows are the same size
         for (let r = 0; r * 3 < card.length && r < 2; r++) {
             const extra = room[r] - card[r * 3].getBoundingClientRect().height;
             if (extra > 0) tracks[r * per] += extra;
