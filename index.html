@@ -514,6 +514,7 @@
             header.slim { min-height: 60px; align-items: start; }  /* the menu button sits above the double rule */
             .column-head { flex-direction: column !important; align-items: center !important; gap: 6px !important; } .column-head h2 { font-size: 44px; white-space: nowrap; }
             .swipe-open { height: 38px; }
+            .free-bus { display: block; margin: 6px 0 0; }
             .page { height: auto; padding: 22px 18px 30px; }
             header { grid-template-columns: 1fr; gap: 12px; align-items: start; }
             h1 { white-space: normal; }
@@ -528,12 +529,14 @@
             .card:not(:nth-child(3n + 1)) { padding-left: 0; border-left: 0; }
             .figs { grid-template-columns: 1fr 1fr; }
             .figs div:nth-child(3) { padding-left: 0; border-left: 0; }
-            .portrait img { max-height: none; }
+            .portrait img { max-height: 36vh; } .portrait { margin-bottom: 0; } .portrait figcaption { margin-top: 10px; }  /* the letter starts on the first screen */
             .letter { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: 18px; }
             main { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; gap: 24px; }
             .day { min-height: 0; }
             .scroll { overflow: visible; }
-            .see-day { display: block; width: 100%; margin-top: 4px; }
+            .day { order: -1; }  /* phones: your Saturday first, the settings under it */
+            .see-day { display: block; position: fixed; left: 18px; right: 18px; bottom: max(14px, env(safe-area-inset-bottom)); z-index: 40; margin: 0; border-radius: 999px; box-shadow: 0 10px 24px -10px rgba(10, 10, 10, 0.5); transform: translateY(160%); transition: transform .2s ease; }
+            .see-day.show { transform: none; }
             .more { display: none; }
         }
         @media (max-width: 560px) {
@@ -692,7 +695,7 @@
                 </div>
             </div>
 
-            <button type="button" class="cta see-day">See my Saturday ↓</button>
+            <button type="button" class="cta see-day" aria-hidden="true" tabindex="-1">See my Saturday ↑</button>
         </form>
 
         <aside class="day" aria-live="polite">
@@ -1440,6 +1443,7 @@
         <p class="swipe-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=61" defer></script>
+<script src="web/samples.js?v=1" defer></script>
+<script src="web/app.js?v=62" defer></script>
 </body>
 </html>

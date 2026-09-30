@@ -125,6 +125,7 @@
         number.textContent = `xoxo, Saturday #${plan.seed}`;
         lastPlan = plan;
         document.querySelectorAll('.seal-it, .save-it').forEach(b => { b.disabled = false; });
+        document.querySelector('.see-day').textContent = `Your Saturday · ${st.stops} ${st.stops === 1 ? 'stop' : 'stops'} · $${st.spend} ↑`;
         if (autoRain && form.elements.rainy.checked) {
             sassBox.prepend(el('p', null, 'Rain in the Saturday forecast, so I turned on Rainy day.'));
             sassBox.hidden = false;
@@ -303,6 +304,7 @@
         sections.forEach(b => b.setAttribute('aria-selected', b.dataset.screen === name));
         document.querySelectorAll('.screen').forEach(sc => { sc.hidden = sc.id !== 'screen-' + name; });
         document.querySelector('header').classList.toggle('slim', name !== 'plan');
+        if (name !== 'plan') document.querySelector('.see-day').classList.remove('show');
         if (name === 'method') setTimeout(() => document.getElementById('screen-method').dispatchEvent(new Event('refit')), 0);
         squeeze();
     };
@@ -510,7 +512,17 @@
     new MutationObserver(moreCue).observe(dayScroll, { childList: true, subtree: true });
     more.addEventListener('click', () => dayScroll.scrollBy({ top: dayScroll.clientHeight * 0.8, behavior: 'smooth' }));
     // on a phone the day is below the form
-    document.querySelector('.see-day').addEventListener('click', () => document.querySelector('.day').scrollIntoView({ behavior: 'smooth' }));
+    // on a phone the day is above the settings; once it scrolls away, a pill brings you back to it
+    const seeDay = document.querySelector('.see-day');
+    seeDay.addEventListener('click', () => day.scrollIntoView({ behavior: 'smooth' }));
+    let dayVisible = true;
+    const pill = () => {
+        const show = !dayVisible && innerWidth <= 1000 && !document.getElementById('screen-plan').hidden && !!lastPlan;
+        seeDay.classList.toggle('show', show);
+        seeDay.setAttribute('aria-hidden', String(!show));
+        seeDay.tabIndex = show ? 0 : -1;
+    };
+    new IntersectionObserver(([e]) => { dayVisible = e.isIntersecting; pill(); }, { threshold: 0.05 }).observe(day);
 
     // The Method: the first three cards fill the screen down to the bottom line; scroll for the next three
     const method = document.getElementById('screen-method'), cards = method.querySelector('.cards');
@@ -858,5 +870,11 @@
         });
     }
 
+    // a first visit shows a baked Saturday right away; Python replans the very same day once it's awake
+    if (!form.dataset.shared && window.SAMPLES?.length) {
+        const sample = window.SAMPLES[Math.floor(Math.random() * window.SAMPLES.length)];
+        seed = sample.seed;
+        draw(sample);
+    }
     run();
 })();

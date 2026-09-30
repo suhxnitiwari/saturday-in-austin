@@ -595,3 +595,12 @@ def test_the_deck_only_shows_places_open_while_you_are_out(guide):
         for c in json.loads(deck_json("everything", False, "anywhere", "ut", seed, "9:00", "17:00")):
             spot = guide.find(c["name"])
             assert WINDOWS[spot.category][0] + spot.stay <= 17 * 60  # nothing that opens after you're home
+
+
+def test_the_baked_first_saturdays_match_the_planner():
+    """web/samples.js is what a first-time visitor sees before Python loads; it must be the real day."""
+    from pathlib import Path
+    from web.make_samples import bake
+    baked = Path(__file__).parent.parent / "web" / "samples.js"
+    shown = json.loads(baked.read_text().split("window.SAMPLES = ", 1)[1].rstrip().rstrip(";"))
+    assert shown == bake(), "run: python -m web.make_samples"
