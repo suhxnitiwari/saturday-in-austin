@@ -2,6 +2,10 @@
 
 **Tell me when you're free. I'll figure out what we're doing.**
 
+## Ownership
+
+© 2026 Suhani Tiwari. **All rights reserved.** This is my original work. The code is public so you can see how I build, not so you can reuse it: copying, reusing or republishing any part of it, including for a portfolio or a class assignment, is not permitted without my written permission. See [LICENSE](LICENSE).
+
 **[Try it live →](https://suhxnitiwari.github.io/saturday-in-austin/)** (the Python runs right in your browser)
 
 I gave Python my favorite Austin spots and, apparently, my opinions about how a Saturday should work. Coffee belongs in the morning. Saturday is for brunch. You probably want to shower after Pilates. And I'm not sending you from South Congress to the Domain and back for no reason.
