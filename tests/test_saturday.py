@@ -43,7 +43,7 @@ def minutes_of(label: str) -> int:
 
 def test_fastest_drive_takes_the_quicker_road(city):
     assert city.drive("West Campus", "South Congress") == (15, ["West Campus", "Downtown", "South Congress"])
-    assert city.drive("Campus", "Campus") == (0, ["Campus"])
+    assert city.drive("Campus / UT Corridor", "Campus / UT Corridor") == (0, ["Campus / UT Corridor"])
 
 
 def test_every_spot_is_reachable(city, guide):
@@ -53,7 +53,7 @@ def test_every_spot_is_reachable(city, guide):
 
 def test_unknown_neighborhood(city):
     with pytest.raises(KeyError):
-        city.drive("Campus", "Narnia")
+        city.drive("Campus / UT Corridor", "Narnia")
 
 
 # ---------------------------------------------------------------- the spots
@@ -93,24 +93,24 @@ def sequence(guide, *spot_names):
 
 
 def test_1_pilates_then_coffee_then_shower_is_fine(guide):
-    assert rules.valid(sequence(guide, "Prana Wellness Club", "Black Fox", "shower"))
+    assert rules.valid(sequence(guide, "Orangetheory Fitness Triangle", "Black Fox", "shower"))
 
 
 def test_2_pilates_then_a_latte_then_shower_is_fine(guide):
-    assert rules.valid(sequence(guide, "Prana Wellness Club", "Medici", "shower"))
+    assert rules.valid(sequence(guide, "Orangetheory Fitness Triangle", "Medici", "shower"))
 
 
 def test_3_pilates_then_shower_is_fine(guide):
-    assert rules.valid(sequence(guide, "Prana Wellness Club", "shower", "Josephine House"),
+    assert rules.valid(sequence(guide, "Orangetheory Fitness Triangle", "shower", "Josephine House"),
                        starts=[9 * 60, 10 * 60, 11 * 60 + 30])
 
 
 def test_4_pilates_then_shopping_is_not(guide):
-    assert not rules.valid(sequence(guide, "Prana Wellness Club", "South Congress", "shower"))
+    assert not rules.valid(sequence(guide, "Orangetheory Fitness Triangle", "South Congress", "shower"))
 
 
 def test_5_pilates_coffee_shopping_is_not(guide):
-    assert not rules.valid(sequence(guide, "Prana Wellness Club", "Black Fox", "South Congress", "shower"))
+    assert not rules.valid(sequence(guide, "Orangetheory Fitness Triangle", "Black Fox", "South Congress", "shower"))
 
 
 def test_6_brunch_then_lunch_is_not(guide):
@@ -123,7 +123,7 @@ def test_6_brunch_then_lunch_is_not(guide):
 
 def test_7_no_car_never_walks_across_town(guide):
     city, _ = walking(guide.spots, "West Campus")
-    assert city.minutes("South Congress", "Domain") == city.TOO_FAR
+    assert city.minutes("South Congress", "The Domain / Rock Rose") == city.TOO_FAR
     for seed in range(8):
         data = day("9:00", "23:00", 8, "everything", seed, walk=True)
         stops = ["West Campus"] + [s["name"] if s["type"] == "stop" else "West Campus"
@@ -132,33 +132,33 @@ def test_7_no_car_never_walks_across_town(guide):
 
 
 def test_7_driving_zigzags_cost_more(guide, city):
-    soco, domain, soco2 = guide.find("South Congress"), guide.find("The Domain"), guide.find("Jo's Coffee")
+    soco, domain, soco2 = guide.find("South Congress"), guide.find("Éma"), guide.find("Jo's Coffee")
     zigzag = schedule([soco, domain, soco2], city, "West Campus", 10 * 60)
     stay = schedule([soco, soco2], city, "West Campus", 10 * 60)
     assert zigzag.cost - stay.cost > rules.JOY * domain.joy  # the Domain isn't worth the round trip
 
 
 def test_8_saturday_brunch_favorites_win(guide):
-    josephine, snooze = guide.find("Josephine House"), guide.find("Snooze")
+    josephine, snooze = guide.find("Josephine House"), guide.find("June's All Day")
     assert josephine.joy == snooze.joy
     assert rules.cost(None, josephine, 10 * 60 + 30, 0) < rules.cost(None, snooze, 10 * 60 + 30, 0)
     assert rules.cost(None, snooze, 10 * 60 + 30, 0) < rules.cost(None, guide.find("Veracruz"), 12 * 60, 0)
-    picks = {"Josephine House": 0, "Snooze": 0}
+    picks = {"Josephine House": 0, "June's All Day": 0}
     brunches = [s for s in guide.spots if s.category == "brunch"]
     for seed in range(300):
         chosen = {s.name for s in shortlist(brunches, [], random.Random(seed))}
         for name in picks:
             picks[name] += name in chosen
-    assert picks["Josephine House"] > 1.5 * picks["Snooze"]
+    assert picks["Josephine House"] > 1.5 * picks["June's All Day"]
     brunched = sum(any(s["category"] == "brunch" for s in day("9:00", "18:00", "all", "everything", seed)["stops"])
                    for seed in range(20))
     assert brunched >= 16  # a Saturday morning out is a brunch morning
 
 
 def test_9_workout_then_brunch_allows_coffee_not_breakfast(guide):
-    assert rules.valid(sequence(guide, "Prana Wellness Club", "Black Fox", "shower", "Josephine House"),
+    assert rules.valid(sequence(guide, "Orangetheory Fitness Triangle", "Black Fox", "shower", "Josephine House"),
                        starts=[8 * 60, 9 * 60, 9 * 60 + 30, 11 * 60])
-    assert not rules.valid(sequence(guide, "Prana Wellness Club", "shower", "Kerbey Lane Cafe", "Josephine House"),
+    assert not rules.valid(sequence(guide, "Orangetheory Fitness Triangle", "shower", "Kerbey Lane Cafe", "Josephine House"),
                            starts=[8 * 60, 9 * 60, 10 * 60, 11 * 60 + 30])
 
 
@@ -186,13 +186,13 @@ def test_no_coffee_right_after_brunch(guide):
 
 
 def test_no_coffee_after_dinner(guide):
-    dinner, coffee = guide.find("Aba"), guide.find("Black Fox")
+    dinner, coffee = guide.find("Uchi"), guide.find("Black Fox")
     assert not rules.valid([dinner, coffee], [16 * 60 + 30, 18 * 60])  # a latte after dinner is tomorrow's problem
     assert not rules.valid([dinner, guide.find("BookPeople"), coffee], [16 * 60, 17 * 60 + 30, 18 * 60 + 30])
 
 
 def test_after_a_workout_only_coffee_or_a_smoothie(guide):
-    pilates = guide.find("Prana Wellness Club")
+    pilates = guide.find("Orangetheory Fitness Triangle")
     for nice in ("Aba", "Josephine House", "BookPeople", "Blanton Museum of Art"):
         assert not rules.valid([pilates, guide.find(nice)], [9 * 60, 10 * 60 + 30])  # a shower is missing from this story
         assert not rules.valid([pilates, guide.find("Black Fox"), guide.find(nice)], [9 * 60, 10 * 60, 11 * 60])
@@ -200,8 +200,8 @@ def test_after_a_workout_only_coffee_or_a_smoothie(guide):
                        [8 * 60, 9 * 60, 10 * 60, 17 * 60])
 
 def test_no_workout_after_cocktails(guide):
-    pilates = guide.find("Prana Wellness Club")
-    for drinks in ("Josephine House", "Victory Lap"):
+    pilates = guide.find("Orangetheory Fitness Triangle")
+    for drinks in ("Josephine House", "Cidercade"):
         assert not rules.valid([guide.find(drinks), guide.find("BookPeople"), guide.find("Blanton Museum of Art"), pilates],
                                [10 * 60, 13 * 60, 14 * 60, 17 * 60])  # absolutely not
     assert rules.valid([pilates, rules.resets("West Campus")[0], guide.find("Josephine House")], [8 * 60, 9 * 60 + 30, 11 * 60])
@@ -216,7 +216,7 @@ def test_planned_days_skip_coffee_after_brunch_and_pilates_after_drinks():
                 assert not (k == "exercise" and any(rules.KINDS[x].drinks for x in kinds[:i]))
 
 def test_the_person_state_moves_like_a_person(guide):
-    pilates, coffee, lunch = guide.find("Prana Wellness Club"), guide.find("Black Fox"), guide.find("Veracruz")
+    pilates, coffee, lunch = guide.find("Orangetheory Fitness Triangle"), guide.find("Black Fox"), guide.find("Veracruz")
     s = rules.step(rules.START, pilates, 9 * 60, 0)
     assert s[0] == 2                                   # sweaty
     s = rules.step(s, coffee, 10 * 60, 60)
@@ -286,11 +286,11 @@ def test_planner_finds_the_best_day_every_time(city, guide):
     rng = random.Random(2026)
     pool = [s for s in guide.spots if s.name not in guide.home_spots]
     for _ in range(40):
-        spots = rng.sample(pool, 6) + [guide.find("Prana Wellness Club")] + rules.resets("Campus")[:1]
+        spots = rng.sample(pool, 6) + [guide.find("Orangetheory Fitness Triangle")] + rules.resets("Campus / UT Corridor")[:1]
         leave = rng.choice([8, 9, 10, 12]) * 60
         end = leave + rng.choice([3, 5, 8, 11]) * 60
-        plan = plan_day(spots, city, "Campus", leave, end, need=())
-        assert matches_brute_force(plan, best_score_by_search(spots, city, "Campus", leave, end, need=()))
+        plan = plan_day(spots, city, "Campus / UT Corridor", leave, end, need=())
+        assert matches_brute_force(plan, best_score_by_search(spots, city, "Campus / UT Corridor", leave, end, need=()))
 
 
 def test_capped_slots_match_brute_force(city, guide):
@@ -301,12 +301,12 @@ def test_capped_slots_match_brute_force(city, guide):
             spots = rng.sample(guide.pool(mood), 7)
             leave = rng.choice([8, 10, 12]) * 60
             end = leave + rng.choice([4, 7, 10]) * 60
-            plan = plan_day(spots, city, "Campus", leave, end, need=(), caps=caps)
-            assert matches_brute_force(plan, best_score_by_search(spots, city, "Campus", leave, end, need=(), caps=caps))
+            plan = plan_day(spots, city, "Campus / UT Corridor", leave, end, need=(), caps=caps)
+            assert matches_brute_force(plan, best_score_by_search(spots, city, "Campus / UT Corridor", leave, end, need=(), caps=caps))
 
 
 def test_must_haves_are_included():
-    assert "Victory Lap" in names(day("9:00", "23:00", "all", "everything", 3, include="Victory Lap"))
+    assert "Peter Pan Mini-Golf" in names(day("9:00", "23:00", "all", "everything", 3, include="Peter Pan Mini-Golf"))
 
 
 def test_absolutely_not():
@@ -318,12 +318,12 @@ def test_absolutely_not():
 
 def test_impossible_day_returns_an_empty_plan(city, guide):
     spots = [s for s in guide.spots if s.category != "coffee"][:6]
-    assert plan_day(spots, city, "Campus", TEN_AM, EIGHT_PM, need=("coffee",)).stops == []
-    assert plan_day(guide.spots[:3], city, "Campus", TEN_AM, TEN_AM + 10).stops == []
+    assert plan_day(spots, city, "Campus / UT Corridor", TEN_AM, EIGHT_PM, need=("coffee",)).stops == []
+    assert plan_day(guide.spots[:3], city, "Campus / UT Corridor", TEN_AM, TEN_AM + 10).stops == []
 
 
 def test_schedule_waits_for_windows(city, guide):
-    plan = schedule([guide.find("Medici"), guide.find("Numero 28")], city, "West Campus", TEN_AM)
+    plan = schedule([guide.find("Medici"), guide.find("Uchi")], city, "West Campus", TEN_AM)
     dinner = plan.stops[1]
     assert dinner.start == 17 * 60 + 30 and dinner.arrive < dinner.start
 
@@ -438,7 +438,7 @@ def test_nearby_spots_win_more_often(guide, city):
 
 
 def test_shortlist_always_fits_the_planner(guide):
-    for extra in ([], ["Clay Pit", "7th Street Candle"], ["PCL", "Texas Union", "The Domain"]):
+    for extra in ([], ["Clay Pit Contemporary Indian Cuisine", "7th Street Candle Co."], ["Perry-Castañeda Library (PCL)", "Life Science Library", "Éma"]):
         must = [guide.find(n) for n in extra]
         spots = shortlist(guide.for_mood("everything"), must, need=("coffee",))
         assert len(spots) <= 12 and all(m in spots for m in must)

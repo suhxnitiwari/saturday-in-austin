@@ -37,7 +37,7 @@ python3 -m venv .venv && .venv/bin/pip install matplotlib pytest
 | `--start 9:00` / `--back 23:00` | when you're ready to go, and when you want to be home (after midnight works) |
 | `--hours 6` | how long you actually want to be out, or `all` |
 | `--mood` | `slow`, `social`, `creative`, `foodie`, `outside`, `shopping`, `productive`, `treat-myself`, `day-in` or `everything` |
-| `--area soco` | stay in one neighborhood: `ut`, `downtown`, `east`, `soco`, `clarksville`, `domain`, `zilker`, `south-lamar`, `north-loop`, `mueller` |
+| `--area soco` | stay in one neighborhood: `ut`, `downtown`, `east`, `soco` (South Congress + South First), `clarksville`, `domain` (The Domain / Rock Rose), `zilker` (+ Barton Springs, the Greenbelt), `south-lamar`, `north-loop` (Hyde Park / North Loop), `burnet` (Burnet Road), `mueller` |
 | `--travel` | `car`, `uber` (cost-efficient: every ride has a fare, so the day stays in one area), `transit` (bus + walk, CapMetro is free with a UT ID) or `walk` (no walk over a mile) |
 | `--budget` | `student`, `normal` or `splurge`: every spot has a rough price, and a student budget makes free things win |
 | `--rainy` | nothing outdoors |

@@ -70,6 +70,9 @@ KINDS = {
     "show": Kind(),
     "read": Kind(),
     "games": Kind(),
+    "nightlife": Kind(drinks=True, prefer=((21 * H, 24 * H),)),  # 21+
+    "karaoke": Kind(drinks=True),
+    "comedy": Kind(),
     "reset-shower": Kind(reset="shower"),
     "reset-change": Kind(reset="change"),
 }
@@ -277,7 +280,7 @@ def explain(stops: list, shortlist: list, zone_of, minutes) -> dict:
     return dict(list(once.items())[:3])
 
 
-PLACE_NAMES = {"Domain": "the Domain", "Campus": "UT campus"}
+PLACE_NAMES = {"The Domain / Rock Rose": "the Domain", "Campus / UT Corridor": "UT campus"}
 
 
 def _place(zone: str) -> str:

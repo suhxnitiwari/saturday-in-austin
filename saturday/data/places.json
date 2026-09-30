@@ -4,13 +4,9 @@
    30.288,
    -97.746
   ],
-  "Campus": [
+  "Campus / UT Corridor": [
    30.2849,
    -97.7341
-  ],
-  "North Loop": [
-   30.318,
-   -97.722
   ],
   "Downtown": [
    30.2672,
@@ -20,41 +16,53 @@
    30.263,
    -97.725
   ],
-  "Clarksville": [
-   30.279,
-   -97.759
-  ],
   "South Congress": [
    30.25,
    -97.749
-  ],
-  "Zilker": [
-   30.266,
-   -97.77
-  ],
-  "Domain": [
-   30.402,
-   -97.725
   ],
   "South Lamar": [
    30.248,
    -97.77
   ],
-  "Mueller": [
-   30.299,
-   -97.704
+  "South First": [
+   30.2455,
+   -97.7575
   ],
-  "Barton Hills / Greenbelt": [
-   30.258,
-   -97.805
+  "Zilker / Barton Springs / Greenbelt": [
+   30.266,
+   -97.77
+  ],
+  "Clarksville / West Austin": [
+   30.279,
+   -97.759
   ],
   "Lake Austin / West Austin": [
    30.294,
    -97.78
   ],
-  "Hyde Park": [
-   30.3065,
-   -97.729
+  "Hyde Park / North Loop": [
+   30.312,
+   -97.725
+  ],
+  "Burnet Road / Mid-North": [
+   30.3295,
+   -97.7395
+  ],
+  "Mueller": [
+   30.299,
+   -97.704
+  ],
+  "The Domain / Rock Rose": [
+   30.402,
+   -97.725
+  ],
+  "Southeast Austin": [
+   30.183,
+   -97.722
+  ],
+  "Lake Travis": [
+   30.39,
+   -97.91
   ]
  },
  "spots": {

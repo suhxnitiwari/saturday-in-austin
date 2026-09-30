@@ -49,16 +49,20 @@ WINDOWS = {
     "dinner": (17 * 60 + 30, 21 * 60),
     "order in": (17 * 60, 21 * 60 + 30),
     "late night": (21 * 60, 23 * 60 + 30),
+    "nightlife": (20 * 60, 23 * 60 + 30),   # 21+
+    "karaoke": (20 * 60, 23 * 60),
+    "comedy": (19 * 60, 22 * 60 + 30),
 }
 
 
 # categories that fill the same slot in a day: brunch OR lunch, a hike OR a swim...
 SLOTS = {"brunch": "midday meal", "lunch": "midday meal", "order in": "dinner",
          "hike": "outdoor", "paddle": "outdoor", "swim": "outdoor", "park": "outdoor",
-         "game": "hangout", "spa": "nails", "show": "movie"}
+         "game": "hangout", "spa": "nails", "show": "movie",
+         "nightlife": "night out", "karaoke": "night out", "comedy": "evening show", "live music": "evening show"}
 
 # the evening only moves forward: after dinner, the only thing left is a late-night snack
-PHASE = {"dinner": 1, "order in": 1, "movie": 2, "show": 2, "live music": 2, "late night": 2}
+PHASE = {"dinner": 1, "order in": 1, "movie": 2, "show": 2, "live music": 2, "late night": 2, "nightlife": 2, "karaoke": 2, "comedy": 2}
 
 # out in the weather: left out on a rainy day
 OUTDOORS = {"hike", "paddle", "swim", "park", "sunset", "murals", "market", "game"}
@@ -71,22 +75,24 @@ HOME = "Home"  # the zone for day-in stops; it becomes wherever the day starts
 # "just the Domain", "just SoCo": the neighborhoods a day can stay inside
 AREAS = {
     "anywhere": ("Anywhere", None),
-    "ut": ("UT / West Campus", {"Campus", "West Campus"}),
+    "ut": ("UT / West Campus", {"Campus / UT Corridor", "West Campus"}),
     "downtown": ("Downtown", {"Downtown"}),
     "east": ("East Austin", {"East Austin"}),
-    "soco": ("South Congress", {"South Congress"}),
-    "clarksville": ("Clarksville / West Austin", {"Clarksville", "Lake Austin / West Austin"}),
-    "domain": ("Domain / North Austin", {"Domain"}),
-    "zilker": ("Zilker", {"Zilker"}),
+    "soco": ("South Congress / South First", {"South Congress", "South First"}),
+    "clarksville": ("Clarksville / West Austin", {"Clarksville / West Austin", "Lake Austin / West Austin"}),
+    "domain": ("The Domain / Rock Rose", {"The Domain / Rock Rose"}),
+    "zilker": ("Zilker / Barton Springs", {"Zilker / Barton Springs / Greenbelt"}),
     "south-lamar": ("South Lamar", {"South Lamar"}),
-    "north-loop": ("North Loop / Hyde Park", {"North Loop", "Hyde Park"}),
+    "north-loop": ("Hyde Park / North Loop", {"Hyde Park / North Loop"}),
+    "burnet": ("Burnet Road", {"Burnet Road / Mid-North"}),
     "mueller": ("Mueller", {"Mueller"}),
 }
 
 # "starting from": where home is, as one of the map's neighborhoods
 STARTS = {"ut": "West Campus", "downtown": "Downtown", "east": "East Austin", "soco": "South Congress",
-          "clarksville": "Clarksville", "domain": "Domain", "zilker": "Zilker", "south-lamar": "South Lamar",
-          "north-loop": "North Loop", "mueller": "Mueller"}
+          "clarksville": "Clarksville / West Austin", "domain": "The Domain / Rock Rose", "zilker": "Zilker / Barton Springs / Greenbelt",
+          "south-lamar": "South Lamar", "north-loop": "Hyde Park / North Loop", "burnet": "Burnet Road / Mid-North", "mueller": "Mueller"}
+DAY_TRIPS = {"Southeast Austin", "Lake Travis"}  # worth the drive, but not neighborhoods on the map
 
 # what "absolutely not" can rule out besides one place
 NOT_THESE = {
@@ -95,6 +101,7 @@ NOT_THESE = {
     "shopping": ("Shopping", {"shopping", "market"}),
     "outdoors": ("Anything outdoors", {"hike", "paddle", "swim", "park", "sunset", "murals", "market", "game"}),
     "live-music": ("Live music", {"live music"}),
+    "nightlife": ("Bars and nightlife", {"nightlife", "karaoke"}),
     "studying": ("Studying", {"study"}),
     "sweets": ("Sweets", {"treat", "late night", "snack"}),
 }
@@ -116,7 +123,7 @@ class Mood:
 RULES = {
     "everything": Mood(),
     "slow": Mood(late=True),  # a slow morning, lattes, bookstores, nowhere to be
-    "social": Mood(need=(), want=("hangout",)),  # Victory Lap or Peter Pan with everyone
+    "social": Mood(need=(), want=("hangout",)),  # Peter Pan, Pins or Cidercade with everyone
     "creative": Mood(want=("creative",), caps={"creative": 2}),  # studios, murals, a show at night
     "foodie": Mood(need=(), caps={"midday meal": 2, "treat": 2}),  # brunch AND lunch, on purpose
     "outside": Mood(caps={"outdoor": 2}),  # two adventures, never back to back

@@ -210,12 +210,12 @@
 
     // our own dropdowns (the browser's datalist popups don't match the page)
     const NOTS = { Workouts: 'workouts', Museums: 'museums', Shopping: 'shopping', 'Anything outdoors': 'outdoors',
-                   'Live music': 'live-music', Studying: 'studying', Sweets: 'sweets' };
+                   'Live music': 'live-music', 'Bars and nightlife': 'nightlife', Studying: 'studying', Sweets: 'sweets' };
     const SOURCES = {
-        starts: () => ['UT / West Campus', 'Downtown', 'East Austin', 'South Congress', 'Clarksville / West Austin',
-                       'Domain / North Austin', 'Zilker', 'South Lamar', 'North Loop / Hyde Park', 'Mueller'].map(v => [v, '']),
-        areas: () => ['Anywhere', 'UT / West Campus', 'Downtown', 'East Austin', 'South Congress', 'Clarksville / West Austin',
-                      'Domain / North Austin', 'Zilker', 'South Lamar', 'North Loop / Hyde Park', 'Mueller'].map(v => [v, '']),
+        starts: () => ['UT / West Campus', 'Downtown', 'East Austin', 'South Congress / South First', 'Clarksville / West Austin',
+                       'The Domain / Rock Rose', 'Zilker / Barton Springs', 'South Lamar', 'Hyde Park / North Loop', 'Burnet Road', 'Mueller'].map(v => [v, '']),
+        areas: () => ['Anywhere', 'UT / West Campus', 'Downtown', 'East Austin', 'South Congress / South First', 'Clarksville / West Austin',
+                       'The Domain / Rock Rose', 'Zilker / Barton Springs', 'South Lamar', 'Hyde Park / North Loop', 'Burnet Road', 'Mueller'].map(v => [v, '']),
         places: () => PLACES.map(v => [v, '']),
         nots: () => [...Object.keys(NOTS).map(v => [v, 'kind']), ...PLACES.map(v => [v, ''])],
     };
@@ -279,12 +279,13 @@
         ut: ['ut / west campus', 'ut', 'ut austin', 'campus', 'west campus', 'the drag', 'drag', 'university'],
         downtown: ['downtown', 'dt', 'rainey', 'rainey street', '2nd street', 'second street', 'warehouse district', 'congress ave'],
         east: ['east austin', 'east', 'east side', 'eastside', 'east 6th', 'e 6th', 'holly', 'cherrywood'],
-        soco: ['south congress', 'soco', 'bouldin', 'bouldin creek', 'travis heights', 'south 1st', 's 1st'],
+        soco: ['south congress / south first', 'south congress', 'soco', 'bouldin', 'bouldin creek', 'travis heights', 'south 1st', 's 1st', 'south first'],
         clarksville: ['clarksville / west austin', 'clarksville', 'west austin', 'tarrytown', 'lake austin', 'deep eddy', 'west 6th'],
-        domain: ['domain / north austin', 'domain', 'the domain', 'north austin', 'domain northside', 'arboretum'],
-        zilker: ['zilker', 'barton springs', 'zilker park'],
+        domain: ['the domain / rock rose', 'domain', 'the domain', 'rock rose', 'north austin', 'domain northside', 'arboretum'],
+        zilker: ['zilker / barton springs', 'zilker', 'barton springs', 'zilker park', 'greenbelt', 'barton hills'],
         'south-lamar': ['south lamar', 'solamar', 's lamar', 'lamar'],
-        'north-loop': ['north loop / hyde park', 'north loop', 'hyde park', 'north campus', 'burnet'],
+        'north-loop': ['hyde park / north loop', 'north loop', 'hyde park', 'north campus'],
+        burnet: ['burnet road', 'burnet', 'mid-north', 'allandale', 'rosedale', 'crestview'],
         mueller: ['mueller'],
     };
     const areaText = document.getElementById('area-text');
@@ -307,8 +308,8 @@
 
     // ------------------------------------------------------------ share links: the same Saturday, for a friend
     const LABEL = { anywhere: 'Anywhere', ut: 'UT / West Campus', downtown: 'Downtown', east: 'East Austin',
-                    soco: 'South Congress', clarksville: 'Clarksville / West Austin', domain: 'Domain / North Austin',
-                    zilker: 'Zilker', 'south-lamar': 'South Lamar', 'north-loop': 'North Loop / Hyde Park', mueller: 'Mueller' };
+                    soco: 'South Congress / South First', clarksville: 'Clarksville / West Austin', domain: 'The Domain / Rock Rose',
+                    zilker: 'Zilker / Barton Springs', 'south-lamar': 'South Lamar', 'north-loop': 'Hyde Park / North Loop', burnet: 'Burnet Road', mueller: 'Mueller' };
     function shareLink() {
         const f = form.elements, q = new URLSearchParams({
             s: seed, start: f.start.value, end: f.end.value, hours: f.hours.value, mood: f.mood.value,
@@ -342,7 +343,8 @@
     const letterNote = letterBox.querySelector('.letter-note');
     const VERB = { coffee: 'coffee at ', smoothie: 'a smoothie at ', brunch: 'brunch at ', lunch: 'lunch at ',
                    dinner: 'dinner at ', treat: 'something sweet at ', 'late night': 'one last stop at ',
-                   exercise: 'a class at ', shopping: 'shopping at ', nails: 'nails at ', 'live music': 'a show at ' };
+                   exercise: 'a class at ', shopping: 'shopping at ', nails: 'nails at ', 'live music': 'a show at ',
+                   nightlife: 'drinks at ', karaoke: 'karaoke at ', comedy: 'a show at ' };
     function composeLetter(plan) {
         const to = toInput.value.trim() || 'reader', from = fromInput.value.trim();
         const lines = [`Dearest ${to},`, '', 'Your Saturday has been decided. Do not argue.', ''];
@@ -525,7 +527,7 @@
     }
 
     // The map: tap a neighborhood to see the drives the planner knows from there
-    const MAP = {"names": {"1": "Campus", "2": "Downtown", "3": "Clarksville", "4": "South Congress", "5": "East Austin", "6": "South Lamar", "7": "The Domain", "8": "West Campus", "9": "Zilker", "10": "North Loop", "11": "Lake Austin / West Austin", "12": "Mueller", "13": "Barton Hills / Greenbelt", "14": "Hyde Park"}, "count": {"1": 13, "2": 48, "3": 10, "4": 24, "5": 34, "6": 12, "7": 16, "8": 6, "9": 14, "10": 9, "11": 6, "12": 3, "13": 7, "14": 6}, "roads": [[1, 8, 4], [1, 10, 8], [1, 2, 7], [1, 5, 8], [8, 3, 6], [8, 2, 8], [3, 2, 6], [3, 11, 7], [10, 7, 14], [2, 5, 6], [2, 4, 7], [2, 9, 8], [9, 4, 6], [11, 9, 9], [9, 13, 10], [6, 9, 5], [6, 4, 7], [13, 6, 12], [11, 7, 20], [1, 12, 10], [10, 12, 8], [5, 12, 8], [14, 1, 6], [14, 10, 4], [14, 12, 8]]};
+    const MAP = {"names": {"1": "Campus / UT Corridor", "2": "Downtown", "3": "Clarksville / West Austin", "4": "South Congress", "5": "East Austin", "6": "South Lamar", "7": "The Domain / Rock Rose", "8": "West Campus", "9": "Zilker / Barton Springs / Greenbelt", "10": "Hyde Park / North Loop", "11": "Lake Austin / West Austin", "12": "Mueller", "13": "South First", "14": "Burnet Road / Mid-North"}, "count": {"1": 11, "2": 57, "3": 9, "4": 23, "5": 37, "6": 18, "7": 14, "8": 12, "9": 15, "10": 12, "11": 6, "12": 6, "13": 4, "14": 8}, "roads": [[8, 1, 4], [1, 2, 7], [8, 2, 8], [8, 3, 6], [3, 2, 6], [3, 11, 7], [1, 10, 7], [10, 14, 6], [14, 7, 12], [10, 12, 8], [1, 12, 10], [5, 12, 8], [1, 5, 8], [2, 5, 6], [2, 4, 7], [2, 13, 7], [4, 13, 3], [13, 6, 5], [6, 9, 5], [2, 9, 8], [9, 4, 6], [11, 9, 9], [11, 7, 20], [11, 14, 12]]};
     const atx = document.querySelector('.atx');
     if (atx) {
         const note = document.querySelector('[data-map-note]'), lines = atx.querySelector('.atx-drives');

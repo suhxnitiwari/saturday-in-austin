@@ -9,7 +9,7 @@ from .__main__ import clock
 from .city import City
 from .planner import BUFFER, plan_outing, reachable, shortlist, transit, walking
 from .sass import judge, sign_off
-from .spots import AREAS, MOOD_NAMES, NOT_THESE, RULES, STARTS, Guide, UnknownSpotError, half_hour, load, shelf_note
+from .spots import AREAS, DAY_TRIPS, MOOD_NAMES, NOT_THESE, RULES, STARTS, Guide, UnknownSpotError, half_hour, load, shelf_note
 
 _SPOTS, _DRIVE = load(), City()
 _GUIDES = {}  # one Guide per home: day-in spots live wherever home is
@@ -24,9 +24,9 @@ def _guide(home: str) -> Guide:
 LABELS = {
     "exercise": "workout", "study": "study spot", "creative": "make something", "paddle": "on the water",
     "murals": "mural", "game": "game day", "cinema": "movie", "order in": "dinner in", "movie": "movie night",
-    "read": "reading", "games": "game night",
+    "read": "reading", "games": "game night", "nightlife": "21+ night out", "comedy": "comedy & shows",
 }
-NEIGHBORHOODS = {"Campus": "UT campus", "Domain": "the Domain"}
+NEIGHBORHOODS = {"Campus / UT Corridor": "UT campus", "The Domain / Rock Rose": "the Domain"}
 
 
 def names() -> str:
@@ -40,7 +40,7 @@ def stats() -> str:
     from .spots import MOODS
     guide = _guide("West Campus")
     places = [s for s in guide.spots if s.name not in guide.home_spots]
-    return json.dumps({"places": len(places), "neighborhoods": len({s.zone for s in places}), "moods": len(MOODS)})
+    return json.dumps({"places": len(places), "neighborhoods": len({s.zone for s in places} - DAY_TRIPS), "moods": len(MOODS)})
 
 
 def plan_json(start: str, end: str, hours="all", mood: str = "everything", seed=None,
