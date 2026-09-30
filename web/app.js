@@ -560,6 +560,31 @@
         });
     }
 
+    // The Column: tap a cover to read it
+    const storyBox = document.getElementById('story'), storyBody = storyBox.querySelector('.story-body');
+    const openStory = key => {
+        const tpl = document.getElementById('story-' + key);
+        if (!tpl) return;
+        storyBody.replaceChildren(tpl.content.cloneNode(true));
+        storyBox.showModal();
+        storyBox.querySelector('.story-paper').scrollTop = 0;
+    };
+    document.querySelectorAll('.story[data-story]').forEach(c => {
+        c.addEventListener('click', () => openStory(c.dataset.story));
+        c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openStory(c.dataset.story); } });
+    });
+    storyBox.querySelector('.close-story').addEventListener('click', () => storyBox.close());
+    storyBox.addEventListener('click', e => {
+        if (e.target === storyBox) storyBox.close();
+        const plan = e.target.closest('[data-plan-mood]');
+        if (plan) {  // from the article straight to a matching Saturday
+            storyBox.close();
+            form.elements.mood.value = plan.dataset.planMood;
+            show('plan');
+            form.dispatchEvent(new Event('change'));
+        }
+    });
+
     // The editor's photos: arrows, arrow keys, or a swipe
     const slides = document.querySelector('[data-slides]');
     if (slides) {

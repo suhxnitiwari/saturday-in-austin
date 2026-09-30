@@ -210,6 +210,33 @@
         .story h3 { margin: 6px 0 0; font-family: var(--display); font-weight: 500; font-size: clamp(24px, 2.2vw, 32px); line-height: 1.1; }
         .story h3 em { color: var(--pink); font-weight: 400; }
         .story-soon { margin: 8px 0 0; font-family: var(--typewriter); font-size: 13px; color: var(--grey); }
+        .column-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr) auto auto auto); column-gap: 28px; }
+        .story:nth-child(n + 5) { margin-top: 26px; }
+        .story[data-story] { cursor: pointer; }
+        .story[data-story]:hover h3, .story[data-story]:focus-visible h3 { text-decoration: underline; text-decoration-color: var(--pink); text-underline-offset: 5px; }
+        .story[data-story]:focus-visible { outline: 2px solid var(--pink); outline-offset: 4px; }
+        .story[data-story] .story-soon { color: var(--pink-ink); }
+        .story-img { min-height: 110px; }
+        .story h3 { font-size: clamp(20px, 1.7vw, 26px); }
+        .story-box { width: min(760px, calc(100% - 32px)); max-height: calc(100vh - 40px); padding: 0; border: 0; background: transparent; }
+        .story-box::backdrop { background: rgba(17, 17, 17, 0.5); }
+        .story-paper { position: relative; max-height: calc(100vh - 40px); overflow-y: auto; padding: 44px 52px 40px; background: var(--paper); border: 1px solid var(--line); outline: 1px solid var(--gold); outline-offset: -8px; }
+        .close-story { position: absolute; top: 16px; right: 16px; width: 38px; height: 38px; border: 1px solid var(--line); background: var(--paper); font-size: 16px; cursor: pointer; }
+        .close-story:hover { background: var(--ink); color: var(--paper); }
+        .story-body .st-kicker { margin: 0; font-size: 10.5px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+        .story-body h2 { margin: 10px 60px 0 0; font-family: var(--display); font-weight: 500; font-size: clamp(32px, 4vw, 46px); line-height: 1.05; }
+        .story-body h2 em { color: var(--pink); font-weight: 400; }
+        .story-body .st-dek { margin: 16px 0 6px; padding-bottom: 18px; border-bottom: 4px double var(--line); font-family: var(--typewriter); font-size: 15px; line-height: 1.55; }
+        .story-body h3 { margin: 24px 0 8px; font-family: var(--display); font-style: italic; font-weight: 400; font-size: 24px; color: var(--pink-ink); }
+        .story-body p { margin: 0 0 10px; font-size: 15px; line-height: 1.7; }
+        .st-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+        .st-list li { padding: 10px 0; border-bottom: 1px solid var(--hair); font-size: 14.5px; line-height: 1.6; }
+        .st-list b { font-family: var(--display); font-weight: 500; font-size: 18px; margin-right: 8px; }
+        .st-list span { margin-right: 8px; font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); }
+        .st-defs b { display: block; margin-bottom: 2px; }
+        .st-tip { margin-top: 22px !important; font-family: var(--display); font-style: italic; font-size: 18px !important; color: var(--pink-ink); }
+        .story-body .cta { margin-top: 16px; }
+        @media (max-width: 560px) { .story-paper { padding: 36px 20px 28px; } }
         .cards-title { grid-column: 1 / -1; margin: 6px 0 -8px; font-family: var(--display); font-weight: 500; font-size: clamp(24px, 2.2vw, 32px); line-height: 1.1; }
         .cards-title em { color: var(--pink); font-weight: 400; }
         .cards { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 4px double var(--line); }
@@ -610,21 +637,45 @@
             <h2 class="big">Opinions, <em>strongly held.</em></h2>
         </div>
         <div class="column-grid">
-            <article class="story">
+            <article class="story" data-story="make" tabindex="0" role="button" aria-label="Read: Make something, with your hands.">
                 <div class="story-img">Image coming soon</div>
-                <p class="story-no">No. 01 · Coffee</p>
+                <p class="story-no">No. 01 · Make</p>
+                <h3>Make something, <em>with your hands.</em></h3>
+                <p class="story-soon">Pottery, mosaics, candles and silver: where to spend a Saturday making it yourself. Read →</p>
+            </article>
+            <article class="story" data-story="bars" tabindex="0" role="button" aria-label="Read: West Sixth, Dirty Sixth, and Rainey.">
+                <div class="story-img">Image coming soon</div>
+                <p class="story-no">No. 02 · After dark</p>
+                <h3>West Sixth, Dirty Sixth, <em>and Rainey.</em></h3>
+                <p class="story-soon">Three bar districts, a few blocks apart, three completely different nights. Read →</p>
+            </article>
+            <article class="story" data-story="symbols" tabindex="0" role="button" aria-label="Read: Austin, decoded.">
+                <div class="story-img">Image coming soon</div>
+                <p class="story-no">No. 03 · Symbols</p>
+                <h3>Austin, <em>decoded.</em></h3>
+                <p class="story-soon">The bats, the towers, the grackles, and why everyone says “Keep Austin Weird.” Read →</p>
+            </article>
+            <article class="story" data-story="four" tabindex="0" role="button" aria-label="Read: Four days in Austin.">
+                <div class="story-img">Image coming soon</div>
+                <p class="story-no">No. 04 · Visiting</p>
+                <h3>Four days in <em>Austin.</em></h3>
+                <p class="story-soon">The itinerary for the friend who’s visiting and wants all of it. Read →</p>
+            </article>
+            <article class="story soon">
+                <div class="story-img">Image coming soon</div>
+                <p class="story-no">No. 05 · Coffee</p>
                 <h3>The best coffee in <em>Austin.</em></h3>
                 <p class="story-soon">The editor’s picks, coming soon.</p>
             </article>
-            <article class="story">
+            <article class="story soon">
                 <div class="story-img">Image coming soon</div>
-                <p class="story-no">No. 02 · Mexican</p>
+                <p class="story-no">No. 06 · Mexican</p>
                 <h3>The best Mexican food in <em>Austin.</em></h3>
                 <p class="story-soon">The editor’s picks, coming soon.</p>
             </article>
-            <article class="story">
+            <article class="story soon">
                 <div class="story-img">Image coming soon</div>
-                <p class="story-no">No. 03 · Indian</p>
+                <p class="story-no">No. 07 · Indian</p>
                 <h3>The best Indian food in <em>Austin.</em></h3>
                 <p class="story-soon">The editor’s picks, coming soon.</p>
             </article>
@@ -895,6 +946,96 @@
     </footer>
 </div>
 
+<template id="story-make">
+<p class="st-kicker">The Column · No. 01 · Make</p>
+<h2>Make something, <em>with your hands.</em></h2>
+<p class="st-dek">The best souvenir from a Saturday is the one you made yourself. Book ahead: most of these are workshops with set times, and the good slots go fast.</p>
+<h3>Clay</h3>
+<ul class="st-list">
+<li><b>Mud Studio</b> <span>West 6th</span> Ceramics workshops, or six-week classes if you want to get serious about the wheel.</li>
+<li><b>Ceramigos</b> <span>South Congress</span> A pottery studio built for learning: classes and open studio time.</li>
+<li><b>Rosa Pottery Studio</b> <span>East Austin</span> Wheel time on the east side.</li>
+<li><b>The Little Bisque</b> <span>North Loop</span> The no-mess version: paint pottery that’s already been made, pick it up once it’s fired.</li>
+</ul>
+<h3>Glass, wax and paper</h3>
+<ul class="st-list">
+<li><b>The Mosaic Workshop</b> <span>East Austin</span> Break tile on purpose, then turn it into something you’ll actually hang up.</li>
+<li><b>7th Street Candle Co.</b> <span>East Austin</span> Pick a scent, pour your own candle, take the smell of Saturday home.</li>
+<li><b>The Paper + Craft Pantry</b> <span>East Austin</span> Stationery, supplies and workshops for the girl who owns too many pens.</li>
+<li><b>Kraft Stories</b> <span>East Austin</span> Craft workshops for a group day.</li>
+</ul>
+<h3>Silver and art</h3>
+<ul class="st-list">
+<li><b>Sisu Studio</b> <span>West 6th</span> A silversmithing workshop. You leave with jewelry you made.</li>
+<li><b>The Art Garage</b> <span>South Lamar</span> Affordable local art, and a very good excuse to start a collection.</li>
+<li><b>Dougherty Arts Center</b> <span>Zilker</span> The city’s own arts center, with classes all year.</li>
+</ul>
+<p class="st-tip">Wear something you don’t love. Clay always wins.</p>
+<button type="button" class="cta" data-plan-mood="creative">Plan a creative Saturday →</button>
+</template>
+<template id="story-bars">
+<p class="st-kicker">The Column · No. 02 · After dark · 21+</p>
+<h2>West Sixth, Dirty Sixth, <em>and Rainey.</em></h2>
+<p class="st-dek">They’re a few blocks apart, and people use the names like they’re interchangeable. They are not. Here’s which night is which.</p>
+<h3>Dirty Sixth</h3>
+<p>East 6th Street, between Congress Avenue and I-35: the historic stretch everyone means when they say “Sixth Street.” On weekend nights it closes to cars and turns into one long, loud block party. Shots, cover bands, bachelorette sashes, and very sticky floors. Go once. Wear shoes you don’t love.</p>
+<ul class="st-list"><li><b>From the list</b> Aquarium on 6th, The Library, The Jackalope</li></ul>
+<h3>West Sixth</h3>
+<p>Cross Congress and head west toward Lamar. The patios get nicer, the drinks get better, and the crowd gets a little older and a little dressier. Still a going-out night, just with a cocktail menu.</p>
+<ul class="st-list"><li><b>From the list</b> Mayfair, Key Bar, Buford’s, and The Roosevelt Room around the corner on 5th for serious cocktails</li></ul>
+<h3>Rainey Street</h3>
+<p>A few blocks south, by the lake: old bungalows turned into bars, porches, string lights and food trucks, now sitting under glass towers, including Waterline, the tallest building in Texas. The mellow start to the night.</p>
+<ul class="st-list"><li><b>From the list</b> Half Step, Lucille</li></ul>
+<h3>And two more</h3>
+<ul class="st-list">
+<li><b>East Sixth</b> <span>past I-35</span> Where locals go instead: dives and patios. Lustre Pearl.</li>
+<li><b>Rock Rose</b> <span>the Domain</span> The north-side version, no parking stress: The Rose Room, 77° Rooftop, Wonder Bar, Kung Fu Saloon.</li>
+<li><b>The speakeasy</b> <span>by the Driskill</span> Here Nor There: reserve on the app, get the code, find the alley gate.</li>
+</ul>
+<p class="st-tip">All 21+. Bring your ID, and decide how you’re getting home before you go.</p>
+</template>
+<template id="story-symbols">
+<p class="st-kicker">The Column · No. 03 · Symbols</p>
+<h2>Austin, <em>decoded.</em></h2>
+<p class="st-dek">Every city has inside jokes. Here are Austin’s, so you can nod along.</p>
+<ul class="st-list st-defs">
+<li><b>The bats</b> About 1.5 million Mexican free-tailed bats live under the Congress Avenue Bridge, the largest urban bat colony in North America. From spring through fall, they leave at dusk in one long ribbon. People gather on the bridge to watch. It’s a whole thing.</li>
+<li><b>“Keep Austin Weird”</b> Started in 2000 as a slogan for supporting local, independent businesses. It became the city’s personality.</li>
+<li><b>The Capitol</b> Built in “sunset red” granite, and taller than the U.S. Capitol. Texas made sure.</li>
+<li><b>The UT Tower</b> When it glows orange, the Longhorns won.</li>
+<li><b>Live Music Capital of the World</b> The official slogan since 1991, and the reason there’s a band in the airport.</li>
+<li><b>The moonlight towers</b> Tall iron streetlights from the 1890s. Austin is the only city that still uses them.</li>
+<li><b>Barton Springs</b> A spring-fed pool that stays about 68° all year. Austin’s cold plunge, long before cold plunges.</li>
+<li><b>The postcard mural</b> “Greetings from Austin,” on South 1st. You will take the photo. Everyone does.</li>
+<li><b>Willie</b> Willie Nelson, in bronze, outside ACL Live on Willie Nelson Boulevard.</li>
+<li><b>Lady Bird Lake</b> Named for Lady Bird Johnson, who led the push to make the shoreline beautiful.</li>
+<li><b>The grackles</b> The loud black birds that take over every parking lot at sunset. Unofficial mascot.</li>
+<li><b>Breakfast tacos</b> Not a trend. A food group.</li>
+<li><b>Bluebonnets</b> The state flower. Every spring, everyone takes the roadside photo.</li>
+</ul>
+</template>
+<template id="story-four">
+<p class="st-kicker">The Column · No. 04 · Visiting</p>
+<h2>Four days in <em>Austin.</em></h2>
+<p class="st-dek">For the friend who’s visiting and wants all of it. One part of town a day, so you’re not in the car the whole trip.</p>
+<h3>Day 1 · Downtown and South Congress</h3>
+<p>A latte at <b>Medici</b>, then the <b>Texas State Capitol</b>. Lunch at <b>La Condesa</b>, a slow loop through the <b>Second Street District</b>, then across the river to <b>South Congress</b>: <b>Allen’s Boots</b> and the <b>Greetings from Austin</b> mural. Dinner at <b>Aba</b>, then the <b>Congress Avenue Bridge bats</b> at sunset.</p>
+<h3>Day 2 · Zilker and the springs</h3>
+<p>Brunch at <b>Josephine House</b>. Swim at <b>Barton Springs Pool</b> (it’s cold, it’s worth it), then <b>Zilker Park</b> and a round at <b>Peter Pan Mini-Golf</b>. Barbecue at <b>Terry Black’s</b>, then two-step at the <b>Broken Spoke</b>.</p>
+<h3>Day 3 · UT and West Austin</h3>
+<p>The <b>Blanton</b>, then the <b>Harry Ransom Center</b> for the Gutenberg Bible. Burritos at <b>Cabo Bob’s</b>. Sunset from <b>Mount Bonnell</b>, dinner at <b>Clark’s Oyster Bar</b>, and a nightcap on <b>Rainey Street</b>.</p>
+<h3>Day 4 · East Austin</h3>
+<p>Brunch at <b>Paperboy</b>. Make something at <b>The Mosaic Workshop</b> or <b>7th Street Candle Co.</b>, barbecue at <b>la Barbecue</b>, coffee at <b>Palomino</b>. Dinner at <b>Suerte</b>, and end at <b>The White Horse</b>.</p>
+<p class="st-tip">Book Josephine House and Suerte ahead. The bats fly spring through fall.</p>
+<button type="button" class="cta" data-plan-mood="everything">Plan a Saturday →</button>
+</template>
+<dialog class="story-box" id="story" aria-label="The Column">
+    <div class="story-paper">
+        <button type="button" class="close-story" aria-label="Close">✕</button>
+        <div class="story-body"></div>
+    </div>
+</dialog>
+
 <dialog class="letter-box" id="ideal" aria-labelledby="ideal-title">
     <div class="paper">
         <span class="seal" aria-hidden="true">ST</span>
@@ -929,6 +1070,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=35" defer></script>
+<script src="web/app.js?v=36" defer></script>
 </body>
 </html>
