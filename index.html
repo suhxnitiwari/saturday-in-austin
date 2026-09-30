@@ -325,11 +325,11 @@
         .pin { display: flex; flex-direction: column; min-height: 0; padding-bottom: 14px; cursor: pointer; }
         .pin[data-story="coffee"] { grid-column: 1; grid-row: 2 / 9; } .pin[data-story="brunch"] { grid-column: 1; grid-row: 9 / 16; } .pin[data-story="vegan"] { grid-column: 1; grid-row: 16 / 22; }
         .pin[data-story="mexican"] { grid-column: 2; grid-row: 2 / 8; } .pin[data-story="indian"] { grid-column: 2; grid-row: 8 / 16; } .pin[data-story="date"] { grid-column: 2; grid-row: 16 / 22; }
-        .pin[data-story="make"] { grid-column: 4; grid-row: 2 / 9; } .pin[data-story="music"] { grid-column: 4; grid-row: 9 / 15; } .pin[data-story="free"] { grid-column: 4; grid-row: 15 / 22; }
-        .pin[data-story="bars"] { grid-column: 5; grid-row: 2 / 9; } .pin[data-story="study"] { grid-column: 5; grid-row: 9 / 16; } .pin[data-story="follow"] { grid-column: 5; grid-row: 16 / 22; }
-        .pin[data-story="bus"] { grid-column: 7; grid-row: 2 / 7; } .pin[data-story="four"] { grid-column: 7; grid-row: 7 / 12; } .pin[data-story="college"] { grid-column: 7; grid-row: 12 / 17; }
-        .pin[data-story="history"] { grid-column: 7; grid-row: 17 / 22; } .pin[data-story="symbols"] { grid-column: 8; grid-row: 2 / 9; } .pin[data-story="hoods"] { grid-column: 8; grid-row: 9 / 15; }
-        .pin[data-story="football"] { grid-column: 8; grid-row: 15 / 22; }
+        .pin[data-story="make"] { grid-column: 4; grid-row: 2 / 7; } .pin[data-story="music"] { grid-column: 4; grid-row: 7 / 12; } .pin[data-story="free"] { grid-column: 4; grid-row: 12 / 17; }
+        .pin[data-story="boots"] { grid-column: 4; grid-row: 17 / 22; } .pin[data-story="bars"] { grid-column: 5; grid-row: 2 / 9; } .pin[data-story="study"] { grid-column: 5; grid-row: 9 / 15; }
+        .pin[data-story="follow"] { grid-column: 5; grid-row: 15 / 22; } .pin[data-story="bus"] { grid-column: 7; grid-row: 2 / 7; } .pin[data-story="four"] { grid-column: 7; grid-row: 7 / 12; }
+        .pin[data-story="college"] { grid-column: 7; grid-row: 12 / 17; } .pin[data-story="history"] { grid-column: 7; grid-row: 17 / 22; } .pin[data-story="symbols"] { grid-column: 8; grid-row: 2 / 9; }
+        .pin[data-story="hoods"] { grid-column: 8; grid-row: 9 / 16; } .pin[data-story="football"] { grid-column: 8; grid-row: 16 / 22; }
         .pin .story-img { position: relative; flex: 1 1 0; min-height: 0; display: grid; place-items: center; border-radius: 16px; background: var(--peach); overflow: hidden; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--orange-ink); transition: filter .15s; }
         .pin .story-img::after { content: "Read"; position: absolute; top: 10px; right: 10px; padding: 8px 14px; border-radius: 999px; background: var(--orange); color: var(--paper); font-family: var(--sans); font-style: normal; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; opacity: 0; transition: opacity .15s; }
         .story-img img, .read-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -839,6 +839,12 @@
                 <div class="story-img"><img src="https://images.unsplash.com/photo-1515980122823-20ccdcde3398?w=600&q=70&auto=format&fit=crop" alt="Watching the sunset from a hill" loading="lazy"></div>
                 <p class="story-no">Broke</p>
                 <h3>A Saturday for <em>$0.</em></h3>
+                <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
+            </article>
+            <article class="pin" data-story="boots" tabindex="0" role="button" aria-label="Read: Cowboy boots, for non-Texans.">
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1525814230241-7f78c608c54c?w=600&q=70&auto=format&fit=crop" alt="A wall of cowboy boots on shelves" loading="lazy"></div>
+                <p class="story-no">Boots</p>
+                <h3>Cowboy boots, for <em>non-Texans.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="bars" tabindex="0" role="button" aria-label="Read: Nightlife in Austin.">
@@ -1547,6 +1553,28 @@
 <button type="button" class="cta" data-plan-mood="outside">Plan a free Saturday →</button>
 </template>
 
+<template id="story-boots" data-hash="cowboy-boots">
+<p class="st-kicker">The Column · No. 20 · Boots</p>
+<h2>Cowboy boots, for <em>non-Texans.</em></h2>
+<p class="st-dek">You live here now. You need boots. Let’s not panic.</p>
+<h3>Where to shop</h3>
+<p>One block of South Congress does it all: <b>Tecovas</b>’ flagship at 1500 and <b>Allens Boots</b> at 1522, the one with the big red boot out front and a whole store of them inside. Up north, Tecovas and <b>Lucchese</b> both have stores at the Domain.</p>
+<h3>The toe</h3>
+<p><b>Pointed</b> is the classic cowboy look. <b>Round</b> is the easy, everyday one. <b>Square</b> runs from a subtle box to a broad work-boot toe. Can’t decide? A <b>cutter toe</b> gives you square-toe room with a pointed-toe shape.</p>
+<h3>The heel</h3>
+<p>A <b>riding heel</b> is taller and angled: that’s the cowboy silhouette. A <b>roper</b> is low and flat, closer to a regular shoe, and better for walking all day at ACL.</p>
+<h3>The leather</h3>
+<p><b>Cowhide</b> is the most common and the easiest to live with. <b>Calf</b> is smoother and dressier, <b>goat</b> is buttery and soft, and <b>roughout</b> is suede-like and hides scuffs.</p>
+<h3>Exotics</h3>
+<p><b>Ostrich</b> is the one people want. <b>Full quill</b> has the raised bumps, <b>smooth</b> has none and is more subtle, and <b>ostrich leg</b> looks almost like reptile. <b>Caiman</b> is the alligator look for less. One warning: exotics barely stretch, so they have to fit right in the store.</p>
+<h3>The color</h3>
+<p>Start with a <b>warm brown</b>: it goes with jeans, dresses and everything in between. <b>Black</b> for nights out. Save the bright colors for your second pair.</p>
+<h3>The fit</h3>
+<p>Snug across the top of your foot, the ball of your foot at the widest part of the boot, and a little heel slip at first. That slip settles as the sole breaks in. Too loose everywhere? Size down.</p>
+<p class="st-tip">Try them on in the afternoon, when your feet are their biggest, with the socks you’ll actually wear. Then break them in two-stepping at the Broken Spoke.</p>
+<button type="button" class="cta" data-plan-mood="shopping">Plan a South Congress Saturday →</button>
+</template>
+
 <template id="story-football" data-hash="texas-football">
 <p class="st-kicker">The Column · No. 13 · Football</p>
 <h2>Texas football <em>for dummies.</em></h2>
@@ -1642,6 +1670,6 @@
     </div>
 </dialog>
 <script src="web/samples.js?v=1" defer></script>
-<script src="web/app.js?v=75" defer></script>
+<script src="web/app.js?v=76" defer></script>
 </body>
 </html>
