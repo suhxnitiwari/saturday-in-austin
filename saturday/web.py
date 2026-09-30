@@ -49,7 +49,8 @@ MOST_LIKES = 8   # the planner looks at every order of its shortlist, so the yes
 
 
 def deck_json(mood: str = "everything", rainy: bool = False, area: str = "anywhere",
-              start_from: str = "ut", seed=None, start: str = "9:00", end: str = "23:30", size: int = 12) -> str:
+              start_from: str = "ut", seed=None, start: str = "9:00", end: str = "23:30", size: int = 12,
+              game_day: bool = False) -> str:
     """Swipe to plan: a hand of places for this mood, drawn like the lottery, two of a kind at most.
     Only places open while you're out: no rooftop bars for someone who's home by five."""
     rng = random.Random(int(seed) if seed not in (None, "") else None)
@@ -59,7 +60,8 @@ def deck_json(mood: str = "everything", rainy: bool = False, area: str = "anywhe
     t1 = t1 if t1 > t0 else t1 + 24 * 60
     fits = lambda s: WINDOWS[s.category][0] + s.stay <= t1 and WINDOWS[s.category][1] >= t0
     pool = [s for s in guide.pool(mood, (), set(), rainy, area=area or "anywhere")
-            if s.name not in guide.home_spots and not rules.kind(s).reset and fits(s)]
+            if s.name not in guide.home_spots and not rules.kind(s).reset and fits(s)
+            and (game_day or s.category != "game")]
     ranked = sorted(pool, key=lambda s: rng.random() ** (1 / s.joy ** 2), reverse=True)
     hand, per_slot = [], {}
     for s in ranked:
@@ -76,7 +78,8 @@ def deck_json(mood: str = "everything", rainy: bool = False, area: str = "anywhe
 def plan_json(start: str, end: str, hours="all", mood: str = "everything", seed=None,
               walk: bool = False, rainy: bool = False, area: str = "anywhere",
               include: str = "", exclude: str = "", travel: str = "", budget: str = "normal",
-              start_from: str = "ut", hot: bool = False, likes: str = "", nopes: str = "", group: bool = False) -> str:
+              start_from: str = "ut", hot: bool = False, likes: str = "", nopes: str = "", group: bool = False,
+              game_day: bool = False) -> str:
     """'9:00', '23:00', 6 -> a JSON day the page can draw.
 
     start is when you're ready to go, end is when you want to be home. hours is a number
@@ -84,6 +87,7 @@ def plan_json(start: str, end: str, hours="all", mood: str = "everything", seed=
     travel is car, uber, transit or walk (walk=True still means walk); budget is student,
     normal or splurge; start_from is where home is (a key of STARTS). likes and nopes are
     comma lists from Swipe to plan: yeses get a bonus and a place on the shortlist, nos are skipped.
+    game_day is true only when the Longhorns are home this Saturday; otherwise DKR is off the list.
     """
     to_min = lambda t: int(t.split(":")[0]) * 60 + int(t.split(":")[1] or 0)
     t0, t1 = to_min(start), to_min(end)
@@ -114,6 +118,8 @@ def plan_json(start: str, end: str, hours="all", mood: str = "everything", seed=
             except UnknownSpotError as err:
                 problems.append(err.args[0])
 
+    if not game_day:  # no home game, no game: DKR only exists on home-game Saturdays
+        skip |= {s.name for s in guide.spots if s.category == "game"} - {m.name for m in must}
     liked = []
     for x in (x.strip() for x in likes.split(",") if x.strip()):
         try:

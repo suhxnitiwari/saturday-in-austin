@@ -66,6 +66,11 @@
         return h ? (r ? `${h}h ${r}m` : `${h}h`) : `${r} min`;
     };
 
+    // every stop opens in Google Maps, with directions the way you're getting around
+    const TRAVELMODE = { transit: 'transit', walk: 'walking', car: 'driving', uber: 'driving' };
+    const directions = (place, mode) => 'https://www.google.com/maps/dir/?api=1&destination='
+        + encodeURIComponent(`${place.replace(/[()]/g, '')}, Austin, TX`) + `&travelmode=${TRAVELMODE[mode] || 'transit'}`;
+
     function draw(plan) {
         sassBox.replaceChildren(...plan.sass.map(n => el('p', null, n)));
         sassBox.hidden = !plan.sass.length;
@@ -96,7 +101,9 @@
             } else {
                 const where = s.where === 'home' ? 'at home' : s.where;
                 kicker.appendChild(el('span', 'tag', ` · ${s.label}`));
-                li.appendChild(el('p', 'name', s.name));
+                const name = el('p', 'name');
+                name.appendChild(Object.assign(el('a', null, s.name), { href: directions(s.name, plan.mode), target: '_blank', rel: 'noopener' }));
+                li.appendChild(name);
                 li.appendChild(el('p', 'meta', [where, s.note, duration(s.minutes)].filter(Boolean).join(' · ')));
             }
             if (s.why) li.appendChild(el('p', 'why', s.why));
@@ -126,6 +133,16 @@
         lastPlan = plan;
         document.querySelectorAll('.seal-it, .save-it').forEach(b => { b.disabled = false; });
         document.querySelector('.see-day').textContent = `Your Saturday · ${st.stops} ${st.stops === 1 ? 'stop' : 'stops'} · $${st.spend} ↑`;
+        if (gameDay) {  // home game this Saturday
+            const banner = el('div', 'gameday'), text = el('p');
+            text.append(el('b', null, 'Saturdays are for the boys.'), `Game day: Texas vs. ${gameDay.them} at DKR${gameDay.time ? `, ${gameDay.time}` : ''}.`);
+            const go = el('button', null, 'Build my game day');
+            go.type = 'button';
+            go.addEventListener('click', () => { form.elements.include.value = 'Texas Longhorns at DKR'; form.elements.mood.value = 'social'; run(); });
+            banner.append(text, go);
+            sassBox.prepend(banner);
+            sassBox.hidden = false;
+        }
         if (autoRain && form.elements.rainy.checked) {
             sassBox.prepend(el('p', null, 'Rain in the Saturday forecast, so I turned on Rainy day.'));
             sassBox.hidden = false;
@@ -133,6 +150,7 @@
     }
 
     let hotSaturday = false;  // set from the forecast: 90° and up means a swim
+    let gameDay = null;  // set from ESPN: the Longhorns are home this Saturday
     let pending = 0;
     async function run() {
         const ticket = ++pending;
@@ -146,7 +164,7 @@
             const result = plan(f.start.value, f.end.value, f.hours.value, f.mood.value, String(seed),
                                 false, f.rainy.checked, f.area.value, f.include.value, f.exclude.value,
                                 f.travel.value, f.budget.value, f.start_from.value, hotSaturday,
-                                swiped.likes.join(','), swiped.nopes.join(','), !!swiped.group);
+                                swiped.likes.join(','), swiped.nopes.join(','), !!swiped.group, !!gameDay);
             draw(JSON.parse(result));
             again.disabled = false;
         } catch (err) {
@@ -240,7 +258,7 @@
         swipeBox.showModal();
         try { await boot(); } catch { deckEl.replaceChildren(el('p', 'deck-note', 'Python took a nap. Try again in a second.')); return; }
         const f = form.elements;
-        hand = JSON.parse(deckFn(f.mood.value, f.rainy.checked, f.area.value, f.start_from.value, String(seed), f.start.value, f.end.value));
+        hand = JSON.parse(deckFn(f.mood.value, f.rainy.checked, f.area.value, f.start_from.value, String(seed), f.start.value, f.end.value, 12, !!gameDay));
         if (hand.length < 3) {
             deckEl.replaceChildren(el('p', 'deck-note', f.mood.value === 'day-in' ? 'A day in doesn’t need swiping. Stay home, it’s allowed.' : 'Not much open in those hours. Try a longer day.'));
             return;
@@ -718,10 +736,24 @@
             tx('standing', (team.team.standingSummary || '').replace(' in SEC', '') || '–');
             const games = sched.events.map(e => {
                 const c = e.competitions[0], us = c.competitors.find(x => x.team.id === '251'), them = c.competitors.find(x => x.team.id !== '251');
-                return { done: c.status.type.completed, date: new Date(e.date), home: us.homeAway === 'home', them: them.team.shortDisplayName,
+                // ESPN puts a placeholder time on games whose kickoff isn't set yet: keep the date, drop the time
+                const timed = c.timeValid !== false, date = new Date(e.date);
+                const day = timed ? date.toLocaleDateString('en-CA', { timeZone: 'America/Chicago' }) : e.date.slice(0, 10);
+                return { done: c.status.type.completed, date, day, timed, home: us.homeAway === 'home', them: them.team.shortDisplayName,
                          us: us.score?.displayValue, they: them.score?.displayValue, won: us.winner,
                          sec: SEC.has(them.team.id) && e.seasonType?.type === 2 };
             });
+            // game day: a home game on the coming Saturday, Austin time
+            const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }));
+            const sat = new Date(now); sat.setDate(now.getDate() + (6 - now.getDay() + 7) % 7);
+            const satDay = `${sat.getFullYear()}-${String(sat.getMonth() + 1).padStart(2, '0')}-${String(sat.getDate()).padStart(2, '0')}`;
+            const home = games.find(g => g.home && !g.done && g.day === satDay);
+            if (home && !gameDay) {
+                gameDay = { them: home.them, time: home.timed ? home.date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' }) : '' };
+                run();
+            }
+            longhorns = games.filter(g => g.home && !g.done);
+            drawCalendar();
             const sec = games.filter(g => g.done && g.sec);
             tx('record', `${sec.filter(g => g.won).length}–${sec.filter(g => !g.won).length}`);
             const last = games.filter(g => g.done).pop(), next = games.find(g => !g.done);
@@ -735,6 +767,67 @@
             } else { tx('next', '–'); tx('next-label', 'season’s over'); }
         })
         .catch(() => { tx('record', '–'); tx('standing', '–'); tx('last', '–'); tx('next', '–'); tx('next-label', 'scores are shy right now'); });
+
+    // What's on: the big Austin dates, plus every Longhorns home game from ESPN
+    const EVENTS = [
+        { from: '2026-10-02', to: '2026-10-04', name: 'ACL Fest, Weekend One', where: 'Zilker Park', link: 'https://www.aclfestival.com',
+          note: 'Charli xcx, Lorde, RÜFÜS DU SOL, Twenty One Pilots, The xx, and Skrillex, this weekend only.' },
+        { from: '2026-10-07', to: '2026-10-08', name: 'Kacey Musgraves', where: 'Moody Center', link: 'https://moodycenteratx.com' },
+        { from: '2026-10-09', to: '2026-10-11', name: 'ACL Fest, Weekend Two', where: 'Zilker Park', link: 'https://www.aclfestival.com',
+          note: 'The same lineup, with Kings of Leon instead of Skrillex.' },
+        { from: '2026-10-13', name: 'Bryson Tiller', where: 'Moody Center', link: 'https://moodycenteratx.com', note: 'With Majid Jordan and Ty Dolla $ign.' },
+        { from: '2026-10-23', to: '2026-10-25', name: 'Formula 1 U.S. Grand Prix', where: 'Circuit of the Americas', link: 'https://www.circuitoftheamericas.com',
+          note: 'Maroon 5 on Friday, Post Malone on Saturday, Alesso after Sunday’s race.' },
+        { from: '2026-10-29', to: '2026-11-05', name: 'Austin Film Festival', where: 'Around town', link: 'https://austinfilmfestival.com' },
+        { from: '2026-10-31', name: 'Halloween, on a Saturday', where: 'Sixth Street', note: 'Costumes required. Patience recommended.' },
+        { from: '2026-11-14', to: '2026-11-15', name: 'Texas Book Festival', where: 'Around the Capitol', link: 'https://texasbookfestival.org' },
+        { from: '2026-11-29', to: '2027-01-01', name: 'Zilker Holiday Tree', where: 'Zilker Park', note: 'The lights come on at the ceremony on the 29th.' },
+        { from: '2026-12-01', name: 'Trail of Lights', where: 'Zilker Park', tba: 'Dec', note: 'Every December. This year’s dates come out in October.' },
+        { from: '2027-03-13', to: '2027-03-21', name: 'SXSW', where: 'Downtown', link: 'https://www.sxsw.com',
+          note: 'SXSW EDU March 13–16, then music, film, tech and comedy March 15–21.' },
+    ];
+    let longhorns = [];
+    const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const day0 = iso => { const [y, m, d] = iso.split('-').map(Number); return new Date(y, m - 1, d); };
+    function drawCalendar() {
+        const cal = document.querySelector('[data-cal]');
+        if (!cal) return;
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const sat = new Date(today); sat.setDate(today.getDate() + (6 - today.getDay() + 7) % 7);
+        const games = longhorns.map(g => ({ from: g.day, name: `Texas vs. ${g.them}`, where: 'DKR', link: 'https://texassports.com/sports/football/schedule',
+            note: g.timed ? `Kickoff ${g.date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' })}. Hook ’em.` : 'Kickoff time TBA. Hook ’em.' }));
+        const all = [...EVENTS, ...games].filter(e => day0(e.to || e.from) >= today).sort((a, b) => day0(a.from) - day0(b.from));
+        const months = new Map();
+        all.forEach(e => {
+            const d = day0(e.from), key = `${MON[d.getMonth()]} ${d.getFullYear()}`;
+            if (!months.has(key)) months.set(key, []);
+            months.get(key).push(e);
+        });
+        cal.replaceChildren(...[...months].map(([month, list]) => {
+            const box = el('section', 'cal-month');
+            box.appendChild(el('h3', null, month.replace(/^(\w+)/, m => ({ Jan: 'January', Feb: 'February', Mar: 'March', Apr: 'April', May: 'May', Jun: 'June', Jul: 'July', Aug: 'August', Sep: 'September', Oct: 'October', Nov: 'November', Dec: 'December' })[m])));
+            list.forEach(e => {
+                const from = day0(e.from), to = day0(e.to || e.from), now = from <= sat && sat <= to;
+                const row = el('article', 'ev' + (now ? ' now' : ''));
+                const date = el('div', 'ev-date', e.tba || String(from.getDate()));
+                date.appendChild(el('small', null, e.tba ? 'dates tba' : e.to && e.to !== e.from
+                    ? `to ${to.getMonth() !== from.getMonth() ? MON[to.getMonth()] + ' ' : ''}${to.getDate()}` : from.toLocaleDateString('en-US', { weekday: 'short' })));
+                const body = el('div'), title = el('h4');
+                if (e.link) title.appendChild(Object.assign(el('a', null, e.name), { href: e.link, target: '_blank', rel: 'noopener' }));
+                else title.textContent = e.name;
+                if (now) title.appendChild(el('span', 'tag', 'This Saturday'));
+                body.append(title, el('p', 'ev-where', e.where));
+                if (e.note) body.appendChild(el('p', null, e.note));
+                row.append(date, body);
+                box.appendChild(row);
+            });
+            return box;
+        }));
+    }
+    drawCalendar();
+    // preview a game day without waiting for one: ?game=Florida
+    const preview = new URLSearchParams(location.search).get('game');
+    if (preview) gameDay = { them: preview, time: '' };
 
     // The Column: tap a cover to read it
     const storyBox = document.getElementById('story'), storyBody = storyBox.querySelector('.story-body');

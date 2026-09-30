@@ -604,3 +604,14 @@ def test_the_baked_first_saturdays_match_the_planner():
     baked = Path(__file__).parent.parent / "web" / "samples.js"
     shown = json.loads(baked.read_text().split("window.SAMPLES = ", 1)[1].rstrip().rstrip(";"))
     assert shown == bake(), "run: python -m web.make_samples"
+
+
+def test_the_longhorns_game_only_happens_on_home_game_saturdays():
+    dkr = "Texas Longhorns at DKR"
+    for mood in MOODS:
+        for seed in range(15):
+            plan = day("09:00", "23:30", "all", mood, seed, travel="car", budget="normal")
+            assert dkr not in [s.get("name") for s in plan["stops"]]
+            assert dkr not in [c["name"] for c in json.loads(deck_json(mood, False, "anywhere", "ut", seed))]
+    game = day("09:00", "23:30", "all", "social", 1, include=dkr, game_day=True)
+    assert dkr in [s.get("name") for s in game["stops"]]  # on game day, it's the whole point
