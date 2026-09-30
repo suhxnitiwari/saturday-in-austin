@@ -76,7 +76,7 @@ def deck_json(mood: str = "everything", rainy: bool = False, area: str = "anywhe
 def plan_json(start: str, end: str, hours="all", mood: str = "everything", seed=None,
               walk: bool = False, rainy: bool = False, area: str = "anywhere",
               include: str = "", exclude: str = "", travel: str = "", budget: str = "normal",
-              start_from: str = "ut", hot: bool = False, likes: str = "", nopes: str = "") -> str:
+              start_from: str = "ut", hot: bool = False, likes: str = "", nopes: str = "", group: bool = False) -> str:
     """'9:00', '23:00', 6 -> a JSON day the page can draw.
 
     start is when you're ready to go, end is when you want to be home. hours is a number
@@ -173,8 +173,9 @@ def plan_json(start: str, end: str, hours="all", mood: str = "everything", seed=
 
     if yes and plan.stops:
         made = sum(s.spot.name in yes for s in plan.stops)
-        problems.append(f"{made} of your {len(yes)} yeses made the day." if made < len(yes) else
-                        "Every yes made the day." if len(yes) > 1 else "Your yes made the day.")
+        whose = "the group's" if group else "your"
+        problems.append(f"{made} of {whose} {len(yes)} yeses made the day." if made < len(yes) else
+                        "Every yes made the day." if len(yes) > 1 else f"{whose.capitalize()} yes made the day.")
 
     def real_zone(spot) -> str:
         return home if rules.kind(spot).reset else zone_of.get(spot.name, spot.zone)

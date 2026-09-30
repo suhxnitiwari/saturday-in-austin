@@ -232,6 +232,10 @@
         .swipe-count { min-width: 56px; text-align: center; font-family: var(--typewriter); font-size: 12px; color: var(--grey); }
         .swipe-done { display: block; width: 100%; margin-top: 18px; }
         .swipe-done:disabled { opacity: 0.4; cursor: default; background: var(--orange); }
+        .swipe-share { display: block; width: 100%; margin-top: 10px; }
+        .swipe-share[hidden] { display: none; }
+        .swipe-group { margin: 8px 0 0; font-family: var(--typewriter); font-size: 12.5px; color: var(--orange-ink); }
+        .swipe-note { min-height: 1em; margin: 8px 0 0; text-align: center; font-family: var(--typewriter); font-size: 12px; color: var(--orange-ink); }
         /* Austin page: three stories from The Column, one big and two small */
         .reads { margin-top: 18px; }
         .reads .label { margin: 0 0 8px; }
@@ -1419,6 +1423,7 @@
         <button type="button" class="close-story close-swipe" aria-label="Close">✕</button>
         <p class="st-kicker">Swipe to plan</p>
         <h2 class="swipe-head">Yes, no, <em>next.</em></h2>
+        <p class="swipe-group" hidden></p>
         <div class="deck" aria-live="polite"></div>
         <div class="swipe-actions">
             <button type="button" class="swipe-no" aria-label="No">✕</button>
@@ -1426,8 +1431,10 @@
             <button type="button" class="swipe-yes" aria-label="Yes">♥</button>
         </div>
         <button type="button" class="cta swipe-done" disabled>Plan my Saturday →</button>
+        <button type="button" class="cta quiet swipe-share" hidden>Send to the group chat ↗</button>
+        <p class="swipe-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=59" defer></script>
+<script src="web/app.js?v=61" defer></script>
 </body>
 </html>

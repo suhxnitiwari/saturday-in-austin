@@ -145,7 +145,7 @@
             const result = plan(f.start.value, f.end.value, f.hours.value, f.mood.value, String(seed),
                                 false, f.rainy.checked, f.area.value, f.include.value, f.exclude.value,
                                 f.travel.value, f.budget.value, f.start_from.value, hotSaturday,
-                                swiped.likes.join(','), swiped.nopes.join(','));
+                                swiped.likes.join(','), swiped.nopes.join(','), !!swiped.group);
             draw(JSON.parse(result));
             again.disabled = false;
         } catch (err) {
@@ -170,6 +170,20 @@
     const swipeBox = document.getElementById('swipe'), deckEl = swipeBox.querySelector('.deck');
     const countEl = swipeBox.querySelector('.swipe-count'), doneBtn = swipeBox.querySelector('.swipe-done');
     const yesBtn = swipeBox.querySelector('.swipe-yes'), noBtn = swipeBox.querySelector('.swipe-no');
+    const shareBtn = swipeBox.querySelector('.swipe-share'), groupEl = swipeBox.querySelector('.swipe-group'), noteEl = swipeBox.querySelector('.swipe-note');
+    const mine = () => hand.reduce((m, c, i) => picks.likes.includes(c.name) ? m | 1 << i : m, 0);
+    // the group's day: a place is in if at least half of everyone said yes, out if nobody did
+    function tally() {
+        if (!group.length) return picks;  // group: true tells the planner to say "the group's yeses"
+        const votes = [...group, mine()], likes = [], nopes = [];
+        hand.forEach((c, i) => {
+            const yes = votes.filter(m => m >> i & 1).length;
+            if (yes * 2 >= votes.length) likes.push(c.name);
+            else if (!yes) nopes.push(c.name);
+        });
+        return { likes, nopes, group: true };
+    }
+    const groupLink = () => `${shareLink()}&deck=1&v=${[...group, mine()].map(m => m.toString(16).padStart(3, '0')).join('.')}`;
     let hand = [], at = 0, picks = { likes: [], nopes: [] }, drag = null;
     const cardFor = (c, i) => {
         const card = el('article', 'swipe-card');
@@ -190,9 +204,16 @@
         const n = picks.likes.length, left = hand.length - at;
         countEl.textContent = left ? `${at + 1} / ${hand.length}` : 'done';
         yesBtn.disabled = noBtn.disabled = !left;
-        doneBtn.disabled = !at;
-        doneBtn.textContent = n ? `Plan my Saturday with ${n} ${n === 1 ? 'yes' : 'yeses'} →` : 'Plan my Saturday →';
-        if (hand.length && !left) deckEl.replaceChildren(el('p', 'deck-note', n ? `${n} ${n === 1 ? 'yes' : 'yeses'}. Let’s make a Saturday.` : 'Nothing? Tough crowd. I’ll pick for you.'));
+        doneBtn.disabled = group.length ? left > 0 : !at;
+        doneBtn.textContent = group.length ? 'Plan our Saturday →'
+            : n ? `Plan my Saturday with ${n} ${n === 1 ? 'yes' : 'yeses'} →` : 'Plan my Saturday →';
+        shareBtn.hidden = !hand.length || left > 0;
+        if (hand.length && !left) {
+            const agreed = tally().likes.length;
+            deckEl.replaceChildren(el('p', 'deck-note', group.length
+                ? `The group agrees on ${agreed} ${agreed === 1 ? 'place' : 'places'}. Plan it, or pass it on.`
+                : n ? `${n} ${n === 1 ? 'yes' : 'yeses'}. Plan it, or send it to the group chat.` : 'Nothing? Tough crowd. I’ll pick for you.'));
+        }
     }
     function decide(yes) {
         const card = topCard();
@@ -208,6 +229,10 @@
     }
     async function openSwipe() {
         hand = []; at = 0; picks = { likes: [], nopes: [] };
+        noteEl.textContent = '';
+        shareBtn.hidden = true;
+        groupEl.hidden = !group.length;
+        groupEl.textContent = group.length === 1 ? 'A friend already swiped this deck. Your turn.' : `${group.length} friends already swiped this deck. Your turn.`;
         deckEl.replaceChildren(el('p', 'deck-note', 'Shuffling the deck…'));
         countEl.textContent = '';
         yesBtn.disabled = noBtn.disabled = doneBtn.disabled = true;
@@ -257,8 +282,15 @@
     swipeBox.addEventListener('click', e => { if (e.target === swipeBox) swipeBox.close(); });
     swipeBox.querySelector('.close-swipe').addEventListener('click', () => swipeBox.close());
     document.querySelector('.swipe-open').addEventListener('click', openSwipe);
+    shareBtn.addEventListener('click', async () => {
+        const url = groupLink();
+        try {
+            if (navigator.share) await navigator.share({ title: 'Saturday in Austin', text: 'Swipe on our Saturday. Right for yes, left for no.', url });
+            else { await navigator.clipboard.writeText(url); noteEl.textContent = 'Link copied. Paste it in the group chat.'; }
+        } catch { /* closing the share sheet is fine */ }
+    });
     doneBtn.addEventListener('click', () => {
-        swiped = picks;
+        swiped = tally();
         swipeBox.close();
         show('plan');
         run();
@@ -408,6 +440,7 @@
     const LABEL = { anywhere: 'Anywhere', ut: 'UT / West Campus', downtown: 'Downtown', east: 'East Austin',
                     soco: 'South Congress / South First', clarksville: 'Clarksville / West Austin', domain: 'The Domain / Rock Rose',
                     zilker: 'Zilker / Barton Springs', 'south-lamar': 'South Lamar', 'north-loop': 'Hyde Park / North Loop', burnet: 'Burnet Road', mueller: 'Mueller' };
+    let group = [], openDeckOnLoad = false;  // Swipe with friends: everyone's yeses, one 12-bit mask each
     function shareLink() {
         const f = form.elements, q = new URLSearchParams({
             s: seed, start: f.start.value, end: f.end.value, hours: f.hours.value, mood: f.mood.value,
@@ -432,7 +465,10 @@
         if (q.get('in')) f.include.value = q.get('in');
         if (q.get('not')) { f.exclude.value = q.get('not'); document.getElementById('exclude-text').value = q.get('not'); }
         form.dataset.shared = '1';  // don't let live weather overrule a shared plan
+        if (q.get('v')) group = q.get('v').split('.').map(h => parseInt(h, 16)).filter(n => Number.isFinite(n));
+        openDeckOnLoad = q.has('deck');
     })();
+    if (openDeckOnLoad) openSwipe();  // a friend sent their deck: straight to swiping
 
     // ------------------------------------------------------------ the love letter
     const letterBox = document.getElementById('letter');
