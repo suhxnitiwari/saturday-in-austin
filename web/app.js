@@ -139,7 +139,7 @@
         verdictBox.classList.remove('squeezed');
         if (innerWidth > 1000 && form.scrollHeight > form.clientHeight + 1) verdictBox.classList.add('squeezed');
     }
-    window.addEventListener('resize', () => { if (!verdictBox.hidden) fitVerdict(); });
+    new ResizeObserver(() => { if (!verdictBox.hidden) fitVerdict(); }).observe(form);
     function verdict(plan) {
         const why = plan.stops.map(s => s.why).filter(Boolean);
         verdictBox.querySelector('blockquote').textContent = why[0] || plan.sass[0] || plan.sign_off;

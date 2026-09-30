@@ -41,7 +41,7 @@
         button, input, select { font-family: inherit; }
 
         /* one screen: header, then the planner fills the rest */
-        .page { height: 100vh; display: grid; grid-template-rows: auto minmax(0, 1fr); padding: 26px 36px 24px; gap: 20px; max-width: 1440px; margin: 0 auto; }
+        .page { height: 100vh; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; padding: 18px 36px 10px; gap: 16px; max-width: 1440px; margin: 0 auto; }
 
         header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 40px; align-items: end; padding-bottom: 16px; border-bottom: 4px double var(--line); }
         .kicker { margin: 0 0 6px; font-size: 10px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); }
@@ -326,7 +326,7 @@
         .editor { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 0.62fr); gap: 32px; column-gap: 28px; align-items: start; padding-top: 6px; }
         .portrait { margin: 0 0 20px; }
         /* the whole photo, never cropped (the coffee stays in) */
-        .portrait img { display: block; width: auto; height: auto; max-width: 100%; max-height: calc(100vh - 404px); border: 1px solid var(--line); outline: 1px solid var(--gold); outline-offset: 4px; }
+        .portrait img { display: block; width: auto; height: auto; max-width: 100%; max-height: calc(100vh - 430px); border: 1px solid var(--line); outline: 1px solid var(--gold); outline-offset: 4px; }
         .slides { display: grid; justify-items: start; }
         .slides img { grid-area: 1 / 1; }
         .slides img[hidden] { display: block; visibility: hidden; }  /* keeps its space so nothing jumps */
@@ -357,8 +357,8 @@
         .rules li::before { content: counter(rule, decimal-leading-zero); font-family: var(--display); font-style: italic; color: var(--pink); }
 
         /* smaller screens: stack and scroll like a normal page */
-        /* a slim masthead just past the fold: fewer words, more serif */
-        .contact { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 10px 24px; max-width: 1440px; margin: 0 auto; padding: 9px 36px 8px; border-top: 1px solid var(--line); box-shadow: inset 0 3px 0 var(--paper), inset 0 4px 0 var(--line); }
+        /* contact, as a thin masthead line at the bottom of every screen */
+        .contact { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 10px 24px; margin-top: -8px; padding: 8px 0 0; border-top: 1px solid var(--line); }
         .rsvp { margin: 0; white-space: nowrap; font-family: var(--display); font-size: 15px; font-weight: 500; letter-spacing: 0.01em; }
         .rsvp em { color: var(--pink); font-weight: 400; }
         .contact-links { display: flex; flex-wrap: nowrap; margin: 0; padding: 0; list-style: none; }
@@ -367,7 +367,7 @@
         .contact-links a { font-family: var(--display); font-size: 11.5px; font-weight: 500; letter-spacing: 0.32em; text-transform: uppercase; color: var(--ink); text-decoration: none; }
         .contact-links a:hover, .contact-links a:focus-visible { color: var(--pink); }
         .contact-copy { margin: 0; white-space: nowrap; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--pink-ink); }
-        @media (max-width: 1000px) { .contact { flex-wrap: nowrap; gap: 12px; padding: 9px 18px 8px; } .contact-links { flex-wrap: nowrap; gap: 0; } .contact-links em, .contact-copy, .rsvp { display: none; } .contact-links { flex: 1; justify-content: flex-start; } .contact-links a { font-size: 10px; letter-spacing: 0.12em; } .contact-links li + li::before { margin: 0 8px; } .rsvp { font-size: 17px; } }
+        @media (max-width: 1000px) { .contact { flex-wrap: nowrap; gap: 12px; margin-top: 0; padding: 10px 0 0; } .contact-links { flex-wrap: nowrap; gap: 0; } .contact-links em, .contact-copy, .rsvp { display: none; } .contact-links { flex: 1; justify-content: flex-start; } .contact-links a { font-size: 10px; letter-spacing: 0.12em; } .contact-links li + li::before { margin: 0 8px; } .rsvp { font-size: 17px; } }
         @media (max-width: 1000px), (max-height: 640px) {
             .page { height: auto; padding: 22px 18px 30px; }
             header { grid-template-columns: 1fr; gap: 12px; align-items: start; }
@@ -402,7 +402,7 @@
             .number { border-left: 0; border-top: 1px solid var(--line); padding: 10px 14px; }
         }
         @media (max-height: 800px) and (min-width: 1001px) { .verdict { display: none !important; } }
-        @media (max-height: 880px) and (min-width: 1001px) {  /* laptop screens: the Austin page stays on one screen */
+        @media (max-height: 920px) and (min-width: 1001px) {  /* laptop screens: the Austin page stays on one screen */
             .wx-temp { font-size: clamp(72px, 7vw, 100px); }
             .wx-now { margin-bottom: 8px; }
             .wx-grid div { padding-top: 8px; padding-bottom: 8px; }
@@ -420,6 +420,9 @@
             .austin .vote { margin-top: 14px; }
             .austin .vote-q { font-size: 19px; padding: 8px 0 10px; }
             .austin .vote-opts button { padding: 10px 14px; }
+            .picks dd { margin: 2px 0 8px; font-size: 17px; }
+            .picks dt { padding-top: 8px; }
+            .rules li { padding: 5px 0; }
         }
         @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
     </style>
@@ -795,19 +798,16 @@
             </ol>
         </aside>
     </section>
+    <footer class="contact" id="say-hi">
+        <ul class="contact-links">
+            <li><a href="mailto:suhxnitiwari@gmail.com">Email</a></li>
+            <li><a href="https://www.instagram.com/suhxnitiwari/" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://www.linkedin.com/in/suhxnitiwari/" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="https://github.com/suhxnitiwari" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+        <p class="contact-copy">XOXO, the editor</p>
+    </footer>
 </div>
-
-<footer class="contact" id="say-hi">
-    <p class="rsvp">Spotted: <em>you, still scrolling.</em></p>
-    <ul class="contact-links">
-        <li><a href="mailto:suhxnitiwari@gmail.com">Email</a></li>
-        <li><a href="https://www.instagram.com/suhxnitiwari/" target="_blank" rel="noopener">Instagram</a></li>
-        <li><a href="https://www.linkedin.com/in/suhxnitiwari/" target="_blank" rel="noopener">LinkedIn</a></li>
-        <li><a href="https://github.com/suhxnitiwari" target="_blank" rel="noopener">GitHub</a></li>
-    </ul>
-    <p class="contact-copy">XOXO, the editor</p>
-</footer>
-
 
 <dialog class="letter-box" id="ideal" aria-labelledby="ideal-title">
     <div class="paper">
@@ -843,6 +843,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=26" defer></script>
+<script src="web/app.js?v=27" defer></script>
 </body>
 </html>
