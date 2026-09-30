@@ -97,7 +97,7 @@ def test_1_pilates_then_coffee_then_shower_is_fine(guide):
 
 
 def test_2_pilates_then_smoothie_then_shower_is_fine(guide):
-    assert rules.valid(sequence(guide, "CorePower Yoga", "JuiceLand (Guadalupe)", "shower"))
+    assert rules.valid(sequence(guide, "Solidcore", "JuiceLand (Guadalupe)", "shower"))
 
 
 def test_3_pilates_then_shower_is_fine(guide):
@@ -117,7 +117,7 @@ def test_6_brunch_then_lunch_is_not(guide):
     assert not rules.valid(sequence(guide, "Josephine House", "Veracruz"))
     assert not rules.valid(sequence(guide, "Josephine House", "Black Fox", "Veracruz"))  # a latte isn't a palate reset
     assert rules.valid(sequence(guide, "Josephine House", "BookPeople", "Blanton Museum of Art", "Veracruz"))
-    assert not rules.valid(sequence(guide, "Veracruz", "Amy's Ice Creams"))  # not dessert straight after lunch
+    assert not rules.valid(sequence(guide, "Veracruz", "Dolce Neve"))  # not dessert straight after lunch
     assert not rules.valid(sequence(guide, "Paperboy", "Austin Bouldering Project"))  # not climbing on a full stomach
 
 
@@ -536,7 +536,7 @@ def test_student_budget_spends_less():
 
 def test_every_spot_has_a_price(guide):
     assert all(s.price >= 0 for s in guide.spots)
-    assert guide.find("Texas State Capitol").price == 0 and guide.find("Uchi").price > guide.find("Taco Joint").price
+    assert guide.find("Texas State Capitol").price == 0 and guide.find("Uchi").price > guide.find("Cabo Bob's").price
 
 
 def test_starting_somewhere_else_moves_the_day():

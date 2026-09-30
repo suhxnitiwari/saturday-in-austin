@@ -277,8 +277,7 @@ def explain(stops: list, shortlist: list, zone_of, minutes) -> dict:
     return dict(list(once.items())[:3])
 
 
-PLACE_NAMES = {"Domain": "the Domain", "Campus": "UT campus", "Northwest": "North Austin",
-               "Southwest": "Southwest Austin", "Hill Country": "the Hill Country", "Southeast": "Southeast Austin"}
+PLACE_NAMES = {"Domain": "the Domain", "Campus": "UT campus"}
 
 
 def _place(zone: str) -> str:

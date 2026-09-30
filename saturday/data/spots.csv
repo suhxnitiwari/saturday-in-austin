@@ -36,7 +36,6 @@ Sweetgreen,Campus,lunch,30,6,foodie|outside|productive|shopping,,15,custom guaca
 Veracruz,East Austin,lunch,30,7,creative|foodie|outside|social,,12,
 Torchy's Tacos,South Congress,lunch,30,7,foodie|outside|shopping|social,,14,trailer park
 Tacodeli,Barton Creek,lunch,30,7,foodie|outside,,15,
-Taco Joint,West Campus,lunch,30,6,foodie|productive,,10,
 Better Half,Clarksville,lunch,60,8,foodie|slow,,15,patio lunch
 Franklin Barbecue,East Austin,lunch,120,9,foodie|social,,30,worth the line
 The Little Bisque,North Loop,creative,120,9,creative,,35,pottery painting
@@ -55,15 +54,13 @@ M Vince Nail Spa,Domain,nails,90,9,treat-myself,,60,chandelier and a glass of so
 Milano Nail Spa,East Austin,nails,90,9,treat-myself,,50,the big glam one
 Caesars Nail Salon & Spa,Domain,nails,90,7,treat-myself,,50,
 Prana Wellness Club,Clarksville,exercise,60,8,productive,,30,Pilates: the best reset
-CorePower Yoga,West Campus,exercise,60,8,productive|slow,,30,
-[solidcore],South Congress,exercise,60,7,productive,,30,Pilates
+Solidcore,South Congress,exercise,60,7,productive,,30,Pilates
 Barton Creek Greenbelt,Barton Creek,hike,120,9,outside,,0,hike to the Gus Fruh swimming hole
 Mount Bonnell,Lake Austin,hike,60,8,outside|social,,0,the best view in town
 Lady Bird Lake Trail,Downtown,park,90,8,foodie|outside|slow,,0,walk a piece of the 10-mile loop
 Lady Bird Lake Kayak,Zilker,paddle,90,9,outside|social,,25,kayak or paddleboard from the Rowing Dock
 Barton Springs Pool,Zilker,swim,120,9,outside|social,,9,"the coldest, prettiest swim"
 Deep Eddy Pool,Lake Austin,swim,90,8,outside,,5,the oldest pool in Texas
-Hamilton Pool Preserve,Hill Country,swim,150,9,outside,,20,book ahead and go early
 Zilker Park,Zilker,park,90,8,foodie|social,,0,picnic and people watching
 Zilker Botanical Garden,Zilker,park,60,8,slow,,8,the Japanese garden
 Laguna Gloria,Lake Austin,park,60,8,creative|slow,,10,art on the lake
@@ -72,7 +69,6 @@ Congress Bridge Bats,Downtown,sunset,30,8,foodie|outside|social,,0,1.5 million b
 Victory Lap,West Campus,hangout,150,10,social,,20,the game on the jumbotron
 Topgolf,Domain,hangout,120,8,social,,40,
 Alamo Drafthouse,South Lamar,cinema,150,9,slow|social,,25,dinner and a movie in one
-Amy's Ice Creams,Campus,treat,30,8,foodie|shopping|slow|social,,7,Mexican vanilla
 Lick Honest Ice Creams,South Lamar,treat,30,8,foodie|slow,,7,goat cheese thyme and honey
 Big Top Candy Shop,South Congress,treat,30,7,foodie|shopping|social,,7,
 Numero 28,Downtown,dinner,90,10,foodie|slow|social,yes,45,good memories
@@ -80,7 +76,6 @@ Yamas,Downtown,dinner,90,9,foodie|social,yes,40,Mediterranean
 Aba,South Congress,dinner,90,10,foodie|social,yes,55,Mediterranean. My favorite
 Éma,Domain,dinner,90,9,foodie|treat-myself,yes,55,Mediterranean
 Clay Pit,Downtown,dinner,90,9,foodie|productive|slow,,30,North Indian
-Tarka,West Campus,dinner,60,7,foodie|productive,,15,North Indian
 Saffron,Domain,dinner,90,8,foodie|treat-myself,,40,North Indian
 El Alma,Zilker,dinner,90,8,foodie|outside|social,,40,Mexican
 Arriba Abajo,East Austin,dinner,90,7,foodie|social,,40,Mexican
@@ -113,7 +108,6 @@ Thunderbird Coffee,East Austin,coffee,60,7,creative|foodie|productive,,7,
 Seventh Flag Coffee,South Congress,coffee,60,7,foodie|productive|shopping|slow,,7,
 Sugarwolf Bakery,Downtown,coffee,45,5,foodie|social,,14,"the new, pretty, popular one. Great location, sadly overhyped"
 Opa! Coffee & Wine Bar,South Lamar,coffee,60,8,foodie|slow|social,,12,"Greek coffee by day, wine by night, porch swings"
-Golden Hour,Southwest,coffee,60,8,foodie|slow|productive,,10,the lavender latte
 2nd & Roast,Downtown,coffee,30,8,foodie|productive,,7,Medici coffee in the W lobby
 Leona Botanical Cafe & Bar,Barton Creek,coffee,90,8,foodie|outside|slow|social,,15,a five-acre garden cafe
 Counter Café,Downtown,brunch,60,8,foodie|shopping|slow,,18,"tiny diner, big pancakes"
@@ -150,7 +144,6 @@ Chuy's,Zilker,dinner,60,7,creative|foodie|social,,20,
 Maie Day,South Congress,dinner,90,8,foodie,yes,70,
 Red Ash,Downtown,dinner,90,8,foodie,yes,70,
 Hestia,Downtown,dinner,120,9,foodie,yes,150,the splurge
-The Salt Lick,Hill Country,dinner,90,9,foodie|outside,,30,BBQ under the oaks
 Dai Due,East Austin,dinner,90,8,foodie|slow,,40,
 Ramen Del Barrio,Domain,dinner,75,8,foodie|social,,22,"Japanese-Mexican ramen, carnitas ramen"
 Alteño,Downtown,dinner,90,8,foodie|social,yes,60,in the tallest building in Texas
@@ -173,16 +166,10 @@ Buffalo Exchange,Campus,shopping,60,7,creative|shopping|social,,20,thrift finds
 Feathers Boutique,South Congress,shopping,60,7,creative|shopping,,25,vintage
 Second Street District,Downtown,shopping,90,7,foodie|shopping|social,,40,
 Antone's Record Shop,North Loop,shopping,45,7,creative|shopping,,15,
-McKinney Falls State Park,Southeast,hike,120,8,outside,,6,waterfalls and limestone
-Bull Creek District Park,Northwest,swim,90,8,outside,,8,wade the creek
 Pease Park,Clarksville,park,60,7,foodie|slow|social,,0,
 Sculpture Falls,Barton Creek,hike,120,8,outside,,0,
-Pedernales Falls State Park,Hill Country,hike,150,9,outside,,6,
-Jacob's Well,Hill Country,swim,120,9,outside,,10,book ahead
-Krause Springs,Hill Country,swim,150,8,outside,,10,
 Auditorium Shores,Downtown,park,60,7,foodie|slow|social,,0,the dog park
 Texas Rowing Center,Lake Austin,paddle,90,8,outside,,25,
-Lady Bird Johnson Wildflower Center,Southwest,park,90,9,creative|slow,,15,
 Austin Bouldering Project,East Austin,exercise,90,8,outside|social,,28,climbing
 Austin FC at Q2 Stadium,Domain,game,180,9,social,,60,match days only
 Longhorns at DKR,Campus,game,240,10,social,,30,home game days only. Hook 'em
@@ -198,7 +185,6 @@ The White Horse,East Austin,live music,120,8,creative|social,,10,two-step lesson
 Broken Spoke,South Lamar,live music,150,9,creative|social,,12,two-stepping since 1964
 Stubb's,Downtown,live music,150,9,creative|social,,40,
 Greetings from Austin mural,South Congress,murals,30,8,creative|foodie|social,,0,
-"Hi, How Are You mural",Campus,murals,30,7,creative|foodie,,0,
 Willie Nelson statue,Downtown,murals,30,7,creative,,0,
 Texas State Capitol,Downtown,museum,60,8,creative|productive,,0,taller than the U.S. Capitol
 LBJ Presidential Library,Campus,museum,90,8,creative|productive,,5,
@@ -210,7 +196,6 @@ Texas Science & Natural History Museum,Campus,museum,90,7,productive,,0,
 Austin Nature & Science Center,Zilker,museum,60,7,outside|slow,,0,
 Viva Day Spa,Domain,spa,90,9,treat-myself,,120,massage and a steam
 Doug Sahm Hill,Zilker,sunset,30,8,foodie|slow|social,,0,the skyline at sunset
-Pennybacker Bridge overlook,Northwest,sunset,45,9,outside,,0,the 360 bridge view
 Read a book,Home,read,90,8,day-in|slow,,0,
 Binge a comfort show,Home,show,120,8,day-in,,0,
 Bake cookies,Home,snack,60,8,day-in,,0,

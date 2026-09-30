@@ -15,9 +15,8 @@ ROADS = [
     ("Clarksville", "Downtown", 6), ("Clarksville", "Lake Austin", 7), ("North Loop", "Domain", 14),
     ("Downtown", "East Austin", 6), ("Downtown", "South Congress", 7), ("Downtown", "Zilker", 8),
     ("Zilker", "South Congress", 6), ("Lake Austin", "Zilker", 9), ("Zilker", "Barton Creek", 10),
-    ("South Lamar", "Zilker", 5), ("South Lamar", "South Congress", 7), ("Barton Creek", "Hill Country", 30),
-    ("Downtown", "Southeast", 18), ("South Congress", "Southeast", 15), ("Lake Austin", "Northwest", 12),
-    ("Domain", "Northwest", 15), ("Barton Creek", "Southwest", 12), ("South Lamar", "Southwest", 15),
+    ("South Lamar", "Zilker", 5), ("South Lamar", "South Congress", 7), ("Barton Creek", "South Lamar", 12),
+    ("Lake Austin", "Domain", 20),
     ("Campus", "Mueller", 10), ("North Loop", "Mueller", 8), ("East Austin", "Mueller", 8),
 ]
 
