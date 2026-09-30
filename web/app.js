@@ -703,7 +703,7 @@
     const HASHES = { 'four-days': 'four', 'make-something': 'make', 'nightlife': 'bars', 'live-music': 'music', 'austin-decoded': 'symbols',
                      'vegan-edit': 'vegan', 'neighborhoods': 'hoods', 'college-town': 'college', 'worth-a-follow': 'follow',
                      'texas-football': 'football', 'austin-history': 'history',
-                     'best-coffee': 'coffee', 'best-mexican': 'mexican', 'best-indian': 'indian' };
+                     'best-coffee': 'coffee', 'best-mexican': 'mexican', 'best-indian': 'indian', 'capmetro': 'bus' };
     document.querySelectorAll('[data-open-story]').forEach(a => a.addEventListener('click', e => {
         e.preventDefault();
         history.replaceState(null, '', '#' + Object.keys(HASHES).find(k => HASHES[k] === a.dataset.openStory));
@@ -713,6 +713,13 @@
     if (HASHES[location.hash.slice(1)]) openStory(HASHES[location.hash.slice(1)]);
     storyBox.addEventListener('click', e => {
         if (e.target === storyBox) storyBox.close();
+        const travel = e.target.closest('[data-plan-travel]');
+        if (travel) {  // the bus article: same day, by bus
+            storyBox.close();
+            form.elements.travel.value = travel.dataset.planTravel;
+            show('plan');
+            form.dispatchEvent(new Event('change'));
+        }
         const plan = e.target.closest('[data-plan-mood]');
         if (plan) {  // from the article straight to a matching Saturday
             storyBox.close();

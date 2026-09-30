@@ -113,6 +113,7 @@
         input::placeholder { color: #A5A5A5; }
         .hint:empty { display: none; }
         /* our own dropdowns: square, black-bordered, orange when chosen */
+        .free-bus { margin-left: 8px; font-family: var(--display); font-style: italic; font-size: 13px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--orange-ink); text-decoration: underline; text-underline-offset: 3px; }
         .combo { position: relative; }
         .combo .box { padding-right: 34px; background: linear-gradient(45deg, transparent 50%, var(--ink) 50%) right 18px center / 5px 5px no-repeat,
                                                      linear-gradient(-45deg, transparent 50%, var(--ink) 50%) right 13px center / 5px 5px no-repeat; }
@@ -248,7 +249,7 @@
         .pin:nth-child(6) { grid-column: 3; grid-row: 1 / 12; } .pin:nth-child(7) { grid-column: 3; grid-row: 12 / 21; }
         .pin:nth-child(8) { grid-column: 4; grid-row: 1 / 7; } .pin:nth-child(9) { grid-column: 4; grid-row: 7 / 15; } .pin:nth-child(10) { grid-column: 4; grid-row: 15 / 21; }
         .pin:nth-child(11) { grid-column: 5; grid-row: 1 / 10; } .pin:nth-child(12) { grid-column: 5; grid-row: 10 / 21; }
-        .pin:nth-child(13) { grid-column: 6; grid-row: 1 / 11; } .pin:nth-child(14) { grid-column: 6; grid-row: 11 / 21; }
+        .pin:nth-child(13) { grid-column: 6; grid-row: 1 / 8; } .pin:nth-child(14) { grid-column: 6; grid-row: 8 / 14; } .pin:nth-child(15) { grid-column: 6; grid-row: 14 / 21; }
         .pin .story-img { position: relative; flex: 1 1 0; min-height: 0; display: grid; place-items: center; border-radius: 16px; background: var(--peach); overflow: hidden; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--orange-ink); transition: filter .15s; }
         .pin .story-img::after { content: "Read"; position: absolute; top: 10px; right: 10px; padding: 8px 14px; border-radius: 999px; background: var(--orange); color: var(--paper); font-family: var(--sans); font-style: normal; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; opacity: 0; transition: opacity .15s; }
         .story-img img, .read-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -648,19 +649,19 @@
                     <p class="hint" data-area-hint></p>
                 </section>
                 <section class="block">
-                    <h2 class="sec"><i>05</i> Getting around</h2>
+                    <h2 class="sec"><i>05</i> Getting around <a class="free-bus" href="#capmetro" data-open-story="bus">the bus is free with a UT ID →</a></h2>
                     <div class="seg four">
-                        <label><input type="radio" name="travel" value="car" checked><span>Car</span></label>
+                        <label><input type="radio" name="travel" value="car"><span>Car</span></label>
                         <label><input type="radio" name="travel" value="uber"><span>Uber</span></label>
-                        <label><input type="radio" name="travel" value="transit"><span>Bus + walk</span></label>
+                        <label><input type="radio" name="travel" value="transit" checked><span>Bus + walk</span></label>
                         <label><input type="radio" name="travel" value="walk"><span>Walk</span></label>
                     </div>
                 </section>
                 <section class="block">
                     <h2 class="sec"><i>06</i> Budget <label class="mini"><input type="checkbox" name="rainy"> Rainy day <span class="onoff" aria-hidden="true"></span></label></h2>
                     <div class="seg three">
-                        <label><input type="radio" name="budget" value="student"><span>Student</span></label>
-                        <label><input type="radio" name="budget" value="normal" checked><span>Normal</span></label>
+                        <label><input type="radio" name="budget" value="student" checked><span>Student</span></label>
+                        <label><input type="radio" name="budget" value="normal"><span>Normal</span></label>
                         <label><input type="radio" name="budget" value="splurge"><span>Splurge</span></label>
                     </div>
                 </section>
@@ -707,6 +708,12 @@
             <p>By Suhani Tiwari</p>
         </header>
         <div class="column-grid board">
+            <article class="pin" data-story="bus" tabindex="0" role="button" aria-label="Read: The bus is free. Here’s where it goes.">
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1658313550850-d82e5ff38ba3?w=600&q=70&auto=format&fit=crop" alt="A city bus at a bus stop" loading="lazy"></div>
+                <p class="story-no">Getting around</p>
+                <h3>The bus is free. <em>Here’s where it goes.</em></h3>
+                <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
+            </article>
             <article class="pin" data-story="make" tabindex="0" role="button" aria-label="Read: Make something, with your hands.">
                 <div class="story-img"><img src="https://images.unsplash.com/photo-1607556671927-78a6605e290b?w=600&q=70&auto=format&fit=crop" alt="Hands shaping clay on a pottery wheel" loading="lazy"></div>
                 <p class="story-no">Make</p>
@@ -744,7 +751,7 @@
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="hoods" tabindex="0" role="button" aria-label="Read: Fourteen neighborhoods, fourteen personalities.">
-                <div class="story-img"><img src="https://images.unsplash.com/photo-1572281311118-47bfceb16da7?w=600&q=70&auto=format&fit=crop" alt="A brightly painted door" loading="lazy"></div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1681779195403-9abe76769ac1?w=600&q=70&auto=format&fit=crop" alt="A cyclist on Red River Street in Austin" loading="lazy"></div>
                 <p class="story-no">Neighborhoods</p>
                 <h3>Fourteen neighborhoods, <em>fourteen personalities.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
@@ -1230,6 +1237,30 @@
 <button type="button" class="cta" data-plan-mood="everything">Plan a Saturday →</button>
 </template>
 
+<template id="story-bus" data-hash="capmetro">
+<p class="st-kicker">The Column · No. 15 · Getting around</p>
+<h2>The bus is free. <em>Here’s where it goes.</em></h2>
+<p class="st-dek">No car? No problem. Your UT ID is a bus pass, and Austin is bigger than the Drag.</p>
+<h3>How it works</h3>
+<p>Swipe your <b>UT ID</b> when you board, magnetic stripe down, facing you. It covers CapMetro buses, <b>MetroRapid 801 and 803</b>, MetroRail (show your ID) and the late-night <b>Night Owl</b> buses. Forgot your ID? Tap a card or your phone to pay; it caps at $2.50 a day.</p>
+<h3>Where to catch it</h3>
+<p>The MetroRapid lines stop twice on <b>the Drag</b> (Guadalupe), and <b>UT West Mall</b> by the Co-op is where a lot of routes meet. One Saturday catch: the orange UT shuttles don’t run on Saturdays, except during finals. Weekends are for the city buses.</p>
+<h3>The routes worth knowing</h3>
+<ul class="st-list st-defs">
+<li><b>The Domain</b> MetroRapid <b>803</b>, north up Burnet. Shopping, brunch, a movie, all without parking.</li>
+<li><b>Trader Joe’s</b> The Seaholm one, downtown. <b>803</b> south to the Seaholm / Central Library stop.</li>
+<li><b>Whole Foods</b> The flagship at 6th and Lamar. <b>803</b> to Seaholm, then about a ten-minute walk up Lamar.</li>
+<li><b>H-E-B</b> The Hancock Center one on 41st. Route <b>10</b>, about 20 to 30 minutes.</li>
+<li><b>Central Market</b> The North Lamar one, on the <b>803</b>.</li>
+<li><b>Barton Springs</b> Route <b>30</b> from UT West Mall, straight to the pool.</li>
+<li><b>South Congress</b> MetroRapid <b>801</b>, straight down Congress past the Capitol.</li>
+<li><b>Downtown and the Capitol</b> Either MetroRapid line, <b>801</b> or <b>803</b>.</li>
+<li><b>After midnight</b> <b>Night Owl</b> buses run from midnight to 3 a.m., also free.</li>
+</ul>
+<p class="st-tip">Routes change. Before you go, check the CapMetro app or Google Maps for the live time. MetroRapid stops show the next two buses on a screen.</p>
+<button type="button" class="cta" data-plan-travel="transit">Plan a bus Saturday →</button>
+</template>
+
 <template id="story-coffee" data-hash="best-coffee">
 <p class="st-kicker">The Column · No. 10 · Coffee</p>
 <h2>The best coffee in <em>Austin.</em></h2>
@@ -1394,6 +1425,6 @@
         <button type="button" class="cta swipe-done" disabled>Plan my Saturday →</button>
     </div>
 </dialog>
-<script src="web/app.js?v=57" defer></script>
+<script src="web/app.js?v=58" defer></script>
 </body>
 </html>
