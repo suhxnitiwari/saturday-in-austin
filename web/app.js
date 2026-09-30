@@ -216,7 +216,7 @@
             const q = input.value.trim().toLowerCase();
             const all = SOURCES[input.dataset.combo]();
             const exact = all.some(([v]) => v.toLowerCase() === q);
-            items = all.filter(([v]) => !q || exact || v.toLowerCase().includes(q)).slice(0, 40);
+            items = all.filter(([v]) => !q || exact || v.toLowerCase().includes(q));
             list.replaceChildren(...(items.length ? items.map(([v, tag], i) => {
                 const li = Object.assign(document.createElement('li'), { id: `${list.id}-${i}` });
                 li.setAttribute('role', 'option');
@@ -228,6 +228,16 @@
             at = -1;
             list.hidden = false;
             input.setAttribute('aria-expanded', 'true');
+            fit();
+        }
+        // the list stays inside the form: shorter when space is tight, flipped upward when there's more room above
+        function fit() {
+            const box = input.getBoundingClientRect(), frame = form.getBoundingClientRect();
+            const floor = Math.min(frame.bottom, innerHeight), ceiling = Math.max(frame.top, 0);
+            const below = floor - box.bottom - 8, above = box.top - ceiling - 8;
+            const up = below < 180 && above > below;
+            list.classList.toggle('up', up);
+            list.style.maxHeight = `${Math.max(120, Math.min(264, up ? above : below))}px`;
         }
         input.addEventListener('focus', open);
         input.addEventListener('click', open);
