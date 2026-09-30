@@ -205,11 +205,6 @@
         .column { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 22px; padding-top: 6px; }
         .column-head .big em { color: var(--pink); font-weight: 400; }
         .column-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; }
-        .follows { max-width: 560px; }
-        .follows .label { margin-bottom: 6px; }
-        .follows ul { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0; padding: 0; list-style: none; }
-        .follows a { font-family: var(--display); font-style: italic; font-size: 16px; color: var(--ink); text-decoration: none; border-bottom: 1px solid transparent; }
-        .follows a:hover, .follows a:focus-visible { color: var(--pink); border-bottom-color: var(--pink); }
         @media (max-width: 1000px) { .column-head { flex-direction: column; align-items: flex-start; gap: 14px; } }
         /* The Column: one lead, four features, and a run of briefs down the side */
         .column-grid { display: grid; grid-template-columns: 1.55fr 1fr 1fr 0.95fr; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); column-gap: 28px; row-gap: 22px; min-height: 0; }
@@ -251,6 +246,7 @@
         .st-defs b { display: block; margin-bottom: 2px; }
         .st-tip { margin-top: 22px !important; font-family: var(--display); font-style: italic; font-size: 18px !important; color: var(--pink-ink); }
         .story-body .cta { margin-top: 16px; }
+        .story-body a { color: var(--pink-ink); text-decoration-color: var(--pink); text-underline-offset: 3px; }
         .st-actions { display: flex; flex-wrap: wrap; gap: 12px; }
         .cta.quiet { background: transparent; color: var(--ink); border: 1px solid var(--line); }
         .cta.quiet:hover { background: var(--ink); color: var(--paper); }
@@ -666,16 +662,6 @@
                 <p class="kicker">The Column</p>
                 <h2 class="big">Opinions, <em>strongly held.</em></h2>
             </div>
-            <nav class="follows" aria-label="More Austin on Instagram">
-                <p class="label">Worth a follow <small>· Instagram</small></p>
-                <ul>
-                <li><a href="https://www.instagram.com/thehungrylonghorn/" target="_blank" rel="noopener">@thehungrylonghorn</a></li>
-                <li><a href="https://www.instagram.com/365thingsaustin/" target="_blank" rel="noopener">@365thingsaustin</a></li>
-                <li><a href="https://www.instagram.com/whenwherewhataustin/" target="_blank" rel="noopener">@whenwherewhataustin</a></li>
-                <li><a href="https://www.instagram.com/austin.bucketlist/" target="_blank" rel="noopener">@austin.bucketlist</a></li>
-                <li><a href="https://www.instagram.com/theaustintourist/" target="_blank" rel="noopener">@theaustintourist</a></li>
-                </ul>
-            </nav>
         </div>
         <div class="column-grid">
             <article class="story lead" data-story="make" tabindex="0" role="button" aria-label="Read: Make something, with your hands.">
@@ -725,18 +711,23 @@
                     <h3>The best college town <em>in America.</em></h3>
                     <p class="story-soon">Why the Forty Acres wins. Read →</p>
                 </article>
+                <article class="story brief" data-story="follow" tabindex="0" role="button" aria-label="Read: Worth a follow.">
+                    <p class="story-no">No. 09 · Instagram</p>
+                    <h3>Worth a <em>follow.</em></h3>
+                    <p class="story-soon">The accounts that know Austin first. Read →</p>
+                </article>
                 <article class="story brief soon">
-                    <p class="story-no">No. 09 · Coffee</p>
+                    <p class="story-no">No. 10 · Coffee</p>
                     <h3>The best coffee in <em>Austin.</em></h3>
                     <p class="story-soon">The editor’s picks, coming soon.</p>
                 </article>
                 <article class="story brief soon">
-                    <p class="story-no">No. 10 · Mexican</p>
+                    <p class="story-no">No. 11 · Mexican</p>
                     <h3>The best Mexican food in <em>Austin.</em></h3>
                     <p class="story-soon">The editor’s picks, coming soon.</p>
                 </article>
                 <article class="story brief soon">
-                    <p class="story-no">No. 11 · Indian</p>
+                    <p class="story-no">No. 12 · Indian</p>
                     <h3>The best Indian food in <em>Austin.</em></h3>
                     <p class="story-soon">The editor’s picks, coming soon.</p>
                 </article>
@@ -1170,6 +1161,20 @@
 </ul>
 <button type="button" class="cta" data-plan-mood="everything">Plan a Saturday →</button>
 </template>
+<template id="story-follow" data-hash="worth-a-follow">
+<p class="st-kicker">The Column · No. 09 · Instagram</p>
+<h2>Worth a <em>follow.</em></h2>
+<p class="st-dek">The planner knows 250 places. These accounts find the next ones.</p>
+<ul class="st-list st-defs">
+<li><b><a href="https://www.instagram.com/thehungrylonghorn/" target="_blank" rel="noopener">@thehungrylonghorn</a></b> Where to eat, from a Longhorn’s point of view.</li>
+<li><b><a href="https://www.instagram.com/365thingsaustin/" target="_blank" rel="noopener">@365thingsaustin</a></b> Something to do every day of the year.</li>
+<li><b><a href="https://www.instagram.com/whenwherewhataustin/" target="_blank" rel="noopener">@whenwherewhataustin</a></b> What’s on this weekend, and where.</li>
+<li><b><a href="https://www.instagram.com/austin.bucketlist/" target="_blank" rel="noopener">@austin.bucketlist</a></b> The list you’ll never finish.</li>
+<li><b><a href="https://www.instagram.com/theaustintourist/" target="_blank" rel="noopener">@theaustintourist</a></b> For the friend who’s visiting, or for seeing your own city like one.</li>
+</ul>
+<button type="button" class="cta" data-plan-mood="everything">Plan a Saturday →</button>
+</template>
+
 <template id="story-college">
 <p class="st-kicker">The Column · No. 08 · Students</p>
 <h2>The best college town <em>in America.</em></h2>
@@ -1228,6 +1233,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=43" defer></script>
+<script src="web/app.js?v=44" defer></script>
 </body>
 </html>
