@@ -204,6 +204,13 @@
         .screen.column { min-height: 0; overflow-y: auto; }
         .column { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 22px; padding-top: 6px; }
         .column-head .big em { color: var(--pink); font-weight: 400; }
+        .column-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; }
+        .follows { max-width: 560px; }
+        .follows .label { margin-bottom: 6px; }
+        .follows ul { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 0; padding: 0; list-style: none; }
+        .follows a { font-family: var(--display); font-style: italic; font-size: 16px; color: var(--ink); text-decoration: none; border-bottom: 1px solid transparent; }
+        .follows a:hover, .follows a:focus-visible { color: var(--pink); border-bottom-color: var(--pink); }
+        @media (max-width: 1000px) { .column-head { flex-direction: column; align-items: flex-start; gap: 14px; } }
         .column-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr) auto auto auto; column-gap: 32px; row-gap: 0; min-height: 0; }
         .story { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; min-height: 0; padding-top: 14px; border-top: 4px double var(--line); }  /* images, numbers, titles and subtitles share rows */
         .story h3 { align-self: start; }
@@ -644,8 +651,20 @@
 
     <section class="screen column" id="screen-column" hidden>
         <div class="column-head">
-            <p class="kicker">The Column</p>
-            <h2 class="big">Opinions, <em>strongly held.</em></h2>
+            <div>
+                <p class="kicker">The Column</p>
+                <h2 class="big">Opinions, <em>strongly held.</em></h2>
+            </div>
+            <nav class="follows" aria-label="More Austin on Instagram">
+                <p class="label">Worth a follow <small>· Instagram</small></p>
+                <ul>
+                <li><a href="https://www.instagram.com/thehungrylonghorn/" target="_blank" rel="noopener">@thehungrylonghorn</a></li>
+                <li><a href="https://www.instagram.com/365thingsaustin/" target="_blank" rel="noopener">@365thingsaustin</a></li>
+                <li><a href="https://www.instagram.com/whenwherewhataustin/" target="_blank" rel="noopener">@whenwherewhataustin</a></li>
+                <li><a href="https://www.instagram.com/austin.bucketlist/" target="_blank" rel="noopener">@austin.bucketlist</a></li>
+                <li><a href="https://www.instagram.com/theaustintourist/" target="_blank" rel="noopener">@theaustintourist</a></li>
+                </ul>
+            </nav>
         </div>
         <div class="column-grid">
             <article class="story" data-story="make" tabindex="0" role="button" aria-label="Read: Make something, with your hands.">
