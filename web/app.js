@@ -886,7 +886,7 @@
                      'vegan-edit': 'vegan', 'neighborhoods': 'hoods', 'college-town': 'college', 'worth-a-follow': 'follow',
                      'texas-football': 'football', 'austin-history': 'history',
                      'best-coffee': 'coffee', 'best-mexican': 'mexican', 'best-indian': 'indian', 'capmetro': 'bus',
-                     'best-brunch': 'brunch', 'study-spots': 'study', 'first-dates': 'date', 'zero-dollar-saturday': 'free', 'cowboy-boots': 'boots', 'college-night': 'thursday' };
+                     'best-brunch': 'brunch', 'study-spots': 'study', 'first-dates': 'date', 'zero-dollar-saturday': 'free', 'cowboy-boots': 'boots', 'college-night': 'thursday', 'austin-words': 'words' };
     document.querySelectorAll('[data-open-story]').forEach(a => a.addEventListener('click', e => {
         e.preventDefault();
         history.replaceState(null, '', '#' + Object.keys(HASHES).find(k => HASHES[k] === a.dataset.openStory));

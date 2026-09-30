@@ -328,8 +328,8 @@
         .pin[data-story="make"] { grid-column: 4; grid-row: 2 / 7; } .pin[data-story="music"] { grid-column: 4; grid-row: 7 / 12; } .pin[data-story="free"] { grid-column: 4; grid-row: 12 / 17; }
         .pin[data-story="boots"] { grid-column: 4; grid-row: 17 / 22; } .pin[data-story="bars"] { grid-column: 5; grid-row: 2 / 7; } .pin[data-story="study"] { grid-column: 5; grid-row: 7 / 12; }
         .pin[data-story="follow"] { grid-column: 5; grid-row: 12 / 17; } .pin[data-story="thursday"] { grid-column: 5; grid-row: 17 / 22; } .pin[data-story="bus"] { grid-column: 7; grid-row: 2 / 7; } .pin[data-story="four"] { grid-column: 7; grid-row: 7 / 12; }
-        .pin[data-story="college"] { grid-column: 7; grid-row: 12 / 17; } .pin[data-story="history"] { grid-column: 7; grid-row: 17 / 22; } .pin[data-story="symbols"] { grid-column: 8; grid-row: 2 / 9; }
-        .pin[data-story="hoods"] { grid-column: 8; grid-row: 9 / 16; } .pin[data-story="football"] { grid-column: 8; grid-row: 16 / 22; }
+        .pin[data-story="college"] { grid-column: 7; grid-row: 12 / 17; } .pin[data-story="history"] { grid-column: 7; grid-row: 17 / 22; } .pin[data-story="symbols"] { grid-column: 8; grid-row: 2 / 7; }
+        .pin[data-story="hoods"] { grid-column: 8; grid-row: 7 / 12; } .pin[data-story="football"] { grid-column: 8; grid-row: 12 / 17; } .pin[data-story="words"] { grid-column: 8; grid-row: 17 / 22; }
         .pin .story-img { position: relative; flex: 1 1 0; min-height: 0; display: grid; place-items: center; border-radius: 16px; background: var(--peach); overflow: hidden; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--orange-ink); transition: filter .15s; }
         .pin .story-img::after { content: "Read"; position: absolute; top: 10px; right: 10px; padding: 8px 14px; border-radius: 999px; background: var(--orange); color: var(--paper); font-family: var(--sans); font-style: normal; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; opacity: 0; transition: opacity .15s; }
         .story-img img, .read-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -927,6 +927,12 @@
                 <div class="story-img"><img src="https://images.unsplash.com/photo-1781650104690-a5309d91a26b?w=600&q=70&auto=format&fit=crop" alt="A packed football stadium at night" loading="lazy"></div>
                 <p class="story-no">Football</p>
                 <h3>Texas football <em>for dummies.</em></h3>
+                <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
+            </article>
+            <article class="pin" data-story="words" tabindex="0" role="button" aria-label="Read: Words only Austinites know.">
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1776798989475-c4d51a8aa6a5?w=600&q=70&auto=format&fit=crop" alt="The Austin Motel neon sign on South Congress" loading="lazy"></div>
+                <p class="story-no">Know Austin</p>
+                <h3>Words only <em>Austinites know.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
         </div>
@@ -1620,6 +1626,48 @@
 <button type="button" class="cta" data-plan-mood="social">Plan a social Saturday →</button>
 </template>
 
+<template id="story-words" data-hash="austin-words">
+<p class="st-kicker">The Column · No. 22 · Know Austin</p>
+<h2>Words only <em>Austinites know.</em></h2>
+<p class="st-dek">Hi, ho, howdy. Say these wrong and everyone knows you just moved here.</p>
+<h3>Say it right</h3>
+<ul class="st-list st-defs">
+<li><b>Guadalupe</b> “GWAH-duh-loop.” The street along campus, and nobody says the last e.</li>
+<li><b>Manchaca</b> “MAN-shack.” Don’t ask. It just is.</li>
+<li><b>Burnet</b> “BURN-it.” Burnet Road, home of Pinthouse and Tacodeli.</li>
+<li><b>Koenig</b> “KAY-nig.” Koenig Lane, in North Loop.</li>
+<li><b>Manor</b> “MAY-ner.” Manor Road, on the east side.</li>
+<li><b>Buda</b> “BYOO-duh.” Where Mavs is.</li>
+<li><b>Pflugerville</b> “FLOO-ger-vill.” The P is silent. So is everyone who says it right.</li>
+</ul>
+<h3>The nicknames</h3>
+<ul class="st-list st-defs">
+<li><b>The Drag</b> Guadalupe Street along campus: food, boba and your whole freshman year.</li>
+<li><b>The Forty Acres</b> UT’s main campus.</li>
+<li><b>West Campus</b> Where you live, or where everyone you know lives.</li>
+<li><b>Dirty Sixth</b> The bar blocks of East Sixth Street, downtown. Not to be confused with West Sixth.</li>
+<li><b>SoCo</b> South Congress.</li>
+<li><b>MoPac</b> Loop 1, the highway named after the Missouri Pacific railroad. Nobody calls it Loop 1.</li>
+<li><b>PCL</b> The Perry-Castañeda Library, where Saturdays go to die during finals.</li>
+<li><b>The Greenbelt</b> The Barton Creek trail, and its swimming holes.</li>
+</ul>
+<h3>The food words</h3>
+<ul class="st-list st-defs">
+<li><b>Breakfast taco</b> Not a burrito. A taco, for breakfast, and it’s a whole personality.</li>
+<li><b>Queso</b> A food group.</li>
+<li><b>Topo Chico</b> The sparkling water in everyone’s hand.</li>
+</ul>
+<h3>The phrases</h3>
+<ul class="st-list st-defs">
+<li><b>Y’all</b> Singular and plural. Use it.</li>
+<li><b>Fixin’ to</b> About to. “I’m fixin’ to get a breakfast taco.”</li>
+<li><b>Hook ’em</b> The hello, the goodbye and the hand sign.</li>
+<li><b>Keep Austin Weird</b> The motto, and a promise.</li>
+</ul>
+<p class="st-tip">Bonus points: call it “the lake” and “the springs” like there’s only one of each.</p>
+<button type="button" class="cta" data-plan-mood="everything">Plan a very Austin Saturday →</button>
+</template>
+
 <template id="story-football" data-hash="texas-football">
 <p class="st-kicker">The Column · No. 13 · Football</p>
 <h2>Texas football <em>for dummies.</em></h2>
@@ -1715,6 +1763,6 @@
     </div>
 </dialog>
 <script src="web/samples.js?v=1" defer></script>
-<script src="web/app.js?v=77" defer></script>
+<script src="web/app.js?v=78" defer></script>
 </body>
 </html>
