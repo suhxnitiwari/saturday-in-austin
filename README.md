@@ -74,7 +74,7 @@ When a rule shapes the day, the plan says so: *"It's Saturday. We're getting bru
 - **It knows what's happening this Saturday:** Zilker Park is off-limits on ACL weekends, F1 weekend comes with a traffic warning, and home games get a game-day plan: *Saturdays are for the boys.* Away games? Watch at Victory Lap.
 - **The Column:** my articles, on a Pinterest-style board: the best coffee, Mexican and Indian food, the bus guide, Texas football for dummies, Austin's history, and more.
 - **Getting around and budget:** Car, Uber, Bus + walk or Walk; Student, Normal or Splurge, with a rough total for the day.
-- **Take it with you:** download any Saturday as a PDF, or send it as a Bridgerton-style 💌 letter with a link that opens the exact same day.
+- **Take it with you:** add your Saturday to your calendar, download it as a PDF, or share a link that opens the exact same day.
 - **The map and Austin, right now:** every neighborhood on a simplified street map, live weather and sunset (if it's raining, Rainy day turns itself on), and Longhorns scores.
 - **An app on your phone:** add it to your home screen. After the first visit it opens fast and still plans with no signal.
 

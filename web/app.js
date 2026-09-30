@@ -19,7 +19,7 @@
     const number = day.querySelector('.number');
 
     let seed = 1000 + Math.floor(Math.random() * 9000);
-    let lastPlan = null;   // the day on screen, for the letter
+    let lastPlan = null;   // the day on screen, for the calendar file and the PDF
     let autoRain = false;  // true when live weather turned on Rainy day
     const PLACES = [];  // every spot, filled in once Python has loaded
 
@@ -131,7 +131,7 @@
         stats.hidden = false;
         number.textContent = `xoxo, Saturday #${plan.seed}`;
         lastPlan = plan;
-        document.querySelectorAll('.seal-it, .save-it, .cal-it').forEach(b => { b.disabled = false; });
+        document.querySelectorAll('.save-it, .cal-it').forEach(b => { b.disabled = false; });
         document.querySelector('.see-day').textContent = `Your Saturday · ${st.stops} ${st.stops === 1 ? 'stop' : 'stops'} · $${st.spend} ↑`;
         thisSaturday().filter(e => e.heads).reverse().forEach(e => {  // the city's plans for this Saturday
             const banner = el('div', 'happening'), text = el('p');
@@ -519,38 +519,6 @@
     })();
     if (openDeckOnLoad) openSwipe();  // a friend sent their deck: straight to swiping
 
-    // ------------------------------------------------------------ the love letter
-    const letterBox = document.getElementById('letter');
-    const letterBody = document.getElementById('letter-body');
-    const toInput = document.getElementById('letter-to'), fromInput = document.getElementById('letter-from');
-    const letterNote = letterBox.querySelector('.letter-note');
-    const VERB = { coffee: 'coffee at ', smoothie: 'a smoothie at ', brunch: 'brunch at ', lunch: 'lunch at ',
-                   dinner: 'dinner at ', treat: 'something sweet at ', 'late night': 'one last stop at ',
-                   exercise: 'a class at ', shopping: 'shopping at ', nails: 'nails at ', 'live music': 'a show at ',
-                   nightlife: 'drinks at ', karaoke: 'karaoke at ', comedy: 'a show at ',
-                   tea: 'boba at ', 'escape room': 'an escape room at ', boat: 'a sunset boat at ' };
-    function composeLetter(plan) {
-        const to = toInput.value.trim() || 'reader', from = fromInput.value.trim();
-        const lines = [`Dearest ${to},`, '', 'Your Saturday has been decided. Do not argue.', ''];
-        const stops = plan.stops.filter(s => s.type !== 'free');
-        stops.forEach((s, i) => {
-            const what = s.type === 'reset' ? `home, to ${s.note}`
-                : `${VERB[s.category] || ''}${s.name}${s.note ? ` (${s.note})` : ''}`;
-            lines.push(i === 0 ? `We begin at ${s.time} at ${what}.` : `At ${s.time}, ${what}.`);
-            if (s.why) lines.push(s.why);
-        });
-        lines.push(`Home by ${plan.home}.`, '', 'Yours, until brunch,', from || '', '',
-                   `P.S. It’s Saturday #${plan.seed}. See it here: ${shareLink()}`);
-        return lines.join('\n').replace(/\n{3,}/g, '\n\n');
-    }
-    const refreshLetter = () => { if (lastPlan) letterBody.textContent = composeLetter(lastPlan); };
-    document.querySelector('.seal-it:not(.save-it):not(.cal-it)').addEventListener('click', () => {
-        letterNote.textContent = '';
-        refreshLetter();
-        letterBox.showModal();
-    });
-    [toInput, fromInput].forEach(i => i.addEventListener('input', refreshLetter));
-    letterBox.querySelector('.close-letter').addEventListener('click', () => letterBox.close());
     // a long day scrolls inside the card: say so, until you reach the end
     const dayScroll = document.querySelector('.day .scroll'), more = document.querySelector('.day .more');
     const moreCue = () => { more.hidden = dayScroll.scrollHeight - dayScroll.scrollTop - dayScroll.clientHeight < 8; };
@@ -558,7 +526,6 @@
     window.addEventListener('resize', moreCue);
     new MutationObserver(moreCue).observe(dayScroll, { childList: true, subtree: true });
     more.addEventListener('click', () => dayScroll.scrollBy({ top: dayScroll.clientHeight * 0.8, behavior: 'smooth' }));
-    // on a phone the day is below the form
     // on a phone the day is above the settings; once it scrolls away, a pill brings you back to it
     const seeDay = document.querySelector('.see-day');
     seeDay.addEventListener('click', () => day.scrollIntoView({ behavior: 'smooth' }));
@@ -603,22 +570,6 @@
     document.querySelector('.ideal-open').addEventListener('click', () => ideal.showModal());
     ideal.querySelector('.close-ideal').addEventListener('click', () => ideal.close());
     ideal.addEventListener('click', e => { if (e.target === ideal) ideal.close(); });
-    letterBox.addEventListener('click', e => { if (e.target === letterBox) letterBox.close(); });
-    letterBox.querySelector('.copy').addEventListener('click', async () => {
-        try {
-            await navigator.clipboard.writeText(letterBody.textContent);
-            letterNote.textContent = 'Copied. Now go send it.';
-        } catch {
-            letterNote.textContent = 'Your browser said no. Select the letter and copy it by hand.';
-        }
-    });
-    letterBox.querySelector('.share').addEventListener('click', async () => {
-        if (navigator.share) {
-            try { await navigator.share({ title: 'Saturday in Austin', text: letterBody.textContent }); } catch { /* they changed their mind */ }
-        } else {
-            letterNote.textContent = 'Sharing works on your phone; on a laptop, copy it instead.';
-        }
-    });
 
     // ------------------------------------------------------------ Austin, right now (free, no key)
     const WEATHER = { 0: 'clear', 1: 'mostly clear', 2: 'partly cloudy', 3: 'cloudy', 45: 'foggy', 48: 'foggy',
@@ -668,45 +619,6 @@
             }
         })
         .catch(() => wx('sky', 'weather unavailable'));
-
-    // The great debate: big small city or small big city. Tallies live in a free public counter
-    // (no names, no data, just two numbers); your own vote is remembered in this browser.
-    const vote = document.querySelector('[data-vote]');
-    if (vote) {
-        const COUNTER = 'https://abacus.jasoncameron.dev';
-        const PICKS = ['big-small', 'small-big'];
-        const LINES = {
-            'big-small': 'Big small city. Everyone knows everyone, and still no parking.',
-            'small-big': 'Small big city. The skyline got tall, the vibe stayed barefoot.',
-        };
-        const note = vote.querySelector('[data-vote-note]');
-        const mine = (() => { try { return localStorage.getItem('austin-vote'); } catch { return null; } })();
-        const count = (pick, hit) => fetch(`${COUNTER}/${hit ? 'hit' : 'get'}/saturday-in-austin/${pick}`)
-            .then(r => r.ok ? r.json() : { value: 0 }).then(d => d.value || 0).catch(() => null);
-
-        const show = (pick, tallies) => {
-            vote.classList.add('voted');
-            vote.querySelectorAll('[data-pick]').forEach(b => b.setAttribute('aria-pressed', b.dataset.pick === pick));
-            if (tallies.some(n => n === null)) { note.textContent = `${LINES[pick]} (The tally is shy right now.)`; return; }
-            const total = tallies[0] + tallies[1] || 1;
-            PICKS.forEach((p, i) => {
-                const b = vote.querySelector(`[data-pick="${p}"]`), pct = Math.round(100 * tallies[i] / total);
-                b.querySelector('.vote-bar i').style.width = pct + '%';
-                b.querySelector('.vote-pct').textContent = `${pct}% · ${tallies[i].toLocaleString()} vote${tallies[i] === 1 ? '' : 's'}`;
-            });
-            const lead = tallies[0] === tallies[1] ? null : PICKS[tallies[0] > tallies[1] ? 0 : 1];
-            note.textContent = LINES[pick] + (lead === null ? ' And Austin is split, obviously.' : lead === pick ? ' Austin agrees.' : ' Bold. Austin disagrees.');
-        };
-
-        if (PICKS.includes(mine)) Promise.all(PICKS.map(p => count(p))).then(t => show(mine, t));
-        vote.querySelectorAll('[data-pick]').forEach(b => b.addEventListener('click', async () => {
-            if (vote.classList.contains('voted')) return;  // one vote each
-            const pick = b.dataset.pick;
-            try { localStorage.setItem('austin-vote', pick); } catch {}
-            vote.classList.add('voted');
-            show(pick, await Promise.all(PICKS.map(p => count(p, p === pick))));
-        }));
-    }
 
     // Austin by the numbers ‹ › Saturday in Austin by the numbers
     const flip = document.querySelector('[data-flip]');
@@ -972,7 +884,8 @@
     const HASHES = { 'four-days': 'four', 'make-something': 'make', 'nightlife': 'bars', 'live-music': 'music', 'austin-decoded': 'symbols',
                      'vegan-edit': 'vegan', 'neighborhoods': 'hoods', 'college-town': 'college', 'worth-a-follow': 'follow',
                      'texas-football': 'football', 'austin-history': 'history',
-                     'best-coffee': 'coffee', 'best-mexican': 'mexican', 'best-indian': 'indian', 'capmetro': 'bus' };
+                     'best-coffee': 'coffee', 'best-mexican': 'mexican', 'best-indian': 'indian', 'capmetro': 'bus',
+                     'best-brunch': 'brunch', 'study-spots': 'study', 'first-dates': 'date', 'zero-dollar-saturday': 'free' };
     document.querySelectorAll('[data-open-story]').forEach(a => a.addEventListener('click', e => {
         e.preventDefault();
         history.replaceState(null, '', '#' + Object.keys(HASHES).find(k => HASHES[k] === a.dataset.openStory));

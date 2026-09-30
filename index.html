@@ -193,7 +193,7 @@
         .stats div + div { border-left: 1px solid var(--line); }
         .stats b { display: block; font-family: var(--display); font-weight: 500; font-size: 22px; line-height: 1; }
         .stats span { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--grey); }
-        .again-row { display: grid; grid-template-columns: 1fr auto auto auto auto; border-top: 1px solid var(--line); }
+        .again-row { display: grid; grid-template-columns: 1fr auto auto auto; border-top: 1px solid var(--line); }
         .seal-it { width: 52px; border: 0; border-left: 1px solid var(--line); background: var(--paper); font-size: 22px; cursor: pointer; }
         .seal-it:hover { background: var(--peach); }
         .save-it { font-family: var(--display); color: var(--orange-ink); }
@@ -321,12 +321,12 @@
         .column-head p { margin: 0; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); }
         .board { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-rows: repeat(20, minmax(0, 1fr)); gap: 0 16px; min-height: 0; }
         .pin { display: flex; flex-direction: column; min-height: 0; padding-bottom: 14px; cursor: pointer; }
-        .pin:nth-child(1) { grid-column: 1; grid-row: 1 / 8; } .pin:nth-child(2) { grid-column: 1; grid-row: 8 / 15; } .pin:nth-child(3) { grid-column: 1; grid-row: 15 / 21; }
-        .pin:nth-child(4) { grid-column: 2; grid-row: 1 / 9; } .pin:nth-child(5) { grid-column: 2; grid-row: 9 / 21; }
-        .pin:nth-child(6) { grid-column: 3; grid-row: 1 / 12; } .pin:nth-child(7) { grid-column: 3; grid-row: 12 / 21; }
-        .pin:nth-child(8) { grid-column: 4; grid-row: 1 / 7; } .pin:nth-child(9) { grid-column: 4; grid-row: 7 / 15; } .pin:nth-child(10) { grid-column: 4; grid-row: 15 / 21; }
-        .pin:nth-child(11) { grid-column: 5; grid-row: 1 / 10; } .pin:nth-child(12) { grid-column: 5; grid-row: 10 / 21; }
-        .pin:nth-child(13) { grid-column: 6; grid-row: 1 / 8; } .pin:nth-child(14) { grid-column: 6; grid-row: 8 / 14; } .pin:nth-child(15) { grid-column: 6; grid-row: 14 / 21; }
+        .pin:nth-child(1) { grid-column: 1; grid-row: 1 / 6; } .pin:nth-child(2) { grid-column: 1; grid-row: 6 / 11; } .pin:nth-child(3) { grid-column: 1; grid-row: 11 / 16; } .pin:nth-child(4) { grid-column: 1; grid-row: 16 / 21; }
+        .pin:nth-child(5) { grid-column: 2; grid-row: 1 / 8; } .pin:nth-child(6) { grid-column: 2; grid-row: 8 / 15; } .pin:nth-child(7) { grid-column: 2; grid-row: 15 / 21; }
+        .pin:nth-child(8) { grid-column: 3; grid-row: 1 / 7; } .pin:nth-child(9) { grid-column: 3; grid-row: 7 / 15; } .pin:nth-child(10) { grid-column: 3; grid-row: 15 / 21; }
+        .pin:nth-child(11) { grid-column: 4; grid-row: 1 / 9; } .pin:nth-child(12) { grid-column: 4; grid-row: 9 / 15; } .pin:nth-child(13) { grid-column: 4; grid-row: 15 / 21; }
+        .pin:nth-child(14) { grid-column: 5; grid-row: 1 / 7; } .pin:nth-child(15) { grid-column: 5; grid-row: 7 / 14; } .pin:nth-child(16) { grid-column: 5; grid-row: 14 / 21; }
+        .pin:nth-child(17) { grid-column: 6; grid-row: 1 / 8; } .pin:nth-child(18) { grid-column: 6; grid-row: 8 / 14; } .pin:nth-child(19) { grid-column: 6; grid-row: 14 / 21; }
         .pin .story-img { position: relative; flex: 1 1 0; min-height: 0; display: grid; place-items: center; border-radius: 16px; background: var(--peach); overflow: hidden; font-family: var(--display); font-style: italic; font-size: 15px; color: var(--orange-ink); transition: filter .15s; }
         .pin .story-img::after { content: "Read"; position: absolute; top: 10px; right: 10px; padding: 8px 14px; border-radius: 999px; background: var(--orange); color: var(--paper); font-family: var(--sans); font-style: normal; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; opacity: 0; transition: opacity .15s; }
         .story-img img, .read-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -396,15 +396,9 @@
         .paper { position: relative; padding: 38px 42px 26px; background: #FFFBF5; border: 1px solid #E8DCCB; box-shadow: 0 30px 60px -30px rgba(17, 17, 17, 0.6), inset 0 0 0 6px #FFFBF5, inset 0 0 0 7px var(--gold); max-height: calc(100vh - 40px); overflow-y: auto; }
         .seal { position: absolute; top: 18px; right: 24px; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #F77BB4, var(--orange) 55%, #A50A55); color: #FFE3F0; font-family: var(--display); font-style: italic; font-size: 22px; box-shadow: 0 4px 10px rgba(165, 10, 85, 0.35), inset 0 0 0 4px rgba(255, 255, 255, 0.18); transform: rotate(-8deg); }
         .letter-kicker { margin: 0 80px 14px 0; font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
-        .letter-to { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
-        .letter-to label { display: flex; flex-direction: column; gap: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
-        .letter-to input { height: 36px; border: 0; border-bottom: 1px solid var(--line); background: transparent; font-family: var(--display); font-style: italic; font-size: 18px; color: var(--ink); }
-        .letter-to input:focus { outline: none; border-bottom-color: var(--orange); }
-        .letter-body { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--display); font-size: 17px; line-height: 1.6; color: var(--ink); }
         .letter-actions { display: flex; gap: 0; margin-top: 20px; border: 1px solid var(--line); }
         .letter-actions button { flex: 1; height: 42px; border: 0; background: var(--paper); font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; }
         .letter-actions button + button { border-left: 1px solid var(--line); }
-        .letter-actions .copy { background: var(--orange); color: var(--paper); }
         .letter-actions button:hover { background: var(--ink); color: var(--paper); }
         .ideal-open { display: block; width: 100%; margin-top: 18px; }
         .ideal-title { margin: 0 80px 16px 0; font-family: var(--display); font-weight: 500; font-size: 34px; line-height: 1.05; }
@@ -416,7 +410,6 @@
         .ideal span { font-family: var(--display); font-size: 21px; line-height: 1.2; }
         .ideal em { grid-column: 3; font-family: var(--typewriter); font-style: normal; font-size: 13px; line-height: 1.4; color: var(--orange-ink); }
         .ideal li.home span { font-style: italic; }
-        .letter-note { min-height: 1em; margin: 10px 0 0; font-family: var(--typewriter); font-size: 12px; color: var(--orange-ink); }
         /* Austin: a big weather widget and the city by the numbers */
         .austin { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.8fr) minmax(0, 1fr); gap: 36px; align-content: start; padding-top: 6px; overflow-y: auto; min-height: 0; }
         .flip { margin-top: 16px; }
@@ -500,21 +493,6 @@
         .wx-saturday .label, .wx-sat-line { grid-column: 1; }
         .wx-saturday .cta { grid-column: 2; grid-row: 1 / 3; align-self: center; margin: 0; }
         .wx-verdict { grid-column: 1 / -1; }
-        .vote { margin-top: 20px; }
-        .vote-q { margin: 0; padding: 12px 0 14px; border-top: 1px solid var(--line); font-family: var(--display); font-style: italic; font-size: clamp(20px, 1.8vw, 26px); line-height: 1.2; }
-        .vote-opts { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); }
-        .vote-opts button { position: relative; display: grid; gap: 8px; align-content: start; padding: 14px; border: 0; background: var(--paper); color: var(--ink); font-family: var(--display); font-size: 18px; text-align: left; cursor: pointer; }
-        .vote-opts button + button { border-left: 1px solid var(--line); }
-        .vote-opts button:hover { background: var(--peach); }
-        .vote-opts button em { color: var(--orange); }
-        .vote-opts button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
-        .vote-opts button[aria-pressed="true"] > span:first-child::after { content: " ✓"; color: var(--orange); }
-        .vote-opts button:focus-visible { outline: 2px solid var(--orange); outline-offset: -3px; }
-        .vote-bar, .vote-pct { display: none; }
-        .vote.voted .vote-bar { display: block; height: 6px; border: 1px solid currentColor; }
-        .vote.voted .vote-bar i { display: block; height: 100%; width: 0; background: var(--orange); transition: width 0.6s ease; }
-        .vote.voted .vote-pct { display: block; font-family: var(--sans); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
-        .vote-note { margin: 10px 0 0; font-family: var(--typewriter); font-size: 12.5px; color: var(--orange-ink); }
 
         /* the numbers: two editorial strips across the top of The Method */
         .numbers { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr; gap: 40px; padding-bottom: 22px; border-bottom: 4px double var(--line); }
@@ -618,7 +596,7 @@
             .block { grid-template-columns: minmax(0, 1fr); }
             .sec .mini { float: none; display: flex; width: max-content; margin: 10px 0 0; }
             .block.when .span2 { grid-column: 1 / -1; }
-            .again-row { grid-template-columns: 1fr auto auto auto; }
+            .again-row { grid-template-columns: 1fr auto auto; }
             .again-row .number { grid-column: 1 / -1; }
             .number { border-left: 0; border-top: 1px solid var(--line); padding: 10px 14px; }
         }
@@ -674,10 +652,8 @@
 <div class="page">
     <header>
         <div>
-            <p class="kicker">Suhani Coded™ · Austin, Texas</p>
             <h1>Saturday <em>in</em> Austin</h1>
             <p class="headline">Tell me when you’re free. I’ll decide what we’re doing.</p>
-            <a class="visiting" href="#four-days" data-open-story="four">Visiting Austin? The four-day plan →</a>
         </div>
         <button type="button" class="burger" aria-label="Menu" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span></button>
         <nav class="sections" id="site-nav" role="tablist" aria-label="Sections">
@@ -793,7 +769,6 @@
                     <button type="button" class="again" disabled>Give me another Saturday</button>
                     <button type="button" class="seal-it cal-it" disabled aria-label="Add this Saturday to your calendar" title="Add to calendar">📅</button>
                     <button type="button" class="seal-it save-it" disabled aria-label="Download this Saturday as a PDF" title="Download as a PDF">↓</button>
-                    <button type="button" class="seal-it" disabled aria-label="Send this Saturday as a letter" title="Send as a letter">💌</button>
                     <p class="number"></p>
                 </div>
             </div>
@@ -894,6 +869,30 @@
                 <div class="story-img"><img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=600&q=70&auto=format&fit=crop" alt="A bowl of curry" loading="lazy"></div>
                 <p class="story-no">Indian</p>
                 <h3>The best Indian food in <em>Austin.</em></h3>
+                <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
+            </article>
+            <article class="pin" data-story="brunch" tabindex="0" role="button" aria-label="Read: The best brunch in Austin.">
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1670710029032-02771d92444d?w=600&q=70&auto=format&fit=crop" alt="Pancakes at brunch" loading="lazy"></div>
+                <p class="story-no">Brunch</p>
+                <h3>The best brunch in <em>Austin.</em></h3>
+                <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
+            </article>
+            <article class="pin" data-story="study" tabindex="0" role="button" aria-label="Read: Where to actually study.">
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1548453282-29d422a7025a?w=600&q=70&auto=format&fit=crop" alt="A warm, lamp-lit library table" loading="lazy"></div>
+                <p class="story-no">Study</p>
+                <h3>Where to actually <em>study.</em></h3>
+                <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
+            </article>
+            <article class="pin" data-story="date" tabindex="0" role="button" aria-label="Read: First dates, sorted.">
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1625668931397-b9c35f63186b?w=600&q=70&auto=format&fit=crop" alt="A wine glass by candlelight" loading="lazy"></div>
+                <p class="story-no">Dates</p>
+                <h3>First dates, <em>sorted.</em></h3>
+                <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
+            </article>
+            <article class="pin" data-story="free" tabindex="0" role="button" aria-label="Read: A Saturday for $0.">
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1515980122823-20ccdcde3398?w=600&q=70&auto=format&fit=crop" alt="Watching the sunset from a hill" loading="lazy"></div>
+                <p class="story-no">Broke</p>
+                <h3>A Saturday for <em>$0.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
         </div>
@@ -1129,16 +1128,7 @@
                 <li data-n="14"><b>14</b> Burnet Road / Mid-North<span>8</span></li>
             </ol>
             <p class="map-src">Orange lines: the drives it knows.</p>
-            <div class="vote" data-vote>
-                <p class="label">The great debate</p>
-                <p class="vote-q">Pick a side.</p>
-                <div class="vote-opts">
-                    <button type="button" data-pick="big-small"><span><em>A big</em> small city</span><span class="vote-bar"><i></i></span><b class="vote-pct"></b></button>
-                    <button type="button" data-pick="small-big"><span><em>A small</em> big city</span><span class="vote-bar"><i></i></span><b class="vote-pct"></b></button>
-                </div>
-                <p class="vote-note" data-vote-note>Cast your vote. One per person, we're not animals.</p>
-            </div>
-            <div class="reads">
+<div class="reads">
                 <p class="label">From The Column</p>
                 <a class="read big" href="#college-town" data-open-story="college">
                     <span class="read-img"><img src="https://images.unsplash.com/photo-1726303325145-3587ea11259d?w=800&q=70&auto=format&fit=crop" alt="The UT Tower" loading="lazy"></span>
@@ -1479,6 +1469,76 @@
 <button type="button" class="cta" data-plan-mood="foodie">Plan a foodie Saturday →</button>
 </template>
 
+<template id="story-brunch" data-hash="best-brunch">
+<p class="st-kicker">The Column · No. 16 · Brunch</p>
+<h2>The best brunch in <em>Austin.</em></h2>
+<p class="st-dek">Saturday is for brunch. The only question is where.</p>
+<h3>The one I’d pick</h3>
+<p><b>Josephine House</b> in Clarksville. The planner gives it extra tickets on purpose.</p>
+<h3>The pretty ones</h3>
+<p><b>Elizabeth Street Café</b> on South 1st, pastel French-Vietnamese. <b>Lutie’s</b>, the garden brunch at Commodore Perry Estate, for a splurge.</p>
+<h3>The classics</h3>
+<p><b>Kerbey Lane</b> by campus for queso and pancakes, and <b>Magnolia</b> for the gingerbread pancakes.</p>
+<h3>The east side</h3>
+<p><b>Hillside Farmacy</b>, <b>Paperboy</b> and <b>Cenote</b>.</p>
+<h3>South Congress</h3>
+<p><b>June’s All Day</b> for pastries and mimosas, and <b>Café No Sé</b>.</p>
+<h3>Worth the trip</h3>
+<p><b>Citizen All Day</b> on Burnet for the banana bread French toast, <b>Colleen’s Kitchen</b> at Mueller, and <b>Phoebe’s Diner</b> on South 1st.</p>
+<p class="st-tip">On a Saturday morning, brunch always gets a ticket in the planner’s lottery. It’s the law.</p>
+<button type="button" class="cta" data-plan-mood="foodie">Plan a brunch Saturday →</button>
+</template>
+
+<template id="story-study" data-hash="study-spots">
+<p class="st-kicker">The Column · No. 17 · Study</p>
+<h2>Where to actually <em>study.</em></h2>
+<p class="st-dek">Productive Saturdays exist. Here’s where they happen.</p>
+<h3>The libraries</h3>
+<p><b>Austin Central Library</b> downtown, for the rooftop garden. <b>Life Science Library</b> on campus, the prettiest study spot there is. <b>PCL</b>, for lock-in mode.</p>
+<h3>The coffee shops</h3>
+<p><b>Haraz</b>, right across from campus. <b>Bennu</b>, open around the clock. <b>Medici</b>, when you need a vanilla latte to get through it.</p>
+<p class="st-tip">A Productive Saturday in the planner skips the sit-down meals, so you don’t lose an hour to lunch.</p>
+<button type="button" class="cta" data-plan-mood="productive">Plan a study Saturday →</button>
+</template>
+
+<template id="story-date" data-hash="first-dates">
+<p class="st-kicker">The Column · No. 18 · Dates</p>
+<h2>First dates, <em>sorted.</em></h2>
+<p class="st-dek">Low stakes, good odds.</p>
+<h3>The easy one</h3>
+<p>Coffee at <b>Medici</b>, then a walk on the <b>Lady Bird Lake</b> trail. Or <b>Mount Bonnell</b>, for the best view in town.</p>
+<h3>Something to do</h3>
+<p>A round at <b>Peter Pan Mini-Golf</b>, mini golf since 1948. Nobody is good at it, which is the point.</p>
+<h3>Golden hour</h3>
+<p>The <b>donut boat</b> on Lake Austin, from Mozart’s, best at sunset. Or the <b>Lake Austin sunset cruise</b> past Mount Bonnell (BYOB, 21+).</p>
+<h3>The dinner</h3>
+<p><b>Yamas</b> or <b>Aba</b> for Mediterranean, <b>Roya</b> for Persian, <b>Casa Bianca</b> for the rooftop bar.</p>
+<h3>The splurge</h3>
+<p><b>Jeffrey’s</b>, <b>Uchi</b>, or <b>Hestia</b> if you’re trying to make a point.</p>
+<h3>After</h3>
+<p>The birthday cake ice cream sandwich at <b>Launderette</b>, or cocktails over Congress at <b>Edge Rooftop</b> (21+).</p>
+<p class="st-tip">Can’t agree on where? Swipe with friends works for two.</p>
+<button type="button" class="cta" data-plan-mood="social">Plan a date Saturday →</button>
+</template>
+
+<template id="story-free" data-hash="zero-dollar-saturday">
+<p class="st-kicker">The Column · No. 19 · Broke</p>
+<h2>A Saturday for <em>$0.</em></h2>
+<p class="st-dek">The bus is free with your UT ID. So is most of this.</p>
+<h3>Morning</h3>
+<p>Hike the <b>Barton Creek Greenbelt</b> to the Gus Fruh swimming hole, or climb <b>Mount Bonnell</b> for the view.</p>
+<h3>Museums</h3>
+<p>The <b>Blanton</b> (free with your UT ID) for Ellsworth Kelly’s <i>Austin</i>, the <b>Harry Ransom Center</b> for the Gutenberg Bible, and the <b>Texas Science &amp; Natural History Museum</b>. The <b>Capitol</b> gives free tours all day.</p>
+<h3>Afternoon</h3>
+<p>A picnic in <b>Zilker Park</b>, the peacocks at <b>Mayfield Park</b>, a lap of the <b>Lady Bird Lake</b> trail, or the rooftop garden at the <b>Central Library</b>.</p>
+<h3>Photos</h3>
+<p>The <b>Greetings From Austin</b> mural and the <b>Willie Nelson</b> statue.</p>
+<h3>Sunset</h3>
+<p>The <b>Congress Avenue bats</b> at dusk, or the <b>360 Overlook</b>.</p>
+<p class="st-tip">Summer tip: Barton Springs Pool is free before 8 AM and after 9 PM.</p>
+<button type="button" class="cta" data-plan-mood="outside">Plan a free Saturday →</button>
+</template>
+
 <template id="story-football" data-hash="texas-football">
 <p class="st-kicker">The Column · No. 13 · Football</p>
 <h2>Texas football <em>for dummies.</em></h2>
@@ -1556,23 +1616,6 @@
     </div>
 </dialog>
 
-<dialog class="letter-box" id="letter">
-    <div class="paper">
-        <span class="seal" aria-hidden="true">ST</span>
-        <p class="letter-kicker">By hand, from Saturday in Austin</p>
-        <div class="letter-to">
-            <label>To <input type="text" id="letter-to" value="Hana" autocomplete="off"></label>
-            <label>From <input type="text" id="letter-from" placeholder="you" autocomplete="off"></label>
-        </div>
-        <pre class="letter-body" id="letter-body"></pre>
-        <div class="letter-actions">
-            <button type="button" class="copy">Copy the letter</button>
-            <button type="button" class="share">Share</button>
-            <button type="button" class="close-letter">Close</button>
-        </div>
-        <p class="letter-note" aria-live="polite"></p>
-    </div>
-</dialog>
 <dialog class="swipe-box" id="swipe" aria-label="Swipe to plan">
     <div class="swipe-paper">
         <button type="button" class="close-story close-swipe" aria-label="Close">✕</button>
@@ -1591,6 +1634,6 @@
     </div>
 </dialog>
 <script src="web/samples.js?v=1" defer></script>
-<script src="web/app.js?v=73" defer></script>
+<script src="web/app.js?v=75" defer></script>
 </body>
 </html>
