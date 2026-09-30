@@ -531,7 +531,7 @@
             picked = picked === n ? null : n;
             document.querySelectorAll('.atx-dots g, .map-key li').forEach(e => e.classList.toggle('on', +e.dataset.n === picked));
             lines.classList.toggle('focus', picked !== null);
-            lines.querySelectorAll('line').forEach(l => l.classList.toggle('on', picked !== null && (+l.dataset.a === picked || +l.dataset.b === picked)));
+            lines.querySelectorAll('[data-a]').forEach(l => l.classList.toggle('on', picked !== null && (+l.dataset.a === picked || +l.dataset.b === picked)));
             const [kicker, name, body] = note.children;
             if (picked === null) {
                 kicker.textContent = 'Tap a number'; name.textContent = 'Pick a neighborhood.';
