@@ -53,6 +53,8 @@
         .sections > * + * { border-left: 1px solid var(--line) !important; }
         .sections button:hover, .sections a:hover { background: var(--blush); }
         .sections button[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+        .visiting { display: inline-block; margin-top: 8px; font-family: var(--typewriter); font-size: 13px; color: var(--pink-ink); text-decoration: none; border-bottom: 1px solid var(--pink); }
+        .visiting:hover { color: var(--ink); border-bottom-color: var(--ink); }
         .burger { display: none; }
         @media (max-width: 760px) {  /* phones: the nav folds into three lines */
             header { position: relative; }
@@ -509,6 +511,7 @@
             <p class="kicker">Suhani Coded™ · Austin, Texas</p>
             <h1>Saturday <em>in</em> Austin</h1>
             <p class="headline">Tell me when you’re free. I’ll decide what we’re doing.</p>
+            <a class="visiting" href="#four-days" data-open-story="four">Visiting Austin? The four-day plan →</a>
         </div>
         <button type="button" class="burger" aria-label="Menu" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span></button>
         <nav class="sections" id="site-nav" role="tablist" aria-label="Sections">
@@ -1014,7 +1017,7 @@
 <li><b>Bluebonnets</b> The state flower. Every spring, everyone takes the roadside photo.</li>
 </ul>
 </template>
-<template id="story-four">
+<template id="story-four" data-hash="four-days">
 <p class="st-kicker">The Column · No. 04 · Visiting</p>
 <h2>Four days in <em>Austin.</em></h2>
 <p class="st-dek">For the friend who’s visiting and wants all of it. One part of town a day, so you’re not in the car the whole trip.</p>
@@ -1070,6 +1073,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=36" defer></script>
+<script src="web/app.js?v=37" defer></script>
 </body>
 </html>

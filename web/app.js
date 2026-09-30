@@ -574,6 +574,15 @@
         c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openStory(c.dataset.story); } });
     });
     storyBox.querySelector('.close-story').addEventListener('click', () => storyBox.close());
+    // shareable links: #four-days opens the four-day plan (and the header link does the same)
+    const HASHES = { 'four-days': 'four', 'make-something': 'make', 'sixth-and-rainey': 'bars', 'austin-decoded': 'symbols' };
+    document.querySelectorAll('[data-open-story]').forEach(a => a.addEventListener('click', e => {
+        e.preventDefault();
+        history.replaceState(null, '', '#' + Object.keys(HASHES).find(k => HASHES[k] === a.dataset.openStory));
+        openStory(a.dataset.openStory);
+    }));
+    storyBox.addEventListener('close', () => { if (location.hash) history.replaceState(null, '', location.pathname + location.search); });
+    if (HASHES[location.hash.slice(1)]) openStory(HASHES[location.hash.slice(1)]);
     storyBox.addEventListener('click', e => {
         if (e.target === storyBox) storyBox.close();
         const plan = e.target.closest('[data-plan-mood]');
