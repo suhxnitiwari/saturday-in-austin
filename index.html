@@ -232,12 +232,9 @@
         .read-t { font-family: var(--display); font-weight: 500; line-height: 1.12; }
         .read-t em { color: var(--orange); font-weight: 400; }
         .read.big { position: relative; }
-        .read.big .read-img { height: 120px; }
+        .read.big .read-img { height: 170px; }
+        .read.big .read-img img { object-position: center 30%; }
         .read.big .read-t { margin-top: 8px; font-size: 21px; }
-        .read-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
-        .read-row .read { grid-template-columns: 52px 1fr; gap: 10px; align-items: center; }
-        .read-row .read-img { height: 52px; border-radius: 10px; }
-        .read-row .read-t { font-size: 15px; }
         /* The Column, as a Pinterest board: twelve pins, staggered heights, rounded photos, just the title underneath */
         .column-head { display: flex; align-items: baseline; justify-content: center; gap: 14px; border-bottom: 1px solid var(--hair); padding-bottom: 12px; }
         .column-head h2 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(38px, 4vw, 60px); line-height: 1; letter-spacing: 0.01em; }
@@ -538,7 +535,7 @@
         #screen-editor.sq2 .letter p { line-height: 1.42; } #screen-editor.sq2 .letter-head { font-size: 24px; padding-bottom: 0; border-bottom: 0; margin-bottom: 6px !important; }
         #screen-editor.sq2 .ideal-open { margin-top: 10px; height: 38px; } #screen-editor.sq2 .letter .drop::first-letter { font-size: 44px; }
         #screen-editor.sq3 .letter p { font-size: 12px; line-height: 1.36; margin-bottom: 5px; } #screen-editor.sq3 .letter .dear { font-size: 17px; margin-bottom: 4px; } #screen-editor.sq3 .ideal-open { height: 34px; margin-top: 6px; } #screen-editor.sq3 .portrait img { max-height: calc(100vh - 460px); } #screen-editor.sq3 .monogram { font-size: 40px !important; } #screen-editor.sq3 .signoff { margin-top: 8px; }
-        #screen-austin.sq1 .read.big .read-img { height: 64px; } #screen-austin.sq2 .read.big .read-img { display: none; } #screen-austin.sq2 .read.big .read-t { margin-top: 0; } #screen-austin.sq3 .read-row .read { grid-template-columns: 1fr; } #screen-austin.sq3 .read-row .read-img { display: none; } #screen-austin.sq3 .reads { margin-top: 10px; }
+        #screen-austin.sq1 .read.big .read-img { height: 90px; } #screen-austin.sq2 .read.big .read-img { display: none; } #screen-austin.sq2 .read.big .read-t { margin-top: 0; } #screen-austin.sq3 .reads { margin-top: 10px; }
         #screen-austin.sq1 .now-src { display: none; } #screen-austin.sq1 .wx-temp { font-size: 72px; } #screen-austin.sq1 .atx { max-height: calc(100vh - 330px); }
         #screen-austin.sq2 .wx-grid div { padding-top: 6px; padding-bottom: 6px; } #screen-austin.sq2 .wx-now { margin-bottom: 6px; } #screen-austin.sq2 .wx-grid b { font-size: 20px; }
         #screen-austin.sq3 .wx-temp { font-size: 60px; } #screen-austin.sq3 .atx { max-height: calc(100vh - 360px); } #screen-austin.sq3 .map-card { margin-top: 8px; padding: 6px 10px; } #screen-austin.sq3 .flip .figs b { font-size: 19px; } #screen-austin.sq3 .map-key li { padding: 2px 0; }
@@ -709,49 +706,49 @@
         </header>
         <div class="column-grid board">
             <article class="pin" data-story="bus" tabindex="0" role="button" aria-label="Read: The bus is free. Here’s where it goes.">
-                <div class="story-img"><img src="https://images.unsplash.com/photo-1658313550850-d82e5ff38ba3?w=600&q=70&auto=format&fit=crop" alt="A city bus at a bus stop" loading="lazy"></div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1772944259475-048db0bd022a?w=600&q=70&auto=format&fit=crop" alt="Looking out a bus window on a rainy day" loading="lazy"></div>
                 <p class="story-no">Getting around</p>
                 <h3>The bus is free. <em>Here’s where it goes.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="make" tabindex="0" role="button" aria-label="Read: Make something, with your hands.">
-                <div class="story-img"><img src="https://images.unsplash.com/photo-1607556671927-78a6605e290b?w=600&q=70&auto=format&fit=crop" alt="Hands shaping clay on a pottery wheel" loading="lazy"></div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1609881582722-4a8ab7cd54d8?w=600&q=70&auto=format&fit=crop" alt="Hands shaping a clay pot" loading="lazy"></div>
                 <p class="story-no">Make</p>
                 <h3>Make something, <em>with your hands.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="bars" tabindex="0" role="button" aria-label="Read: Nightlife in Austin.">
-                <div class="story-img"><img src="https://images.unsplash.com/photo-1758882249153-67c3d5a17ea7?w=600&q=70&auto=format&fit=crop" alt="A red neon bull sign outside a bar at night" loading="lazy"></div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1768949005507-8c0f571285f4?w=600&q=70&auto=format&fit=crop" alt="A candle glowing on a bar counter" loading="lazy"></div>
                 <p class="story-no">After dark</p>
                 <h3>Nightlife in <em>Austin.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="music" tabindex="0" role="button" aria-label="Read: The Live Music Capital of the World.">
-                <div class="story-img"><img src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?w=600&q=70&auto=format&fit=crop" alt="A guitarist playing on stage" loading="lazy"></div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600&q=70&auto=format&fit=crop" alt="Stage lights over a concert crowd" loading="lazy"></div>
                 <p class="story-no">Music</p>
                 <h3>The Live Music Capital <em>of the World.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="symbols" tabindex="0" role="button" aria-label="Read: Austin, decoded.">
-                <div class="story-img"><img src="https://images.unsplash.com/photo-1514955178284-91542d316afe?w=600&q=70&auto=format&fit=crop" alt="Birds flying across a sunset sky" loading="lazy"></div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1766275827053-1d46fec02858?w=600&q=70&auto=format&fit=crop" alt="A city skyline at sunset" loading="lazy"></div>
                 <p class="story-no">Symbols</p>
                 <h3>Austin, <em>decoded.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="four" tabindex="0" role="button" aria-label="Read: Four days in Austin.">
-                <div class="story-img"><img src="https://images.unsplash.com/photo-1666969565832-b55bf42a900d?w=600&q=70&auto=format&fit=crop" alt="The Austin skyline at sunset" loading="lazy"></div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1768276000822-f02a3fd1dd60?w=600&q=70&auto=format&fit=crop" alt="The Austin skyline and river at dusk" loading="lazy"></div>
                 <p class="story-no">Visiting</p>
                 <h3>Four days in <em>Austin.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="vegan" tabindex="0" role="button" aria-label="Read: The Vegan Edit.">
-                <div class="story-img"><img src="https://images.unsplash.com/photo-1627308594190-a057cd4bfac8?w=600&q=70&auto=format&fit=crop" alt="Two acai bowls with bananas, berries and granola" loading="lazy"></div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1557568951-a691f75c810f?w=600&q=70&auto=format&fit=crop" alt="Hands holding a smoothie bowl" loading="lazy"></div>
                 <p class="story-no">Plants</p>
                 <h3>The Vegan <em>Edit.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="hoods" tabindex="0" role="button" aria-label="Read: Fourteen neighborhoods, fourteen personalities.">
-                <div class="story-img"><img src="https://images.unsplash.com/photo-1681779195403-9abe76769ac1?w=600&q=70&auto=format&fit=crop" alt="A cyclist on Red River Street in Austin" loading="lazy"></div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1681779195059-9829d1d48748?w=600&q=70&auto=format&fit=crop" alt="An Austin street corner with a tree" loading="lazy"></div>
                 <p class="story-no">Neighborhoods</p>
                 <h3>Fourteen neighborhoods, <em>fourteen personalities.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
@@ -763,31 +760,31 @@
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="follow" tabindex="0" role="button" aria-label="Read: Worth a follow.">
-                <div class="story-img"><img src="https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?w=600&q=70&auto=format&fit=crop" alt="A latte in a white cup" loading="lazy"></div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=70&auto=format&fit=crop" alt="An iced latte on a café table" loading="lazy"></div>
                 <p class="story-no">Instagram</p>
                 <h3>Worth a <em>follow.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="football" tabindex="0" role="button" aria-label="Read: Texas football for dummies.">
-                <div class="story-img"><img src="https://images.unsplash.com/photo-1709199880597-9e0cd5948ed0?w=600&q=70&auto=format&fit=crop" alt="A longhorn steer in a field" loading="lazy"></div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1781650104690-a5309d91a26b?w=600&q=70&auto=format&fit=crop" alt="A packed football stadium at night" loading="lazy"></div>
                 <p class="story-no">Football</p>
                 <h3>Texas football <em>for dummies.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="history" tabindex="0" role="button" aria-label="Read: Austin, a history.">
-                <div class="story-img"><img src="https://images.unsplash.com/photo-1637768316226-44d97e7d6af4?w=600&q=70&auto=format&fit=crop" alt="The Texas State Capitol with its flag" loading="lazy"></div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1666972120465-efebce20bf93?w=600&q=70&auto=format&fit=crop" alt="The Texas State Capitol from Congress Avenue" loading="lazy"></div>
                 <p class="story-no">History</p>
                 <h3>Austin, <em>a history.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="coffee" tabindex="0" role="button" aria-label="Read: The best coffee in Austin.">
-                <div class="story-img"><img src="https://images.unsplash.com/photo-1559001724-fbad036dbc9e?w=600&q=70&auto=format&fit=crop" alt="A latte with leaf art" loading="lazy"></div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1762657440603-67275ae3f7f8?w=600&q=70&auto=format&fit=crop" alt="A barista pouring milk into a latte" loading="lazy"></div>
                 <p class="story-no">Coffee</p>
                 <h3>The best coffee in <em>Austin.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
             </article>
             <article class="pin" data-story="mexican" tabindex="0" role="button" aria-label="Read: The best Mexican food in Austin.">
-                <div class="story-img"><img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=70&auto=format&fit=crop" alt="Tacos on a plate" loading="lazy"></div>
+                <div class="story-img"><img src="https://images.unsplash.com/photo-1788616992771-eddb1a2ffe98?w=600&q=70&auto=format&fit=crop" alt="A warm, low-lit restaurant with booths" loading="lazy"></div>
                 <p class="story-no">Mexican</p>
                 <h3>The best Mexican food in <em>Austin.</em></h3>
                 <p class="story-by">By Suhani Tiwari<span>September 2026</span></p>
@@ -1001,10 +998,6 @@
                     <span class="read-img"><img src="https://images.unsplash.com/photo-1726303325145-3587ea11259d?w=800&q=70&auto=format&fit=crop" alt="The UT Tower" loading="lazy"></span>
                     <span class="read-t">Why Austin is the best <em>university town.</em></span>
                 </a>
-                <div class="read-row">
-                    <a class="read" href="#texas-football" data-open-story="football"><span class="read-img"><img src="https://images.unsplash.com/photo-1709199880597-9e0cd5948ed0?w=200&q=70&auto=format&fit=crop" alt="A longhorn steer in a field" loading="lazy"></span><span class="read-t">Texas football <em>for dummies.</em></span></a>
-                    <a class="read" href="#austin-history" data-open-story="history"><span class="read-img"><img src="https://images.unsplash.com/photo-1637768316226-44d97e7d6af4?w=200&q=70&auto=format&fit=crop" alt="The Texas State Capitol with its flag" loading="lazy"></span><span class="read-t">Austin, <em>a history.</em></span></a>
-                </div>
             </div>
         </div>
     </section>
