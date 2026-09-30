@@ -578,7 +578,7 @@
         storyBox.showModal();
         storyBox.querySelector('.story-paper').scrollTop = 0;
     };
-    document.querySelectorAll('.story[data-story]').forEach(c => {
+    document.querySelectorAll('.pin[data-story]').forEach(c => {
         c.addEventListener('click', () => openStory(c.dataset.story));
         c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openStory(c.dataset.story); } });
     });
