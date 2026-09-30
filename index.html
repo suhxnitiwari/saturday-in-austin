@@ -219,8 +219,8 @@
         .story h3 { margin: 6px 0 0; font-family: var(--display); font-weight: 500; font-size: clamp(24px, 2.2vw, 32px); line-height: 1.1; }
         .story h3 em { color: var(--pink); font-weight: 400; }
         .story-soon { margin: 8px 0 0; font-family: var(--typewriter); font-size: 13px; color: var(--grey); }
-        .column-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr) auto auto auto); column-gap: 28px; }
-        .story:nth-child(n + 5) { margin-top: 26px; }
+        .column-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr) auto auto auto); column-gap: 24px; }
+        .story:nth-child(n + 6) { margin-top: 26px; }
         .story[data-story] { cursor: pointer; }
         .story[data-story]:hover h3, .story[data-story]:focus-visible h3 { text-decoration: underline; text-decoration-color: var(--pink); text-underline-offset: 5px; }
         .story[data-story]:focus-visible { outline: 2px solid var(--pink); outline-offset: 4px; }
@@ -671,15 +671,15 @@
                 <div class="story-img">Image coming soon</div>
                 <p class="story-no">No. 01 · Make</p>
                 <h3>Make something, <em>with your hands.</em></h3>
-                <p class="story-soon">Pottery, mosaics, candles and silver: where to spend a Saturday making it yourself. Read →</p>
+                <p class="story-soon">Pottery, mosaics, candles and silver. Read →</p>
             </article>
-            <article class="story" data-story="bars" tabindex="0" role="button" aria-label="Read: Nightlife in Austin">
+            <article class="story" data-story="bars" tabindex="0" role="button" aria-label="Read: Nightlife in Austin.">
                 <div class="story-img">Image coming soon</div>
                 <p class="story-no">No. 02 · After dark</p>
                 <h3>Nightlife in <em>Austin.</em></h3>
-                <p class="story-soon">Bars, comedy and karaoke, and the difference between Dirty Sixth, West Sixth and Rainey. Read →</p>
+                <p class="story-soon">Bars, comedy, karaoke, and Dirty Sixth vs. West Sixth vs. Rainey. Read →</p>
             </article>
-            <article class="story" data-story="music" tabindex="0" role="button" aria-label="Read: The Live Music Capital of the World">
+            <article class="story" data-story="music" tabindex="0" role="button" aria-label="Read: The Live Music Capital of the World.">
                 <div class="story-img">Image coming soon</div>
                 <p class="story-no">No. 03 · Music</p>
                 <h3>The Live Music Capital <em>of the World.</em></h3>
@@ -689,30 +689,42 @@
                 <div class="story-img">Image coming soon</div>
                 <p class="story-no">No. 04 · Symbols</p>
                 <h3>Austin, <em>decoded.</em></h3>
-                <p class="story-soon">The bats, the towers, the grackles, and why everyone says “Keep Austin Weird.” Read →</p>
+                <p class="story-soon">The bats, the towers, the grackles. Read →</p>
             </article>
             <article class="story" data-story="four" tabindex="0" role="button" aria-label="Read: Four days in Austin.">
                 <div class="story-img">Image coming soon</div>
                 <p class="story-no">No. 05 · Visiting</p>
                 <h3>Four days in <em>Austin.</em></h3>
-                <p class="story-soon">The itinerary for the friend who’s visiting and wants all of it. Read →</p>
+                <p class="story-soon">For the friend who wants all of it. Read →</p>
+            </article>
+            <article class="story" data-story="vegan" tabindex="0" role="button" aria-label="Read: The Vegan Edit.">
+                <div class="story-img">Image coming soon</div>
+                <p class="story-no">No. 06 · Plants</p>
+                <h3>The Vegan <em>Edit.</em></h3>
+                <p class="story-soon">Where to eat plant-based, and drink it too. Read →</p>
+            </article>
+            <article class="story" data-story="hoods" tabindex="0" role="button" aria-label="Read: Fourteen neighborhoods, fourteen personalities.">
+                <div class="story-img">Image coming soon</div>
+                <p class="story-no">No. 07 · Neighborhoods</p>
+                <h3>Fourteen neighborhoods, <em>fourteen personalities.</em></h3>
+                <p class="story-soon">Who’s who, from West Campus to Rock Rose. Read →</p>
+            </article>
+            <article class="story" data-story="college" tabindex="0" role="button" aria-label="Read: The best college town in America.">
+                <div class="story-img">Image coming soon</div>
+                <p class="story-no">No. 08 · Students</p>
+                <h3>The best college town <em>in America.</em></h3>
+                <p class="story-soon">Why the Forty Acres wins. Read →</p>
             </article>
             <article class="story soon">
                 <div class="story-img">Image coming soon</div>
-                <p class="story-no">No. 06 · Coffee</p>
+                <p class="story-no">No. 09 · Coffee</p>
                 <h3>The best coffee in <em>Austin.</em></h3>
                 <p class="story-soon">The editor’s picks, coming soon.</p>
             </article>
             <article class="story soon">
                 <div class="story-img">Image coming soon</div>
-                <p class="story-no">No. 07 · Mexican</p>
-                <h3>The best Mexican food in <em>Austin.</em></h3>
-                <p class="story-soon">The editor’s picks, coming soon.</p>
-            </article>
-            <article class="story soon">
-                <div class="story-img">Image coming soon</div>
-                <p class="story-no">No. 08 · Indian</p>
-                <h3>The best Indian food in <em>Austin.</em></h3>
+                <p class="story-no">No. 10 · Mexican & Indian</p>
+                <h3>The best Mexican and Indian in <em>Austin.</em></h3>
                 <p class="story-soon">The editor’s picks, coming soon.</p>
             </article>
         </div>
@@ -723,7 +735,7 @@
             <div class="strip">
                 <p class="label">This planner, by the numbers</p>
                 <div class="figs">
-                    <div><b data-app="places">251</b><span>places handpicked</span></div>
+                    <div><b data-app="places">253</b><span>places handpicked</span></div>
                     <div><b data-app="neighborhoods">14</b><span>Austin neighborhoods</span></div>
                     <div><b data-app="moods">10</b><span>Saturday moods</span></div>
                     <div><b>1</b><span>editor with strong opinions about your Saturday</span></div>
@@ -855,7 +867,7 @@
                     <div><b>55,172</b><span>Longhorns making weekend plans</span></div>
                 </div>
                 <div class="figs six" data-flip-page data-title="Saturday in Austin, by the numbers" hidden>
-                    <div><b data-app="places">251</b><span>places in my little black book</span></div>
+                    <div><b data-app="places">253</b><span>places in my little black book</span></div>
                     <div><b data-app="neighborhoods">14</b><span>neighborhoods</span></div>
                     <div><b data-app="moods">10</b><span>moods</span></div>
                     <div><b>86</b><span>tests keeping Saturday civilized</span></div>
@@ -890,7 +902,7 @@
             <g class="atx-streets"><path d="M382.9 -64.0 L370.0 16.0 L352.7 98.5 L329.0 186.0 L300.9 248.5 L272.9 298.5 L244.8 348.5 L231.8 391.0 L229.7 436.0 L214.6 473.5 L188.7 516.0 L160.6 573.5"/><path d="M264.2 -64.0 L244.8 16.0 L225.4 86.0 L195.2 161.0 L177.9 223.5 L160.6 286.0 L147.7 336.0 L143.4 373.5 L145.5 406.0 L134.7 436.0 L113.1 473.5 L91.5 511.0 L59.2 561.0"/><path d="M303.1 131.0 L270.7 198.5 L242.6 248.5 L210.3 298.5 L201.6 353.5 L190.8 386.0 L182.2 406.0 L164.9 436.0 L143.4 461.0 L108.8 491.0 L70.0 523.5"/><path d="M220.2 374.2 L210.3 406.0 L200.6 441.0 L184.4 481.0 L167.1 516.0 L141.2 586.0"/><path d="M134.7 -64.0 L195.2 16.0 L231.8 73.5 L279.3 136.0 L307.4 186.0 L329.0 223.5 L344.1 266.0 L372.2 311.0"/><path d="M-16.4 471.0 L70.0 481.0 L113.1 491.0 L156.3 506.0 L188.7 518.5 L242.6 523.5 L307.4 536.0"/></g>
             <g class="atx-street-names"><text transform="translate(344.1 131.0) rotate(-68)">I-35</text><text transform="translate(166.0 236.0) rotate(-72)">MOPAC</text><text transform="translate(256.7 216.0) rotate(-55)">LAMAR</text><text transform="translate(185.4 471.0) rotate(-64)">CONGRESS</text><text transform="translate(215.7 48.5) rotate(42)">183</text><text transform="translate(43.0 477.2) rotate(-6)">71</text><text transform="translate(245.9 434.8) rotate(-12)" class="atx-lake">LADY BIRD LAKE</text></g>
             <g class="atx-drives"><polyline data-a="8" data-b="1" points="208.1,341.0 233.8,348.7"/><polyline data-a="1" data-b="2" points="233.8,348.7 214.4,393.0"/><polyline data-a="8" data-b="2" points="208.1,341.0 214.4,393.0"/><polyline data-a="8" data-b="3" points="208.1,341.0 180.0,363.5"/><polyline data-a="3" data-b="2" points="180.0,363.5 214.4,393.0"/><polyline data-a="3" data-b="11" points="180.0,363.5 134.7,326.0"/><polyline data-a="1" data-b="10" points="233.8,348.7 253.4,281.0"/><polyline data-a="10" data-b="14" points="253.4,281.0 222.1,237.2"/><polyline data-a="14" data-b="7" points="222.1,237.2 253.4,56.0"/><polyline data-a="10" data-b="12" points="253.4,281.0 298.8,313.5"/><polyline data-a="1" data-b="12" points="233.8,348.7 298.8,313.5"/><polyline data-a="5" data-b="12" points="253.4,403.5 298.8,313.5"/><polyline data-a="1" data-b="5" points="233.8,348.7 253.4,403.5"/><polyline data-a="2" data-b="5" points="214.4,393.0 253.4,403.5"/><polyline data-a="2" data-b="4" points="214.4,393.0 210.3,408.3 201.6,436.0"/><polyline data-a="2" data-b="13" points="214.4,393.0 210.3,408.3 183.3,447.2"/><polyline data-a="4" data-b="13" points="201.6,436.0 183.3,447.2"/><polyline data-a="13" data-b="6" points="183.3,447.2 156.3,441.0"/><polyline data-a="6" data-b="9" points="156.3,441.0 156.3,396.0"/><polyline data-a="2" data-b="9" points="214.4,393.0 184.4,398.5 156.3,396.0"/><polyline data-a="9" data-b="4" points="156.3,396.0 201.6,436.0"/><polyline data-a="11" data-b="9" points="134.7,326.0 145.5,381.0 156.3,396.0"/><polyline data-a="11" data-b="7" points="134.7,326.0 253.4,56.0"/><polyline data-a="11" data-b="14" points="134.7,326.0 222.1,237.2"/></g>
-            <g class="atx-dots"><g data-n="1" tabindex="0" role="button" aria-label="01 Campus / UT Corridor, 11 places"><circle class="hit" cx="233.8" cy="348.7" r="17"/><circle cx="233.8" cy="348.7" r="9.5"/><text x="233.8" y="351.7">01</text></g><g data-n="2" tabindex="0" role="button" aria-label="02 Downtown, 60 places"><circle class="hit" cx="214.4" cy="393.0" r="17"/><circle cx="214.4" cy="393.0" r="9.5"/><text x="214.4" y="396.0">02</text></g><g data-n="3" tabindex="0" role="button" aria-label="03 Clarksville / West Austin, 12 places"><circle class="hit" cx="180.0" cy="363.5" r="17"/><circle cx="180.0" cy="363.5" r="9.5"/><text x="180.0" y="366.5">03</text></g><g data-n="4" tabindex="0" role="button" aria-label="04 South Congress, 23 places"><circle class="hit" cx="201.6" cy="436.0" r="17"/><circle cx="201.6" cy="436.0" r="9.5"/><text x="201.6" y="439.0">04</text></g><g data-n="5" tabindex="0" role="button" aria-label="05 East Austin, 37 places"><circle class="hit" cx="253.4" cy="403.5" r="17"/><circle cx="253.4" cy="403.5" r="9.5"/><text x="253.4" y="406.5">05</text></g><g data-n="6" tabindex="0" role="button" aria-label="06 South Lamar, 19 places"><circle class="hit" cx="156.3" cy="441.0" r="17"/><circle cx="156.3" cy="441.0" r="9.5"/><text x="156.3" y="444.0">06</text></g><g data-n="7" tabindex="0" role="button" aria-label="07 The Domain / Rock Rose, 21 places"><circle class="hit" cx="253.4" cy="56.0" r="17"/><circle cx="253.4" cy="56.0" r="9.5"/><text x="253.4" y="59.0">07</text></g><g data-n="8" tabindex="0" role="button" aria-label="08 West Campus, 14 places"><circle class="hit" cx="208.1" cy="341.0" r="17"/><circle cx="208.1" cy="341.0" r="9.5"/><text x="208.1" y="344.0">08</text></g><g data-n="9" tabindex="0" role="button" aria-label="09 Zilker / Barton Springs / Greenbelt, 15 places"><circle class="hit" cx="156.3" cy="396.0" r="17"/><circle cx="156.3" cy="396.0" r="9.5"/><text x="156.3" y="399.0">09</text></g><g data-n="10" tabindex="0" role="button" aria-label="10 Hyde Park / North Loop, 12 places"><circle class="hit" cx="253.4" cy="281.0" r="17"/><circle cx="253.4" cy="281.0" r="9.5"/><text x="253.4" y="284.0">10</text></g><g data-n="11" tabindex="0" role="button" aria-label="11 Lake Austin / West Austin, 8 places"><circle class="hit" cx="134.7" cy="326.0" r="17"/><circle cx="134.7" cy="326.0" r="9.5"/><text x="134.7" y="329.0">11</text></g><g data-n="12" tabindex="0" role="button" aria-label="12 Mueller, 5 places"><circle class="hit" cx="298.8" cy="313.5" r="17"/><circle cx="298.8" cy="313.5" r="9.5"/><text x="298.8" y="316.5">12</text></g><g data-n="13" tabindex="0" role="button" aria-label="13 South First, 4 places"><circle class="hit" cx="183.3" cy="447.2" r="17"/><circle cx="183.3" cy="447.2" r="9.5"/><text x="183.3" y="450.2">13</text></g><g data-n="14" tabindex="0" role="button" aria-label="14 Burnet Road / Mid-North, 8 places"><circle class="hit" cx="222.1" cy="237.2" r="17"/><circle cx="222.1" cy="237.2" r="9.5"/><text x="222.1" y="240.2">14</text></g></g>
+            <g class="atx-dots"><g data-n="1" tabindex="0" role="button" aria-label="01 Campus / UT Corridor, 11 places"><circle class="hit" cx="233.8" cy="348.7" r="17"/><circle cx="233.8" cy="348.7" r="9.5"/><text x="233.8" y="351.7">01</text></g><g data-n="2" tabindex="0" role="button" aria-label="02 Downtown, 60 places"><circle class="hit" cx="214.4" cy="393.0" r="17"/><circle cx="214.4" cy="393.0" r="9.5"/><text x="214.4" y="396.0">02</text></g><g data-n="3" tabindex="0" role="button" aria-label="03 Clarksville / West Austin, 12 places"><circle class="hit" cx="180.0" cy="363.5" r="17"/><circle cx="180.0" cy="363.5" r="9.5"/><text x="180.0" y="366.5">03</text></g><g data-n="4" tabindex="0" role="button" aria-label="04 South Congress, 23 places"><circle class="hit" cx="201.6" cy="436.0" r="17"/><circle cx="201.6" cy="436.0" r="9.5"/><text x="201.6" y="439.0">04</text></g><g data-n="5" tabindex="0" role="button" aria-label="05 East Austin, 37 places"><circle class="hit" cx="253.4" cy="403.5" r="17"/><circle cx="253.4" cy="403.5" r="9.5"/><text x="253.4" y="406.5">05</text></g><g data-n="6" tabindex="0" role="button" aria-label="06 South Lamar, 19 places"><circle class="hit" cx="156.3" cy="441.0" r="17"/><circle cx="156.3" cy="441.0" r="9.5"/><text x="156.3" y="444.0">06</text></g><g data-n="7" tabindex="0" role="button" aria-label="07 The Domain / Rock Rose, 22 places"><circle class="hit" cx="253.4" cy="56.0" r="17"/><circle cx="253.4" cy="56.0" r="9.5"/><text x="253.4" y="59.0">07</text></g><g data-n="8" tabindex="0" role="button" aria-label="08 West Campus, 14 places"><circle class="hit" cx="208.1" cy="341.0" r="17"/><circle cx="208.1" cy="341.0" r="9.5"/><text x="208.1" y="344.0">08</text></g><g data-n="9" tabindex="0" role="button" aria-label="09 Zilker / Barton Springs / Greenbelt, 15 places"><circle class="hit" cx="156.3" cy="396.0" r="17"/><circle cx="156.3" cy="396.0" r="9.5"/><text x="156.3" y="399.0">09</text></g><g data-n="10" tabindex="0" role="button" aria-label="10 Hyde Park / North Loop, 12 places"><circle class="hit" cx="253.4" cy="281.0" r="17"/><circle cx="253.4" cy="281.0" r="9.5"/><text x="253.4" y="284.0">10</text></g><g data-n="11" tabindex="0" role="button" aria-label="11 Lake Austin / West Austin, 9 places"><circle class="hit" cx="134.7" cy="326.0" r="17"/><circle cx="134.7" cy="326.0" r="9.5"/><text x="134.7" y="329.0">11</text></g><g data-n="12" tabindex="0" role="button" aria-label="12 Mueller, 5 places"><circle class="hit" cx="298.8" cy="313.5" r="17"/><circle cx="298.8" cy="313.5" r="9.5"/><text x="298.8" y="316.5">12</text></g><g data-n="13" tabindex="0" role="button" aria-label="13 South First, 4 places"><circle class="hit" cx="183.3" cy="447.2" r="17"/><circle cx="183.3" cy="447.2" r="9.5"/><text x="183.3" y="450.2">13</text></g><g data-n="14" tabindex="0" role="button" aria-label="14 Burnet Road / Mid-North, 8 places"><circle class="hit" cx="222.1" cy="237.2" r="17"/><circle cx="222.1" cy="237.2" r="9.5"/><text x="222.1" y="240.2">14</text></g></g>
             </svg>
             <figcaption class="map-card" data-map-note aria-live="polite"><span class="mc-kicker">Tap a number</span><span class="mc-name">Pick a neighborhood.</span><span class="mc-body">See how many places it has, and every drive the planner knows from there.</span></figcaption>
             </figure>
@@ -907,11 +919,11 @@
                 <li data-n="4"><b>04</b> South Congress<span>23</span></li>
                 <li data-n="5"><b>05</b> East Austin<span>37</span></li>
                 <li data-n="6"><b>06</b> South Lamar<span>19</span></li>
-                <li data-n="7"><b>07</b> The Domain / Rock Rose<span>21</span></li>
+                <li data-n="7"><b>07</b> The Domain / Rock Rose<span>22</span></li>
                 <li data-n="8"><b>08</b> West Campus<span>14</span></li>
                 <li data-n="9"><b>09</b> Zilker / Barton Springs / Greenbelt<span>15</span></li>
                 <li data-n="10"><b>10</b> Hyde Park / North Loop<span>12</span></li>
-                <li data-n="11"><b>11</b> Lake Austin / West Austin<span>8</span></li>
+                <li data-n="11"><b>11</b> Lake Austin / West Austin<span>9</span></li>
                 <li data-n="12"><b>12</b> Mueller<span>5</span></li>
                 <li data-n="13"><b>13</b> South First<span>4</span></li>
                 <li data-n="14"><b>14</b> Burnet Road / Mid-North<span>8</span></li>
@@ -1077,7 +1089,7 @@
 <li><b>The UT Tower</b> When it glows orange, the Longhorns won.</li>
 <li><b>Live Music Capital of the World</b> The official slogan since 1991, and the reason there’s a band in the airport.</li>
 <li><b>The moonlight towers</b> Tall iron streetlights from the 1890s. Austin is the only city that still uses them.</li>
-<li><b>Barton Springs</b> A spring-fed pool that stays about 68° all year. Austin’s cold plunge, long before cold plunges.</li>
+<li><b>Barton Springs</b> A spring-fed pool that stays about 68° all year. Austin’s cold plunge, long before cold plunges. Pro tip: free before 8 AM and after 9 PM in summer.</li>
 <li><b>The postcard mural</b> “Greetings from Austin,” on South 1st. You will take the photo. Everyone does.</li>
 <li><b>Willie</b> Willie Nelson, in bronze, outside ACL Live on Willie Nelson Boulevard.</li>
 <li><b>Lady Bird Lake</b> Named for Lady Bird Johnson, who led the push to make the shoreline beautiful.</li>
@@ -1093,13 +1105,73 @@
 <h3>Day 1 · Downtown and South Congress</h3>
 <p>A latte at <b>Medici</b>, then the <b>Texas State Capitol</b>. Lunch at <b>La Condesa</b>, a slow loop through the <b>Second Street District</b>, then across the river to <b>South Congress</b>: <b>Allen’s Boots</b> and the <b>Greetings from Austin</b> mural. Dinner at <b>Aba</b>, then the <b>Congress Avenue Bridge bats</b> at sunset.</p>
 <h3>Day 2 · Zilker and the springs</h3>
-<p>Brunch at <b>Josephine House</b>. Swim at <b>Barton Springs Pool</b> (it’s cold, it’s worth it), then <b>Zilker Park</b> and a round at <b>Peter Pan Mini-Golf</b>. Barbecue at <b>Terry Black’s</b>, then two-step at the <b>Broken Spoke</b>.</p>
+<p>Brunch at <b>Josephine House</b>. Swim at <b>Barton Springs Pool</b> (it’s cold, it’s worth it; pro tip: it’s free before 8 AM and after 9 PM in summer), then <b>Zilker Park</b> and a round at <b>Peter Pan Mini-Golf</b>. Barbecue at <b>Terry Black’s</b>, then two-step at the <b>Broken Spoke</b>.</p>
 <h3>Day 3 · UT and West Austin</h3>
 <p>The <b>Blanton</b>, then the <b>Harry Ransom Center</b> for the Gutenberg Bible. Burritos at <b>Cabo Bob’s</b>. Sunset from <b>Mount Bonnell</b>, dinner at <b>Clark’s Oyster Bar</b>, and a nightcap on <b>Rainey Street</b>.</p>
 <h3>Day 4 · East Austin</h3>
 <p>Brunch at <b>Paperboy</b>. Make something at <b>The Mosaic Workshop</b> or <b>7th Street Candle Co.</b>, barbecue at <b>la Barbecue</b>, coffee at <b>Palomino</b>. Dinner at <b>Suerte</b>, and end at <b>The White Horse</b>.</p>
-<p class="st-tip">Book Josephine House and Suerte ahead. The bats fly spring through fall.</p>
+<p class="st-tip">Book Josephine House and Suerte ahead. The bats fly spring through fall. Barton Springs is free before 8 AM and after 9 PM in summer, and closed Thursday daytimes for cleaning.</p>
 <button type="button" class="cta" data-plan-mood="everything">Plan a Saturday →</button>
+</template>
+<template id="story-vegan">
+<p class="st-kicker">The Column · No. 06 · Plants</p>
+<h2>The Vegan <em>Edit.</em></h2>
+<p class="st-dek">Austin is a very good city to be plant-based in, and not just because of the smoothies. Here’s where to go.</p>
+<h3>Eat</h3>
+<ul class="st-list">
+<li><b>The Vegan Nom</b> <span>East Austin</span> Vegan tacos, the Austin way.</li>
+<li><b>Nissi Vegan Mexican Cuisine</b> <span>East Austin</span> Fully vegan Mexican food. Nobody at the table will notice.</li>
+<li><b>Casa de Luz Village</b> <span>Zilker</span> Plant-based, whole-food meals in a peaceful garden setting.</li>
+</ul>
+<h3>Drink</h3>
+<ul class="st-list">
+<li><b>Wonky Blends</b> <span>East Austin</span> Organic smoothies and açaí bowls, no refined sugar.</li>
+<li><b>Soup Peddler</b> <span>South Lamar</span> A huge smoothie menu, or build your own.</li>
+<li><b>Get Juicy Roots</b> <span>South Congress</span> Juices and açaí bowls from the truck on SoCo.</li>
+<li><b>Prana Café</b> <span>Clarksville</span> The post-Pilates smoothie.</li>
+<li><b>Juiced Up Cafe</b> <span>Downtown</span> A juice bar inside a yoga studio.</li>
+</ul>
+<p class="st-tip">Taco tip: almost every taco place in town does bean and potato. Hold the cheese and you’re set.</p>
+<button type="button" class="cta" data-plan-mood="foodie">Plan a foodie Saturday →</button>
+</template>
+<template id="story-hoods">
+<p class="st-kicker">The Column · No. 07 · Neighborhoods</p>
+<h2>Fourteen neighborhoods, <em>fourteen personalities.</em></h2>
+<p class="st-dek">Austin isn’t one vibe. It’s fourteen of them, a short drive apart. Pick your Saturday by the personality.</p>
+<ul class="st-list st-defs">
+<li><b>West Campus</b> The student city. Walk everywhere, boba on every corner, pizza after midnight.</li>
+<li><b>Campus / UT Corridor</b> The Tower, the museums, DKR on game day, and the Drag.</li>
+<li><b>Downtown</b> The Capitol, Congress Avenue, 2nd Street shopping, and every kind of night out.</li>
+<li><b>East Austin</b> The creative side: coffee shops, barbecue lines, murals and studios.</li>
+<li><b>South Congress</b> The postcard street. Boots, boutiques and the best people-watching, with the Capitol at the end of the avenue.</li>
+<li><b>South First</b> SoCo’s quieter sister: diners, gelato and the “Greetings from Austin” mural.</li>
+<li><b>South Lamar</b> Dinner-and-a-movie street, with two-stepping at the Broken Spoke.</li>
+<li><b>Zilker / Barton Springs / Greenbelt</b> Austin’s backyard. Swim, hike, picnic, repeat.</li>
+<li><b>Clarksville / West Austin</b> Old, leafy and chic. Brunch at Josephine House, a latte on West Lynn.</li>
+<li><b>Lake Austin / West Austin</b> The water side: Mozart’s, Mount Bonnell and boats at sunset.</li>
+<li><b>Hyde Park / North Loop</b> Bungalows, bookstores and vintage. First Light Books and very good bakeries.</li>
+<li><b>Burnet Road / Mid-North</b> Strip malls hiding some of the best food in the city.</li>
+<li><b>Mueller</b> New, planned and neighborly: a lake park and a farmers market Saturday.</li>
+<li><b>The Domain / Rock Rose</b> Austin’s second downtown. Shopping by day, Rock Rose by night.</li>
+</ul>
+<button type="button" class="cta" data-plan-mood="everything">Plan a Saturday →</button>
+</template>
+<template id="story-college">
+<p class="st-kicker">The Column · No. 08 · Students</p>
+<h2>The best college town <em>in America.</em></h2>
+<p class="st-dek">Biased? Completely. Wrong? No.</p>
+<ul class="st-list st-defs">
+<li><b>Campus is in the middle of the city</b> The Forty Acres sits just north of the Capitol. Downtown is a walk, not a road trip.</li>
+<li><b>The bus is free</b> CapMetro is free with a UT ID, so a car is optional.</li>
+<li><b>Saturdays in the fall</b> Football at DKR, with around a hundred thousand people in burnt orange. And the Tower glows orange when we win.</li>
+<li><b>The music</b> It’s the Live Music Capital of the World. SXSW in March, ACL in October, a show every other night in between.</li>
+<li><b>The water</b> Swim at Barton Springs between classes. Walk the Lady Bird Lake trail when you should be studying.</li>
+<li><b>The food, on a budget</b> Tacos, boba on the Drag and late-night pizza within walking distance.</li>
+<li><b>The internships</b> Austin is a tech city, and the job fair is basically the whole town.</li>
+<li><b>The weirdness</b> Keep Austin Weird isn’t a slogan here. It’s a personality test you’ll pass.</li>
+</ul>
+<p class="st-tip">Hook ’em.</p>
+<button type="button" class="cta" data-plan-mood="productive">Plan a study Saturday →</button>
 </template>
 <dialog class="story-box" id="story" aria-label="The Column">
     <div class="story-paper">
@@ -1142,6 +1214,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=39" defer></script>
+<script src="web/app.js?v=41" defer></script>
 </body>
 </html>

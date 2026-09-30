@@ -8,7 +8,7 @@ from saturday.__main__ import clock, main, parse_time
 from saturday.city import City
 from saturday.planner import best_score_by_search, meals, plan_day, plan_outing, schedule, shortlist, walking
 from saturday.sass import judge, sign_off
-from saturday.spots import AREAS, MOODS, RULES, SHELF, WINDOWS, Guide, UnknownSpotError, load
+from saturday.spots import AREAS, MOODS, OUTDOORS, RULES, SHELF, WINDOWS, Guide, Spot, UnknownSpotError, load
 from saturday.web import plan_json
 
 TEN_AM, EIGHT_PM = 10 * 60, 20 * 60
@@ -417,6 +417,18 @@ def test_a_study_day_does_not_stop_for_meals():
         assert stops
         skipped += not {"lunch", "dinner"} <= {s["category"] for s in stops}
     assert skipped  # they'll eat at home
+
+def test_boats_wait_for_golden_hour_and_skip_the_rain():
+    assert "boat" in OUTDOORS and WINDOWS["boat"][0] >= 16 * 60
+    assert rules.time_cost(Spot("x", "Downtown", "boat", 60, 8, frozenset(), ""), 18 * 60 + 30) \
+        < rules.time_cost(Spot("x", "Downtown", "boat", 60, 8, frozenset(), ""), 16 * 60 + 30)
+
+
+def test_a_hot_saturday_makes_room_for_a_swim():
+    swims = lambda hot: sum(any(s["category"] == "swim" for s in day("9:00", "20:00", "all", "outside", seed, hot=hot)["stops"])
+                            for seed in range(12))
+    assert swims(True) >= swims(False) and swims(True) > 0
+    assert not any(s["category"] == "swim" for s in day("9:00", "20:00", "all", "outside", 1, rainy=True, hot=True)["stops"])
 
 def test_every_favorite_gets_its_turn(guide):
     seen = set()

@@ -158,7 +158,7 @@ Rowing Dock,Zilker / Barton Springs / Greenbelt,paddle,90,8,outside|social,,25,
 Austin Rowing Club,Zilker / Barton Springs / Greenbelt,paddle,90,8,outside|social,,25,
 Lake Austin,Lake Austin / West Austin,paddle,90,8,outside|social,,25,
 Lake Travis,Lake Travis,swim,120,8,outside|social,,10,
-Barton Springs Pool,Zilker / Barton Springs / Greenbelt,swim,120,9,outside|social,,9,"the coldest, prettiest swim"
+Barton Springs Pool,Zilker / Barton Springs / Greenbelt,swim,120,9,outside|social,,9,pro tip: free before 8 AM and after 9 PM in summer
 Peter Pan Mini-Golf,Zilker / Barton Springs / Greenbelt,hangout,75,8,outside|social,,12,mini golf since 1948
 Pins Mechanical Co.,South Congress,hangout,90,8,social,,20,
 Cidercade,East Austin,hangout,120,8,creative|social,,15,arcade games
@@ -236,7 +236,7 @@ M Vince Nail Spa,The Domain / Rock Rose,nails,90,9,treat-myself,,60,chandelier a
 Caesars Nail Salon & Spa,The Domain / Rock Rose,nails,90,7,treat-myself,,50,
 Paper Source,The Domain / Rock Rose,shopping,45,8,creative|shopping|treat-myself,,25,cards and pretty pens
 Erin Condren,The Domain / Rock Rose,shopping,45,8,creative|productive|shopping|treat-myself,,30,the flagship: planners made while you wait
-Donut Boat on Lake Austin,Lake Austin / West Austin,paddle,75,9,outside|social,,25,"self-captained, leaves from Mozart’s"
+Donut Boat on Lake Austin,Lake Austin / West Austin,boat,75,10,outside|social,,25,"the donut boat from Mozart’s, best at sunset"
 Hula Hut,Lake Austin / West Austin,lunch,75,8,foodie|outside|social,,22,"Tiki-Mex on the water, next to Mozart’s"
 Public Pedal Pub Tour,Clarksville / West Austin,hangout,120,8,social,,39,"21+, BYOB bike crawl from W 6th"
 Tea Around Town,Downtown,tea,90,8,slow|social|foodie,,69,high tea on a double-decker bus
@@ -250,6 +250,8 @@ Coco's Cafe,West Campus,tea,30,8,foodie|productive|social,,7,Austin’s first bo
 Mango 8,West Campus,tea,30,8,foodie|social,,7,the pretty milk tea on 24th
 K-Bop,West Campus,tea,30,8,foodie|productive|social,,7,the other boba on the Drag
 Texas Governor's Mansion,Downtown,museum,30,7,creative|slow,,0,"a quick look, by the Capitol"
+Lake Austin Sunset Boat Cruise,Lake Austin / West Austin,boat,60,9,outside|social,,39,"BYOB, past Mount Bonnell to the 360 Bridge"
+Museum of Illusions,The Domain / Rock Rose,museum,75,8,creative|social|slow,,38,the rainy-day photo op
 Pizza Press (order in),Home,order in,30,9,day-in,,22,the guilty pleasure comes to you
 Home Slice (order in),Home,order in,30,8,day-in,,22,
 Via 313 (order in),Home,order in,30,8,day-in,,22,Detroit-style

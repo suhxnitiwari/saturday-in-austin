@@ -24,7 +24,7 @@ def _guide(home: str) -> Guide:
 LABELS = {
     "exercise": "workout", "study": "study spot", "creative": "make something", "paddle": "on the water",
     "murals": "mural", "game": "game day", "cinema": "movie", "order in": "dinner in", "movie": "movie night",
-    "read": "reading", "games": "game night", "nightlife": "21+ night out", "comedy": "comedy & shows", "tea": "boba & tea",
+    "read": "reading", "games": "game night", "nightlife": "21+ night out", "comedy": "comedy & shows", "tea": "boba & tea", "boat": "on the boat",
 }
 NEIGHBORHOODS = {"Campus / UT Corridor": "UT campus", "The Domain / Rock Rose": "the Domain"}
 
@@ -46,7 +46,7 @@ def stats() -> str:
 def plan_json(start: str, end: str, hours="all", mood: str = "everything", seed=None,
               walk: bool = False, rainy: bool = False, area: str = "anywhere",
               include: str = "", exclude: str = "", travel: str = "", budget: str = "normal",
-              start_from: str = "ut") -> str:
+              start_from: str = "ut", hot: bool = False) -> str:
     """'9:00', '23:00', 6 -> a JSON day the page can draw.
 
     start is when you're ready to go, end is when you want to be home. hours is a number
@@ -106,7 +106,8 @@ def plan_json(start: str, end: str, hours="all", mood: str = "everything", seed=
         near_matters = {"walk": 3, "transit": 2, "uber": 2}.get(mode, 1)  # without a car, near matters more
         spots = shortlist(pool, keep, random.Random(seed), caps=mood_rules.caps, need=mood_rules.need,
                           distance=lambda s: min(far.minutes(home, s.zone), 300) * near_matters,
-                          favor=(("brunch",) if brunch_time else ()) + tuple(mood_rules.want))  # what the mood wants always gets a ticket
+                          favor=(("brunch",) if brunch_time else ()) + tuple(mood_rules.want)  # what the mood wants always gets a ticket
+                                + (("swim",) if hot and not rainy else ()))  # 90° and up: somebody's getting in the water
         plan = plan_outing(spots, city, home, t0, t1, hours, keep, mood_rules, ways=ways)
         if mode in ("walk", "transit") and not plan.stops:  # a missing coffee shop shouldn't mean no day at all
             plan = plan_outing(spots, city, home, t0, t1, hours, keep, mood_rules.relaxed(), ways=ways)

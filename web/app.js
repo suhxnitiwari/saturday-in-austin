@@ -164,6 +164,7 @@
         fitVerdict();
     }
 
+    let hotSaturday = false;  // set from the forecast: 90° and up means a swim
     let pending = 0;
     async function run() {
         const ticket = ++pending;
@@ -176,7 +177,7 @@
             const f = form.elements;
             const result = plan(f.start.value, f.end.value, f.hours.value, f.mood.value, String(seed),
                                 false, f.rainy.checked, f.area.value, f.include.value, f.exclude.value,
-                                f.travel.value, f.budget.value, f.start_from.value);
+                                f.travel.value, f.budget.value, f.start_from.value, hotSaturday);
             draw(JSON.parse(result));
             again.disabled = false;
         } catch (err) {
@@ -345,7 +346,7 @@
                    dinner: 'dinner at ', treat: 'something sweet at ', 'late night': 'one last stop at ',
                    exercise: 'a class at ', shopping: 'shopping at ', nails: 'nails at ', 'live music': 'a show at ',
                    nightlife: 'drinks at ', karaoke: 'karaoke at ', comedy: 'a show at ',
-                   tea: 'boba at ', 'escape room': 'an escape room at ' };
+                   tea: 'boba at ', 'escape room': 'an escape room at ', boat: 'a sunset boat at ' };
     function composeLetter(plan) {
         const to = toInput.value.trim() || 'reader', from = fromInput.value.trim();
         const lines = [`Dearest ${to},`, '', 'Your Saturday has been decided. Do not argue.', ''];
@@ -466,6 +467,7 @@
             wx('sat-rain', `${rain}% chance of rain · ${WEATHER[d.weather_code[i]] || ''}`);
             wx('sat-verdict', verdictFor(high, rain, d.weather_code[i]));
             // rain on Saturday (or right now, if it's Saturday) turns on Rainy day
+            if (high >= 90 && !hotSaturday) { hotSaturday = true; run(); }
             const wet = i === 0 ? RAINY.has(c.weather_code) || rain >= 60 : rain >= 60;
             if (wet && !form.dataset.shared && !form.elements.rainy.checked) {
                 autoRain = true;
@@ -528,7 +530,7 @@
     }
 
     // The map: tap a neighborhood to see the drives the planner knows from there
-    const MAP = {"names": {"1": "Campus / UT Corridor", "2": "Downtown", "3": "Clarksville / West Austin", "4": "South Congress", "5": "East Austin", "6": "South Lamar", "7": "The Domain / Rock Rose", "8": "West Campus", "9": "Zilker / Barton Springs / Greenbelt", "10": "Hyde Park / North Loop", "11": "Lake Austin / West Austin", "12": "Mueller", "13": "South First", "14": "Burnet Road / Mid-North"}, "count": {"1": 11, "2": 60, "3": 12, "4": 23, "5": 37, "6": 19, "7": 21, "8": 14, "9": 15, "10": 12, "11": 8, "12": 5, "13": 4, "14": 8}, "roads": [[8, 1, 4], [1, 2, 7], [8, 2, 8], [8, 3, 6], [3, 2, 6], [3, 11, 7], [1, 10, 7], [10, 14, 6], [14, 7, 12], [10, 12, 8], [1, 12, 10], [5, 12, 8], [1, 5, 8], [2, 5, 6], [2, 4, 7], [2, 13, 7], [4, 13, 3], [13, 6, 5], [6, 9, 5], [2, 9, 8], [9, 4, 6], [11, 9, 9], [11, 7, 20], [11, 14, 12]]};
+    const MAP = {"names": {"1": "Campus / UT Corridor", "2": "Downtown", "3": "Clarksville / West Austin", "4": "South Congress", "5": "East Austin", "6": "South Lamar", "7": "The Domain / Rock Rose", "8": "West Campus", "9": "Zilker / Barton Springs / Greenbelt", "10": "Hyde Park / North Loop", "11": "Lake Austin / West Austin", "12": "Mueller", "13": "South First", "14": "Burnet Road / Mid-North"}, "count": {"1": 11, "2": 60, "3": 12, "4": 23, "5": 37, "6": 19, "7": 22, "8": 14, "9": 15, "10": 12, "11": 9, "12": 5, "13": 4, "14": 8}, "roads": [[8, 1, 4], [1, 2, 7], [8, 2, 8], [8, 3, 6], [3, 2, 6], [3, 11, 7], [1, 10, 7], [10, 14, 6], [14, 7, 12], [10, 12, 8], [1, 12, 10], [5, 12, 8], [1, 5, 8], [2, 5, 6], [2, 4, 7], [2, 13, 7], [4, 13, 3], [13, 6, 5], [6, 9, 5], [2, 9, 8], [9, 4, 6], [11, 9, 9], [11, 7, 20], [11, 14, 12]]};
     const atx = document.querySelector('.atx');
     if (atx) {
         const note = document.querySelector('[data-map-note]'), lines = atx.querySelector('.atx-drives');
@@ -601,7 +603,8 @@
     });
     storyBox.querySelector('.close-story').addEventListener('click', () => storyBox.close());
     // shareable links: #four-days opens the four-day plan (and the header link does the same)
-    const HASHES = { 'four-days': 'four', 'make-something': 'make', 'nightlife': 'bars', 'live-music': 'music', 'austin-decoded': 'symbols' };
+    const HASHES = { 'four-days': 'four', 'make-something': 'make', 'nightlife': 'bars', 'live-music': 'music', 'austin-decoded': 'symbols',
+                     'vegan-edit': 'vegan', 'neighborhoods': 'hoods', 'college-town': 'college' };
     document.querySelectorAll('[data-open-story]').forEach(a => a.addEventListener('click', e => {
         e.preventDefault();
         history.replaceState(null, '', '#' + Object.keys(HASHES).find(k => HASHES[k] === a.dataset.openStory));
