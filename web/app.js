@@ -131,7 +131,7 @@
         stats.hidden = false;
         number.textContent = `xoxo, Saturday #${plan.seed}`;
         lastPlan = plan;
-        document.querySelectorAll('.seal-it, .save-it').forEach(b => { b.disabled = false; });
+        document.querySelectorAll('.seal-it, .save-it, .cal-it').forEach(b => { b.disabled = false; });
         document.querySelector('.see-day').textContent = `Your Saturday · ${st.stops} ${st.stops === 1 ? 'stop' : 'stops'} · $${st.spend} ↑`;
         thisSaturday().filter(e => e.heads).reverse().forEach(e => {  // the city's plans for this Saturday
             const banner = el('div', 'happening'), text = el('p');
@@ -538,7 +538,7 @@
         return lines.join('\n').replace(/\n{3,}/g, '\n\n');
     }
     const refreshLetter = () => { if (lastPlan) letterBody.textContent = composeLetter(lastPlan); };
-    document.querySelector('.seal-it:not(.save-it)').addEventListener('click', () => {
+    document.querySelector('.seal-it:not(.save-it):not(.cal-it)').addEventListener('click', () => {
         letterNote.textContent = '';
         refreshLetter();
         letterBox.showModal();
@@ -865,8 +865,18 @@
                 if (e.link) title.appendChild(Object.assign(el('a', null, e.name), { href: e.link, target: '_blank', rel: 'noopener' }));
                 else title.textContent = e.name;
                 if (now) title.appendChild(el('span', 'tag', 'This Saturday'));
-                body.append(title, el('p', 'ev-where', e.where));
+                const where = el('p', 'ev-where', e.where);
+                body.append(title, where);
                 if (e.note) body.appendChild(el('p', null, e.note));
+                if (!e.tba) {
+                    const add = el('button', 'ev-add', '+ Calendar');
+                    add.type = 'button';
+                    const ymd = d => `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+                    const after = new Date(to); after.setDate(after.getDate() + 1);  // all-day events end the morning after
+                    add.addEventListener('click', () => saveIcs(e.name.replace(/[^a-z0-9]+/gi, '-').toLowerCase(),
+                        [{ allDay: true, start: ymd(from), end: ymd(after), title: e.name, where: e.where, notes: e.note, url: e.link }]));
+                    where.appendChild(add);
+                }
                 row.append(date, body);
                 box.appendChild(row);
             });
@@ -948,6 +958,40 @@
         }
         const save = e.target.closest('[data-download]');
         if (save) downloadStory(save.dataset.download, save);
+    });
+
+
+    // Add to calendar: an .ics file that Apple Calendar, Google Calendar and Outlook all open
+    const icsEscape = t => String(t).replace(/[\\,;]/g, m => '\\' + m).replace(/\n/g, '\\n');
+    const stamp = d => `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`
+        + `T${String(d.getHours()).padStart(2, '0')}${String(d.getMinutes()).padStart(2, '0')}00`;
+    function saveIcs(name, events) {
+        const now = stamp(new Date());
+        const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Saturday in Austin//EN', 'CALSCALE:GREGORIAN'];
+        events.forEach((e, i) => lines.push('BEGIN:VEVENT', `UID:${now}-${i}-${Math.random().toString(36).slice(2)}@saturday-in-austin`, `DTSTAMP:${now}`,
+            e.allDay ? `DTSTART;VALUE=DATE:${e.start}` : `DTSTART:${stamp(e.start)}`, e.allDay ? `DTEND;VALUE=DATE:${e.end}` : `DTEND:${stamp(e.end)}`,
+            `SUMMARY:${icsEscape(e.title)}`, ...(e.where ? [`LOCATION:${icsEscape(e.where)}`] : []),
+            ...(e.notes ? [`DESCRIPTION:${icsEscape(e.notes)}`] : []), ...(e.url ? [`URL:${e.url}`] : []), 'END:VEVENT'));
+        lines.push('END:VCALENDAR');
+        const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([lines.join('\r\n')], { type: 'text/calendar' })), download: name + '.ics' });
+        document.body.append(a); a.click(); a.remove();
+    }
+    const comingSaturday = () => { const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + (6 - d.getDay() + 7) % 7); return d; };
+    document.querySelector('.cal-it').addEventListener('click', () => {
+        const plan = lastPlan, day = comingSaturday();
+        let last = -1, extra = 0;
+        const events = plan.stops.filter(s => s.type !== 'free').map(s => {
+            const [t, ampm] = s.time.split(' '), [h, m] = t.split(':').map(Number);
+            let at = (h % 12 + (ampm === 'PM' ? 12 : 0)) * 60 + m;
+            if (at < last) extra += 24 * 60;  // past midnight: it's Sunday now
+            last = at;
+            const start = new Date(day.getTime() + (at + extra) * 60000), end = new Date(start.getTime() + s.minutes * 60000);
+            return s.type === 'reset'
+                ? { start, end, title: `Home: ${s.note}` }
+                : { start, end, title: s.name, where: `${s.name.replace(/[()]/g, '')}, Austin, TX`, notes: [s.label, s.note, s.why].filter(Boolean).join(' · '),
+                    url: directions(s.name, plan.mode) };
+        });
+        saveIcs(`saturday-${plan.seed}`, events);
     });
 
     // PDFs, set like the page: gold kicker, Bodoni-ish headline, typewriter dek, burnt-orange italic heads
