@@ -201,7 +201,11 @@
         document.querySelectorAll('.screen').forEach(sc => { sc.hidden = sc.id !== 'screen-' + name; });
         if (name === 'method') setTimeout(() => document.getElementById('screen-method').dispatchEvent(new Event('refit')), 0);
     };
-    sections.forEach(b => b.addEventListener('click', () => show(b.dataset.screen)));
+    sections.forEach(b => b.addEventListener('click', () => { show(b.dataset.screen); menu(false); }));
+    // on a phone the nav is three lines
+    const head = document.querySelector('header'), burger = document.querySelector('.burger');
+    const menu = open => { head.classList.toggle('open', open); burger.setAttribute('aria-expanded', open); };
+    burger.addEventListener('click', () => menu(!head.classList.contains('open')));
     document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => show(b.dataset.go)));
 
     // our own dropdowns (the browser's datalist popups don't match the page)
