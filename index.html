@@ -158,7 +158,7 @@
         .stop { padding: 0 0 11px; }
         .stop .name { margin: 2px 0 1px; font-family: var(--display); font-size: 18px; font-weight: 500; line-height: 1.12; }
         .stop .meta { margin: 0; font-size: 12.5px; color: var(--ink); }
-        .stop .tag { margin: 2px 0 0; font-size: 9.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--grey); }
+        .t .tag { font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--grey); }
         .why { margin: 5px 0 0; font-family: var(--typewriter); font-size: 12.5px; line-height: 1.4; color: var(--pink-ink); }
         .why::before { content: "— "; }
         .timeline li.reset::before { background: var(--paper); box-shadow: 0 0 0 1px var(--gold); }
@@ -383,7 +383,7 @@
         .wx-temp { font-family: var(--display); font-weight: 500; font-size: clamp(80px, 8.5vw, 124px); line-height: 0.85; letter-spacing: -0.03em; }
         .wx-sky { margin: 0; font-family: var(--display); font-style: italic; font-size: 28px; color: var(--pink); text-transform: lowercase; }
         .wx-feels { margin: 6px 0 0; font-family: var(--typewriter); font-size: 13px; color: var(--grey); }
-        .wx-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+        .wx-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
         .wx-grid div { padding: 12px 12px 12px 0; }
         .wx-grid div + div { padding-left: 14px; border-left: 1px solid var(--hair); }
         .wx-grid b { display: block; font-family: var(--display); font-weight: 500; font-size: 26px; }
@@ -485,7 +485,6 @@
             .wx-saturday .cta { margin-top: 14px; }
             .method .numbers, .method-intro { grid-column: 1; grid-row: auto; }
             .card:not(:nth-child(3n + 1)) { padding-left: 0; border-left: 0; }
-            .wx-grid { grid-template-columns: 1fr 1fr; }
             .figs { grid-template-columns: 1fr 1fr; }
             .figs div:nth-child(3) { padding-left: 0; border-left: 0; }
             .portrait img { max-height: none; }
@@ -870,10 +869,9 @@
                     </div>
                 </div>
                 <div class="wx-grid">
-                    <div><b data-wx="hilo">…</b><span>today, high / low</span></div>
-                    <div><b data-wx="sunset">…</b><span>sunset tonight</span></div>
-                    <div><b>1,002,632</b><span>people, 2025 census</span></div>
-                    <div><b data-wx="days-n">…</b><span data-wx="days-label">days until Saturday</span></div>
+                    <div><b data-wx="hilo">…</b><span>high / low</span></div>
+                    <div><b data-wx="sunset">…</b><span>sunset</span></div>
+                    <div><b data-wx="days-n">…</b><span data-wx="days-label">days to Saturday</span></div>
                 </div>
                 <div class="wx-saturday">
                     <p class="label" data-wx="sat-title">This Saturday</p>
@@ -881,7 +879,7 @@
                     <p class="wx-verdict" data-wx="sat-verdict"></p>
                     <button type="button" class="cta" data-go="plan" data-wx-plan>Plan this Saturday →</button>
                 </div>
-                <p class="now-src" data-wx="src">Weather live from Open-Meteo. Population: U.S. Census Bureau, July 2025.</p>
+                <p class="now-src" data-wx="src">Weather: Open-Meteo</p>
             </div>
             <div class="strip flip" data-flip>
                 <div class="flip-head">
@@ -899,7 +897,7 @@
                     <div><b data-app="neighborhoods">14</b><span>neighborhoods</span></div>
                     <div><b data-app="moods">10</b><span>moods</span></div>
                     <div><b>86</b><span>tests keeping Saturday civilized</span></div>
-                    <div><b>1 mi</b><span>maximum walking hop in Walk mode</span></div>
+                    <div><b>1 mi</b><span>longest walk between stops</span></div>
                     <div><b>∞</b><span>opinions</span></div>
                 </div>
                 <div class="figs" data-flip-page data-title="Longhorns, this season · Hook ’em" hidden>
@@ -932,14 +930,14 @@
             <g class="atx-drives"><polyline data-a="8" data-b="1" points="208.1,341.0 233.8,348.7"/><polyline data-a="1" data-b="2" points="233.8,348.7 214.4,393.0"/><polyline data-a="8" data-b="2" points="208.1,341.0 214.4,393.0"/><polyline data-a="8" data-b="3" points="208.1,341.0 180.0,363.5"/><polyline data-a="3" data-b="2" points="180.0,363.5 214.4,393.0"/><polyline data-a="3" data-b="11" points="180.0,363.5 134.7,326.0"/><polyline data-a="1" data-b="10" points="233.8,348.7 253.4,281.0"/><polyline data-a="10" data-b="14" points="253.4,281.0 222.1,237.2"/><polyline data-a="14" data-b="7" points="222.1,237.2 253.4,56.0"/><polyline data-a="10" data-b="12" points="253.4,281.0 298.8,313.5"/><polyline data-a="1" data-b="12" points="233.8,348.7 298.8,313.5"/><polyline data-a="5" data-b="12" points="253.4,403.5 298.8,313.5"/><polyline data-a="1" data-b="5" points="233.8,348.7 253.4,403.5"/><polyline data-a="2" data-b="5" points="214.4,393.0 253.4,403.5"/><polyline data-a="2" data-b="4" points="214.4,393.0 210.3,408.3 201.6,436.0"/><polyline data-a="2" data-b="13" points="214.4,393.0 210.3,408.3 183.3,447.2"/><polyline data-a="4" data-b="13" points="201.6,436.0 183.3,447.2"/><polyline data-a="13" data-b="6" points="183.3,447.2 156.3,441.0"/><polyline data-a="6" data-b="9" points="156.3,441.0 156.3,396.0"/><polyline data-a="2" data-b="9" points="214.4,393.0 184.4,398.5 156.3,396.0"/><polyline data-a="9" data-b="4" points="156.3,396.0 201.6,436.0"/><polyline data-a="11" data-b="9" points="134.7,326.0 145.5,381.0 156.3,396.0"/><polyline data-a="11" data-b="7" points="134.7,326.0 253.4,56.0"/><polyline data-a="11" data-b="14" points="134.7,326.0 222.1,237.2"/></g>
             <g class="atx-dots"><g data-n="1" tabindex="0" role="button" aria-label="01 Campus / UT Corridor, 11 places"><circle class="hit" cx="233.8" cy="348.7" r="17"/><circle cx="233.8" cy="348.7" r="9.5"/><text x="233.8" y="351.7">01</text></g><g data-n="2" tabindex="0" role="button" aria-label="02 Downtown, 60 places"><circle class="hit" cx="214.4" cy="393.0" r="17"/><circle cx="214.4" cy="393.0" r="9.5"/><text x="214.4" y="396.0">02</text></g><g data-n="3" tabindex="0" role="button" aria-label="03 Clarksville / West Austin, 12 places"><circle class="hit" cx="180.0" cy="363.5" r="17"/><circle cx="180.0" cy="363.5" r="9.5"/><text x="180.0" y="366.5">03</text></g><g data-n="4" tabindex="0" role="button" aria-label="04 South Congress, 23 places"><circle class="hit" cx="201.6" cy="436.0" r="17"/><circle cx="201.6" cy="436.0" r="9.5"/><text x="201.6" y="439.0">04</text></g><g data-n="5" tabindex="0" role="button" aria-label="05 East Austin, 37 places"><circle class="hit" cx="253.4" cy="403.5" r="17"/><circle cx="253.4" cy="403.5" r="9.5"/><text x="253.4" y="406.5">05</text></g><g data-n="6" tabindex="0" role="button" aria-label="06 South Lamar, 19 places"><circle class="hit" cx="156.3" cy="441.0" r="17"/><circle cx="156.3" cy="441.0" r="9.5"/><text x="156.3" y="444.0">06</text></g><g data-n="7" tabindex="0" role="button" aria-label="07 The Domain / Rock Rose, 22 places"><circle class="hit" cx="253.4" cy="56.0" r="17"/><circle cx="253.4" cy="56.0" r="9.5"/><text x="253.4" y="59.0">07</text></g><g data-n="8" tabindex="0" role="button" aria-label="08 West Campus, 14 places"><circle class="hit" cx="208.1" cy="341.0" r="17"/><circle cx="208.1" cy="341.0" r="9.5"/><text x="208.1" y="344.0">08</text></g><g data-n="9" tabindex="0" role="button" aria-label="09 Zilker / Barton Springs, 15 places"><circle class="hit" cx="156.3" cy="396.0" r="17"/><circle cx="156.3" cy="396.0" r="9.5"/><text x="156.3" y="399.0">09</text></g><g data-n="10" tabindex="0" role="button" aria-label="10 Hyde Park / North Loop, 12 places"><circle class="hit" cx="253.4" cy="281.0" r="17"/><circle cx="253.4" cy="281.0" r="9.5"/><text x="253.4" y="284.0">10</text></g><g data-n="11" tabindex="0" role="button" aria-label="11 Lake Austin / West Austin, 9 places"><circle class="hit" cx="134.7" cy="326.0" r="17"/><circle cx="134.7" cy="326.0" r="9.5"/><text x="134.7" y="329.0">11</text></g><g data-n="12" tabindex="0" role="button" aria-label="12 Mueller, 5 places"><circle class="hit" cx="298.8" cy="313.5" r="17"/><circle cx="298.8" cy="313.5" r="9.5"/><text x="298.8" y="316.5">12</text></g><g data-n="13" tabindex="0" role="button" aria-label="13 South First, 4 places"><circle class="hit" cx="183.3" cy="447.2" r="17"/><circle cx="183.3" cy="447.2" r="9.5"/><text x="183.3" y="450.2">13</text></g><g data-n="14" tabindex="0" role="button" aria-label="14 Burnet Road / Mid-North, 8 places"><circle class="hit" cx="222.1" cy="237.2" r="17"/><circle cx="222.1" cy="237.2" r="9.5"/><text x="222.1" y="240.2">14</text></g></g>
             </svg>
-            <figcaption class="map-card" data-map-note aria-live="polite"><span class="mc-kicker">Tap a number</span><span class="mc-name">Pick a neighborhood.</span><span class="mc-body">See how many places it has, and every drive the planner knows from there.</span></figcaption>
+            <figcaption class="map-card" data-map-note aria-live="polite"><span class="mc-kicker">Tap a number</span><span class="mc-name">Pick a neighborhood.</span><span class="mc-body">See its places and drives.</span></figcaption>
             </figure>
         </div>
         <div class="austin-side">
             <p class="kicker">The map</p>
             <h2 class="map-head">Austin is bigger than it <em>looks.</em></h2>
-            <p class="map-dek">A good Saturday isn’t just finding places you like. It’s finding places you like that make sense together.</p>
-            <p class="label map-key-label">Neighborhoods <small>· number of places in the planner</small></p>
+            <p class="map-dek">The trick is places that make sense together.</p>
+            <p class="label map-key-label">Neighborhoods <small>· places</small></p>
             <ol class="map-key" aria-label="Neighborhoods, with how many places in each">
                 <li data-n="1"><b>01</b> Campus / UT Corridor<span>11</span></li>
                 <li data-n="2"><b>02</b> Downtown<span>60</span></li>
@@ -956,10 +954,10 @@
                 <li data-n="13"><b>13</b> South First<span>4</span></li>
                 <li data-n="14"><b>14</b> Burnet Road / Mid-North<span>8</span></li>
             </ol>
-            <p class="map-src">Streets simplified. Pink lines are the drives the planner knows.</p>
+            <p class="map-src">Pink lines: the drives it knows.</p>
             <div class="vote" data-vote>
                 <p class="label">The great debate</p>
-                <p class="vote-q">Austin is a big small city. Or a small big city.</p>
+                <p class="vote-q">Pick a side.</p>
                 <div class="vote-opts">
                     <button type="button" data-pick="big-small"><span><em>A big</em> small city</span><span class="vote-bar"><i></i></span><b class="vote-pct"></b></button>
                     <button type="button" data-pick="small-big"><span><em>A small</em> big city</span><span class="vote-bar"><i></i></span><b class="vote-pct"></b></button>
@@ -1258,6 +1256,6 @@
         <p class="letter-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/app.js?v=45" defer></script>
+<script src="web/app.js?v=46" defer></script>
 </body>
 </html>

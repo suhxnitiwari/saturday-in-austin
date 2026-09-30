@@ -83,15 +83,17 @@
                 return;
             }
             const li = el('li', s.type);
-            li.appendChild(el('span', 't', s.time));
+            // magazine order: time and category as the kicker, the name, then where and how long
+            const kicker = el('span', 't', s.time);
+            li.appendChild(kicker);
             if (s.type === 'reset') {
                 li.appendChild(el('p', 'name', 'HOME'));
                 li.appendChild(el('p', 'meta', `${s.note} · ${s.minutes} min`));
             } else {
                 const where = s.where === 'home' ? 'at home' : s.where;
+                kicker.appendChild(el('span', 'tag', ` · ${s.label}`));
                 li.appendChild(el('p', 'name', s.name));
-                li.appendChild(el('p', 'meta', `${s.note || where} · ${duration(s.minutes)}`));
-                li.appendChild(el('p', 'tag', s.note ? `${s.label} · ${where}` : s.label));
+                li.appendChild(el('p', 'meta', [where, s.note, duration(s.minutes)].filter(Boolean).join(' · ')));
             }
             if (s.why) li.appendChild(el('p', 'why', s.why));
             list.appendChild(li);
@@ -437,7 +439,7 @@
     const clockOf = iso => { const [h, m] = iso.split('T')[1].split(':').map(Number); return `${h % 12 || 12}:${String(m).padStart(2, '0')}`; };
     const untilSaturday = (6 - new Date().getDay() + 7) % 7;
     wx('days-n', untilSaturday === 0 ? 'Today' : String(untilSaturday));
-    wx('days-label', untilSaturday === 0 ? 'is Saturday' : untilSaturday === 1 ? 'day until Saturday' : 'days until Saturday');
+    wx('days-label', untilSaturday === 0 ? 'is Saturday' : untilSaturday === 1 ? 'day to Saturday' : 'days to Saturday');
     function verdictFor(high, rain, code) {
         if (rain >= 60 || RAINY.has(code)) return 'Rainy day plan, obviously. Museums, bookstores, a long lunch.';
         if (high >= 98) return 'Barton Springs is calling. Everything else can wait until sunset.';
@@ -459,7 +461,7 @@
             wx('feels', `feels like ${Math.round(c.apparent_temperature)}°, ${c.relative_humidity_2m}% humidity`);
             wx('sunset', clockOf(d.sunset[0]));
             const now = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' });
-            wx('src', `Open-Meteo weather, updated ${now} CT · Census 2025 population`);
+            wx('src', `Weather: Open-Meteo, ${now} CT`);
             const i = untilSaturday;  // the forecast starts today, so Saturday is this many days in
             const high = Math.round(d.temperature_2m_max[i]), rain = d.precipitation_probability_max[i] ?? 0;
             wx('sat-title', i === 0 ? 'Today is Saturday' : `This Saturday, ${d.time[i].slice(5).replace('-', '/')}`);
@@ -544,7 +546,7 @@
             const [kicker, name, body] = note.children;
             if (picked === null) {
                 kicker.textContent = 'Tap a number'; name.textContent = 'Pick a neighborhood.';
-                body.textContent = 'See how many places it has, and every drive the planner knows from there.';
+                body.textContent = 'See its places and drives.';
                 return;
             }
             const near = MAP.roads.filter(r => r[0] === picked || r[1] === picked)
