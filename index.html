@@ -356,22 +356,21 @@
         .rules li::before { content: counter(rule, decimal-leading-zero); font-family: var(--display); font-style: italic; color: var(--pink); }
 
         /* smaller screens: stack and scroll like a normal page */
-        /* the fun contact footer, just past the fold: you only find it if you scroll */
-        .contact { padding: 56px 24px 40px; background: var(--ink); color: var(--paper); text-align: center; border-top: 4px double var(--pink); }
-        .contact-head { margin: 0; font-family: var(--display); font-weight: 500; font-size: clamp(30px, 3.4vw, 46px); line-height: 1.05; }
-        .contact-head em { color: var(--pink); font-weight: 400; }
-        .contact-sub { margin: 10px 0 30px; font-family: var(--display); font-style: italic; font-size: 19px; color: #D9D9D9; }
-        .contact-links { display: flex; flex-wrap: wrap; justify-content: center; margin: 0 auto; padding: 0; list-style: none; max-width: 880px; border: 1px solid #444; }
-        .contact-links li { flex: 1 1 180px; display: grid; gap: 6px; padding: 18px 12px; }
-        .contact-links li + li { border-left: 1px solid #444; }
-        .contact-links a { color: var(--paper); font-size: 13px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; }
-        .contact-links a span { color: var(--pink); }
+        /* a slim RSVP bar just past the fold */
+        .contact { display: flex; flex-wrap: nowrap; align-items: center; gap: 10px 22px; max-width: 1440px; margin: 0 auto; padding: 14px 36px; border-top: 4px double var(--line); }
+        .rsvp { margin: 0; white-space: nowrap; font-family: var(--display); font-size: 19px; font-weight: 500; }
+        .rsvp em { color: var(--pink); font-weight: 400; }
+        .contact-links { display: flex; flex-wrap: nowrap; gap: 6px 18px; margin: 0; padding: 0; list-style: none; }
+        .contact-links li { display: flex; align-items: baseline; gap: 6px; white-space: nowrap; }
+        .contact-links a { white-space: nowrap; color: var(--ink); font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; }
         .contact-links a:hover, .contact-links a:focus-visible { color: var(--pink); }
-        .contact-links em { font-family: var(--typewriter); font-style: normal; font-size: 12.5px; color: #BDBDBD; }
-        .contact-top { display: inline-block; margin-top: 30px; color: var(--paper); font-family: var(--typewriter); font-size: 13px; text-decoration: none; border-bottom: 1px solid var(--pink); }
+        .contact-links em { font-family: var(--display); font-size: 13px; color: var(--pink-ink); }
+        .contact-top { white-space: nowrap; color: var(--ink); font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; }
         .contact-top:hover { color: var(--pink); }
-        .contact-copy { margin: 14px 0 0; font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: #8C8C8C; }
-        @media (max-width: 560px) { .contact-links li + li { border-left: 0; border-top: 1px solid #444; } .contact-links li { flex-basis: 100%; } }
+        .contact-copy { margin: 0 0 0 auto; font-family: var(--display); font-style: italic; font-size: 14px; color: var(--pink-ink); }
+        @media (max-width: 1360px) and (min-width: 1001px) { .contact-copy { display: none; } .contact-top { margin-left: auto; } }
+        @media (max-width: 1180px) and (min-width: 1001px) { .rsvp em { display: none; } }
+        @media (max-width: 1000px) { .contact { flex-wrap: nowrap; gap: 12px; padding: 12px 18px; } .contact-links { flex-wrap: nowrap; gap: 12px; } .contact-links em, .contact-copy, .rsvp { display: none; } .contact-links { flex: 1; justify-content: space-between; } .contact-top { margin-left: auto; } .contact-links a, .contact-top { font-size: 9.5px; letter-spacing: 0.08em; } .rsvp { font-size: 17px; } }
         @media (max-width: 1000px), (max-height: 640px) {
             .page { height: auto; padding: 22px 18px 30px; }
             header { grid-template-columns: 1fr; gap: 12px; align-items: start; }
@@ -802,16 +801,15 @@
 </div>
 
 <footer class="contact" id="say-hi">
-    <h2 class="contact-head">Still here? You must <em>like me.</em></h2>
-    <p class="contact-sub">Or you’re nosy. Either way, say hi.</p>
+    <p class="rsvp">Spotted: <em>you, still scrolling.</em></p>
     <ul class="contact-links">
-        <li><a href="mailto:suhxnitiwari@gmail.com">Email <span aria-hidden="true">↗</span></a><em>boringly responsible</em></li>
-        <li><a href="https://www.instagram.com/suhxnitiwari/" target="_blank" rel="noopener">Instagram <span aria-hidden="true">↗</span></a><em>dangerously personal</em></li>
-        <li><a href="https://www.linkedin.com/in/suhxnitiwari/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">↗</span></a><em>suspiciously professional</em></li>
-        <li><a href="https://github.com/suhxnitiwari" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a><em>unapologetically nerdy</em></li>
+        <li><a href="mailto:suhxnitiwari@gmail.com">Email ↗</a><em>invitations only</em></li>
+        <li><a href="https://www.instagram.com/suhxnitiwari/" target="_blank" rel="noopener">Instagram ↗</a><em>get in, we’re brunching</em></li>
+        <li><a href="https://www.linkedin.com/in/suhxnitiwari/" target="_blank" rel="noopener">LinkedIn ↗</a><em>strictly business, darling</em></li>
+        <li><a href="https://github.com/suhxnitiwari" target="_blank" rel="noopener">GitHub ↗</a><em>I couldn’t help but commit</em></li>
     </ul>
-    <a class="contact-top" href="#top">Scroll back up. I’ll wait. ↑</a>
-    <p class="contact-copy">© 2026 Suhani Tiwari</p>
+    <p class="contact-copy">XOXO, the editor</p>
+    <a class="contact-top" href="#top" aria-label="Back to top">Top ↑</a>
 </footer>
 
 
