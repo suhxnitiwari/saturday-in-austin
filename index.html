@@ -256,10 +256,10 @@
         /* the map: cream paper, thin black streets, pink neighborhoods */
         .map-fig { margin: 0; }
         .atx { display: block; width: 100%; height: auto; max-height: calc(100vh - 300px); border: 1px solid var(--line); outline: 1px solid var(--gold); outline-offset: 4px; }
-        .atx-paper { fill: #FFFFFF; }
-        .atx-grid line { stroke: #E3E3E3; stroke-width: 0.6; }
-        .atx-grid text { font: 7.5px var(--typewriter); fill: #9A9A9A; paint-order: stroke; stroke: #FFFFFF; stroke-width: 3px; }
-        .atx-compass circle { fill: #FFFFFF; stroke: var(--ink); stroke-width: 0.8; }
+        .atx-paper { fill: var(--blush); }
+        .atx-grid line { stroke: #F4CDE0; stroke-width: 0.6; }
+        .atx-grid text { font: 7.5px var(--typewriter); fill: #9A9A9A; paint-order: stroke; stroke: var(--blush); stroke-width: 3px; }
+        .atx-compass circle { fill: var(--blush); stroke: var(--ink); stroke-width: 0.8; }
         .atx-compass line { stroke: var(--ink); stroke-width: 0.6; }
         .atx-compass path { fill: var(--ink); }
         .atx-compass path.n { fill: var(--pink); }
@@ -267,8 +267,8 @@
         .atx-compass text.n { fill: var(--pink); }
         .atx-streets path { fill: none; stroke: var(--ink); stroke-width: 0.8; stroke-linejoin: round; }
         .atx-river { fill: none; stroke: var(--ink); stroke-width: 4.5; stroke-linejoin: round; stroke-linecap: round; }
-        .atx-river-in { fill: none; stroke: #FFFFFF; stroke-width: 2.8; stroke-linejoin: round; stroke-linecap: round; }
-        .atx-street-names text { font: 700 6.5px var(--sans); letter-spacing: 0.14em; fill: #6E6E6E; paint-order: stroke; stroke: #FFFFFF; stroke-width: 3px; }
+        .atx-river-in { fill: none; stroke: var(--blush); stroke-width: 2.8; stroke-linejoin: round; stroke-linecap: round; }
+        .atx-street-names text { font: 700 6.5px var(--sans); letter-spacing: 0.14em; fill: #6E6E6E; paint-order: stroke; stroke: var(--blush); stroke-width: 3px; }
         .atx-street-names .atx-lake { font-style: italic; font-weight: 400; font-family: var(--display); font-size: 8px; letter-spacing: 0.08em; }
         .atx-drives line { stroke: var(--pink); stroke-width: 0.9; stroke-dasharray: 2 2.5; opacity: 0.55; transition: opacity 0.2s; }
         .atx-drives line.on { stroke-width: 1.8; stroke-dasharray: none; opacity: 1; }
@@ -278,7 +278,7 @@
         .atx-dots .hit { fill: transparent; stroke: none; }
         .atx-dots g.on circle:not(.hit), .atx-dots g:focus-visible circle:not(.hit) { stroke: var(--pink); stroke-width: 3; }
         .atx-dots g.on circle:not(.hit) { r: 12px; }
-        .atx-dots circle { fill: var(--pink); stroke: #FFFFFF; stroke-width: 1.5; }
+        .atx-dots circle { fill: var(--pink); stroke: var(--blush); stroke-width: 1.5; }
         .atx-dots text { font: 700 8px var(--sans); fill: #fff; text-anchor: middle; pointer-events: none; }
         .atx-dots g.on circle:not(.hit), .atx-dots g:hover circle:not(.hit), .atx-dots g.hov circle:not(.hit), .atx-dots g:focus-visible circle:not(.hit) { fill: var(--ink); }
         .map-card { display: grid; gap: 3px; margin-top: 14px; padding: 10px 12px; border: 1px solid var(--line); border-left: 4px solid var(--pink); }
