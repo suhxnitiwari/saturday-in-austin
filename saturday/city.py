@@ -12,12 +12,13 @@ PLACES = Path(__file__).parent / "data" / "places.json"
 ROADS = [
     ("Campus", "West Campus", 4), ("Campus", "North Loop", 8), ("Campus", "Downtown", 7),
     ("Campus", "East Austin", 8), ("West Campus", "Clarksville", 6), ("West Campus", "Downtown", 8),
-    ("Clarksville", "Downtown", 6), ("Clarksville", "Lake Austin", 7), ("North Loop", "Domain", 14),
+    ("Clarksville", "Downtown", 6), ("Clarksville", "Lake Austin / West Austin", 7), ("North Loop", "Domain", 14),
     ("Downtown", "East Austin", 6), ("Downtown", "South Congress", 7), ("Downtown", "Zilker", 8),
-    ("Zilker", "South Congress", 6), ("Lake Austin", "Zilker", 9), ("Zilker", "Barton Creek", 10),
-    ("South Lamar", "Zilker", 5), ("South Lamar", "South Congress", 7), ("Barton Creek", "South Lamar", 12),
-    ("Lake Austin", "Domain", 20),
+    ("Zilker", "South Congress", 6), ("Lake Austin / West Austin", "Zilker", 9), ("Zilker", "Barton Hills / Greenbelt", 10),
+    ("South Lamar", "Zilker", 5), ("South Lamar", "South Congress", 7), ("Barton Hills / Greenbelt", "South Lamar", 12),
+    ("Lake Austin / West Austin", "Domain", 20),
     ("Campus", "Mueller", 10), ("North Loop", "Mueller", 8), ("East Austin", "Mueller", 8),
+    ("Hyde Park", "Campus", 6), ("Hyde Park", "North Loop", 4), ("Hyde Park", "Mueller", 8),
 ]
 
 
@@ -102,8 +103,9 @@ BUS_ROUTES = {
     "801": ["North Loop", "West Campus", "Campus", "Downtown", "South Congress"],        # MetroRapid N Lamar/S Congress
     "803": ["Domain", "North Loop", "West Campus", "Campus", "Downtown", "Zilker", "South Lamar"],  # MetroRapid Burnet/S Lamar
     "20": ["Mueller", "Campus", "Downtown"],
+    "7": ["Hyde Park", "Campus", "Downtown"],                                            # Duval
     "4": ["Downtown", "East Austin"],
-    "30": ["Downtown", "Zilker", "Barton Creek"],
+    "30": ["Downtown", "Zilker", "Barton Hills / Greenbelt"],
 }
 BUS_WAIT = 12       # minutes waiting at the stop (and again at a transfer)
 BUS_SLOWER = 1.5    # a bus takes about 1.5x the drive

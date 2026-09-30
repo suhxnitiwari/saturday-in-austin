@@ -75,11 +75,11 @@ AREAS = {
     "downtown": ("Downtown", {"Downtown"}),
     "east": ("East Austin", {"East Austin"}),
     "soco": ("South Congress", {"South Congress"}),
-    "clarksville": ("Clarksville / West Austin", {"Clarksville", "Lake Austin"}),
+    "clarksville": ("Clarksville / West Austin", {"Clarksville", "Lake Austin / West Austin"}),
     "domain": ("Domain / North Austin", {"Domain"}),
     "zilker": ("Zilker", {"Zilker"}),
     "south-lamar": ("South Lamar", {"South Lamar"}),
-    "north-loop": ("North Loop / Hyde Park", {"North Loop"}),
+    "north-loop": ("North Loop / Hyde Park", {"North Loop", "Hyde Park"}),
     "mueller": ("Mueller", {"Mueller"}),
 }
 

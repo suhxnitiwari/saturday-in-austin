@@ -521,7 +521,7 @@
     }
 
     // The map: tap a neighborhood to see the drives the planner knows from there
-    const MAP = {"names": {"1": "Campus", "2": "Downtown", "3": "Clarksville", "4": "South Congress", "5": "East Austin", "6": "South Lamar", "7": "The Domain", "8": "West Campus", "9": "Zilker", "10": "North Loop", "11": "Lake Austin", "12": "Mueller", "13": "Barton Creek"}, "count": {"1": 17, "2": 32, "3": 8, "4": 29, "5": 30, "6": 15, "7": 15, "8": 4, "9": 15, "10": 14, "11": 6, "12": 3, "13": 7}, "roads": [[1, 8, 4], [1, 10, 8], [1, 2, 7], [1, 5, 8], [8, 3, 6], [8, 2, 8], [3, 2, 6], [3, 11, 7], [10, 7, 14], [2, 5, 6], [2, 4, 7], [2, 9, 8], [9, 4, 6], [11, 9, 9], [9, 13, 10], [6, 9, 5], [6, 4, 7], [13, 6, 12], [11, 7, 20], [1, 12, 10], [10, 12, 8], [5, 12, 8]]};
+    const MAP = {"names": {"1": "Campus", "2": "Downtown", "3": "Clarksville", "4": "South Congress", "5": "East Austin", "6": "South Lamar", "7": "The Domain", "8": "West Campus", "9": "Zilker", "10": "North Loop", "11": "Lake Austin / West Austin", "12": "Mueller", "13": "Barton Hills / Greenbelt", "14": "Hyde Park"}, "count": {"1": 17, "2": 32, "3": 8, "4": 29, "5": 30, "6": 15, "7": 15, "8": 4, "9": 15, "10": 10, "11": 6, "12": 3, "13": 7, "14": 4}, "roads": [[1, 8, 4], [1, 10, 8], [1, 2, 7], [1, 5, 8], [8, 3, 6], [8, 2, 8], [3, 2, 6], [3, 11, 7], [10, 7, 14], [2, 5, 6], [2, 4, 7], [2, 9, 8], [9, 4, 6], [11, 9, 9], [9, 13, 10], [6, 9, 5], [6, 4, 7], [13, 6, 12], [11, 7, 20], [1, 12, 10], [10, 12, 8], [5, 12, 8], [14, 1, 6], [14, 10, 4], [14, 12, 8]]};
     const atx = document.querySelector('.atx');
     if (atx) {
         const note = document.querySelector('[data-map-note]'), lines = atx.querySelector('.atx-drives');

@@ -1,7 +1,7 @@
 spot,zone,category,stay_minutes,joy,moods,dressy,price,note
 Medici,West Campus,coffee,60,10,foodie|productive|slow|social,,7,vanilla latte
 Medici (West Lynn),Clarksville,coffee,60,10,foodie|productive|slow|social,,7,"vanilla latte, the West Lynn one"
-Mozart's,Lake Austin,coffee,60,8,creative|foodie|productive|slow,,7,lake view
+Mozart's,Lake Austin / West Austin,coffee,60,8,creative|foodie|productive|slow,,7,lake view
 Black Fox,Downtown,coffee,30,7,foodie|outside|productive|shopping,,7,
 Two Hands,Campus,coffee,30,7,foodie|productive|shopping|social,,7,
 Jo's Coffee,South Congress,coffee,30,8,creative|foodie|shopping|social,,7,the I love you so much mural
@@ -36,7 +36,7 @@ Bird Bird Biscuit,East Austin,brunch,30,8,day-in|foodie|outside,,12,the Queen Be
 Sweetgreen,Campus,lunch,30,6,foodie|outside|productive|shopping,,15,custom guacamole greens bowl
 Veracruz,East Austin,lunch,30,7,creative|foodie|outside|social,,12,
 Torchy's Tacos,South Congress,lunch,30,7,foodie|outside|shopping|social,,14,trailer park
-Tacodeli,Barton Creek,lunch,30,7,foodie|outside,,15,
+Tacodeli,Barton Hills / Greenbelt,lunch,30,7,foodie|outside,,15,
 Better Half,Clarksville,lunch,60,8,foodie|slow,,15,patio lunch
 Franklin Barbecue,East Austin,lunch,120,9,foodie|social,,30,worth the line
 The Little Bisque,North Loop,creative,120,9,creative,,35,pottery painting
@@ -45,27 +45,27 @@ Mosaic Workshop,East Austin,creative,120,9,creative,,50,
 7th Street Candle,East Austin,creative,90,7,creative,,40,make your own candle
 South Congress,South Congress,shopping,90,8,foodie|shopping|social,,40,Kendra Scott and Tecovas
 The Domain,Domain,shopping,150,8,shopping|treat-myself,,60,"Reformation, Anine Bing, Nordstrom"
-Barton Creek Mall,Barton Creek,shopping,90,6,shopping|social,,30,
+Barton Creek Mall,Barton Hills / Greenbelt,shopping,90,6,shopping|social,,30,
 Allen's Boots,South Congress,shopping,60,8,shopping|social,,50,rows and rows of boots
 BookPeople,Downtown,shopping,60,9,creative|productive|shopping|slow,,20,the best bookstore in Texas
 Waterloo Records,Downtown,shopping,45,7,creative|shopping|slow|social,,15,
 SFC Farmers' Market,Downtown,market,60,8,foodie|shopping|slow|social,,10,Saturday mornings at Republic Square
-Barton Creek Farmers Market,Barton Creek,market,60,7,foodie|outside|shopping|social,,10,
+Barton Creek Farmers Market,Barton Hills / Greenbelt,market,60,7,foodie|outside|shopping|social,,10,
 M Vince Nail Spa,Domain,nails,90,9,treat-myself,,60,chandelier and a glass of something
 Milano Nail Spa,East Austin,nails,90,9,treat-myself,,50,the big glam one
 Caesars Nail Salon & Spa,Domain,nails,90,7,treat-myself,,50,
 Prana Wellness Club,Clarksville,exercise,60,8,productive,,30,Pilates: the best reset
 Solidcore,South Congress,exercise,60,7,productive,,30,Pilates
-Barton Creek Greenbelt,Barton Creek,hike,120,9,outside,,0,hike to the Gus Fruh swimming hole
-Mount Bonnell,Lake Austin,hike,60,8,outside|social,,0,the best view in town
+Barton Creek Greenbelt,Barton Hills / Greenbelt,hike,120,9,outside,,0,hike to the Gus Fruh swimming hole
+Mount Bonnell,Lake Austin / West Austin,hike,60,8,outside|social,,0,the best view in town
 Lady Bird Lake Trail,Downtown,park,90,8,foodie|outside|slow,,0,walk a piece of the 10-mile loop
 Lady Bird Lake Kayak,Zilker,paddle,90,9,outside|social,,25,kayak or paddleboard from the Rowing Dock
 Barton Springs Pool,Zilker,swim,120,9,outside|social,,9,"the coldest, prettiest swim"
-Deep Eddy Pool,Lake Austin,swim,90,8,outside,,5,the oldest pool in Texas
+Deep Eddy Pool,Lake Austin / West Austin,swim,90,8,outside,,5,the oldest pool in Texas
 Zilker Park,Zilker,park,90,8,foodie|social,,0,picnic and people watching
 Zilker Botanical Garden,Zilker,park,60,8,slow,,8,the Japanese garden
-Laguna Gloria,Lake Austin,park,60,8,creative|slow,,10,art on the lake
-Mayfield Park,Lake Austin,park,45,7,slow,,0,the peacocks
+Laguna Gloria,Lake Austin / West Austin,park,60,8,creative|slow,,10,art on the lake
+Mayfield Park,Lake Austin / West Austin,park,45,7,slow,,0,the peacocks
 Congress Bridge Bats,Downtown,sunset,30,8,foodie|outside|social,,0,1.5 million bats at dusk
 Victory Lap,West Campus,hangout,150,10,social,,20,the game on the jumbotron
 Topgolf,Domain,hangout,120,8,social,,40,
@@ -110,7 +110,7 @@ Seventh Flag Coffee,South Congress,coffee,60,7,foodie|productive|shopping|slow,,
 Sugarwolf Bakery,Downtown,coffee,45,5,foodie|social,,14,"the new, pretty, popular one. Great location, sadly overhyped"
 Opa! Coffee & Wine Bar,South Lamar,coffee,60,8,foodie|slow|social,,12,"Greek coffee by day, wine by night, porch swings"
 2nd & Roast,Downtown,coffee,30,8,foodie|productive,,7,Medici coffee in the W lobby
-Leona Botanical Cafe & Bar,Barton Creek,coffee,90,8,foodie|outside|slow|social,,15,a five-acre garden cafe
+Leona Botanical Cafe & Bar,Barton Hills / Greenbelt,coffee,90,8,foodie|outside|slow|social,,15,a five-acre garden cafe
 Counter Café,Downtown,brunch,60,8,foodie|shopping|slow,,18,"tiny diner, big pancakes"
 Tiny Boxwoods,Clarksville,brunch,60,8,foodie,,25,the chocolate chip cookies
 Joann's Fine Foods,South Congress,brunch,90,8,creative|foodie|shopping|social,,25,at the Austin Motel
@@ -128,7 +128,7 @@ Home Slice Pizza,South Congress,lunch,60,8,creative|foodie|shopping|social,,12,a
 Mi Madre's,East Austin,lunch,60,8,foodie|outside,,14,breakfast tacos all day
 Chi'Lantro,Campus,lunch,30,7,creative|foodie|productive|shopping,,13,kimchi fries
 P. Terry's,South Lamar,lunch,30,7,foodie|outside|productive,,10,
-Uncle Nicky's,North Loop,lunch,60,7,foodie|slow,,15,
+Uncle Nicky's,Hyde Park,lunch,60,7,foodie|slow,,15,
 Cabo Bob's,West Campus,lunch,30,8,foodie|productive|social,,12,burritos on hand-pressed tortillas
 The Picnic,Zilker,lunch,60,7,foodie|outside|social,,15,food trucks by the park
 True Food Kitchen,Domain,lunch,60,7,foodie|shopping|treat-myself,,25,
@@ -149,7 +149,7 @@ Dai Due,East Austin,dinner,90,8,foodie|slow,,40,
 Ramen Del Barrio,Domain,dinner,75,8,foodie|social,,22,"Japanese-Mexican ramen, carnitas ramen"
 Alteño,Downtown,dinner,90,8,foodie|social,yes,60,in the tallest building in Texas
 Oria,Zilker,dinner,90,8,foodie,yes,60,"wood-fired Mediterranean, the fancy one"
-Escuela,Barton Creek,dinner,90,8,foodie|social,yes,50,Tex-Mex and barbecue
+Escuela,Barton Hills / Greenbelt,dinner,90,8,foodie|social,yes,50,Tex-Mex and barbecue
 Gourdough's,South Lamar,late night,30,7,foodie|social,,9,giant doughnuts
 Dolce Neve,South Congress,treat,30,8,foodie|shopping|slow,,7,gelato
 Sweet Ritual,North Loop,treat,30,7,foodie|slow,,7,
@@ -159,7 +159,7 @@ The Salty,South Congress,treat,30,8,foodie|shopping|social,,8,the fancy donuts
 Jeni's Splendid Ice Creams,South Congress,treat,30,8,foodie|shopping,,7,
 Toy Joy,Downtown,shopping,45,7,creative|shopping|slow,,15,
 Half Price Books,North Loop,shopping,60,7,productive|shopping|slow,,10,
-First Light Books,North Loop,shopping,60,9,creative|productive|shopping|slow,,20,books and a coffee window in an old post office
+First Light Books,Hyde Park,shopping,60,9,creative|productive|shopping|slow,,20,books and a coffee window in an old post office
 Paper Source,Domain,shopping,45,8,creative|shopping|treat-myself,,25,cards and pretty pens
 Erin Condren,Domain,shopping,45,8,creative|productive|shopping|treat-myself,,30,the flagship: planners made while you wait
 The Paper + Craft Pantry,East Austin,shopping,60,8,creative|shopping|slow,,25,stationery and craft workshops
@@ -168,9 +168,9 @@ Feathers Boutique,South Congress,shopping,60,7,creative|shopping,,25,vintage
 Second Street District,Downtown,shopping,90,7,foodie|shopping|social,,40,
 Antone's Record Shop,North Loop,shopping,45,7,creative|shopping,,15,
 Pease Park,Clarksville,park,60,7,foodie|slow|social,,0,
-Sculpture Falls,Barton Creek,hike,120,8,outside,,0,
+Sculpture Falls,Barton Hills / Greenbelt,hike,120,8,outside,,0,
 Auditorium Shores,Downtown,park,60,7,foodie|slow|social,,0,the dog park
-Texas Rowing Center,Lake Austin,paddle,90,8,outside,,25,
+Texas Rowing Center,Lake Austin / West Austin,paddle,90,8,outside,,25,
 Austin Bouldering Project,East Austin,exercise,90,8,outside|social,,28,climbing
 Austin FC at Q2 Stadium,Domain,game,180,9,social,,60,match days only
 Longhorns at DKR,Campus,game,240,10,social,,30,home game days only. Hook 'em
@@ -191,7 +191,7 @@ Texas State Capitol,Downtown,museum,60,8,creative|productive,,0,taller than the 
 LBJ Presidential Library,Campus,museum,90,8,creative|productive,,5,
 Mexic-Arte Museum,Downtown,museum,60,7,creative,,10,
 Umlauf Sculpture Garden,Zilker,museum,60,8,creative|slow,,7,
-Elisabet Ney Museum,North Loop,museum,60,7,creative|slow,,0,
+Elisabet Ney Museum,Hyde Park,museum,60,7,creative|slow,,0,
 Museum of the Weird,Downtown,museum,45,7,creative|social,,15,
 Texas Science & Natural History Museum,Campus,museum,90,7,productive,,0,
 Austin Nature & Science Center,Zilker,museum,60,7,outside|slow,,0,
@@ -204,7 +204,7 @@ Board games,Home,games,60,7,day-in,,0,
 Mueller Lake Park,Mueller,park,60,7,foodie|slow|social,,0,
 Colleen's Kitchen,Mueller,brunch,60,8,foodie|slow,,25,
 Citizen All Day,North Loop,brunch,75,8,foodie|social,,25,banana bread French toast
-Lutie's,North Loop,brunch,90,8,foodie,yes,45,garden brunch at Commodore Perry Estate
+Lutie's,Hyde Park,brunch,90,8,foodie,yes,45,garden brunch at Commodore Perry Estate
 Thinkery,Mueller,museum,90,7,creative,,20,the hands-on science museum
 JuiceLand (Guadalupe),Campus,smoothie,30,7,foodie|outside|productive|slow|social,,10,
 JuiceLand (Barton Springs),Zilker,smoothie,30,8,foodie|outside|slow|social,,10,the Barton Springs original
