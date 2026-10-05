@@ -538,7 +538,7 @@
         .monogram span + span { margin-left: -14px; }
         /* the envelope flies in, the wax seal breaks, the flap opens, the letter rises out */
         .letter { position: relative; }
-        .letter.sealed > :not(.post), .picks.sealed dt, .picks.sealed dd, .picks.sealed .label, .picks.sealed .rules li { visibility: hidden; }
+        .letter.sealed > :not(.post), .picks.sealed dt, .picks.sealed dd, .picks.sealed .label, .picks.sealed .rules li, .picks.sealed .rules-src { visibility: hidden; }
         .post { position: absolute; z-index: 5; top: 150px; left: 32px; right: 0; display: grid; justify-items: center; pointer-events: none; perspective: 900px; }
         .post[hidden] { display: none; }
         .env { position: relative; width: min(360px, 88%); aspect-ratio: 360 / 250; opacity: 0; }
@@ -574,18 +574,22 @@
         @keyframes pen { 50% { opacity: 0; } }
         .letter.inked .monogram { animation: ink 1.1s cubic-bezier(.5, 0, .3, 1) both; }
         @keyframes ink { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 -10% 0 0); } }
-        .letter.inked .ideal-open, .picks.landing dt, .picks.landing dd, .picks.landing .label, .picks.landing .rules li { animation: land .5s ease-out both; animation-delay: calc(var(--i, 0) * 70ms); }
+        .letter.inked .ideal-open, .picks.landing dt, .picks.landing dd, .picks.landing .label, .picks.landing .rules li, .picks.landing .rules-src { animation: land .5s ease-out both; animation-delay: calc(var(--i, 0) * 70ms); }
         @keyframes land { from { opacity: 0; transform: translateY(8px); } }
         .letter .skip-letter { position: absolute; z-index: 6; bottom: 12px; right: 0; visibility: visible !important; padding: 4px 0; border: 0; background: none; font-family: var(--typewriter); font-size: 11.5px; color: var(--grey); cursor: pointer; }
         .letter .skip-letter:hover { color: var(--ink); }
         .letter.writing .monogram, .letter.writing .ideal-open { visibility: hidden; }
+        /* the picks column never sets the page's height: the letter decides, and the rules scroll if they run long */
+        @media (min-width: 1001px) { .editor .picks { align-self: stretch; height: 0; min-height: 100%; overflow-y: auto; scrollbar-width: thin; } }
         @media (max-width: 1000px) { .post { position: fixed; top: 50%; left: 0; margin-top: -120px; } }  /* a phone sees it mid-screen, wherever the letter is */
         .picks dl { margin: 0; }
         .picks dt { padding-top: 10px; border-top: 1px solid var(--line); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
-        .picks dd { margin: 3px 0 12px; font-family: var(--display); font-size: 19px; }
-        .rules-label { margin-top: 22px !important; }
+        .picks dd { margin: 3px 0 10px; font-family: var(--display); font-size: 19px; }
+        .rules-label { margin-top: 14px !important; }
         .rules { margin: 0; padding: 0; list-style: none; counter-reset: rule; }
-        .rules li { counter-increment: rule; display: grid; grid-template-columns: 28px 1fr; padding: 7px 0; border-top: 1px solid var(--hair); font-family: var(--typewriter); font-size: 13px; line-height: 1.45; }
+        .rules li { counter-increment: rule; display: grid; grid-template-columns: 26px 1fr; padding: 5px 0; border-top: 1px solid var(--hair); font-family: var(--typewriter); font-size: 12px; line-height: 1.38; }
+        .rules-src { margin: 6px 0 0; font-family: var(--display); font-style: italic; font-size: 14px; color: var(--grey); }
+        .rules-src a { color: var(--orange-ink); }
         .rules li::before { content: counter(rule, decimal-leading-zero); font-family: var(--display); font-style: italic; color: var(--orange); }
 
         /* smaller screens: stack and scroll like a normal page */
@@ -1300,9 +1304,17 @@
             </dl>
             <p class="label rules-label">The rules</p>
             <ol class="rules">
+                <li>It’s Saturday. We’re getting brunch.</li>
                 <li>You just ate. No second restaurant.</li>
+                <li>Dessert straight after lunch? Walk it off first.</li>
+                <li>Brunch came with coffee. After dinner, a latte is tomorrow’s problem.</li>
+                <li>Straight from Pilates: coffee or a smoothie, then a shower.</li>
+                <li>Cocktails, then Pilates? Absolutely not.</li>
+                <li>Never go home to change for something that isn’t worth it.</li>
                 <li>No South Congress to the Domain and back. One has standards.</li>
+                <li>Fewer, better stops. Nobody needs a 14-hour Saturday.</li>
             </ol>
+            <p class="rules-src">Every one is a line of Python in <a href="https://github.com/suhxnitiwari/saturday-in-austin/blob/main/saturday/rules.py" target="_blank" rel="noopener">rules.py ↗</a></p>
         </aside>
     </section>
     <footer class="contact" id="say-hi">
@@ -1827,7 +1839,7 @@
         <p class="swipe-note" aria-live="polite"></p>
     </div>
 </dialog>
-<script src="web/samples.js?v=1" defer></script>
-<script src="web/app.js?v=79" defer></script>
+<script src="web/samples.js?v=2" defer></script>
+<script src="web/app.js?v=80" defer></script>
 </body>
 </html>

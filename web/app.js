@@ -1034,7 +1034,7 @@
         document.querySelector('.letter').classList.add('sealed');
         document.querySelector('.picks').classList.add('sealed');
     }
-    document.querySelectorAll('.picks .label, .picks dt, .picks dd, .picks .rules li').forEach((el, i) => el.style.setProperty('--i', i));
+    document.querySelectorAll('.picks .label, .picks dt, .picks dd, .picks .rules li, .picks .rules-src').forEach((el, i) => el.style.setProperty('--i', i));
     function deliverLetter() {
         const letter = document.querySelector('.letter'), picks = document.querySelector('.picks');
         if (!letter.classList.contains('sealed') || letter.finish) return;
