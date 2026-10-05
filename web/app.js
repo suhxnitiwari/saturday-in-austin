@@ -353,6 +353,7 @@
         document.querySelector('header').classList.toggle('slim', name !== 'plan');
         if (name !== 'plan') document.querySelector('.see-day').classList.remove('show');
         if (name === 'method') setTimeout(() => document.getElementById('screen-method').dispatchEvent(new Event('refit')), 0);
+        if (name === 'editor') deliverLetter(); else document.querySelector('.letter').finish?.();
         squeeze();
     };
     // short windows: the Editor and Austin pages tighten a notch at a time until they fit (no words cut)
@@ -1026,6 +1027,89 @@
         blocks.push(['h3', `${plan.home} · Home`], ['p', plan.sign_off], ['small', `See it again: ${shareLink()}`]);
         savePdf(`saturday-${plan.seed}`, blocks, e.currentTarget);
     });
+
+    // The editor's letter arrives the first time the page opens: it swoops in, the seal breaks,
+    // the letter rises out and writes itself. Skip it, leave the page, or ask for less motion and it's just there.
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.querySelector('.letter').classList.add('sealed');
+        document.querySelector('.picks').classList.add('sealed');
+    }
+    document.querySelectorAll('.picks .label, .picks dt, .picks dd, .picks .rules li').forEach((el, i) => el.style.setProperty('--i', i));
+    function deliverLetter() {
+        const letter = document.querySelector('.letter'), picks = document.querySelector('.picks');
+        if (!letter.classList.contains('sealed') || letter.finish) return;
+        const post = letter.querySelector('.post');
+        const lines = [...letter.querySelectorAll(':scope > p:not(.monogram), :scope > h2, :scope > blockquote')];
+        const saved = lines.map(el => el.innerHTML);
+        // one span per character, so the page keeps its shape while the ink fills it in
+        const PACE = { 'letter-head': 55, dear: 65, signoff: 90, pull: 26, label: 14 };
+        const chars = [];
+        lines.forEach(el => {
+            const base = Object.entries(PACE).find(([k]) => el.classList.contains(k))?.[1] ?? 6;
+            const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), texts = [];
+            while (walk.nextNode()) texts.push(walk.currentNode);
+            texts.forEach(t => {
+                const frag = document.createDocumentFragment();
+                for (const c of t.textContent) {
+                    const s = document.createElement('span');
+                    s.className = 'ch';
+                    s.textContent = c;
+                    frag.append(s);
+                    chars.push([s, base + ('.?!'.includes(c) ? 130 : ',;:—'.includes(c) ? 45 : 0)]);
+                }
+                t.replaceWith(frag);
+            });
+            if (chars.length) chars[chars.length - 1][1] += 260;  // a breath between paragraphs
+        });
+        const skip = document.createElement('button');
+        skip.type = 'button';
+        skip.className = 'skip-letter';
+        skip.textContent = 'Skip to the letter →';
+        letter.prepend(skip);
+
+        let over = false;
+        const finish = () => {
+            if (over) return;
+            over = true;
+            post.hidden = true;
+            skip.remove();
+            lines.forEach((el, i) => { el.innerHTML = saved[i]; });
+            letter.classList.remove('sealed', 'arrive', 'open', 'rise', 'writing');
+            letter.classList.add('inked');
+            picks.classList.replace('sealed', 'landing');
+            removeEventListener('keydown', onKey);
+            document.removeEventListener('visibilitychange', onHide);
+        };
+        const onKey = e => { if (e.key === 'Escape') finish(); };
+        const onHide = () => { if (document.hidden) finish(); };  // a background tab would crawl
+        skip.addEventListener('click', finish);
+        addEventListener('keydown', onKey);
+        document.addEventListener('visibilitychange', onHide);
+        letter.finish = finish;
+
+        const wait = ms => new Promise(r => setTimeout(r, ms));
+        (async () => {
+            post.hidden = false;
+            letter.classList.add('arrive');
+            await wait(1650); if (over) return;
+            letter.classList.add('open');
+            await wait(700); if (over) return;
+            letter.classList.add('rise');
+            await wait(1000); if (over) return;
+            post.hidden = true;
+            letter.classList.replace('sealed', 'writing');
+            picks.classList.replace('sealed', 'landing');
+            let pen;
+            for (const [s, ms] of chars) {
+                if (over) return;
+                pen?.classList.remove('pen');
+                s.classList.add('on', 'pen');
+                pen = s;
+                await wait(ms);
+            }
+            finish();
+        })();
+    }
 
     // The editor's photos: arrows, arrow keys, or a swipe
     const slides = document.querySelector('[data-slides]');
