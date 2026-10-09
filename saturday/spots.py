@@ -208,8 +208,8 @@ class Guide:
     def for_mood(self, mood: str) -> list:
         if mood not in MOODS:
             raise ValueError(f"mood must be one of: {', '.join(MOODS)}")
-        if mood == "everything":  # a surprise day is a day out
-            return [s for s in self.spots if s.name not in self.home_spots]
+        if mood == "everything":  # a surprise day is a day out, and libraries are for productive days only
+            return [s for s in self.spots if s.name not in self.home_spots and s.category != "study"]
         return [s for s in self.spots if mood in s.moods]
 
     def pool(self, mood: str, must=(), skip=(), rainy: bool = False, near=None, area: str = "anywhere",

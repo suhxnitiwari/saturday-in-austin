@@ -131,7 +131,7 @@ def main(argv=None) -> int:
     print(f"  {clock(half_hour(plan.home_by)):>8}  {ending}")
     out = f"{plan.outside / 60:.1f}".rstrip("0").rstrip(".")
     n = len(plan.places)
-    travel = {"walk": "walking", "transit": "bus and walking", "uber": "in Ubers"}.get(mode, "driving")
+    travel = {"walk": "walking", "transit": "bus and walking", "uber": "in taxis"}.get(mode, "driving")
     print(f"\n  {DIM}{n} stop{'s' * (n != 1)} · {out} hours out · {plan.driving} min {travel} · "
           f"about ${plan.dollars:.0f} · Saturday #{seed}{RESET}")
     print(f"  {DIM}run it again for a different Saturday, or --seed {seed} to get this one back ✦{RESET}\n")

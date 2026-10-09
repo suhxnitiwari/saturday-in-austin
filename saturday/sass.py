@@ -45,7 +45,7 @@ def judge(start: int, end: int, hours, mood: str = "everything",
     elif mode == "transit" and mood != "day-in":
         notes.append("Bus and a little walking. CapMetro is free with your UT ID, so this day costs zero in rides.")
     elif mode == "uber" and mood != "day-in":
-        notes.append("Ubers, but cost-efficient. We pick a neighborhood and stay there.")
+        notes.append("Taxis, but cost-efficient. We pick a neighborhood and stay there.")
     if budget == "student" and mood != "day-in":
         notes.append("Student budget: free museums, cheap tacos, and not a single $18 mimosa.")
     elif budget == "splurge" and mood != "day-in":

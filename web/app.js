@@ -83,7 +83,7 @@
             return;
         }
         status.hidden = true;
-        const hop = (via, minutes, fare) => via === 'uber' ? `Uber · ${minutes} min · ≈ $${fare}`
+        const hop = (via, minutes, fare) => via === 'uber' ? `Taxi · ${minutes} min · ≈ $${fare}`
             : `${minutes} min ${via === 'bus' ? 'bus' : via === 'walk' ? 'walk' : 'drive'}`;
         plan.stops.forEach((s, i) => {
             if (s.type !== 'free' && s.travel && i) list.appendChild(el('li', 'travel', hop(s.via, s.travel, s.fare)));
@@ -125,44 +125,14 @@
         stats.replaceChildren(
             figure(st.stops, st.stops === 1 ? 'stop' : 'stops'),
             figure(st.hours_out, 'hours out'),
-            figure(st.travel, { walk: 'min walking', transit: 'min bus + walk', uber: 'min in Ubers' }[plan.mode] || 'min driving'),
-            figure(`$${st.spend}`, st.fares ? `about, $${st.fares} Uber` : 'about, all in'),
+            figure(st.travel, { walk: 'min walking', transit: 'min bus + walk', uber: 'min in taxis' }[plan.mode] || 'min driving'),
+            figure(`$${st.spend}`, st.fares ? `about, $${st.fares} in taxis` : 'about, all in'),
         );
         stats.hidden = false;
         number.textContent = `xoxo, Saturday #${plan.seed}`;
         lastPlan = plan;
         document.querySelectorAll('.save-it, .cal-it').forEach(b => { b.disabled = false; });
         document.querySelector('.see-day').textContent = `Your Saturday · ${st.stops} ${st.stops === 1 ? 'stop' : 'stops'} · $${st.spend} ↑`;
-        thisSaturday().filter(e => e.heads).reverse().forEach(e => {  // the city's plans for this Saturday
-            const banner = el('div', 'happening'), text = el('p');
-            text.append(el('b', null, `This Saturday: ${e.name}.`), e.heads);
-            const see = el('button', null, 'What’s on');
-            see.type = 'button';
-            see.addEventListener('click', () => show('calendar'));
-            banner.append(text, see);
-            sassBox.prepend(banner);
-            sassBox.hidden = false;
-        });
-        if (awayDay && !gameDay) {  // an away game: watch it by campus
-            const banner = el('div', 'gameday'), text = el('p');
-            text.append(el('b', null, 'Saturdays are for the boys.'), `Texas plays at ${awayDay.them} today. Watch it at Victory Lap on 24th.`);
-            const go = el('button', null, 'Plan a watch party');
-            go.type = 'button';
-            go.addEventListener('click', () => { form.elements.include.value = 'Victory Lap'; form.elements.mood.value = 'social'; run(); });
-            banner.append(text, go);
-            sassBox.prepend(banner);
-            sassBox.hidden = false;
-        }
-        if (gameDay) {  // home game this Saturday
-            const banner = el('div', 'gameday'), text = el('p');
-            text.append(el('b', null, 'Saturdays are for the boys.'), `Game day: Texas vs. ${gameDay.them} at DKR${gameDay.time ? `, ${gameDay.time}` : ''}.`);
-            const go = el('button', null, 'Build my game day');
-            go.type = 'button';
-            go.addEventListener('click', () => { form.elements.include.value = 'Texas Longhorns at DKR'; form.elements.mood.value = 'social'; run(); });
-            banner.append(text, go);
-            sassBox.prepend(banner);
-            sassBox.hidden = false;
-        }
         if (autoRain && form.elements.rainy.checked) {
             sassBox.prepend(el('p', null, 'Rain in the Saturday forecast, so I turned on Rainy day.'));
             sassBox.hidden = false;
@@ -350,7 +320,6 @@
         sections.forEach(b => b.setAttribute('aria-selected', String(b.dataset.screen === name || (about && b.dataset.screen === 'about'))));
         document.querySelector('.subnav').hidden = !about;
         document.querySelectorAll('.screen').forEach(sc => { sc.hidden = sc.id !== 'screen-' + name; });
-        document.querySelector('header').classList.toggle('slim', name !== 'plan');
         if (name !== 'plan') document.querySelector('.see-day').classList.remove('show');
         if (name === 'method') setTimeout(() => document.getElementById('screen-method').dispatchEvent(new Event('refit')), 0);
         if (name === 'editor') deliverLetter(); else document.querySelector('.letter').finish?.();
@@ -728,7 +697,7 @@
         { from: '2026-10-18', name: 'Weezer', where: 'Moody Center', link: 'https://moodycenteratx.com', note: 'Say it ain’t so: they’re here.' },
         { from: '2026-10-23', to: '2026-10-25', name: 'Formula 1 U.S. Grand Prix', where: 'Circuit of the Americas', link: 'https://www.circuitoftheamericas.com',
           note: 'Maroon 5 on Friday, Post Malone on Saturday, Alesso after Sunday’s race.',
-          heads: 'The city is full of F1 fans: expect traffic and pricier Ubers, especially toward the east side.' },
+          heads: 'The city is full of F1 fans: expect traffic and pricier rides, especially toward the east side.' },
         { from: '2026-10-24', name: 'Viva la Vida Fest', where: '4th and Congress', link: 'https://mexic-artemuseum.org',
           note: 'Mexic-Arte’s Día de los Muertos parade and festival, downtown.', heads: 'Viva la Vida is downtown today: the parade and festival are on 4th and Congress.' },
         { from: '2026-10-26', to: '2026-10-27', name: 'Dave Chappelle', where: 'Moody Center', link: 'https://moodycenteratx.com', note: 'Two nights. Your phone gets locked in a pouch.' },
@@ -1013,7 +982,7 @@
             ['kicker', `Saturday in Austin · Saturday #${plan.seed}`],
             ['h2', 'Your Saturday.'],
             ['dek', `${st.stops} ${st.stops === 1 ? 'stop' : 'stops'} · ${st.hours_out} hours out · about $${st.spend} · home by ${plan.home}`]];
-        const hop = (via, minutes, fare) => via === 'uber' ? `Uber, ${minutes} min, about $${fare}`
+        const hop = (via, minutes, fare) => via === 'uber' ? `Taxi, ${minutes} min, about $${fare}`
             : `${minutes} min ${via === 'bus' ? 'bus' : via === 'walk' ? 'walk' : 'drive'}`;
         plan.stops.forEach((s, i) => {
             if (s.type === 'free') { blocks.push(['small', `Free time · ${duration(s.free)} to wander`]); return; }
@@ -1109,28 +1078,6 @@
             }
             finish();
         })();
-    }
-
-    // The editor's photos: arrows, arrow keys, or a swipe
-    const slides = document.querySelector('[data-slides]');
-    if (slides) {
-        const pics = [...slides.querySelectorAll('img')], count = document.querySelector('[data-slide-count]');
-        const pad = n => String(n).padStart(2, '0');
-        let at = 0;
-        const go = d => {
-            at = (at + d + pics.length) % pics.length;
-            pics.forEach((p, i) => { p.hidden = i !== at; });
-            count.textContent = `${pad(at + 1)} / ${pad(pics.length)}`;
-        };
-        document.querySelectorAll('[data-slide]').forEach(b => b.addEventListener('click', () => go(+b.dataset.slide)));
-        slides.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') go(-1); if (e.key === 'ArrowRight') go(1); });
-        let x0 = null;
-        slides.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
-        slides.addEventListener('touchend', e => {
-            const dx = e.changedTouches[0].clientX - (x0 ?? e.changedTouches[0].clientX);
-            if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
-            x0 = null;
-        });
     }
 
     // a first visit shows a baked Saturday right away; Python replans the very same day once it's awake
